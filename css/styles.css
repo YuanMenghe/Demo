@@ -1,0 +1,1004 @@
+/* 智汇MDT - 主样式表 */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: #dbeafe;
+    --secondary-color: #64748b;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --bg-color: #f8fafc;
+    --sidebar-bg: #1e293b;
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 64px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.logo i {
+    font-size: 28px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    width: 400px;
+    transition: var(--transition);
+}
+
+.search-box:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.search-box i {
+    color: var(--text-secondary);
+    margin-right: 10px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+}
+
+.user-menu i.fa-hospital {
+    color: var(--primary-color);
+    font-size: 18px;
+}
+
+.user-menu span {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.user-menu i.fa-chevron-down {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.user-menu:hover {
+    background: var(--primary-light);
+    border-color: var(--primary-color);
+}
+
+/* 按钮样式 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background: var(--bg-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-icon:hover {
+    background: var(--bg-color);
+    color: var(--primary-color);
+}
+
+.btn-icon.active {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+
+/* 主容器布局 */
+.main-container {
+    display: flex;
+    margin-top: 64px;
+    min-height: calc(100vh - 64px);
+}
+
+/* 侧边栏 */
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    padding: 16px 0;
+    position: fixed;
+    left: 0;
+    top: 64px;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .groups-section {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+}
+
+.nav-section {
+    padding: 0 12px;
+    margin-bottom: 24px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #94a3b8;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 4px;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.groups-section {
+    padding: 0 12px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    margin-bottom: 12px;
+}
+
+.section-header span {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-header .btn-icon {
+    width: 28px;
+    height: 28px;
+    color: #64748b;
+}
+
+.section-header .btn-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.groups-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.group-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    color: #94a3b8;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.group-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.group-item.active {
+    background: rgba(37, 99, 235, 0.2);
+    color: white;
+}
+
+.group-item.dragging {
+    opacity: 0.5;
+}
+
+.group-item.drop-target {
+    background: rgba(37, 99, 235, 0.4) !important;
+    box-shadow: inset 0 0 0 2px var(--primary-color);
+}
+
+.group-item.drop-above {
+    box-shadow: inset 0 2px 0 0 var(--primary-color);
+}
+
+.group-item.drop-below {
+    box-shadow: inset 0 -2px 0 0 var(--primary-color);
+}
+
+.group-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.group-header i {
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.group-header .expand-icon {
+    transition: transform 0.2s ease;
+    font-size: 10px;
+    width: 12px;
+}
+
+.group-item.expanded .expand-icon {
+    transform: rotate(90deg);
+}
+
+.group-name {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.group-name.editing {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    outline: none;
+    min-width: 60px;
+}
+
+.group-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.group-menu {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.group-item:hover .group-menu {
+    opacity: 1;
+}
+
+.btn-icon-sm {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-icon-sm:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.count {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.group-item.active .count {
+    background: var(--primary-color);
+}
+
+/* 分组内患者列表 */
+.group-patients {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 8px;
+}
+
+.group-patients.expanded {
+    max-height: 500px;
+    padding: 4px 8px 8px 8px;
+    overflow-y: auto;
+}
+
+.group-patients.drop-target {
+    background: rgba(37, 99, 235, 0.15);
+    border-radius: var(--radius-md);
+}
+
+.sidebar-patient-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    margin-left: 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 2px solid transparent;
+}
+
+.sidebar-patient-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-left-color: var(--primary-color);
+}
+
+.sidebar-patient-item.dragging {
+    opacity: 0.5;
+}
+
+.patient-mini-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.patient-mini-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.patient-mini-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #e2e8f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.patient-mini-disease {
+    font-size: 10px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.patient-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.patient-status-dot.initial {
+    background: var(--success-color);
+}
+
+.patient-status-dot.recurrent {
+    background: var(--warning-color);
+}
+
+.patient-status-dot.refractory {
+    background: var(--danger-color);
+}
+
+.empty-group {
+    font-size: 11px;
+    color: #64748b;
+    text-align: center;
+    padding: 12px;
+    margin-left: 20px;
+}
+
+/* 右键菜单 */
+.context-menu {
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    padding: 4px;
+    min-width: 140px;
+    z-index: 10000;
+    animation: fadeIn 0.15s ease;
+}
+
+.context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.context-menu-item:hover {
+    background: var(--bg-color);
+}
+
+.context-menu-item.danger {
+    color: var(--danger-color);
+}
+
+.context-menu-item.danger:hover {
+    background: #fee2e2;
+}
+
+.context-menu-item i {
+    width: 16px;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* 拖拽高亮提示 */
+.drop-zone-highlight {
+    position: relative;
+}
+
+.drop-zone-highlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px dashed rgba(37, 99, 235, 0.4);
+    border-radius: var(--radius-md);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.group-item.expandable.drop-zone-highlight:hover::after,
+.group-patients.drop-zone-highlight:hover::after {
+    opacity: 1;
+}
+
+/* 主内容区 */
+.content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 24px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.page-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-color);
+    padding: 4px;
+    border-radius: var(--radius-md);
+}
+
+/* 患者卡片网格 */
+.patients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.patients-grid.list-view {
+    grid-template-columns: 1fr;
+}
+
+.patient-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+}
+
+.patient-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.patient-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.patient-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.patient-card:hover .card-actions {
+    opacity: 1;
+}
+
+.patient-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.patient-id {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+/* 患者分组选择器 */
+.patient-group-selector {
+    position: relative;
+}
+
+.group-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.group-badge:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: var(--primary-light);
+}
+
+.group-badge.ungrouped {
+    background: #fef3c7;
+    border-color: #f59e0b;
+    color: #d97706;
+}
+
+.group-badge.ungrouped:hover {
+    background: #fde68a;
+}
+
+.group-badge i:first-child {
+    font-size: 11px;
+}
+
+.group-badge i.fa-chevron-down {
+    font-size: 10px;
+    margin-left: 2px;
+    transition: transform 0.2s ease;
+}
+
+.group-dropdown.open + .group-badge i.fa-chevron-down,
+.group-badge:has(+ .group-dropdown.open) i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.group-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    min-width: 180px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.2s ease;
+}
+
+.group-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.dropdown-item:hover {
+    background: var(--bg-color);
+}
+
+.dropdown-item.active {
+    color: var(--primary-color);
+    background: var(--primary-light);
+}
+
+.dropdown-item i {
+    width: 16px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.dropdown-item.active i {
+    color: var(--primary-color);
+}
+
+.dropdown-item i.fa-check {
+    margin-left: auto;
+    color: var(--success-color);
+}
+
+.dropdown-item.new-group {
+    color: var(--primary-color);
+}
+
+.dropdown-item.new-group i {
+    color: var(--primary-color);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 4px 0;
+}
+
+.patient-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tag.disease {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.tag.complication {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.tag.treatment {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.tag.stage {
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.card-footer i {
+    margin-right: 4px;
+}
+
+.footer-time, .footer-events {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.card-footer .patient-group-selector {
+    margin: 0;
+    flex: 0 0 auto;
+}
+
+.card-footer .group-badge {
+    padding: 4px 10px;
+    font-size: 11px;
+}
+
+.card-footer .group-dropdown {
+    bottom: 100%;
+    top: auto;
+    margin-bottom: 4px;
+    margin-top: 0;
+}
+
+/* 列表视图样式 */
+.patients-grid.list-view .patient-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 24px;
+}
+
+.patients-grid.list-view .card-header {
+    margin-bottom: 0;
+    flex: 0 0 200px;
+}
+
+.patients-grid.list-view .patient-tags {
+    margin: 0;
+    flex: 1;
+}
+
+.patients-grid.list-view .card-footer {
+    border-top: none;
+    padding-top: 0;
+    flex: 0 0 150px;
+    justify-content: flex-end;
+}
+
+/* 拖拽提示 */
+.drop-hint {
+    position: fixed;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.drop-hint.visible {
+    opacity: 1;
+}
+
+.group-item.drop-target {
+    background: var(--primary-color) !important;
+    color: white !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .search-box {
+        width: 300px;
+    }
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 70px;
+    }
+    
+    .sidebar .nav-item span,
+    .sidebar .section-header span,
+    .sidebar .group-item span,
+    .sidebar .group-item .count {
+        display: none;
+    }
+    
+    .content {
+        margin-left: 70px;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-box {
+        display: none;
+    }
+    
+    .patients-grid {
+        grid-template-columns: 1fr;
+    }
+}
