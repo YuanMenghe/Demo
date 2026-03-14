@@ -1,16 +1,10 @@
-# 构建并部署 medical-copilot 到 GitHub Pages
-name: Deploy medical-copilot to GitHub Pages
+# 构建 medical-copilot 并部署整个 Demo 站点到 GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'medical-copilot/**'
-      - '.github/workflows/deploy-medical-copilot-pages.yml'
   workflow_dispatch:
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
   contents: read
@@ -42,25 +36,65 @@ jobs:
           npm ci
           npm run build
 
-      - name: Verify base path in build
+      - name: Verify build output
         run: |
-          if ! grep -q "${{ github.event.repository.name }}/medical-copilot" medical-copilot/dist/index.html; then
-            echo "::error::Built index.html missing base path. Check BASE_PATH env."
-            cat medical-copilot/dist/index.html
+          echo "=== Built index.html ==="
+          cat medical-copilot/dist/index.html
+          echo ""
+          if ! grep -q "medical-copilot/assets" medical-copilot/dist/index.html; then
+            echo "::error::BASE_PATH not applied in build output!"
             exit 1
           fi
 
-      - name: Prepare Pages artifact (app under /medical-copilot/)
+      - name: Assemble full site
         run: |
-          mkdir -p pages-root/medical-copilot
-          cp -r medical-copilot/dist/* pages-root/medical-copilot/
-          cp medical-copilot/dist/index.html pages-root/404.html
-          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=medical-copilot/"><script>location.href="medical-copilot/"</script></head><body>Redirecting to <a href="medical-copilot/">Medical Copilot</a>...</body></html>' > pages-root/index.html
+          mkdir -p site/medical-copilot
+          mkdir -p site/plm
+          mkdir -p site/zhihui-mdt
+
+          # medical-copilot (built React app)
+          cp -r medical-copilot/dist/* site/medical-copilot/
+
+          # plm (static HTML)
+          cp -r plm/* site/plm/
+
+          # zhihui-mdt (static HTML)
+          cp -r zhihui-mdt/* site/zhihui-mdt/
+
+          # Root: landing page with links
+          cat > site/index.html << 'LANDING'
+          <!DOCTYPE html>
+          <html lang="zh">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Demo</title>
+            <style>
+              body{font-family:system-ui,sans-serif;max-width:600px;margin:60px auto;padding:0 20px;color:#1e293b}
+              h1{font-size:1.5rem}
+              a{display:block;padding:12px 16px;margin:8px 0;border:1px solid #e2e8f0;border-radius:8px;color:#0f766e;text-decoration:none;font-weight:500}
+              a:hover{background:#f0fdfa;border-color:#0f766e}
+            </style>
+          </head>
+          <body>
+            <h1>Demo Projects</h1>
+            <a href="medical-copilot/">Medical Copilot</a>
+            <a href="zhihui-mdt/">智汇MDT</a>
+            <a href="plm/">PLM</a>
+          </body>
+          </html>
+          LANDING
+
+          # SPA fallback for medical-copilot
+          cp site/medical-copilot/index.html site/404.html
+
+          echo "=== Site structure ==="
+          find site -maxdepth 2 -type f | head -30
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: pages-root
+          path: site
 
   deploy:
     needs: build
