@@ -1,0 +1,5 @@
+{
+  "name": "Medical Copilot",
+  "description": "A demonstration of a medical AI assistant for HCP insights, recommendations, and content generation.",
+  "requestFramePermissions": []
+}
