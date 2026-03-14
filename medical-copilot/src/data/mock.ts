@@ -104,6 +104,22 @@ export const MOCK_EVIDENCE: Record<string, Evidence> = {
     date: 'June 15, 2025',
     source: 'Journal of Heart and Lung Transplantation',
     snippet: 'Retrospective analysis of 5-year survival rates shows correlation with early intervention.'
+  },
+  'ev-5': {
+    id: 'ev-5',
+    type: 'Publication',
+    title: 'STELLAR trial subgroup analysis: baseline functional class',
+    date: 'ASCO 2025',
+    source: 'American Society of Clinical Oncology',
+    snippet: 'Efficacy of sotatercept was consistent across FC II and FC III subgroups (6MWD improvement 38.2m vs 42.1m).'
+  },
+  'ev-6': {
+    id: 'ev-6',
+    type: 'Publication',
+    title: 'EMA summary of product characteristics: Sotatercept',
+    date: 'March 2025',
+    source: 'European Medicines Agency',
+    snippet: 'Indication: add-on therapy for PAH in adults. Not studied in paediatric population or severe hepatic impairment.'
   }
 };
 
@@ -167,6 +183,22 @@ export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
     date: '2025年6月15日',
     source: '心肺移植杂志',
     snippet: '5 年生存率回顾性分析显示与早期干预相关。'
+  },
+  'ev-5': {
+    id: 'ev-5',
+    type: 'Publication',
+    title: 'STELLAR 试验亚组分析：基线功能分级',
+    date: 'ASCO 2025',
+    source: '美国临床肿瘤学会',
+    snippet: 'Sotatercept 在 FC II 与 FC III 亚组中疗效一致（6MWD 改善 38.2m vs 42.1m）。'
+  },
+  'ev-6': {
+    id: 'ev-6',
+    type: 'Publication',
+    title: 'EMA 产品特性摘要：Sotatercept',
+    date: '2025年3月',
+    source: '欧洲药品管理局',
+    snippet: '适应症：成人 PAH 的附加治疗。未在儿童或严重肝功能损害人群中研究。'
   }
 };
 

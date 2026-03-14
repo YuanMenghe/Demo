@@ -55,14 +55,13 @@
     "paragraph3": "长期扩展数据提示临床获益可持续至 24 个月。"
   },
   "contentStudio": {
-    "welcomeMessage": "您好！我可以帮您分析临床数据、起草内容或准备学术讨论。今天想先做哪一项？",
-    "aiResponse": "根据 STELLAR 试验亚组分析，sotatercept 的疗效在所有预设亚组中一致，包括按基线功能分级和背景治疗定义的亚组。",
-    "citation1": "sotatercept 的疗效在所有预设亚组中一致",
-    "citation2": "包括按基线功能分级和背景治疗定义的亚组",
+    "welcomeMessage": "您好！支持基于证据的问答、内容创作与材料增强写作。请选择下方模式查看示例。",
     "uploadPdf": "上传参考 PDF",
-    "askPlaceholder": "输入关于数据的问题…",
+    "askPlaceholder": "输入问题（如疗效、安全性、亚组）…",
     "generatePpt": "生成 PPT 大纲",
-    "extractStats": "提取关键数据"
+    "extractStats": "提取关键数据",
+    "demoNote": "示例：结构化回答与断言级引用。点击 [1][2] 可打开证据面板。",
+    "followUpPlaceholder": "追问（如“该研究的亚组分析结果如何？”）"
   },
   "evidencePanel": {
     "title": "证据面板",

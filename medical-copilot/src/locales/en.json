@@ -55,14 +55,13 @@
     "paragraph3": "Long-term extension data suggests sustained clinical benefit up to 24 months."
   },
   "contentStudio": {
-    "welcomeMessage": "Hello! I can help you analyze clinical data, draft content, or prepare for academic discussions. What would you like to work on today?",
-    "aiResponse": "Based on the STELLAR trial subgroup analysis, the efficacy of sotatercept was consistent across all pre-specified subgroups, including those defined by baseline functional class and background therapy.",
-    "citation1": "efficacy of sotatercept was consistent across all pre-specified subgroups",
-    "citation2": "including those defined by baseline functional class",
+    "welcomeMessage": "Hello! I can help you with evidence-based Q&A, content creation, or material-enhanced writing. Choose a mode below to see a demo.",
     "uploadPdf": "Upload Reference PDF",
-    "askPlaceholder": "Ask a question about the data...",
+    "askPlaceholder": "Ask a question (e.g. efficacy, safety, subgroups)...",
     "generatePpt": "Generate PPT Outline",
-    "extractStats": "Extract Key Stats"
+    "extractStats": "Extract Key Stats",
+    "demoNote": "Demo: structured answer with assertion-level citations. Click [1][2] to open evidence panel.",
+    "followUpPlaceholder": "Follow-up (e.g. “What about the subgroup analysis?”)"
   },
   "evidencePanel": {
     "title": "Evidence Panel",
