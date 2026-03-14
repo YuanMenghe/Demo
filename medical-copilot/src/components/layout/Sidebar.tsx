@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Filter, MoreHorizontal, User, Pin, Clock } from 'lucide-react';
-import { MOCK_DOCTORS, Doctor } from '@/data/mock';
+import { Search, Pin, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { getMockDoctors } from '@/data/mock';
+import type { Locale } from '@/data/mock';
 import { cn } from '@/lib/utils';
 
 interface SidebarProps {
@@ -8,41 +10,45 @@ interface SidebarProps {
   onSelectDoctor: (id: string) => void;
 }
 
-export function Sidebar({ selectedDoctorId, onSelectDoctor }: SidebarProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+function getLocaleFromLanguage(lang: string): Locale {
+  return lang.startsWith('zh') ? 'zh' : 'en';
+}
 
-  const filteredDoctors = MOCK_DOCTORS.filter(doc => 
+export function Sidebar({ selectedDoctorId, onSelectDoctor }: SidebarProps) {
+  const { t, i18n } = useTranslation();
+  const [searchTerm, setSearchTerm] = useState('');
+  const locale = getLocaleFromLanguage(i18n.language);
+  const doctors = getMockDoctors(locale);
+
+  const filteredDoctors = doctors.filter(doc =>
     doc.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="w-72 border-r border-slate-200 bg-white h-[calc(100vh-3.5rem)] sticky top-14 flex flex-col">
-      {/* Therapy Area Header */}
       <div className="p-4 border-b border-slate-100">
-        <div className="text-xs font-medium text-slate-500 mb-1">Therapy Area</div>
+        <div className="text-xs font-medium text-slate-500 mb-1">{t('sidebar.therapyArea')}</div>
         <div className="flex items-center justify-between">
           <span className="font-semibold text-slate-800">PAH</span>
           <ChevronDownIcon className="w-4 h-4 text-slate-400" />
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="flex p-2 gap-1 border-b border-slate-100">
-        <button className="flex-1 py-1.5 text-xs font-medium bg-medical-teal-50 text-medical-teal-700 rounded-md">
-          Scientific Leader
+        <button type="button" className="flex-1 py-1.5 text-xs font-medium bg-medical-teal-50 text-medical-teal-700 rounded-md">
+          {t('sidebar.scientificLeader')}
         </button>
-        <button className="flex-1 py-1.5 text-xs font-medium text-slate-500 hover:bg-slate-50 rounded-md">
-          Delete History
+        <button type="button" className="flex-1 py-1.5 text-xs font-medium text-slate-500 hover:bg-slate-50 rounded-md">
+          {t('sidebar.deleteHistory')}
         </button>
       </div>
 
-      {/* Search */}
       <div className="p-3">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 w-4 h-4 text-slate-400" />
-          <input 
+          <input
             type="text"
-            placeholder="Search"
+            placeholder={t('sidebar.searchPlaceholder')}
             className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-medical-teal-500/20 focus:border-medical-teal-500 transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -50,12 +56,14 @@ export function Sidebar({ selectedDoctorId, onSelectDoctor }: SidebarProps) {
         </div>
       </div>
 
-      {/* List */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         {filteredDoctors.map((doc) => (
           <div
             key={doc.id}
             onClick={() => onSelectDoctor(doc.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && onSelectDoctor(doc.id)}
             className={cn(
               "px-4 py-3 cursor-pointer border-l-2 transition-all hover:bg-slate-50 group",
               selectedDoctorId === doc.id
@@ -80,11 +88,10 @@ export function Sidebar({ selectedDoctorId, onSelectDoctor }: SidebarProps) {
         ))}
       </div>
 
-      {/* Bottom Action */}
       <div className="p-4 border-t border-slate-200">
-        <button className="w-full py-2 bg-medical-teal-700 hover:bg-medical-teal-800 text-white rounded-md text-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm">
+        <button type="button" className="w-full py-2 bg-medical-teal-700 hover:bg-medical-teal-800 text-white rounded-md text-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm">
           <Search className="w-4 h-4" />
-          Search all SLs
+          {t('sidebar.searchAllSLs')}
         </button>
       </div>
     </div>

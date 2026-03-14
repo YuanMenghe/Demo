@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "appName": "Medical Copilot",
+    "hcpInsights": "HCP Insights",
+    "recommendationExpand": "Recommendation Expand",
+    "contentStudio": "Content Studio"
+  },
+  "header": {
+    "switchUser": "Switch User",
+    "learnMore": "Learn more",
+    "logout": "Logout"
+  },
+  "sidebar": {
+    "therapyArea": "Therapy Area",
+    "scientificLeader": "Scientific Leader",
+    "deleteHistory": "Delete History",
+    "search": "Search",
+    "searchPlaceholder": "Search",
+    "searchAllSLs": "Search all SLs"
+  },
+  "hcp": {
+    "partyId": "Party ID",
+    "npi": "NPI",
+    "aiSummary": "AI Summary",
+    "generatedJustNow": "Generated just now",
+    "analyzing": "Analyzing recent publications and CRM data...",
+    "readyTitle": "Ready to generate insights",
+    "readyDesc": "I can analyze Dr. {{name}}'s recent activities, publications, and trial data to prepare you for your upcoming meeting.",
+    "suggestion1": "Please provide a summary of what has changed in Dr. {{name}}'s profile in the past 3 months.",
+    "suggestion2": "It's my first meeting, please provide a scientific expert summary.",
+    "explanation": "Explanation",
+    "explanationText": "Response is powered by AI. It identifies and summarizes any changes in the scientific expert's profile over the last 3 months, such as new publications, clinical trials, medical interactions or medical events, to inform the user of recent updates before their meeting.",
+    "askFollowUp": "Ask a follow-up question...",
+    "chip1": "What publications in the last 6 months?",
+    "chip2": "Draft an email based on this summary",
+    "chip3": "Show recent clinical trials"
+  },
+  "recommendation": {
+    "backToDashboard": "Back to Dashboard",
+    "analysisSections": "Analysis Sections",
+    "execSummary": "Executive Summary",
+    "keyData": "Key Data",
+    "talkingPoints": "Talking Points",
+    "limitations": "Limitations",
+    "qaPrep": "Q&A Prep",
+    "newPublication": "New Publication",
+    "recommendationTitle": "Phase 3 STELLAR Trial: Sotatercept for the Treatment of Pulmonary Arterial Hypertension",
+    "recommendationSubtitle": "Dr. Kelly Chin presented new subgroup analysis data demonstrating consistent efficacy across all demographic groups.",
+    "keyTakeaway": "Key Takeaway",
+    "keyTakeawayText": "This data supports the use of sotatercept as an add-on therapy for patients already on background therapy, regardless of their initial risk status.",
+    "generateOralBrief": "Generate 3-min Oral Brief",
+    "generateSummary": "Generate 1-page Summary",
+    "paragraph1": "The primary endpoint was met with high statistical significance (P<0.001), showing a 40.8m improvement in 6MWD.",
+    "paragraph2": "Adverse events were generally mild to moderate, with telangiectasia being the most common adverse event reported in the treatment group.",
+    "paragraph3": "Long-term extension data suggests sustained clinical benefit up to 24 months."
+  },
+  "contentStudio": {
+    "welcomeMessage": "Hello! I can help you analyze clinical data, draft content, or prepare for academic discussions. What would you like to work on today?",
+    "aiResponse": "Based on the STELLAR trial subgroup analysis, the efficacy of sotatercept was consistent across all pre-specified subgroups, including those defined by baseline functional class and background therapy.",
+    "citation1": "efficacy of sotatercept was consistent across all pre-specified subgroups",
+    "citation2": "including those defined by baseline functional class",
+    "uploadPdf": "Upload Reference PDF",
+    "askPlaceholder": "Ask a question about the data...",
+    "generatePpt": "Generate PPT Outline",
+    "extractStats": "Extract Key Stats"
+  },
+  "evidencePanel": {
+    "title": "Evidence Panel",
+    "sourceMetadata": "Source Metadata",
+    "source": "Source",
+    "viewOriginal": "View Original Document",
+    "emptyHint": "Click on any highlighted text or citation to view its source evidence."
+  },
+  "evidenceType": {
+    "CRM": "CRM",
+    "Publication": "Publication",
+    "Clinical Trial": "Clinical Trial",
+    "Interaction": "Interaction"
+  }
+}

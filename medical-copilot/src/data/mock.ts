@@ -125,3 +125,68 @@ export const MOCK_SUMMARY_SEGMENTS = [
     evidenceId: 'ev-4'
   }
 ];
+
+// ---------- 中文 Mock 数据 ----------
+export const MOCK_DOCTORS_ZH: Doctor[] = [
+  { id: '1', name: '陈凯丽 医生', title: '内科学教授', org: '西南大学心脏与肺病诊所', partyId: '1222595', npi: '1841243664', specialty: '肺动脉高压', avatar: '陈' },
+  { id: '2', name: '米勒·海蒂 N.P.', title: '执业护士', org: '贝勒圣卢克医学中心', partyId: '1222596', npi: '1841243665', specialty: '心脏病学', avatar: '海' },
+  { id: '3', name: '阿米塔·克里希南 医生', title: '副教授', org: '克利夫兰诊所', partyId: '1222597', npi: '1841243666', specialty: '肺病学', avatar: '阿' },
+  { id: '4', name: '索尼娅·巴托洛梅 医生', title: '主任', org: '西南大学', partyId: '1222598', npi: '1841243667', specialty: '肺病', avatar: '索' },
+  { id: '5', name: '阿道夫·卡普兰 医生', title: '主治医师', org: '卫理公会医院', partyId: '1222599', npi: '1841243668', specialty: '重症监护', avatar: '卡' }
+];
+
+export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
+  'ev-1': {
+    id: 'ev-1',
+    type: 'Publication',
+    title: 'Sotatercept 治疗肺动脉高压的疗效与安全性',
+    date: '2025年7月1日',
+    source: '新英格兰医学杂志',
+    snippet: '本 III 期试验中，sotatercept 治疗使运动耐量显著改善…'
+  },
+  'ev-2': {
+    id: 'ev-2',
+    type: 'Clinical Trial',
+    title: 'STELLAR III 期试验',
+    date: '进行中（2025 年底）',
+    source: 'ClinicalTrials.gov',
+    snippet: '主要完成日期预计 2025 年 12 月。45 家中心正在招募。'
+  },
+  'ev-3': {
+    id: 'ev-3',
+    type: 'Interaction',
+    title: '医学科学联络拜访',
+    date: '2025年5月20日',
+    source: 'Veeva CRM',
+    snippet: '与 Jaclyn Stoffel 讨论了近期试验方案。陈医生对新纳入标准表示兴趣。'
+  },
+  'ev-4': {
+    id: 'ev-4',
+    type: 'Publication',
+    title: 'PAH 长期结局',
+    date: '2025年6月15日',
+    source: '心肺移植杂志',
+    snippet: '5 年生存率回顾性分析显示与早期干预相关。'
+  }
+};
+
+export const MOCK_SUMMARY_SEGMENTS_ZH = [
+  { text: '综上，陈凯丽医生近期积极参与多篇聚焦肺动脉高压的文献，最近一篇发表于 2025 年 7 月 1 日。', evidenceId: 'ev-1' },
+  { text: '此外，旨在改善 PAH 患者治疗结局的临床试验正在进行中，活动延续至 2025 年底及以后。', evidenceId: 'ev-2' },
+  { text: '另外，2025 年 5 月 20 日与 Jaclyn Stoffel 有一次医学互动。', evidenceId: 'ev-3' },
+  { text: '这反映了陈医生在其领域推动研究与临床实践的持续投入。', evidenceId: 'ev-4' }
+];
+
+export type Locale = 'en' | 'zh';
+
+export function getMockDoctors(locale: Locale): Doctor[] {
+  return locale === 'zh' ? MOCK_DOCTORS_ZH : MOCK_DOCTORS;
+}
+
+export function getMockEvidence(locale: Locale): Record<string, Evidence> {
+  return locale === 'zh' ? MOCK_EVIDENCE_ZH : MOCK_EVIDENCE;
+}
+
+export function getMockSummarySegments(locale: Locale): typeof MOCK_SUMMARY_SEGMENTS {
+  return locale === 'zh' ? MOCK_SUMMARY_SEGMENTS_ZH : MOCK_SUMMARY_SEGMENTS;
+}
