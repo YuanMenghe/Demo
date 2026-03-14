@@ -65,8 +65,11 @@
   },
   "evidencePanel": {
     "title": "Evidence Panel",
+    "referencesList": "References",
+    "backToList": "Back to list",
     "sourceMetadata": "Source Metadata",
     "source": "Source",
+    "author": "Author",
     "viewOriginal": "View Original Document",
     "emptyHint": "Click on any highlighted text or citation to view its source evidence."
   },

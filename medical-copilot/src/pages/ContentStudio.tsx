@@ -363,7 +363,18 @@ export default function ContentStudio() {
           </div>
         </main>
 
-        <EvidencePanel evidenceId={activeEvidenceId} onClose={() => setActiveEvidenceId(null)} />
+        <EvidencePanel
+          evidenceId={activeEvidenceId}
+          referenceIds={[
+            ...new Set([
+              ...mock.references.map((r) => r.evidenceId),
+              ...mock.outlineSections.map((s) => s.evidenceId).filter(Boolean) as string[],
+              ...mock.generatedParagraphs.flatMap((p) => p.evidenceIds),
+            ]),
+          ]}
+          onClose={() => setActiveEvidenceId(null)}
+          onSelectEvidence={setActiveEvidenceId}
+        />
       </div>
     </div>
   );

@@ -150,7 +150,12 @@ export default function RecommendationExpand() {
           </div>
         </main>
 
-        <EvidencePanel evidenceId={activeEvidenceId} onClose={() => setActiveEvidenceId(null)} />
+        <EvidencePanel
+          evidenceId={activeEvidenceId}
+          referenceIds={['ev-1', 'ev-2', 'ev-4']}
+          onClose={() => setActiveEvidenceId(null)}
+          onSelectEvidence={setActiveEvidenceId}
+        />
       </div>
     </div>
   );

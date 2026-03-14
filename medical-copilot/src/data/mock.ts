@@ -4,6 +4,7 @@ export interface Evidence {
   title: string;
   date: string;
   source: string;
+  author?: string;
   snippet: string;
   url?: string;
 }
@@ -79,6 +80,7 @@ export const MOCK_EVIDENCE: Record<string, Evidence> = {
     title: 'Efficacy and Safety of Sotatercept for Pulmonary Arterial Hypertension',
     date: 'July 1, 2025',
     source: 'New England Journal of Medicine',
+    author: 'Hoeper MM et al.',
     snippet: 'In this phase 3 trial, treatment with sotatercept resulted in a significant improvement in exercise capacity...'
   },
   'ev-2': {
@@ -87,6 +89,7 @@ export const MOCK_EVIDENCE: Record<string, Evidence> = {
     title: 'STELLAR Phase 3 Trial',
     date: 'Ongoing (Late 2025)',
     source: 'ClinicalTrials.gov',
+    author: 'NCT identifier',
     snippet: 'Primary completion date estimated for December 2025. Recruitment is active in 45 sites.'
   },
   'ev-3': {
@@ -95,6 +98,7 @@ export const MOCK_EVIDENCE: Record<string, Evidence> = {
     title: 'Medical Science Liaison Visit',
     date: 'May 20, 2025',
     source: 'Veeva CRM',
+    author: 'Jaclyn Stoffel',
     snippet: 'Discussed recent trial protocols with Jaclyn Stoffel. Dr. Chin expressed interest in the new inclusion criteria.'
   },
   'ev-4': {
@@ -103,6 +107,7 @@ export const MOCK_EVIDENCE: Record<string, Evidence> = {
     title: 'Long-term outcomes in PAH',
     date: 'June 15, 2025',
     source: 'Journal of Heart and Lung Transplantation',
+    author: 'Sitbon O et al.',
     snippet: 'Retrospective analysis of 5-year survival rates shows correlation with early intervention.'
   },
   'ev-5': {
@@ -111,6 +116,7 @@ export const MOCK_EVIDENCE: Record<string, Evidence> = {
     title: 'STELLAR trial subgroup analysis: baseline functional class',
     date: 'ASCO 2025',
     source: 'American Society of Clinical Oncology',
+    author: 'Chin KM et al.',
     snippet: 'Efficacy of sotatercept was consistent across FC II and FC III subgroups (6MWD improvement 38.2m vs 42.1m).'
   },
   'ev-6': {
@@ -119,6 +125,7 @@ export const MOCK_EVIDENCE: Record<string, Evidence> = {
     title: 'EMA summary of product characteristics: Sotatercept',
     date: 'March 2025',
     source: 'European Medicines Agency',
+    author: 'EMA',
     snippet: 'Indication: add-on therapy for PAH in adults. Not studied in paediatric population or severe hepatic impairment.'
   }
 };
@@ -158,6 +165,7 @@ export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
     title: 'Sotatercept 治疗肺动脉高压的疗效与安全性',
     date: '2025年7月1日',
     source: '新英格兰医学杂志',
+    author: 'Hoeper MM 等',
     snippet: '本 III 期试验中，sotatercept 治疗使运动耐量显著改善…'
   },
   'ev-2': {
@@ -166,6 +174,7 @@ export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
     title: 'STELLAR III 期试验',
     date: '进行中（2025 年底）',
     source: 'ClinicalTrials.gov',
+    author: 'NCT',
     snippet: '主要完成日期预计 2025 年 12 月。45 家中心正在招募。'
   },
   'ev-3': {
@@ -174,6 +183,7 @@ export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
     title: '医学科学联络拜访',
     date: '2025年5月20日',
     source: 'Veeva CRM',
+    author: 'Jaclyn Stoffel',
     snippet: '与 Jaclyn Stoffel 讨论了近期试验方案。陈医生对新纳入标准表示兴趣。'
   },
   'ev-4': {
@@ -182,6 +192,7 @@ export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
     title: 'PAH 长期结局',
     date: '2025年6月15日',
     source: '心肺移植杂志',
+    author: 'Sitbon O 等',
     snippet: '5 年生存率回顾性分析显示与早期干预相关。'
   },
   'ev-5': {
@@ -190,6 +201,7 @@ export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
     title: 'STELLAR 试验亚组分析：基线功能分级',
     date: 'ASCO 2025',
     source: '美国临床肿瘤学会',
+    author: 'Chin KM 等',
     snippet: 'Sotatercept 在 FC II 与 FC III 亚组中疗效一致（6MWD 改善 38.2m vs 42.1m）。'
   },
   'ev-6': {
@@ -198,6 +210,7 @@ export const MOCK_EVIDENCE_ZH: Record<string, Evidence> = {
     title: 'EMA 产品特性摘要：Sotatercept',
     date: '2025年3月',
     source: '欧洲药品管理局',
+    author: 'EMA',
     snippet: '适应症：成人 PAH 的附加治疗。未在儿童或严重肝功能损害人群中研究。'
   }
 };

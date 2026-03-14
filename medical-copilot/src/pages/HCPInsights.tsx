@@ -175,7 +175,12 @@ export default function HCPInsights() {
           </div>
         </main>
 
-        <EvidencePanel evidenceId={activeEvidenceId} onClose={() => setActiveEvidenceId(null)} />
+        <EvidencePanel
+          evidenceId={activeEvidenceId}
+          referenceIds={[...new Set(summarySegments.map((s) => s.evidenceId))]}
+          onClose={() => setActiveEvidenceId(null)}
+          onSelectEvidence={setActiveEvidenceId}
+        />
       </div>
     </div>
   );

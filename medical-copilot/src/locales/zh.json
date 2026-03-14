@@ -65,8 +65,11 @@
   },
   "evidencePanel": {
     "title": "证据面板",
+    "referencesList": "参考文献",
+    "backToList": "返回列表",
     "sourceMetadata": "来源元数据",
     "source": "来源",
+    "author": "作者",
     "viewOriginal": "查看原文",
     "emptyHint": "点击任意高亮文字或引用可查看对应证据来源。"
   },
