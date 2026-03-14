@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'medical-copilot/**'
+      - '.github/workflows/deploy-medical-copilot-pages.yml'
   workflow_dispatch:
 
 env:
@@ -36,11 +37,18 @@ jobs:
       - name: Install and build medical-copilot
         working-directory: medical-copilot
         env:
-          # 子路径 /Demo/medical-copilot/ 才能用 https://xxx.github.io/Demo/medical-copilot/ 直接打开
           BASE_PATH: /${{ github.event.repository.name }}/medical-copilot/
         run: |
           npm ci
           npm run build
+
+      - name: Verify base path in build
+        run: |
+          if ! grep -q "${{ github.event.repository.name }}/medical-copilot" medical-copilot/dist/index.html; then
+            echo "::error::Built index.html missing base path. Check BASE_PATH env."
+            cat medical-copilot/dist/index.html
+            exit 1
+          fi
 
       - name: Prepare Pages artifact (app under /medical-copilot/)
         run: |
