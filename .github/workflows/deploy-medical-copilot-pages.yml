@@ -33,15 +33,21 @@ jobs:
       - name: Install and build medical-copilot
         working-directory: medical-copilot
         env:
-          BASE_PATH: /${{ github.event.repository.name }}/
+          # 子路径 /Demo/medical-copilot/ 才能用 https://xxx.github.io/Demo/medical-copilot/ 直接打开
+          BASE_PATH: /${{ github.event.repository.name }}/medical-copilot/
         run: |
           npm ci
           npm run build
 
+      - name: Prepare Pages artifact (app under /medical-copilot/)
+        run: |
+          mkdir -p pages-root/medical-copilot
+          cp -r medical-copilot/dist/* pages-root/medical-copilot/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: medical-copilot/dist
+          path: pages-root
 
   deploy:
     needs: build
