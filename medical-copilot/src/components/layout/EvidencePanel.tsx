@@ -44,7 +44,7 @@ function ReferenceListCard({
           : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'
       )}
     >
-      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-medical-teal-100 text-medical-teal-700 text-xs font-semibold mb-2'>
+      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-medical-teal-100 text-medical-teal-700 text-xs font-semibold mb-2">
         {index + 1}
       </span>
       <h4 className="font-semibold text-slate-900 text-sm leading-tight line-clamp-2 mb-1">
