@@ -1,0 +1,5 @@
+{
+  "name": "FDA Submission Gap Analyzer",
+  "description": "A simulated AI system that evaluates CDE submission documents against FDA NDA/BLA requirements, identifies gaps, and drafts responses.",
+  "requestFramePermissions": []
+}
