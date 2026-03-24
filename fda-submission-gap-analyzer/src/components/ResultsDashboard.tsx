@@ -40,7 +40,7 @@ export default function ResultsDashboard({ onReset, hideHeader = false, selected
         </header>
       )}
 
-      <main className={`flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 ${hideHeader ? 'py-0' : 'py-8'}`}>
+      <main className={`flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 ${hideHeader ? 'py-4' : 'py-8'}`}>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           <TabsList className={`grid w-full h-auto p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-sm ${
             selectedModules.length === 1 ? 'grid-cols-1' :

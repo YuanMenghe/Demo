@@ -135,7 +135,7 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
             </div>
           </div>
         </header>
-        <div className="-mt-8">
+        <div>
           <ResultsDashboard onReset={() => setViewingAnalysis(null)} hideHeader={true} selectedModules={viewingAnalysis.modules} />
         </div>
       </div>
