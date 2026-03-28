@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, UploadCloud, FileText, CheckCircle2, Search, Plus, Clock, Play, Settings2, FileCheck2, Activity } from 'lucide-react';
+import { ArrowLeft, UploadCloud, FileText, CheckCircle2, Search, Plus, Clock, Play, Settings2, FileCheck2, Activity, Package, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import ResultsDashboard from './ResultsDashboard';
 import UploadView from './UploadView';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import { downloadAnalysisBundleZip } from '@/lib/analysisReportExport';
+import type { AnalysisExportContext } from '@/lib/reportExportContent';
 
 interface ProjectWorkspaceProps {
   project: any;
@@ -14,7 +16,7 @@ interface ProjectWorkspaceProps {
 }
 
 export default function ProjectWorkspace({ project, onBack, onUpdateProject }: ProjectWorkspaceProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState<'documents' | 'analyses'>('analyses');
   const [isUploading, setIsUploading] = useState(project?.docCount === 0);
   const [isConfiguring, setIsConfiguring] = useState(false);
@@ -40,6 +42,7 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
 
   const [selectedFiles, setSelectedFiles] = useState<string[]>(documents.map(d => d.id));
   const [selectedModules, setSelectedModules] = useState<string[]>(['completeness', 'scientific', 'issues', 'copilot']);
+  const [bundleDownloadingId, setBundleDownloadingId] = useState<string | null>(null);
 
   const handleUploadComplete = () => {
     setIsUploading(false);
@@ -88,6 +91,24 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     setSelectedModules(prev => prev.includes(id) ? prev.filter(m => m !== id) : [...prev, id]);
   };
 
+  const buildExportContext = (analysis: { name: string; date: string; files: number; modules: string[] }): AnalysisExportContext => ({
+    projectName: project?.name ?? t('未命名项目', 'Untitled project'),
+    analysisName: analysis.name,
+    analysisDate: analysis.date,
+    fileCount: analysis.files,
+    modules: analysis.modules,
+  });
+
+  const handleAnalysisBundleDownload = async (e: React.MouseEvent, analysis: { id: string; name: string; date: string; files: number; modules: string[] }) => {
+    e.stopPropagation();
+    setBundleDownloadingId(analysis.id);
+    try {
+      await downloadAnalysisBundleZip(buildExportContext(analysis), language);
+    } finally {
+      setBundleDownloadingId(null);
+    }
+  };
+
   if (isUploading) {
     return (
       <div className="min-h-screen bg-slate-50 relative">
@@ -129,14 +150,20 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
                 <p className="text-xs text-slate-500">{viewingAnalysis.date} · {viewingAnalysis.files} {t('个文档', 'documents')}</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm">{t('导出 PDF', 'Export PDF')}</Button>
-              <Button size="sm">{t('分享报告', 'Share Report')}</Button>
-            </div>
           </div>
         </header>
         <div>
-          <ResultsDashboard onReset={() => setViewingAnalysis(null)} hideHeader={true} selectedModules={viewingAnalysis.modules} />
+          <ResultsDashboard
+            onReset={() => setViewingAnalysis(null)}
+            hideHeader={true}
+            selectedModules={viewingAnalysis.modules}
+            reportExport={{
+              projectName: project?.name ?? t('未命名项目', 'Untitled project'),
+              analysisName: viewingAnalysis.name,
+              analysisDate: viewingAnalysis.date,
+              fileCount: viewingAnalysis.files,
+            }}
+          />
         </div>
       </div>
     );
@@ -329,14 +356,30 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
                 {analyses.map(analysis => (
                   <Card key={analysis.id} className="cursor-pointer hover:shadow-md transition-all border-slate-200 hover:border-blue-300 group" onClick={() => setViewingAnalysis(analysis)}>
                     <CardHeader className="pb-4">
-                      <div className="flex justify-between items-start">
+                      <div className="flex justify-between items-start gap-2">
                         <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                           <FileCheck2 className="w-5 h-5" />
                         </div>
-                        <span className="text-xs text-slate-400 flex items-center">
-                          <Clock className="w-3 h-3 mr-1" />
-                          {analysis.date}
-                        </span>
+                        <div className="flex flex-col items-end gap-2 shrink-0">
+                          <span className="text-xs text-slate-400 flex items-center">
+                            <Clock className="w-3 h-3 mr-1" />
+                            {analysis.date}
+                          </span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 text-xs"
+                            disabled={bundleDownloadingId === analysis.id}
+                            onClick={(e) => void handleAnalysisBundleDownload(e, analysis)}
+                          >
+                            {bundleDownloadingId === analysis.id ? (
+                              <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                            ) : (
+                              <Package className="w-3.5 h-3.5 mr-1" />
+                            )}
+                            {t('打包下载', 'Bundle')}
+                          </Button>
+                        </div>
                       </div>
                       <CardTitle className="mt-4 text-lg">{analysis.name}</CardTitle>
                     </CardHeader>

@@ -1,22 +1,114 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, CheckSquare, Microscope, AlertOctagon, PenTool } from 'lucide-react';
+import { ArrowLeft, CheckSquare, Microscope, AlertOctagon, PenTool, FileDown, FileText, Package, Share2, Loader2 } from 'lucide-react';
 import MaterialCompleteness from './modules/MaterialCompleteness';
 import ScientificReview from './modules/ScientificReview';
 import KeyReviewIssues from './modules/KeyReviewIssues';
 import ResponseCopilot from './modules/ResponseCopilot';
 import { useLanguage } from '@/lib/i18n';
+import type { AnalysisExportContext } from '@/lib/reportExportContent';
+import {
+  downloadAnalysisPdf,
+  downloadAnalysisDocx,
+  downloadAnalysisBundleZip,
+} from '@/lib/analysisReportExport';
+
+export interface ReportExportMeta {
+  projectName: string;
+  analysisName: string;
+  analysisDate: string;
+  fileCount: number;
+}
 
 interface ResultsDashboardProps {
   onReset: () => void;
   hideHeader?: boolean;
   selectedModules?: string[];
+  /** When set, shows PDF / Word / ZIP download + share in the report view */
+  reportExport?: ReportExportMeta | null;
 }
 
-export default function ResultsDashboard({ onReset, hideHeader = false, selectedModules = ['completeness', 'scientific', 'issues', 'copilot'] }: ResultsDashboardProps) {
-  const { t } = useLanguage();
+export default function ResultsDashboard({
+  onReset,
+  hideHeader = false,
+  selectedModules = ['completeness', 'scientific', 'issues', 'copilot'],
+  reportExport = null,
+}: ResultsDashboardProps) {
+  const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState(selectedModules[0] || 'completeness');
+  const [exporting, setExporting] = useState<null | 'pdf' | 'docx' | 'zip'>(null);
+
+  const exportCtx: AnalysisExportContext = useMemo(
+    () => ({
+      projectName: reportExport?.projectName ?? t('演示项目', 'Demo project'),
+      analysisName: reportExport?.analysisName ?? t('差距分析报告', 'Gap analysis report'),
+      analysisDate: reportExport?.analysisDate ?? '—',
+      fileCount: reportExport?.fileCount ?? 0,
+      modules: selectedModules,
+    }),
+    [reportExport, selectedModules, t]
+  );
+
+  const runExport = async (kind: 'pdf' | 'docx' | 'zip') => {
+    setExporting(kind);
+    try {
+      if (kind === 'pdf') await downloadAnalysisPdf(exportCtx, language);
+      else if (kind === 'docx') await downloadAnalysisDocx(exportCtx, language);
+      else await downloadAnalysisBundleZip(exportCtx, language);
+    } finally {
+      setExporting(null);
+    }
+  };
+
+  const handleShare = async () => {
+    const title = `${exportCtx.analysisName} (${exportCtx.analysisDate})`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text: title });
+      } else {
+        await navigator.clipboard.writeText(title);
+      }
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const exportToolbar = reportExport ? (
+    <div className="flex flex-wrap items-center justify-end gap-2 mb-4">
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={!!exporting}
+        onClick={() => void runExport('pdf')}
+      >
+        {exporting === 'pdf' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileDown className="w-4 h-4 mr-2" />}
+        {t('下载 PDF', 'Download PDF')}
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={!!exporting}
+        onClick={() => void runExport('docx')}
+      >
+        {exporting === 'docx' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />}
+        {t('下载 Word', 'Download Word')}
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={!!exporting}
+        onClick={() => void runExport('zip')}
+      >
+        {exporting === 'zip' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Package className="w-4 h-4 mr-2" />}
+        {t('打包下载 (PDF+Word)', 'Download bundle (PDF+Word)')}
+      </Button>
+      <Button variant="secondary" size="sm" onClick={() => void handleShare()}>
+        <Share2 className="w-4 h-4 mr-2" />
+        {t('分享报告', 'Share Report')}
+      </Button>
+    </div>
+  ) : null;
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -32,15 +124,30 @@ export default function ResultsDashboard({ onReset, hideHeader = false, selected
                 <p className="text-xs text-slate-500">{t('目标：NDA - 非小细胞肺癌', 'Target: NDA - Non-Small Cell Lung Cancer')}</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm">{t('导出 PDF', 'Export PDF')}</Button>
-              <Button size="sm">{t('分享报告', 'Share Report')}</Button>
+            <div className="flex flex-wrap items-center gap-2 justify-end">
+              <Button variant="outline" size="sm" disabled={!!exporting} onClick={() => void runExport('pdf')}>
+                {exporting === 'pdf' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileDown className="w-4 h-4 mr-2" />}
+                {t('下载 PDF', 'Download PDF')}
+              </Button>
+              <Button variant="outline" size="sm" disabled={!!exporting} onClick={() => void runExport('docx')}>
+                {exporting === 'docx' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />}
+                {t('下载 Word', 'Download Word')}
+              </Button>
+              <Button variant="outline" size="sm" disabled={!!exporting} onClick={() => void runExport('zip')}>
+                {exporting === 'zip' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Package className="w-4 h-4 mr-2" />}
+                {t('打包下载', 'Bundle')}
+              </Button>
+              <Button size="sm" onClick={() => void handleShare()}>
+                <Share2 className="w-4 h-4 mr-2" />
+                {t('分享报告', 'Share Report')}
+              </Button>
             </div>
           </div>
         </header>
       )}
 
       <main className={`flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 ${hideHeader ? 'py-4' : 'py-8'}`}>
+        {hideHeader && exportToolbar}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           <TabsList className={`grid w-full h-auto p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-sm ${
             selectedModules.length === 1 ? 'grid-cols-1' :
