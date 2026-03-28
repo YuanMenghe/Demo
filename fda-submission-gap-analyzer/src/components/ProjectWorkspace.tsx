@@ -258,12 +258,22 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'documents' ? (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-wrap justify-between items-center gap-4">
               <h2 className="text-2xl font-bold text-slate-900">{t('已上传文档', 'Uploaded Documents')}</h2>
-              <Button onClick={() => setIsUploading(true)} className="bg-blue-600 hover:bg-blue-700 text-white">
-                <UploadCloud className="w-4 h-4 mr-2" />
-                {t('上传新文档', 'Upload Documents')}
-              </Button>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  onClick={() => setIsConfiguring(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  disabled={documents.length === 0}
+                >
+                  <Play className="w-4 h-4 mr-2" />
+                  {t('新建分析', 'New Analysis')}
+                </Button>
+                <Button onClick={() => setIsUploading(true)} className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <UploadCloud className="w-4 h-4 mr-2" />
+                  {t('上传新文档', 'Upload Documents')}
+                </Button>
+              </div>
             </div>
             
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
