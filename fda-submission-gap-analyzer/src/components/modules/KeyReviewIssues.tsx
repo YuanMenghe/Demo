@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ShieldAlert, Activity, BarChart3, FlaskConical, Users, FileText, Search } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { CitationLink } from '../CitationLink';
 
 export default function KeyReviewIssues() {
   const { t } = useLanguage();
@@ -86,10 +87,10 @@ export default function KeyReviewIssues() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {issues.map((issue, index) => {
+        {issues.map((issue, issueIndex) => {
           const Icon = issue.icon;
           return (
-            <Card key={index} className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <Card key={issueIndex} className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex items-center space-x-3">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${issue.bgColor} ${issue.color}`}>
@@ -112,6 +113,11 @@ export default function KeyReviewIssues() {
                         </Badge>
                       </div>
                       <p className="text-slate-700 font-medium leading-relaxed">"{q.q}"</p>
+                      {issueIndex === 0 && i === 0 && (
+                        <div className="mt-2">
+                          <CitationLink citationKey="fda-oncology-endpoints" />
+                        </div>
+                      )}
                     </li>
                   ))}
                 </ul>

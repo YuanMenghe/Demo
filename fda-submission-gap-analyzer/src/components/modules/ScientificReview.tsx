@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertCircle, CheckCircle2, Info, BookOpen } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { CitationLink } from '../CitationLink';
 
 export default function ScientificReview() {
   const { t } = useLanguage();
@@ -44,6 +45,9 @@ export default function ScientificReview() {
                     <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('FDA 参考依据', 'FDA Reference')}
                   </h4>
                   <p className="text-sm text-slate-600">{t('FDA 行业指南：为人类药物和生物制品提供有效性的临床证据。', 'FDA Guidance for Industry: Providing Clinical Evidence of Effectiveness for Human Drug and Biological Products.')}</p>
+                  <div className="mt-2">
+                    <CitationLink citationKey="fda-effectiveness-guidance" />
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -72,6 +76,9 @@ export default function ScientificReview() {
                     <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('FDA 参考依据', 'FDA Reference')}
                   </h4>
                   <p className="text-sm text-slate-600">{t('FDA 指南：用于批准抗癌药物和生物制品的临床试验终点。', 'FDA Guidance: Clinical Trial Endpoints for the Approval of Cancer Drugs and Biologics.')}</p>
+                  <div className="mt-2">
+                    <CitationLink citationKey="fda-oncology-endpoints" />
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -100,6 +107,9 @@ export default function ScientificReview() {
                     <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('FDA 参考依据', 'FDA Reference')}
                   </h4>
                   <p className="text-sm text-slate-600">{t('ICH E5 (R1) 接受外国临床数据的种族因素；FDA 草案指南：改善临床试验中代表性不足的种族和民族人群入组的多样性计划。', 'ICH E5 (R1) Ethnic Factors in the Acceptability of Foreign Clinical Data; FDA Draft Guidance: Diversity Plans to Improve Enrollment of Participants from Underrepresented Racial and Ethnic Populations in Clinical Trials.')}</p>
+                  <div className="mt-2">
+                    <CitationLink citationKey="ich-e5" />
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -119,6 +129,9 @@ export default function ScientificReview() {
               </AccordionTrigger>
               <AccordionContent className="pb-6 pt-2 text-slate-700 space-y-4">
                 <p>{t('SAP 中描述的统计方法总体上是可以接受的，并符合 ICH E9。通过多重插补处理缺失数据是合适的。', 'Statistical methods described in the SAP are generally acceptable and align with ICH E9. Handling of missing data via multiple imputation is appropriate.')}</p>
+                <div className="mt-2">
+                  <CitationLink citationKey="ich-e9" />
+                </div>
               </AccordionContent>
             </AccordionItem>
 

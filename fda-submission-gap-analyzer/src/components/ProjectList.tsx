@@ -24,7 +24,7 @@ export default function ProjectList({ projects, onSelectProject, onCreateProject
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-[calc(100vh-0px)] bg-slate-50 p-6 lg:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <div>

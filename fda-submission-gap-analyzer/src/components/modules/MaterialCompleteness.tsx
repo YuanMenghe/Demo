@@ -4,15 +4,19 @@ import { Badge } from '@/components/ui/badge';
 import { AlertCircle, FileWarning, FilePlus } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useLanguage } from '@/lib/i18n';
+import { useKnowledge } from '@/contexts/KnowledgeContext';
+import { CitationLink, CitationUserLink } from '../CitationLink';
 
 export default function MaterialCompleteness() {
   const { t } = useLanguage();
+  const { entries } = useKnowledge();
+  const firstPdf = entries.find((e) => e.kind === 'pdf');
 
   const missingItems = [
-    { module: t('模块 1', 'Module 1'), item: 'Form FDA 356h', reason: t('所有 NDA/BLA 申报的强制要求。', 'Required for all NDA/BLA submissions.'), reference: '21 CFR 314.50(a)' },
-    { module: t('模块 1', 'Module 1'), item: t('禁止参与声明 (Debarment Certification)', 'Debarment Certification'), reason: t('关于不使用被禁止人员的强制声明。', 'Mandatory statement regarding use of debarred persons.'), reference: 'FD&C Act Section 306(k)(1)' },
-    { module: t('模块 1', 'Module 1'), item: t('财务披露 (Financial Disclosure)', 'Financial Disclosure'), reason: t('临床研究者需要提交 Form FDA 3454 或 3455。', 'Form FDA 3454 or 3455 required for clinical investigators.'), reference: '21 CFR Part 54' },
-    { module: t('模块 5', 'Module 5'), item: t('BIMO (生物研究监测) 数据清单', 'BIMO (Bioresearch Monitoring) Data Listings'), reason: t('FDA 检查计划的强制要求。', 'Required for FDA inspection planning.'), reference: 'FDA BIMO Guidance' },
+    { module: t('模块 1', 'Module 1'), item: 'Form FDA 356h', reason: t('所有 NDA/BLA 申报的强制要求。', 'Required for all NDA/BLA submissions.'), reference: '21 CFR 314.50(a)', citationKey: 'cfr-314-50a' as const },
+    { module: t('模块 1', 'Module 1'), item: t('禁止参与声明 (Debarment Certification)', 'Debarment Certification'), reason: t('关于不使用被禁止人员的强制声明。', 'Mandatory statement regarding use of debarred persons.'), reference: 'FD&C Act Section 306(k)(1)', citationKey: 'fdca-306k' as const },
+    { module: t('模块 1', 'Module 1'), item: t('财务披露 (Financial Disclosure)', 'Financial Disclosure'), reason: t('临床研究者需要提交 Form FDA 3454 或 3455。', 'Form FDA 3454 or 3455 required for clinical investigators.'), reference: '21 CFR Part 54', citationKey: 'cfr-part-54' as const },
+    { module: t('模块 5', 'Module 5'), item: t('BIMO (生物研究监测) 数据清单', 'BIMO (Bioresearch Monitoring) Data Listings'), reason: t('FDA 检查计划的强制要求。', 'Required for FDA inspection planning.'), reference: 'FDA BIMO Guidance', citationKey: 'bimo-guidance' as const },
   ];
 
   const rewriteItems = [
@@ -28,6 +32,12 @@ export default function MaterialCompleteness() {
         <p className="text-slate-500 mt-2">
           {t('上传的 CDE 卷宗与 FDA eCTD 4.0 和 21 CFR Part 11 要求的比对。', 'Comparison of uploaded CDE dossier against FDA eCTD 4.0 and 21 CFR Part 11 requirements.')}
         </p>
+        {firstPdf && (
+          <p className="text-sm text-teal-800 mt-2 flex flex-wrap items-center gap-2">
+            {t('已关联用户知识库 PDF：', 'Linked user knowledge PDF:')}
+            <CitationUserLink entryId={firstPdf.id} />
+          </p>
+        )}
       </div>
 
       <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-800">
@@ -65,9 +75,16 @@ export default function MaterialCompleteness() {
                     <TableCell>
                       <div className="font-medium text-slate-900">{item.item}</div>
                       <div className="text-xs text-slate-500 mt-1">{item.reason}</div>
+                      <div className="mt-2 flex flex-wrap items-center gap-2 lg:hidden">
+                        <span className="text-xs font-mono text-slate-500">{item.reference}</span>
+                        <CitationLink citationKey={item.citationKey} />
+                      </div>
                     </TableCell>
                     <TableCell className="hidden lg:table-cell text-xs text-slate-500 font-mono">
-                      {item.reference}
+                      <div className="space-y-1">
+                        <div>{item.reference}</div>
+                        <CitationLink citationKey={item.citationKey} />
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

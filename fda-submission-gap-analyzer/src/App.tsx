@@ -2,12 +2,23 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import ProjectList from './components/ProjectList';
 import ProjectWorkspace from './components/ProjectWorkspace';
+import KnowledgeBaseView from './components/KnowledgeBaseView';
+import AppSidebar from './components/AppSidebar';
+import LoginDialog from './components/LoginDialog';
+import SettingsDialog from './components/SettingsDialog';
+import PdfSourceViewer from './components/PdfSourceViewer';
 import { LanguageProvider } from '@/lib/i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { KnowledgeProvider } from '@/contexts/KnowledgeContext';
+import { CitationProvider } from '@/contexts/CitationContext';
 
 export default function App() {
+  const [mainRoute, setMainRoute] = useState<'projects' | 'knowledge'>('projects');
   const [appState, setAppState] = useState<'projects' | 'workspace'>('projects');
   const [currentProject, setCurrentProject] = useState<any>(null);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const [projects, setProjects] = useState<any[]>([
     {
@@ -17,7 +28,7 @@ export default function App() {
       indication: 'Non-Small Cell Lung Cancer',
       lastUpdated: '2026-03-23',
       docCount: 12,
-      status: 'analyzed'
+      status: 'analyzed',
     },
     {
       id: '2',
@@ -26,7 +37,7 @@ export default function App() {
       indication: 'HER2+ Breast Cancer',
       lastUpdated: '2026-03-20',
       docCount: 5,
-      status: 'pending'
+      status: 'pending',
     },
     {
       id: '3',
@@ -35,13 +46,14 @@ export default function App() {
       indication: 'Acute Myeloid Leukemia',
       lastUpdated: '2026-03-15',
       docCount: 8,
-      status: 'analyzed'
-    }
+      status: 'analyzed',
+    },
   ]);
 
   const handleSelectProject = (project: any) => {
     setCurrentProject(project);
     setAppState('workspace');
+    setMainRoute('projects');
   };
 
   const handleCreateProject = () => {
@@ -52,18 +64,19 @@ export default function App() {
       indication: 'TBD',
       lastUpdated: new Date().toISOString().split('T')[0],
       docCount: 0,
-      status: 'pending'
+      status: 'pending',
     };
     setCurrentProject(newProject);
     setAppState('workspace');
+    setMainRoute('projects');
   };
 
   const handleUpdateProject = (updatedProject: any) => {
     setCurrentProject(updatedProject);
-    setProjects(prev => {
-      const exists = prev.find(p => p.id === updatedProject.id);
+    setProjects((prev) => {
+      const exists = prev.find((p) => p.id === updatedProject.id);
       if (exists) {
-        return prev.map(p => p.id === updatedProject.id ? updatedProject : p);
+        return prev.map((p) => (p.id === updatedProject.id ? updatedProject : p));
       }
       return [updatedProject, ...prev];
     });
@@ -74,23 +87,71 @@ export default function App() {
     setCurrentProject(null);
   };
 
+  const handleSidebarNavigate = (r: 'projects' | 'knowledge') => {
+    setMainRoute(r);
+    if (r === 'projects') {
+      setAppState('projects');
+      setCurrentProject(null);
+    }
+  };
+
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-        <LanguageSwitcher />
-        <AnimatePresence mode="wait">
-          {appState === 'projects' && (
-            <motion.div key="projects" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-              <ProjectList projects={projects} onSelectProject={handleSelectProject} onCreateProject={handleCreateProject} />
-            </motion.div>
-          )}
-          {appState === 'workspace' && (
-            <motion.div key="workspace" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
-              <ProjectWorkspace project={currentProject} onBack={handleBackToProjects} onUpdateProject={handleUpdateProject} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      <AuthProvider>
+        <KnowledgeProvider>
+          <CitationProvider>
+            <div className="flex min-h-screen bg-slate-50 text-slate-900 font-sans">
+              <AppSidebar
+                route={mainRoute}
+                onNavigate={handleSidebarNavigate}
+                onOpenLogin={() => setLoginOpen(true)}
+                onOpenSettings={() => setSettingsOpen(true)}
+              />
+              <div className="flex-1 min-w-0 relative">
+                <LanguageSwitcher />
+                <AnimatePresence mode="wait">
+                  {mainRoute === 'knowledge' && (
+                    <motion.div
+                      key="knowledge"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <KnowledgeBaseView />
+                    </motion.div>
+                  )}
+                  {mainRoute === 'projects' && appState === 'projects' && (
+                    <motion.div
+                      key="projects"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <ProjectList projects={projects} onSelectProject={handleSelectProject} onCreateProject={handleCreateProject} />
+                    </motion.div>
+                  )}
+                  {mainRoute === 'projects' && appState === 'workspace' && (
+                    <motion.div
+                      key="workspace"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ProjectWorkspace project={currentProject} onBack={handleBackToProjects} onUpdateProject={handleUpdateProject} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+            <PdfSourceViewer />
+            <LoginDialog open={loginOpen} onOpenChange={setLoginOpen} />
+            <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+          </CitationProvider>
+        </KnowledgeProvider>
+      </AuthProvider>
     </LanguageProvider>
   );
 }
