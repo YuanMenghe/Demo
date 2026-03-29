@@ -62,6 +62,7 @@ jobs:
           mkdir -p site/plm
           mkdir -p site/zhihui-mdt
           mkdir -p site/fda-submission-gap-analyzer
+          mkdir -p site/ethics-ai-review-showcase
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -74,6 +75,9 @@ jobs:
 
           # zhihui-mdt (static HTML)
           cp -r zhihui-mdt/* site/zhihui-mdt/
+
+          # ethics-ai-review-showcase (static HTML, AI 伦理审评工作台原型)
+          cp -r ethics-ai-review-showcase/* site/ethics-ai-review-showcase/
 
           # Root: landing page with links
           cat > site/index.html << 'LANDING'
@@ -96,6 +100,7 @@ jobs:
             <a href="fda-submission-gap-analyzer/">FDA Submission Gap Analyzer</a>
             <a href="zhihui-mdt/">智汇MDT</a>
             <a href="plm/">PLM</a>
+            <a href="ethics-ai-review-showcase/">EthicsFlow AI · 伦理审评工作台</a>
           </body>
           </html>
           LANDING

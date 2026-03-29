@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EthicsFlow AI | 政策库</title>
+  <meta name="description" content="医院临床研究伦理审评工作台原型，政策库页面。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <img src="logo.svg" alt="公司 Logo">
+        <div>
+          <strong>EthicsFlow AI</strong>
+          <span>伦理审评工作台</span>
+        </div>
+      </div>
+      <button class="primary-action" type="button">+ 新建审评项目</button>
+      <div class="side-section">
+        <div class="section-title"><span>功能模块</span></div>
+        <nav class="module-nav">
+          <a class="module-link" href="index.html">项目中心</a>
+          <a class="module-link" href="review.html">审评工作台</a>
+          <a class="module-link" href="records.html">审查记录</a>
+          <a class="module-link active" href="policy.html">政策库</a>
+          <a class="module-link" href="checklist.html">审核要点</a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Policy Library</p>
+          <h1>政策库</h1>
+        </div>
+        <div class="top-actions">
+          <button class="ghost-button" type="button">上传政策文件</button>
+        </div>
+      </header>
+
+      <section class="single-page-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>引用优先级</h2>
+              <p>新版优先、权威机构优先、国内法规优先</p>
+            </div>
+          </div>
+          <div class="policy-table">
+            <article>
+              <strong>国家级法规与管理办法</strong>
+              <span>优先级 1</span>
+              <p>作为基础判断依据，优先覆盖受试者保护、研究边界与伦理程序要求。</p>
+            </article>
+            <article>
+              <strong>国家级 / 行业伦理审查指南</strong>
+              <span>优先级 2</span>
+              <p>用于细化审查口径、判断材料完整性与持续审查关注点。</p>
+            </article>
+            <article>
+              <strong>院内伦理委员会制度文件</strong>
+              <span>优先级 3</span>
+              <p>用于体现机构差异化口径与本院经验沉淀。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
