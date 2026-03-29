@@ -1,0 +1,5 @@
+{
+  "name": "AI伦理审查辅助系统",
+  "description": "医院临床研究伦理审查AI辅助平台，支持项目管理、动态审查、政策库与审核要点自定义。",
+  "requestFramePermissions": []
+}

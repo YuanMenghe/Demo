@@ -29,6 +29,7 @@ jobs:
           cache-dependency-path: |
             medical-copilot/package-lock.json
             fda-submission-gap-analyzer/package-lock.json
+            ai伦理审查辅助系统/package-lock.json
 
       - name: Install and build medical-copilot
         working-directory: medical-copilot
@@ -42,6 +43,14 @@ jobs:
         working-directory: fda-submission-gap-analyzer
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/fda-submission-gap-analyzer/
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install and build AI ethics assistant (Noah AI)
+        working-directory: ai伦理审查辅助系统
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/ai伦理审查辅助系统/
         run: |
           npm ci
           npm run build
@@ -62,7 +71,7 @@ jobs:
           mkdir -p site/plm
           mkdir -p site/zhihui-mdt
           mkdir -p site/fda-submission-gap-analyzer
-          mkdir -p site/ethics-ai-review-showcase
+          mkdir -p "site/ai伦理审查辅助系统"
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -76,8 +85,8 @@ jobs:
           # zhihui-mdt (static HTML)
           cp -r zhihui-mdt/* site/zhihui-mdt/
 
-          # ethics-ai-review-showcase (static HTML, AI 伦理审评工作台原型)
-          cp -r ethics-ai-review-showcase/* site/ethics-ai-review-showcase/
+          # AI伦理审查辅助系统 / Noah AI (Vite + React)
+          cp -r ai伦理审查辅助系统/dist/* "site/ai伦理审查辅助系统/"
 
           # Root: landing page with links
           cat > site/index.html << 'LANDING'
@@ -100,7 +109,7 @@ jobs:
             <a href="fda-submission-gap-analyzer/">FDA Submission Gap Analyzer</a>
             <a href="zhihui-mdt/">智汇MDT</a>
             <a href="plm/">PLM</a>
-            <a href="ethics-ai-review-showcase/">EthicsFlow AI · 伦理审评工作台</a>
+            <a href="ai伦理审查辅助系统/">Noah AI · AI伦理审查辅助系统</a>
           </body>
           </html>
           LANDING
