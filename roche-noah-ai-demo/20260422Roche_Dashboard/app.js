@@ -712,7 +712,7 @@ function renderAnalysisContext(metrics, profile) {
   if (state.filters.category.length) fragments.push(`功能 ${state.filters.category.join(" / ")}`);
   if (state.filters.topic.length) fragments.push(`科研主题 ${state.filters.topic.join(" / ")}`);
   if (state.filters.diseaseArea.length) fragments.push(`疾病方向 ${state.filters.diseaseArea.join(" / ")}`);
-  if (profile?.user) fragments.push(`当前已下钻到用户 ${profile.user.name}`);
+  if (state.selectedUserId && profile?.user) fragments.push(`当前已下钻到用户 ${profile.user.name}`);
 
   if (!fragments.length) {
     dom.analysisContextText.textContent = `当前是默认全量平台视角，覆盖 ${formatNumber(metrics.totalUsers)} 位活跃用户与 ${formatNumber(metrics.totalActions)} 次行为。`;
@@ -1256,25 +1256,75 @@ function addFilterValue(key, value) {
   rerender();
 }
 
+function toggleFilterValue(key, value) {
+  if (!value) return;
+  const selected = new Set(state.filters[key]);
+  if (selected.has(value)) {
+    selected.delete(value);
+  } else {
+    selected.add(value);
+  }
+  state.filters[key] = [...selected];
+  rerender();
+}
+
+function clearAllSelections() {
+  state.filters = defaultFilters();
+  state.selectedUserId = null;
+  syncControlsFromState();
+  dom.presetButtons.forEach((button) => button.classList.remove("is-active"));
+  rerender();
+}
+
 function selectUser(userId) {
   state.selectedUserId = userId;
   rerender();
 }
 
 function bindChartEvents() {
-  state.charts.categoryChart.on("click", (params) => addFilterValue("category", params.name));
-  state.charts.detailChart.on("click", (params) => addFilterValue("detail", params.name));
-  state.charts.departmentChart.on("click", (params) => addFilterValue("department", params.name));
-  state.charts.provinceChart.on("click", (params) => addFilterValue("province", params.name));
-  state.charts.diseaseHotspotChart.on("click", (params) => addFilterValue("diseaseArea", params.name));
-  state.charts.topicClusterChart.on("click", (params) => addFilterValue("themeCluster", params.name));
+  state.charts.categoryChart.on("click", (params) => toggleFilterValue("category", params.name));
+  state.charts.detailChart.on("click", (params) => toggleFilterValue("detail", params.name));
+  state.charts.departmentChart.on("click", (params) => toggleFilterValue("department", params.name));
+  state.charts.provinceChart.on("click", (params) => toggleFilterValue("province", params.name));
+  state.charts.diseaseHotspotChart.on("click", (params) => toggleFilterValue("diseaseArea", params.name));
+  state.charts.topicClusterChart.on("click", (params) => toggleFilterValue("themeCluster", params.name));
   state.charts.identityChart.on("click", (params) => {
     const roleNames = state.raw.filters.roles;
-    if (roleNames.includes(params.name)) addFilterValue("role", params.name);
+    if (roleNames.includes(params.name)) toggleFilterValue("role", params.name);
     const accountNames = state.raw.filters.accountTypes;
-    if (accountNames.includes(params.name)) addFilterValue("accountType", params.name);
+    if (accountNames.includes(params.name)) toggleFilterValue("accountType", params.name);
   });
-  state.charts.userCategoryChart.on("click", (params) => addFilterValue("category", params.name));
+  state.charts.userCategoryChart.on("click", (params) => toggleFilterValue("category", params.name));
+}
+
+function ensureFloatingControls() {
+  const bar = document.createElement("div");
+  bar.id = "floatingFilterBar";
+  bar.className = "floating-filter-bar";
+  bar.innerHTML = `
+    <span id="floatingFilterSummary">默认全量视角</span>
+    <button type="button" id="floatingBackTop">回到筛选</button>
+    <button type="button" id="floatingClearAll">清空选择</button>
+  `;
+  document.body.appendChild(bar);
+
+  document.getElementById("floatingBackTop").addEventListener("click", () => {
+    document.querySelector(".filter-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  document.getElementById("floatingClearAll").addEventListener("click", clearAllSelections);
+}
+
+function updateFloatingControls() {
+  const bar = document.getElementById("floatingFilterBar");
+  const summary = document.getElementById("floatingFilterSummary");
+  if (!bar || !summary) return;
+  const filterCount = Object.values(state.filters).reduce((sum, values) => sum + values.length, 0);
+  const hasUser = Boolean(state.selectedUserId);
+  const activeCount = filterCount + (hasUser ? 1 : 0);
+  bar.classList.toggle("is-visible", activeCount > 0);
+  summary.textContent = hasUser
+    ? `已下钻用户，另有 ${filterCount} 个筛选条件`
+    : `已选择 ${filterCount} 个筛选条件`;
 }
 
 function bindEvents() {
@@ -1299,10 +1349,7 @@ function bindEvents() {
   });
 
   dom.resetFilters.addEventListener("click", () => {
-    state.filters = defaultFilters();
-    syncControlsFromState();
-    dom.presetButtons.forEach((button) => button.classList.remove("is-active"));
-    rerender();
+    clearAllSelections();
   });
 
   dom.clearUserFocus.addEventListener("click", () => {
@@ -1439,9 +1486,12 @@ function rerender() {
   syncControlsFromState();
   const records = filterRecords();
   const metrics = getFilteredMetrics(records);
-  const profile = buildUserProfile(records, pickUser(metrics));
+  if (state.selectedUserId && !metrics.userMap.has(state.selectedUserId)) {
+    state.selectedUserId = null;
+  }
+  const focusedUser = state.selectedUserId ? metrics.userMap.get(state.selectedUserId) : pickUser(metrics);
+  const profile = buildUserProfile(records, focusedUser);
   const hotspots = computeHotspots(records);
-  state.selectedUserId = profile?.user.userId || null;
 
   renderHero(metrics);
   renderKpis(metrics);
@@ -1453,6 +1503,7 @@ function rerender() {
   updateCharts(metrics, profile);
   renderHotspots(hotspots);
   renderReport(metrics, profile, hotspots);
+  updateFloatingControls();
 }
 
 function init() {
@@ -1466,6 +1517,7 @@ function init() {
 
   multiselectConfigs.forEach(createMultiSelect);
   ensureCharts();
+  ensureFloatingControls();
   bindEvents();
   bindChartEvents();
   rerender();
