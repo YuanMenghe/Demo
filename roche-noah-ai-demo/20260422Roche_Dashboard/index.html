@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roche 用户分析 Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">User Analytics Dashboard</span>
+          <h1>使用分析明细用户洞察</h1>
+          <p id="heroSummary" class="hero-summary"></p>
+        </div>
+        <div class="hero-highlight">
+          <div class="highlight-label">观察重点</div>
+          <div id="heroInsight" class="highlight-value"></div>
+        </div>
+      </header>
+
+      <section class="workflow-strip">
+        <div class="workflow-step is-active">
+          <strong>1. 选择分析范围</strong>
+          <span>多维筛选、快捷视角、交叉过滤</span>
+        </div>
+        <div class="workflow-step">
+          <strong>2. 查看平台总览</strong>
+          <span>活跃度、趋势、排行与结构</span>
+        </div>
+        <div class="workflow-step">
+          <strong>3. 下钻用户与热点</strong>
+          <span>个体画像、科研热点与群体分布</span>
+        </div>
+        <div class="workflow-step">
+          <strong>4. 生成报告</strong>
+          <span>汇总结论并下载输出</span>
+        </div>
+      </section>
+
+      <nav class="section-nav">
+        <a href="#overviewSection">总览</a>
+        <a href="#personaSection">用户画像</a>
+        <a href="#featureSection">功能分析</a>
+        <a href="#hotspotSection">科研热点</a>
+        <a href="#geoSection">地域分布</a>
+        <a href="#detailSection">行为明细</a>
+        <a href="#reportSection">报告输出</a>
+      </nav>
+
+      <section class="filter-panel">
+        <div class="filter-title">
+          <div>
+            <h2>筛选分析范围</h2>
+            <p class="filter-subtitle">支持多选、搜索和图表点击联动。点击图表、表格或用户卡片都会同步更新全页视图。</p>
+          </div>
+          <div class="filter-actions">
+            <button id="resetFilters" type="button">重置筛选</button>
+            <button id="clearUserFocus" type="button" class="ghost-btn">取消用户聚焦</button>
+          </div>
+        </div>
+
+        <div class="quick-presets">
+          <button type="button" class="preset-btn" data-preset="all">全量视角</button>
+          <button type="button" class="preset-btn" data-preset="customer">客户洞察</button>
+          <button type="button" class="preset-btn" data-preset="employee">员工洞察</button>
+          <button type="button" class="preset-btn" data-preset="plus">PLUS账号</button>
+          <button type="button" class="preset-btn" data-preset="shared">共享账号</button>
+          <button type="button" class="preset-btn" data-preset="literature">文献检索/解读</button>
+          <button type="button" class="preset-btn" data-preset="generation">内容生成</button>
+        </div>
+
+        <div id="selectedChips" class="selected-chips"></div>
+        <div class="analysis-context">
+          <div>
+            <strong>当前分析上下文</strong>
+            <p id="analysisContextText">默认全量平台视角</p>
+          </div>
+          <div class="context-actions">
+            <button id="backToOverview" type="button" class="ghost-btn">回到总览起点</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <label>
+            <span>日期范围</span>
+            <div class="date-range">
+              <input id="startDate" type="date" />
+              <em>至</em>
+              <input id="endDate" type="date" />
+            </div>
+          </label>
+          <div id="roleFilterWrap" class="filter-slot"></div>
+          <div id="accountFilterWrap" class="filter-slot"></div>
+          <div id="departmentFilterWrap" class="filter-slot"></div>
+          <div id="provinceFilterWrap" class="filter-slot"></div>
+          <div id="regionFilterWrap" class="filter-slot"></div>
+          <div id="ownerFilterWrap" class="filter-slot"></div>
+          <div id="categoryFilterWrap" class="filter-slot"></div>
+        </div>
+      </section>
+
+      <section id="overviewSection" class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Overview</p>
+            <h2>总览</h2>
+          </div>
+          <div class="inline-controls">
+            <div class="segmented">
+              <button type="button" data-granularity="day" class="is-active">按天</button>
+              <button type="button" data-granularity="week">按周</button>
+              <button type="button" data-granularity="month">按月</button>
+            </div>
+          </div>
+        </div>
+
+        <section class="kpi-grid" id="kpiGrid"></section>
+
+        <section class="dashboard-grid">
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">趋势</p>
+                <h3>使用趋势与活跃用户</h3>
+              </div>
+            </div>
+            <div id="trendChart" class="chart"></div>
+            <div class="panel-footnote">点击任一时间点后，可结合排行榜、用户画像和热点分析继续向下追查。</div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">活跃识别</p>
+                <h3>高活跃用户识别</h3>
+              </div>
+            </div>
+            <div id="activityTags" class="activity-tags"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">时段偏好</p>
+                <h3>小时活跃热度</h3>
+              </div>
+            </div>
+            <div id="hourChart" class="chart"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">排行</p>
+                <h3>功能使用排行榜</h3>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>功能</th>
+                    <th>次数</th>
+                    <th>占比</th>
+                  </tr>
+                </thead>
+                <tbody id="functionRankTable"></tbody>
+              </table>
+            </div>
+            <div class="panel-footnote">点击功能后将切换到对应功能视角，并同步刷新热点分析与用户画像。</div>
+          </article>
+        </section>
+      </section>
+
+      <section id="personaSection" class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Persona</p>
+            <h2>用户画像</h2>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">用户结构</p>
+                <h3>用户身份与账号类型</h3>
+              </div>
+            </div>
+            <div id="identityChart" class="chart"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">活跃度</p>
+                <h3>用户活跃分层</h3>
+              </div>
+            </div>
+            <div id="segmentChart" class="chart"></div>
+          </article>
+
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">单用户</p>
+                <h3>用户功能画像与行为挖掘</h3>
+              </div>
+            </div>
+            <div class="user-search-bar">
+              <label class="user-search">
+                <span>搜索用户</span>
+                <div class="user-search-box">
+                  <input id="userSearchInput" type="text" placeholder="输入姓名或用户名，支持联想搜索" autocomplete="off" />
+                  <div id="userSearchSuggestions" class="user-search-suggestions"></div>
+                </div>
+              </label>
+            </div>
+            <div class="user-studio">
+              <div class="user-hero-card">
+                <div class="user-hero-main">
+                  <div id="userFocusSummary" class="user-focus-summary"></div>
+                  <div id="userSignalBadges" class="user-signal-badges"></div>
+                </div>
+                <div class="user-hero-side">
+                  <div class="user-hero-kpis">
+                    <div class="mini-kpi">
+                      <strong id="userTotalActions">-</strong>
+                      <span>总行为</span>
+                    </div>
+                    <div class="mini-kpi">
+                      <strong id="userActiveDays">-</strong>
+                      <span>活跃天数</span>
+                    </div>
+                    <div class="mini-kpi">
+                      <strong id="userPeakCategory">-</strong>
+                      <span>核心功能</span>
+                    </div>
+                    <div class="mini-kpi">
+                      <strong id="userLastSeen">-</strong>
+                      <span>最近使用</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="user-deep-grid">
+                <div class="user-focus-card">
+                  <div class="subsection-head">
+                    <h4>用户画像卡</h4>
+                    <span>基本信息与偏好标签</span>
+                  </div>
+                  <div id="userMetaList" class="user-meta-list"></div>
+                  <div class="subsection-head subsection-gap">
+                    <h4>关键判断</h4>
+                    <span>自动提炼的行为特征</span>
+                  </div>
+                  <div id="userNarrative" class="user-narrative"></div>
+                  <div class="subsection-head subsection-gap">
+                    <h4>相似用户</h4>
+                    <span>同部门 / 同省份 / 同负责同事</span>
+                  </div>
+                  <div id="similarUsers" class="similar-users"></div>
+                  <div class="panel-footnote">点击相似用户可快速切换画像，无需重新搜索。</div>
+                </div>
+
+                <div class="user-visual-stack">
+                  <div class="user-chart-card">
+                    <div class="subsection-head">
+                      <h4>功能偏好</h4>
+                      <span>点击扇区可联动全页筛选</span>
+                    </div>
+                    <div id="userCategoryChart" class="chart chart-user"></div>
+                  </div>
+                  <div class="user-chart-card">
+                    <div class="subsection-head">
+                      <h4>个人趋势</h4>
+                      <span>观察使用节奏和活跃波峰</span>
+                    </div>
+                    <div id="userTrendChart" class="chart chart-user"></div>
+                  </div>
+                </div>
+
+                <div class="user-focus-card user-timeline-card">
+                  <div class="subsection-head">
+                    <h4>最近行为时间线</h4>
+                    <span>点击时间线条目可快速定位该用户近期动作</span>
+                  </div>
+                  <div id="userTimeline" class="user-timeline"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section id="featureSection" class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Features</p>
+            <h2>功能分析</h2>
+          </div>
+          <div class="inline-controls">
+            <label class="sort-control">
+              <span>功能排序</span>
+              <select id="categorySort">
+                <option value="value-desc">按次数</option>
+                <option value="share-desc">按占比</option>
+                <option value="name-asc">按名称</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">功能结构</p>
+                <h3>功能分类占比</h3>
+              </div>
+            </div>
+            <div id="categoryChart" class="chart"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">功能明细</p>
+                <h3>操作详情 Top 结构</h3>
+              </div>
+            </div>
+            <div id="detailChart" class="chart"></div>
+          </article>
+        </section>
+      </section>
+
+      <section id="hotspotSection" class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Research Hotspots</p>
+            <h2>科研热点</h2>
+          </div>
+          <div class="inline-controls">
+            <div class="segmented" id="hotspotWindow">
+              <button type="button" data-hotspot-window="7">近7天</button>
+              <button type="button" data-hotspot-window="30" class="is-active">近30天</button>
+              <button type="button" data-hotspot-window="90">近90天</button>
+            </div>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">热点主题</p>
+                <h3>主题热度变化与持续性</h3>
+              </div>
+            </div>
+            <div id="hotspotTrendChart" class="chart"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">疾病领域代理</p>
+                <h3>高频疾病 / 学科方向</h3>
+              </div>
+            </div>
+            <div id="diseaseHotspotChart" class="chart"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">主题簇</p>
+                <h3>研究主题聚合榜</h3>
+              </div>
+            </div>
+            <div id="topicClusterChart" class="chart"></div>
+          </article>
+
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">热点解释</p>
+                <h3>热点内容与关注人群</h3>
+              </div>
+            </div>
+            <div class="table-grid">
+              <div>
+                <h4>热点主题摘要</h4>
+                <div id="hotspotNarratives" class="user-narrative"></div>
+              </div>
+              <div>
+                <h4>热点关注用户</h4>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>主题</th>
+                        <th>主要人群</th>
+                        <th>代表用户数</th>
+                      </tr>
+                    </thead>
+                    <tbody id="hotspotAudienceTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="panel-footnote">点击主题或主题簇可直接带入热点相关人群，再继续下钻到用户画像。</div>
+          </article>
+        </section>
+      </section>
+
+      <section id="geoSection" class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Geography</p>
+            <h2>地域分布</h2>
+          </div>
+          <div class="inline-controls">
+            <label class="sort-control">
+              <span>部门排序</span>
+              <select id="departmentSort">
+                <option value="value-desc">按次数</option>
+                <option value="name-asc">按名称</option>
+              </select>
+            </label>
+            <label class="sort-control">
+              <span>省份排序</span>
+              <select id="provinceSort">
+                <option value="value-desc">按次数</option>
+                <option value="name-asc">按名称</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">组织与地域</p>
+                <h3>部门 / 省份双视角</h3>
+              </div>
+            </div>
+            <div class="double-chart">
+              <div id="departmentChart" class="chart chart-half"></div>
+              <div id="provinceChart" class="chart chart-half"></div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section id="detailSection" class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Details</p>
+            <h2>行为明细</h2>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">明细透视</p>
+                <h3>Top 用户与最新行为</h3>
+              </div>
+            </div>
+            <div class="table-grid">
+              <div>
+                <h4>高频用户</h4>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>姓名</th>
+                        <th>用户名</th>
+                        <th>次数</th>
+                        <th>部门</th>
+                      </tr>
+                    </thead>
+                    <tbody id="topUsersTable"></tbody>
+                  </table>
+                </div>
+              </div>
+              <div>
+                <h4>最新行为</h4>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>时间</th>
+                        <th>姓名</th>
+                        <th>分类</th>
+                        <th>详情</th>
+                      </tr>
+                    </thead>
+                    <tbody id="recentActionsTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section id="reportSection" class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Report Output</p>
+            <h2>报告生成与下载</h2>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">输出范围</p>
+                <h3>选择报告内容</h3>
+              </div>
+            </div>
+            <div id="reportScope" class="report-scope">
+              <label><input type="checkbox" value="overview" checked />平台总览</label>
+              <label><input type="checkbox" value="persona" checked />用户画像</label>
+              <label><input type="checkbox" value="hotspot" checked />科研热点</label>
+            </div>
+            <div class="report-actions">
+              <button id="generateReport" type="button">生成报告摘要</button>
+              <button id="downloadReport" type="button" class="ghost-btn">下载 Markdown</button>
+              <button id="printReport" type="button" class="ghost-btn">打印 / 导出 PDF</button>
+            </div>
+          </article>
+
+          <article class="panel panel-wide">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">报告预览</p>
+                <h3>当前筛选条件下的分析摘要</h3>
+              </div>
+            </div>
+            <div id="reportPreview" class="report-preview"></div>
+          </article>
+        </section>
+      </section>
+    </div>
+
+    <script src="./vendor/echarts.min.js"></script>
+    <script src="./data/dashboard-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
