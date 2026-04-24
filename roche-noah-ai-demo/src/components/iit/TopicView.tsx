@@ -26,6 +26,7 @@ const trendData = [
 export function TopicView({ onNext }: { onNext: () => void }) {
   const [isSearching, setIsSearching] = useState(false);
   const [hasResults, setHasResults] = useState(false);
+  const [showLiterature, setShowLiterature] = useState(false);
   const [query, setQuery] = useState("");
 
   const handleSearch = () => {
@@ -105,6 +106,99 @@ export function TopicView({ onNext }: { onNext: () => void }) {
     );
   }
 
+  if (showLiterature) {
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col gap-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 flex justify-between items-center">
+          <div className="min-w-0">
+            <div className="text-xs font-bold text-indigo-500 mb-1">选题内文献挖掘</div>
+            <h2 className="text-lg font-bold text-indigo-900 truncate">人工智能算法优化阿米卡星 TDM 采样时间点的前瞻性验证</h2>
+            <p className="text-xs text-gray-500 mt-1">该页面属于“选题与文献挖掘”同一功能模块，证据结果将随选题上下文进入后续 Synopsis。</p>
+          </div>
+          <button onClick={() => setShowLiterature(false)} className="text-sm font-medium text-gray-500 hover:text-indigo-600">
+            返回选题列表
+          </button>
+        </div>
+
+        <div className="grid grid-cols-[1.05fr_0.95fr] gap-6 min-h-0 flex-1">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+            <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-gray-900">证据检索与筛选</h3>
+                <p className="text-xs text-gray-500 mt-1">围绕已选方向自动检索 PubMed，支持按发表时间与影响因子排序。</p>
+              </div>
+              <span className="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-bold">近5年 · 23篇</span>
+            </div>
+            <div className="p-4 border-b border-gray-100 grid grid-cols-3 gap-3">
+              {['发表时间：近5年', '影响因子：优先高分', '研究类型：临床研究'].map((item) => (
+                <button key={item} className="rounded-xl border border-gray-200 bg-slate-50 px-3 py-2 text-xs font-medium text-gray-600 hover:border-indigo-200 hover:bg-indigo-50">
+                  {item}
+                </button>
+              ))}
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              {[
+                ['Population pharmacokinetic model of amikacin in critically ill patients', 'PMID: 38402191', 'TDM 个体化给药模型可显著降低谷浓度超标风险。'],
+                ['Optimal sampling strategy for aminoglycoside therapeutic monitoring', 'PMID: 37955218', '早期双点采样可改善 AUC 估计稳定性。'],
+                ['Machine learning assisted dose adjustment for anti-infective therapy', 'PMID: 37140882', '机器学习模型适合嵌入前瞻性验证流程。'],
+              ].map(([title, pmid, insight]) => (
+                <article key={pmid} className="rounded-xl border border-gray-100 p-4 hover:border-indigo-200 hover:bg-slate-50 transition-colors">
+                  <div className="text-sm font-bold text-gray-900 leading-snug">{title}</div>
+                  <div className="mt-2 flex items-center gap-2 text-xs text-gray-400">
+                    <span>{pmid}</span>
+                    <span>IF 6.8</span>
+                    <span>2024</span>
+                  </div>
+                  <p className="mt-3 text-sm text-gray-600 leading-relaxed">{insight}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-6 min-h-0">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+              <h3 className="font-bold text-gray-900 mb-3">研究重点与难点分析</h3>
+              <div className="space-y-3 text-sm text-gray-600">
+                <div className="rounded-xl bg-indigo-50 border border-indigo-100 p-3">
+                  <strong className="text-indigo-800">重点：</strong> 明确 AI 采样策略相较传统 TDM 的剂量调整收益。
+                </div>
+                <div className="rounded-xl bg-amber-50 border border-amber-100 p-3">
+                  <strong className="text-amber-800">难点：</strong> 需要控制感染严重程度、肾功能变化和联合用药干扰。
+                </div>
+                <div className="rounded-xl bg-emerald-50 border border-emerald-100 p-3">
+                  <strong className="text-emerald-800">Synopsis 输入：</strong> 已形成 P/I/C/O/S 草案，可进入独立 Synopsis 设计模块细化。
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex-1 min-h-[240px] flex flex-col">
+              <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2 text-[15px]">
+                <FileText size={16} className="text-gray-400" /> PICOS 明确度预览
+              </h3>
+              <div className="grid grid-cols-1 gap-2 text-sm">
+                {[
+                  ['P', '重症感染且需阿米卡星治疗药物监测的住院患者'],
+                  ['I', 'AI 辅助 TDM 采样时间点与剂量调整策略'],
+                  ['C', '传统经验采样或常规 TDM 流程'],
+                  ['O', '目标浓度达标率、肾毒性、安全性与住院结局'],
+                  ['S', '前瞻性验证研究'],
+                ].map(([key, value]) => (
+                  <div key={key} className="flex gap-3 rounded-lg bg-slate-50 border border-slate-100 p-2.5">
+                    <span className="w-7 h-7 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-black shrink-0">{key}</span>
+                    <span className="text-gray-700">{value}</span>
+                  </div>
+                ))}
+              </div>
+              <button onClick={onNext} className="mt-5 bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition flex items-center justify-center gap-2 font-bold shadow-md shadow-indigo-200">
+                进入独立 Synopsis 设计 <Sparkles size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
   // HAS RESULTS VIEW
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col gap-6">
@@ -157,11 +251,11 @@ export function TopicView({ onNext }: { onNext: () => void }) {
                              <span key={l} className="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px] font-black">{l}</span>
                            ))}
                          </div>
-                         {topic.active && (
-                           <button onClick={onNext} className="bg-white border border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-4 py-1.5 rounded-full text-xs font-bold transition-colors shadow-sm">
-                             文献挖掘 
-                           </button>
-                         )}
+                          {topic.active && (
+                            <button onClick={() => setShowLiterature(true)} className="bg-white border border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-4 py-1.5 rounded-full text-xs font-bold transition-colors shadow-sm">
+                              查看文献证据 
+                            </button>
+                          )}
                        </div>
                      </div>
                    </div>

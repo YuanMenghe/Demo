@@ -1,50 +1,45 @@
 import { useState } from 'react';
 import { cn } from '../../lib/utils';
 import { 
-  Lightbulb, Search, FileEdit, FileText, CheckSquare, 
+  Lightbulb, FileEdit, FileText, CheckSquare, 
   Settings2, BookOpen, ChevronRight, Bot, Target, AlertTriangle
 } from 'lucide-react';
 
 // Import Views
 import { TopicView } from './TopicView';
-import { LitSearchView, ProtocolView, ReviewView, JournalView } from './PlaceholderViews';
+import { SynopsisView, ProtocolView, ReviewView, JournalView } from './PlaceholderViews';
 
 const steps = [
-  { id: 1, name: '智能选题', icon: Lightbulb, desc: '推荐研究方向' },
-  { id: 2, name: '文献挖掘', icon: Search, desc: '检索证据支持' },
-  { id: 3, name: 'Synopsis设计', icon: FileEdit, desc: '生成方案草案' },
-  { id: 4, name: 'Protocol撰写', icon: FileText, desc: '全量文件生成' },
-  { id: 5, name: 'AI评审', icon: CheckSquare, desc: '智能质控审查' },
-  { id: 6, name: '修改优化', icon: Settings2, desc: '基于意见迭代' },
-  { id: 7, name: '选刊推荐', icon: BookOpen, desc: '匹配目标期刊' },
+  { id: 1, name: '选题与文献挖掘', icon: Lightbulb, desc: '推荐选题并检索证据' },
+  { id: 2, name: 'Synopsis设计', icon: FileEdit, desc: 'PICO/文档生成方案' },
+  { id: 3, name: 'Protocol撰写', icon: FileText, desc: '全量文件生成' },
+  { id: 4, name: 'AI评审', icon: CheckSquare, desc: '智能质控审查' },
+  { id: 5, name: '修改优化', icon: Settings2, desc: '基于意见迭代' },
+  { id: 6, name: '选刊推荐', icon: BookOpen, desc: '匹配目标期刊' },
 ];
 
 const sopTips: Record<number, string[]> = {
   1: [
-    "[SOP-DEV-001] 选题必须符合公司核心治疗领域战略方向 (如肿瘤、神经科学等)。",
-    "[规范提醒] 请确保 PICOS 框架中的对照组符合当前临床标准治疗方案(SoC)。"
+    "[SOP-DEV-001] 选题推荐与文献挖掘必须在同一研究方向上下文中连续完成，避免证据链断裂。",
+    "[规范提醒] 进入 Synopsis 前，请确认选题的 PICOS 明确度和近5年证据基础。"
   ],
   2: [
-    "[SOP-LIT-003] 课题前序文献检索策略需覆盖过去至少5年内的主流数据库。",
-    "提示：请重点关注证据地图中‘空白或证据稀缺’的象限作为切入点。"
+    "[SOP-SYNOPSIS-01] 研究假设必须具有可检验性，且统计学检验效能需提前规划。",
+    "[提示] 支持输入 PICO/PICOS 框架、自然语言研究设想或上传既有文档生成结构化 Synopsis。"
   ],
   3: [
-    "[SOP-SYNOPSIS-01] 研究假设必须具有可检验性，且统计学检验效能需提前规划。",
-    "[提示] Synopsis 表单内容将直接作为立项排审的核心内容，请务必详密。"
-  ],
-  4: [
     "[规范提醒] Protocol 格式必须遵循 ICH E6(R2) GCP 指南。",
     "提示：请确保由 AI 生成的 ICF (知情同意书) 包含所有必须提及的风险告知项。"
   ],
-  5: [
+  4: [
     "[SOP-REV-02] 任何 IIT 发起方案均需经过独立的科学性审查与医学伦理审查。",
     "系统将着重扫描：入排标准矛盾、随访窗口期模糊、安全性报告路径缺失等常见缺陷。"
   ],
-  6: [
+  5: [
     "[规范提醒] 针对高危风险提示（如导致主要终点无法评估的逻辑错误），必须强制进行修订。",
     "如有异议，请在优化记录中补充说明申诉理由。"
   ],
-  7: [
+  6: [
     "提醒：投稿前请确认所有作者均已在此阶段完成了利益冲突声明 (COI)。",
     "推荐策略会优先过滤已被列为预警期刊或风评不佳的掠夺性期刊。"
   ]
@@ -106,10 +101,10 @@ export function IITWorkspace() {
         <div className="flex-1 overflow-y-auto bg-slate-50/50 pb-8">
           <div className="max-w-6xl mx-auto h-full p-6">
             {activeStep === 1 && <TopicView onNext={() => setActiveStep(2)} />}
-            {activeStep === 2 && <LitSearchView onNext={() => setActiveStep(3)} />}
-            {(activeStep === 3 || activeStep === 4) && <ProtocolView step={activeStep} onNext={() => setActiveStep(activeStep + 1)} />}
-            {(activeStep === 5 || activeStep === 6) && <ReviewView step={activeStep} onNext={() => setActiveStep(activeStep + 1)} />}
-            {activeStep === 7 && <JournalView />}
+            {activeStep === 2 && <SynopsisView onNext={() => setActiveStep(3)} />}
+            {activeStep === 3 && <ProtocolView onNext={() => setActiveStep(4)} />}
+            {(activeStep === 4 || activeStep === 5) && <ReviewView step={activeStep} onNext={() => setActiveStep(activeStep + 1)} />}
+            {activeStep === 6 && <JournalView />}
           </div>
         </div>
 
