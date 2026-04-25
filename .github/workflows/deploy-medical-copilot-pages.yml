@@ -30,6 +30,7 @@ jobs:
             medical-copilot/package-lock.json
             fda-submission-gap-analyzer/package-lock.json
             ai伦理审查辅助系统/package-lock.json
+            roche-noah-ai-demo/package-lock.json
 
       - name: Install and build medical-copilot
         working-directory: medical-copilot
@@ -55,6 +56,14 @@ jobs:
           npm ci
           npm run build
 
+      - name: Install and build Roche NOAH AI demo
+        working-directory: roche-noah-ai-demo
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/roche-noah-ai-demo/
+        run: |
+          npm ci
+          npm run build
+
       - name: Verify build output
         run: |
           echo "=== Built index.html ==="
@@ -72,6 +81,7 @@ jobs:
           mkdir -p site/zhihui-mdt
           mkdir -p site/fda-submission-gap-analyzer
           mkdir -p "site/ai伦理审查辅助系统"
+          mkdir -p site/roche-noah-ai-demo
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -87,6 +97,9 @@ jobs:
 
           # AI伦理审查辅助系统 / Noah AI (Vite + React)
           cp -r ai伦理审查辅助系统/dist/* "site/ai伦理审查辅助系统/"
+
+          # roche-noah-ai-demo (Vite + React)
+          cp -r roche-noah-ai-demo/dist/* site/roche-noah-ai-demo/          
 
           # Root: landing page with links
           cat > site/index.html << 'LANDING'
@@ -110,6 +123,7 @@ jobs:
             <a href="zhihui-mdt/">智汇MDT</a>
             <a href="plm/">PLM</a>
             <a href="ai伦理审查辅助系统/">Noah AI · AI伦理审查辅助系统</a>
+            <a href="roche-noah-ai-demo/">Roche NOAH AI · 若生科研平台</a>
           </body>
           </html>
           LANDING
