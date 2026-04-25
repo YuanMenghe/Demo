@@ -44,6 +44,7 @@ import {
   topicTrend,
   trend,
   users,
+  type FeatureDetail,
   type Hotspot,
   type InsightTab,
   type NamedValue,
@@ -86,6 +87,7 @@ export function InsightAdmin() {
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [selectedUserId, setSelectedUserId] = useState(users[0].id);
   const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
+  const [selectedFeature, setSelectedFeature] = useState<FeatureDetail | null>(null);
   const [search, setSearch] = useState("");
 
   const filterOptions = useMemo(
@@ -202,6 +204,7 @@ export function InsightAdmin() {
                 setActiveTab("users");
               }}
               onDrilldown={selectDrilldown}
+              onSelectFeature={setSelectedFeature}
             />
           )}
           {activeTab === "users" && (
@@ -218,6 +221,7 @@ export function InsightAdmin() {
         </div>
       </main>
 
+      {selectedFeature && <FeatureDrawer feature={selectedFeature} onClose={() => setSelectedFeature(null)} onOpenUser={(id) => { setSelectedUserId(id); setActiveTab("users"); setSelectedFeature(null); }} />}
       {selectedHotspot && <HotspotDrawer hotspot={selectedHotspot} onClose={() => setSelectedHotspot(null)} onOpenUser={(id) => { setSelectedUserId(id); setActiveTab("users"); setSelectedHotspot(null); }} />}
     </div>
   );
@@ -296,7 +300,7 @@ function FilterBar({ filters, options, onChange, onReset }: { filters: Filters; 
   );
 }
 
-function OverviewPage({ activeUsers, totalActions, avgActions, filteredUsers, onOpenUser, onDrilldown }: { activeUsers: number; totalActions: number; avgActions: number; filteredUsers: UserRecord[]; onOpenUser: (id: string) => void; onDrilldown: (key: keyof Filters, value: string) => void }) {
+function OverviewPage({ activeUsers, totalActions, avgActions, filteredUsers, onOpenUser, onDrilldown, onSelectFeature }: { activeUsers: number; totalActions: number; avgActions: number; filteredUsers: UserRecord[]; onOpenUser: (id: string) => void; onDrilldown: (key: keyof Filters, value: string) => void; onSelectFeature: (f: FeatureDetail) => void; }) {
   return (
     <div className="space-y-5">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -325,7 +329,7 @@ function OverviewPage({ activeUsers, totalActions, avgActions, filteredUsers, on
       </div>
 
       <div className="grid gap-5 xl:grid-cols-2">
-        <SimpleBarChart title="功能使用排行" data={featureRank} />
+        <SimpleBarChart title="功能使用排行" data={featureRank} onClick={(data) => onSelectFeature(data.payload as FeatureDetail)} />
         <ChartCard title="小时级时段偏好" subtitle="识别运营触达与内容推送时机">
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={hourlyPreference}>
@@ -499,6 +503,69 @@ function ReportsPage({ filters, activeUsers, totalActions }: { filters: Filters;
   );
 }
 
+function FeatureDrawer({ feature, onClose, onOpenUser }: { feature: FeatureDetail; onClose: () => void; onOpenUser: (id: string) => void }) {
+  return (
+    <div className="fixed inset-0 z-40 flex justify-end bg-slate-950/20" onClick={onClose}>
+      <aside className="h-full w-full max-w-md overflow-y-auto bg-white p-5 shadow-2xl" onClick={(event) => event.stopPropagation()}>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <div className="text-xs font-semibold text-teal-700">功能详情下钻</div>
+            <h2 className="mt-1 text-xl font-semibold text-slate-950">{feature.name}</h2>
+          </div>
+          <button onClick={onClose} className="rounded-full border border-slate-200 px-3 py-1 text-sm">关闭</button>
+        </div>
+        
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <KpiMini label="总使用次数" value={feature.value} />
+          <KpiMini label="细分操作类别" value={feature.details.length} />
+        </div>
+
+        <div className="mt-5">
+          <ChartCard title="操作详情分布">
+            <ResponsiveContainer width="100%" height={200}>
+              <PieChart>
+                <Pie data={feature.details} dataKey="value" nameKey="name" innerRadius={40} outerRadius={70} paddingAngle={2}>
+                  {feature.details.map((_, index) => <Cell key={index} fill={colors[index % colors.length]} />)}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="mt-3 flex flex-wrap gap-2">
+               {feature.details.map((d, i) => <div key={d.name} className="text-xs text-slate-600 flex items-center gap-1"><div className="w-2 h-2 rounded-full" style={{backgroundColor: colors[i % colors.length]}}></div>{d.name}: {d.value}</div>)}
+            </div>
+          </ChartCard>
+        </div>
+
+        <div className="mt-5">
+          <ChartCard title="该功能使用趋势">
+            <ResponsiveContainer width="100%" height={180}>
+              <LineChart data={feature.trend}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 10 }} />
+                <Tooltip />
+                <Line type="monotone" dataKey="usage" name="使用次数" stroke="#f59e0b" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartCard>
+        </div>
+
+        <div className="mt-5">
+          <h3 className="font-semibold mb-3">经常使用该功能的用户</h3>
+          <div className="space-y-2">
+            {users.slice(0, 4).map((user) => (
+              <button key={user.id} type="button" onClick={() => onOpenUser(user.id)} className="w-full rounded-xl border border-slate-200 p-3 text-left hover:bg-slate-50">
+                <div className="font-semibold text-slate-900">{user.name}</div>
+                <div className="text-xs text-slate-500">{user.department} · {user.province}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
 function HotspotDrawer({ hotspot, onClose, onOpenUser }: { hotspot: Hotspot; onClose: () => void; onOpenUser: (id: string) => void }) {
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-slate-950/20" onClick={onClose}>
@@ -527,8 +594,8 @@ function TopUsersTable({ users, onOpenUser }: { users: UserRecord[]; onOpenUser:
   return <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="mb-4 font-semibold text-slate-900">活跃用户排行榜</h2><div className="space-y-2">{users.slice(0, 6).map((user, index) => <button key={user.id} type="button" onClick={() => onOpenUser(user.id)} className="flex w-full items-center gap-3 rounded-xl border border-slate-100 px-3 py-2 text-left hover:bg-slate-50"><span className="w-6 text-sm font-bold text-teal-700">{index + 1}</span><span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold text-slate-800">{user.name}</span><span className="block truncate text-xs text-slate-500">{user.department} · {user.province}</span></span><span className="text-sm font-semibold text-slate-900">{user.actionCount}</span></button>)}</div></section>;
 }
 
-function SimpleBarChart({ title, data }: { title: string; data: NamedValue[] }) {
-  return <ChartCard title={title}><ResponsiveContainer width="100%" height={260}><BarChart data={data} layout="vertical" margin={{ left: 20, right: 20 }}><CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" /><XAxis type="number" tick={{ fontSize: 12 }} /><YAxis type="category" dataKey="name" width={92} tick={{ fontSize: 12 }} /><Tooltip /><Bar dataKey="value" fill="#14b8a6" radius={[0, 8, 8, 0]} /></BarChart></ResponsiveContainer></ChartCard>;
+function SimpleBarChart({ title, data, onClick }: { title: string; data: any[]; onClick?: (data: any) => void }) {
+  return <ChartCard title={title}><ResponsiveContainer width="100%" height={260}><BarChart data={data} layout="vertical" margin={{ left: 20, right: 20 }}><CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" /><XAxis type="number" tick={{ fontSize: 12 }} /><YAxis type="category" dataKey="name" width={92} tick={{ fontSize: 12 }} /><Tooltip /><Bar dataKey="value" fill="#14b8a6" radius={[0, 8, 8, 0]} onClick={onClick} style={{ cursor: onClick ? "pointer" : "default" }} /></BarChart></ResponsiveContainer></ChartCard>;
 }
 
 function DistributionList({ title, data, onClick }: { title: string; data: NamedValue[]; onClick: (name: string) => void }) {

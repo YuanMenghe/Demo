@@ -24,6 +24,13 @@ export type TrendPoint = {
   activeUsers: number;
 };
 
+export type FeatureDetail = {
+  name: string;
+  value: number;
+  details: NamedValue[];
+  trend: TrendPoint[];
+};
+
 export type NamedValue = {
   name: string;
   value: number;
@@ -65,15 +72,15 @@ export const trend: TrendPoint[] = [
   { date: "03-24", usage: 1320, activeUsers: 79 },
 ];
 
-export const featureRank: NamedValue[] = [
-  { name: "文献解读", value: 11420 },
-  { name: "大模型问答", value: 10795 },
-  { name: "PubMed检索", value: 7490 },
-  { name: "医学专业问答", value: 7340 },
-  { name: "智能检索", value: 5540 },
-  { name: "智文妙画", value: 1650 },
-  { name: "智能选题", value: 1050 },
-  { name: "全文翻译", value: 850 },
+export const featureRank: FeatureDetail[] = [
+  { name: "文献解读", value: 11420, details: [{name: "PDF上传", value: 8500}, {name: "全文解析", value: 2920}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.3)})) },
+  { name: "大模型问答", value: 10795, details: [{name: "新建对话", value: 6000}, {name: "追问", value: 4795}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.25)})) },
+  { name: "PubMed检索", value: 7490, details: [{name: "执行检索", value: 5000}, {name: "翻页", value: 2490}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.2)})) },
+  { name: "医学专业问答", value: 7340, details: [{name: "医学搜索", value: 5000}, {name: "推荐问题点击", value: 2340}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.15)})) },
+  { name: "智能检索", value: 5540, details: [{name: "高级检索", value: 3000}, {name: "智能联想", value: 2540}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.1)})) },
+  { name: "智文妙画", value: 1650, details: [{name: "配图生成", value: 1000}, {name: "排版优化", value: 650}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.05)})) },
+  { name: "智能选题", value: 1050, details: [{name: "灵感生成", value: 800}, {name: "查重", value: 250}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.02)})) },
+  { name: "全文翻译", value: 850, details: [{name: "英译中", value: 700}, {name: "中译英", value: 150}], trend: trend.map(t => ({...t, usage: Math.floor(t.usage * 0.01)})) },
 ];
 
 export const departmentRank: NamedValue[] = [
