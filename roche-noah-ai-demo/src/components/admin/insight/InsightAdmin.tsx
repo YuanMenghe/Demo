@@ -88,6 +88,7 @@ export function InsightAdmin() {
   const [selectedUserId, setSelectedUserId] = useState(users[0].id);
   const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
   const [selectedFeature, setSelectedFeature] = useState<FeatureDetail | null>(null);
+  const [selectedSegment, setSelectedSegment] = useState<{ type: string; name: string; value: number } | null>(null);
   const [search, setSearch] = useState("");
 
   const filterOptions = useMemo(
@@ -205,6 +206,7 @@ export function InsightAdmin() {
               }}
               onDrilldown={selectDrilldown}
               onSelectFeature={setSelectedFeature}
+              onSelectSegment={setSelectedSegment}
             />
           )}
           {activeTab === "users" && (
@@ -216,11 +218,12 @@ export function InsightAdmin() {
               onSelectUser={setSelectedUserId}
             />
           )}
-          {activeTab === "hotspots" && <HotspotsPage onSelectHotspot={setSelectedHotspot} onDrilldown={selectDrilldown} />}
+          {activeTab === "hotspots" && <HotspotsPage onSelectHotspot={setSelectedHotspot} onDrilldown={selectDrilldown} onSelectSegment={setSelectedSegment} />}
           {activeTab === "reports" && <ReportsPage filters={filters} activeUsers={activeUsers} totalActions={totalActions} />}
         </div>
       </main>
 
+      {selectedSegment && <SegmentDrawer segment={selectedSegment} onClose={() => setSelectedSegment(null)} onOpenUser={(id) => { setSelectedUserId(id); setActiveTab("users"); setSelectedSegment(null); }} />}
       {selectedFeature && <FeatureDrawer feature={selectedFeature} onClose={() => setSelectedFeature(null)} onOpenUser={(id) => { setSelectedUserId(id); setActiveTab("users"); setSelectedFeature(null); }} />}
       {selectedHotspot && <HotspotDrawer hotspot={selectedHotspot} onClose={() => setSelectedHotspot(null)} onOpenUser={(id) => { setSelectedUserId(id); setActiveTab("users"); setSelectedHotspot(null); }} />}
     </div>
@@ -300,7 +303,7 @@ function FilterBar({ filters, options, onChange, onReset }: { filters: Filters; 
   );
 }
 
-function OverviewPage({ activeUsers, totalActions, avgActions, filteredUsers, onOpenUser, onDrilldown, onSelectFeature }: { activeUsers: number; totalActions: number; avgActions: number; filteredUsers: UserRecord[]; onOpenUser: (id: string) => void; onDrilldown: (key: keyof Filters, value: string) => void; onSelectFeature: (f: FeatureDetail) => void; }) {
+function OverviewPage({ activeUsers, totalActions, avgActions, filteredUsers, onOpenUser, onDrilldown, onSelectFeature, onSelectSegment }: { activeUsers: number; totalActions: number; avgActions: number; filteredUsers: UserRecord[]; onOpenUser: (id: string) => void; onDrilldown: (key: keyof Filters, value: string) => void; onSelectFeature: (f: FeatureDetail) => void; onSelectSegment: (s: { type: string; name: string; value: number }) => void; }) {
   return (
     <div className="space-y-5">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -337,15 +340,15 @@ function OverviewPage({ activeUsers, totalActions, avgActions, filteredUsers, on
               <XAxis dataKey="hour" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} />
               <Tooltip />
-              <Bar dataKey="value" name="使用次数" radius={[8, 8, 0, 0]} fill="#14b8a6" />
+              <Bar dataKey="value" name="使用次数" radius={[8, 8, 0, 0]} fill="#14b8a6" onClick={(data) => onSelectSegment({ type: "hour", name: data.hour + "点", value: typeof data.value === "number" ? data.value : 0 })} style={{ cursor: "pointer" }} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
       <div className="grid gap-5 xl:grid-cols-2">
-        <DistributionList title="部门分布" data={departmentRank} onClick={(name) => onDrilldown("department", name)} />
-        <DistributionList title="省份分布" data={provinceRank} onClick={(name) => onDrilldown("province", name)} />
+        <DistributionList title="部门分布" data={departmentRank} onClick={(item) => onSelectSegment({ type: "department", name: item.name, value: item.value })} />
+        <DistributionList title="省份分布" data={provinceRank} onClick={(item) => onSelectSegment({ type: "province", name: item.name, value: item.value })} />
       </div>
     </div>
   );
@@ -428,11 +431,11 @@ function UsersPage({ users, selectedUser, search, setSearch, onSelectUser }: { u
   );
 }
 
-function HotspotsPage({ onSelectHotspot, onDrilldown }: { onSelectHotspot: (hotspot: Hotspot) => void; onDrilldown: (key: keyof Filters, value: string) => void }) {
+function HotspotsPage({ onSelectHotspot, onDrilldown, onSelectSegment }: { onSelectHotspot: (hotspot: Hotspot) => void; onDrilldown: (key: keyof Filters, value: string) => void; onSelectSegment: (s: { type: string; name: string; value: number }) => void; }) {
   return (
     <div className="space-y-5">
       <div className="grid gap-5 xl:grid-cols-2">
-        <DistributionList title="Phase 1：部门近似疾病领域" data={departmentRank} onClick={(name) => onDrilldown("department", name)} />
+        <DistributionList title="Phase 1：部门近似疾病领域" data={departmentRank} onClick={(item) => onSelectSegment({ type: "department", name: item.name, value: item.value })} />
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center justify-between"><div><h2 className="font-semibold text-slate-900">Phase 2：高频关键词</h2><p className="text-xs text-slate-500">模拟 PostHog literature_search.keyword</p></div><PhaseTag label="PostHog 接入后生效" /></div>
           <div className="flex flex-wrap gap-2">
@@ -441,8 +444,8 @@ function HotspotsPage({ onSelectHotspot, onDrilldown }: { onSelectHotspot: (hots
         </section>
       </div>
       <div className="grid gap-5 xl:grid-cols-3">
-        <SimpleBarChart title="研究类型分布" data={researchTypes} />
-        <SimpleBarChart title="输出内容方向" data={outputTypes} />
+        <SimpleBarChart title="研究类型分布" data={researchTypes} onClick={(data) => onSelectSegment({ type: "research", name: data.payload.name, value: data.payload.value })} />
+        <SimpleBarChart title="输出内容方向" data={outputTypes} onClick={(data) => onSelectSegment({ type: "output", name: data.payload.name, value: data.payload.value })} />
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="mb-2 font-semibold text-slate-900">接口映射</h2><div className="space-y-2 text-sm text-slate-600"><CodeLine text="GET /insight/research-hotspots" /><CodeLine text="GET /insight/hotspots/trend" /><CodeLine text="GET /insight/hotspots/:topic/users" /></div></section>
       </div>
       <ChartCard title="热点变化趋势" subtitle="判断短期波动热点与持续关注方向">
@@ -598,9 +601,9 @@ function SimpleBarChart({ title, data, onClick }: { title: string; data: any[]; 
   return <ChartCard title={title}><ResponsiveContainer width="100%" height={260}><BarChart data={data} layout="vertical" margin={{ left: 20, right: 20 }}><CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" /><XAxis type="number" tick={{ fontSize: 12 }} /><YAxis type="category" dataKey="name" width={92} tick={{ fontSize: 12 }} /><Tooltip /><Bar dataKey="value" fill="#14b8a6" radius={[0, 8, 8, 0]} onClick={onClick} style={{ cursor: onClick ? "pointer" : "default" }} /></BarChart></ResponsiveContainer></ChartCard>;
 }
 
-function DistributionList({ title, data, onClick }: { title: string; data: NamedValue[]; onClick: (name: string) => void }) {
+function DistributionList({ title, data, onClick }: { title: string; data: NamedValue[]; onClick: (item: NamedValue) => void }) {
   const max = Math.max(...data.map((item) => item.value));
-  return <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="mb-4 font-semibold text-slate-900">{title}</h2><div className="space-y-3">{data.map((item) => <button key={item.name} type="button" onClick={() => onClick(item.name)} className="w-full text-left"><div className="mb-1 flex justify-between text-sm"><span className="font-medium text-slate-700">{item.name}</span><span className="text-slate-500">{formatNumber(item.value)}</span></div><div className="h-2 rounded-full bg-slate-100"><div className="h-full rounded-full bg-teal-500" style={{ width: `${Math.max(8, (item.value / max) * 100)}%` }} /></div></button>)}</div></section>;
+  return <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="mb-4 font-semibold text-slate-900">{title}</h2><div className="space-y-3">{data.map((item) => <button key={item.name} type="button" onClick={() => onClick(item)} className="w-full text-left"><div className="mb-1 flex justify-between text-sm"><span className="font-medium text-slate-700">{item.name}</span><span className="text-slate-500">{formatNumber(item.value)}</span></div><div className="h-2 rounded-full bg-slate-100"><div className="h-full rounded-full bg-teal-500" style={{ width: `${Math.max(8, (item.value / max) * 100)}%` }} /></div></button>)}</div></section>;
 }
 
 function Meta({ label, value }: { label: string; value: string }) {
@@ -613,4 +616,50 @@ function PhaseTag({ label }: { label: string }) {
 
 function CodeLine({ text }: { text: string }) {
   return <code className="block rounded-lg bg-slate-950 px-3 py-2 text-xs text-slate-100">{text}</code>;
+}
+
+function SegmentDrawer({ segment, onClose, onOpenUser }: { segment: { type: string; name: string; value: number }; onClose: () => void; onOpenUser: (id: string) => void }) {
+  let matchedUsers = users;
+  if (segment.type === "department") matchedUsers = users.filter(u => u.department === segment.name);
+  else if (segment.type === "province") matchedUsers = users.filter(u => u.province === segment.name);
+  else matchedUsers = users.slice(0, 7); // Mock for others
+
+  return (
+    <div className="fixed inset-0 z-40 flex justify-end bg-slate-950/20" onClick={onClose}>
+      <aside className="h-full w-full max-w-md overflow-y-auto bg-white p-5 shadow-2xl" onClick={(event) => event.stopPropagation()}>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <div className="text-xs font-semibold text-teal-700">维度下钻：{segment.type === "department" ? "部门" : segment.type === "province" ? "省份" : segment.type === "hour" ? "活跃时段" : "特征属性"}</div>
+            <h2 className="mt-1 text-xl font-semibold text-slate-950">{segment.name}</h2>
+          </div>
+          <button onClick={onClose} className="rounded-full border border-slate-200 px-3 py-1 text-sm hover:bg-slate-50 transition-colors">关闭</button>
+        </div>
+        
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <KpiMini label="涉及事件数/活跃度" value={segment.value} />
+          <KpiMini label="关联活跃用户数" value={matchedUsers.length} />
+        </div>
+
+        <div className="mt-6">
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="font-semibold text-slate-900">该维度下的具体用户</h3>
+            <span className="text-xs text-slate-500">点击进入用户画像</span>
+          </div>
+          <div className="space-y-2">
+            {matchedUsers.length > 0 ? matchedUsers.map((user) => (
+              <button key={user.id} type="button" onClick={() => onOpenUser(user.id)} className="w-full rounded-xl border border-slate-200 p-3 text-left hover:border-teal-300 hover:bg-teal-50 transition-colors">
+                <div className="flex justify-between items-start">
+                  <div className="font-semibold text-slate-900">{user.name}</div>
+                  <span className="text-xs font-medium text-teal-700 bg-white border border-teal-100 px-2 py-0.5 rounded-full">{user.actionCount}次操作</span>
+                </div>
+                <div className="mt-1 text-xs text-slate-500">{user.role} · {user.department} · {user.province}</div>
+              </button>
+            )) : (
+              <div className="text-sm text-slate-500 py-4 text-center bg-slate-50 rounded-xl">暂无完全匹配的用户（Mock数据有限）</div>
+            )}
+          </div>
+        </div>
+      </aside>
+    </div>
+  );
 }
