@@ -15,6 +15,12 @@ interface FactField {
 export default function CaseConfirm() {
   const navigate = useNavigate();
   const draft = useAppStore(state => state.draft);
+
+  const goBack = () => {
+    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
+    if (idx > 0) navigate(-1);
+    else navigate('/');
+  };
   
   // Mock facts based on draft
   const [facts, setFacts] = useState<FactField[]>([
@@ -46,7 +52,7 @@ export default function CaseConfirm() {
     <div className="flex-1 flex flex-col h-full bg-neutral-100 pb-[130px]">
       <header className="px-4 py-3 bg-white flex items-center justify-between sticky top-0 z-10 border-b border-neutral-100">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="p-1 -ml-1 active:bg-neutral-100 rounded-full text-neutral-900">
+          <button onClick={goBack} className="p-1 -ml-1 active:bg-neutral-100 rounded-full text-neutral-900">
             <ChevronLeft className="w-6 h-6" />
           </button>
           <div>

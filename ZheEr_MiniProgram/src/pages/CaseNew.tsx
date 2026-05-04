@@ -10,6 +10,12 @@ export default function CaseNew() {
   const { draft, updateDraft } = useAppStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const goBack = () => {
+    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
+    if (idx > 0) navigate(-1);
+    else navigate('/');
+  };
+
   // Use local state for immediate feedback, sync to global store
   const [complaint, setComplaint] = useState(draft?.chiefComplaint || '');
   const [subtype, setSubtype] = useState<LymphomaSubtype>(draft?.subtype || '');
@@ -46,7 +52,7 @@ export default function CaseNew() {
       {/* Header */}
       <header className="px-4 py-3 bg-white flex items-center justify-between sticky top-0 z-10 border-b border-neutral-100">
         <div className="flex items-center gap-3">
-        <button onClick={() => navigate(-1)} className="p-1 -ml-1 active:bg-neutral-100 rounded-full text-neutral-900">
+          <button onClick={goBack} className="p-1 -ml-1 active:bg-neutral-100 rounded-full text-neutral-900">
           <ChevronLeft className="w-6 h-6" />
         </button>
           <h1 className="font-semibold text-lg text-neutral-900">新建病例</h1>

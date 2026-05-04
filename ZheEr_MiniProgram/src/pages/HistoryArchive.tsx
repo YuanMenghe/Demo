@@ -9,6 +9,12 @@ export default function HistoryArchive() {
   const navigate = useNavigate();
   const { history, removeHistory, updateHistoryTitle } = useAppStore();
   const [search, setSearch] = useState('');
+
+  const goBack = () => {
+    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
+    if (idx > 0) navigate(-1);
+    else navigate('/');
+  };
   
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
@@ -33,7 +39,7 @@ export default function HistoryArchive() {
     <div className="flex-1 flex flex-col h-full bg-neutral-50 overflow-hidden relative">
       <header className="px-4 py-3 bg-white flex items-center justify-between border-b border-neutral-100 shrink-0">
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate(-1)} className="p-1 -ml-1 text-neutral-900 active:bg-neutral-100 rounded-full">
+          <button onClick={goBack} className="p-1 -ml-1 text-neutral-900 active:bg-neutral-100 rounded-full">
             <ChevronLeft className="w-6 h-6" />
           </button>
           <h1 className="font-semibold text-lg text-neutral-900">历史记录</h1>

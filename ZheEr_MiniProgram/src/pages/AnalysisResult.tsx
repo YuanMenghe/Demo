@@ -45,6 +45,12 @@ const AccordionSection = ({ title, children, defaultOpen = false, controlledOpen
 export default function AnalysisResult() {
   const navigate = useNavigate();
   const { clearDraft, updateDraft } = useAppStore();
+
+  const goBack = () => {
+    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
+    if (idx > 0) navigate(-1);
+    else navigate('/');
+  };
   
   const [chatInput, setChatInput] = useState('');
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([]);
@@ -172,7 +178,7 @@ export default function AnalysisResult() {
     <div className="flex-1 flex flex-col h-full bg-neutral-50 relative">
       <header className="px-4 py-3 flex items-center justify-between border-b border-neutral-100 bg-white z-10 shrink-0">
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/history')} className="p-1 -ml-1 text-neutral-900">
+          <button onClick={goBack} className="p-1 -ml-1 text-neutral-900">
              <ChevronLeft className="w-6 h-6" />
           </button>
           <h1 className="font-semibold text-lg text-neutral-900">分析结果</h1>
