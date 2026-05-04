@@ -127,11 +127,17 @@ export default function Home() {
 
       {/* Bottom Tab Bar */}
       <div className="absolute bottom-0 inset-x-0 h-[64px] bg-white border-t border-neutral-200 flex px-2 pb-safe z-10">
-        <button className="flex-1 flex flex-col items-center justify-center gap-1 text-emerald-600">
+        <button
+          onClick={() => navigate('/')}
+          className="flex-1 flex flex-col items-center justify-center gap-1 text-emerald-600"
+        >
           <HomeIcon className="w-5 h-5" />
           <span className="text-[10px] font-medium">首页</span>
         </button>
-        <button className="flex-1 flex flex-col items-center justify-center gap-1 text-neutral-400">
+        <button
+          onClick={() => navigate('/me')}
+          className="flex-1 flex flex-col items-center justify-center gap-1 text-neutral-400"
+        >
           <User className="w-5 h-5" />
           <span className="text-[10px] font-medium">我的</span>
         </button>

@@ -10,6 +10,11 @@ import CaseNew from './pages/CaseNew';
 import CaseConfirm from './pages/CaseConfirm';
 import AnalysisResult from './pages/AnalysisResult';
 import HistoryArchive from './pages/HistoryArchive';
+import Me from './pages/Me';
+import AdminHome from './pages/admin/AdminHome';
+import AdminGuidelines from './pages/admin/AdminGuidelines';
+import AdminReviewFlow from './pages/admin/AdminReviewFlow';
+import AdminUsers from './pages/admin/AdminUsers';
 
 const basename =
   import.meta.env.BASE_URL === '/'
@@ -41,6 +46,26 @@ const router = createBrowserRouter(
       {
         path: '/history',
         element: <HistoryArchive />
+      },
+      {
+        path: '/me',
+        element: <Me />
+      },
+      {
+        path: '/admin',
+        element: <AdminHome />
+      },
+      {
+        path: '/admin/guidelines',
+        element: <AdminGuidelines />
+      },
+      {
+        path: '/admin/review',
+        element: <AdminReviewFlow />
+      },
+      {
+        path: '/admin/users',
+        element: <AdminUsers />
       },
       {
         path: '*',

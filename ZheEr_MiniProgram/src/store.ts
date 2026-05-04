@@ -24,6 +24,16 @@ export interface CaseHistory {
   updatedAt: string;
 }
 
+export type UserRole = 'doctor' | 'admin';
+
+export interface AppUser {
+  id: string;
+  name: string;
+  dept: string;
+  role: UserRole;
+  expiresAt?: string; // yyyy-mm-dd
+}
+
 interface AppState {
   isOffline: boolean;
   setOffline: (offline: boolean) => void;
@@ -36,6 +46,12 @@ interface AppState {
   addHistory: (record: CaseHistory) => void;
   removeHistory: (id: string) => void;
   updateHistoryTitle: (id: string, title: string) => void;
+
+  currentUser: AppUser;
+  setCurrentUser: (user: Partial<AppUser>) => void;
+
+  users: AppUser[];
+  updateUser: (id: string, patch: Partial<AppUser>) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -82,5 +98,24 @@ export const useAppStore = create<AppState>((set) => ({
   removeHistory: (id) => set((state) => ({ history: state.history.filter(h => h.id !== id) })),
   updateHistoryTitle: (id, title) => set((state) => ({
     history: state.history.map(h => h.id === id ? { ...h, title } : h)
-  }))
+  })),
+
+  currentUser: {
+    id: 'u-admin',
+    name: '张医生',
+    dept: '血液科',
+    role: 'admin',
+    expiresAt: '2026-05-20',
+  },
+  setCurrentUser: (user) => set((state) => ({ currentUser: { ...state.currentUser, ...user } })),
+
+  users: [
+    { id: 'u-admin', name: '张医生', dept: '血液科', role: 'admin', expiresAt: '2026-05-20' },
+    { id: 'u-2', name: '李医生', dept: '肿瘤科', role: 'admin', expiresAt: '2026-05-08' },
+    { id: 'u-3', name: '王护士', dept: '血液科', role: 'doctor', expiresAt: '2026-12-31' },
+  ],
+  updateUser: (id, patch) =>
+    set((state) => ({
+      users: state.users.map((u) => (u.id === id ? { ...u, ...patch } : u)),
+    })),
 }));
