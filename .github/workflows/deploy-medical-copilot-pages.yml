@@ -65,7 +65,7 @@ jobs:
           npm ci
           npm run build
 
-      - name: Install and build ZheEr MiniProgram (淋结通)
+      - name: Install and build ZheEr MiniProgram (淋巴瘤指南查询小程序)
         working-directory: ZheEr_MiniProgram
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/ZheEr_MiniProgram/
@@ -111,7 +111,7 @@ jobs:
           # roche-noah-ai-demo (Vite + React)
           cp -r roche-noah-ai-demo/dist/* site/roche-noah-ai-demo/
 
-          # ZheEr MiniProgram / 淋结通 (Vite + React)
+          # ZheEr MiniProgram / 淋巴瘤指南查询小程序 (Vite + React)
           cp -r ZheEr_MiniProgram/dist/* site/ZheEr_MiniProgram/
 
           # Root: landing page with links
@@ -137,7 +137,7 @@ jobs:
             <a href="plm/">PLM</a>
             <a href="ai伦理审查辅助系统/">Noah AI · AI伦理审查辅助系统</a>
             <a href="roche-noah-ai-demo/">Roche NOAH AI · 若生科研平台</a>
-            <a href="ZheEr_MiniProgram/">淋结通 · ZheEr MiniProgram</a>
+            <a href="ZheEr_MiniProgram/">淋巴瘤指南查询小程序</a>
           </body>
           </html>
           LANDING

@@ -25,7 +25,9 @@ export default function Home() {
           <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
             <Stethoscope className="w-5 h-5" />
           </div>
-          <h1 className="font-semibold text-lg text-neutral-900 tracking-tight">淋结通</h1>
+          <h1 className="font-semibold text-sm text-neutral-900 tracking-tight leading-snug sm:text-base max-w-[220px]">
+            淋巴瘤指南查询小程序
+          </h1>
         </div>
         <div className="flex items-center gap-1 text-sm font-medium text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full">
           <UserCircle className="w-4 h-4" />
