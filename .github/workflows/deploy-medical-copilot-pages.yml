@@ -31,6 +31,7 @@ jobs:
             fda-submission-gap-analyzer/package-lock.json
             ai伦理审查辅助系统/package-lock.json
             roche-noah-ai-demo/package-lock.json
+            ZheEr_MiniProgram/package-lock.json
 
       - name: Install and build medical-copilot
         working-directory: medical-copilot
@@ -64,6 +65,14 @@ jobs:
           npm ci
           npm run build
 
+      - name: Install and build ZheEr MiniProgram (淋结通)
+        working-directory: ZheEr_MiniProgram
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/ZheEr_MiniProgram/
+        run: |
+          npm ci
+          npm run build
+
       - name: Verify build output
         run: |
           echo "=== Built index.html ==="
@@ -82,6 +91,7 @@ jobs:
           mkdir -p site/fda-submission-gap-analyzer
           mkdir -p "site/ai伦理审查辅助系统"
           mkdir -p site/roche-noah-ai-demo
+          mkdir -p site/ZheEr_MiniProgram
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -99,7 +109,10 @@ jobs:
           cp -r ai伦理审查辅助系统/dist/* "site/ai伦理审查辅助系统/"
 
           # roche-noah-ai-demo (Vite + React)
-          cp -r roche-noah-ai-demo/dist/* site/roche-noah-ai-demo/          
+          cp -r roche-noah-ai-demo/dist/* site/roche-noah-ai-demo/
+
+          # ZheEr MiniProgram / 淋结通 (Vite + React)
+          cp -r ZheEr_MiniProgram/dist/* site/ZheEr_MiniProgram/
 
           # Root: landing page with links
           cat > site/index.html << 'LANDING'
@@ -124,6 +137,7 @@ jobs:
             <a href="plm/">PLM</a>
             <a href="ai伦理审查辅助系统/">Noah AI · AI伦理审查辅助系统</a>
             <a href="roche-noah-ai-demo/">Roche NOAH AI · 若生科研平台</a>
+            <a href="ZheEr_MiniProgram/">淋结通 · ZheEr MiniProgram</a>
           </body>
           </html>
           LANDING
