@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "description": "",
+  "name": "淋巴瘤指南查询小程序",
+  "description": "NOAH AI 辅助的淋巴瘤指南与病例流程演示。",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }

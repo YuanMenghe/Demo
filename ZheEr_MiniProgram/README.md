@@ -1,20 +1,19 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 淋巴瘤指南查询小程序（NOAH AI）
 
-# Run and deploy your AI Studio app
+基于 Vite + React 的演示前端，用于淋巴瘤相关指南与病例流程示意。
 
-This contains everything you need to run your app locally.
+## 本地运行
 
-View your app in AI Studio: https://ai.studio/apps/e38394ab-edae-40ac-a3fc-6d1413b23557
+**环境：** Node.js
 
-## Run Locally
+1. 安装依赖：`npm install`
+2. 复制 `.env.example` 为 `.env.local`，配置 `NOAH_AI_API_KEY`（NOAH AI / 模型服务密钥）
+3. 启动开发：`npm run dev`
 
-**Prerequisites:**  Node.js
+## 构建
 
+```bash
+npm run build
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+部署到 GitHub Pages 时，由仓库 CI 注入 `VITE_BASE_PATH`，无需在本地填写。

@@ -1,5 +1,6 @@
 {
-  "name": "react-example",
+  "name": "zheer-lymphoma-guideline-mini",
+  "description": "NOAH AI · 淋巴瘤指南查询小程序",
   "private": true,
   "version": "0.0.0",
   "type": "module",

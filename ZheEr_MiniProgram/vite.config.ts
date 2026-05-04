@@ -12,7 +12,10 @@ export default defineConfig(({mode}) => {
     base,
     plugins: [react(), tailwindcss()],
     define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      // 构建时注入 NOAH AI 密钥；兼容仍在使用 GEMINI_API_KEY 的本地 .env
+      'process.env.NOAH_AI_API_KEY': JSON.stringify(
+        env.NOAH_AI_API_KEY ?? env.GEMINI_API_KEY,
+      ),
     },
     resolve: {
       alias: {
@@ -20,8 +23,7 @@ export default defineConfig(({mode}) => {
       },
     },
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
+      // 在 NOAH AI / 自动化编辑环境中可通过 DISABLE_HMR=true 关闭 HMR，减少文件监听抖动。
       hmr: process.env.DISABLE_HMR !== 'true',
     },
   };
