@@ -11,9 +11,7 @@ export default function HistoryArchive() {
   const [search, setSearch] = useState('');
 
   const goBack = () => {
-    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
-    if (idx > 0) navigate(-1);
-    else navigate('/');
+    navigate('/');
   };
   
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -77,7 +75,7 @@ export default function HistoryArchive() {
               <div key={item.id} className="bg-white border-b border-neutral-100">
                 <div className="px-4 py-3 flex items-center gap-3">
                   <button
-                    onClick={() => navigate('/case/result')}
+                    onClick={() => navigate('/case/result', { state: { backTo: '/history' } })}
                     className="flex-1 min-w-0 flex items-center gap-3 text-left"
                   >
                     <div

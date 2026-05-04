@@ -97,7 +97,7 @@ export default function Home() {
             history.map((item) => (
               <button 
                 key={item.id}
-                onClick={() => navigate('/case/result')}
+                onClick={() => navigate('/case/result', { state: { backTo: '/' } })}
                 className="bg-white p-4 rounded-xl border border-neutral-100 shadow-sm flex items-center gap-3 active:bg-neutral-50 text-left transition-colors"
               >
                 <div className={cn(

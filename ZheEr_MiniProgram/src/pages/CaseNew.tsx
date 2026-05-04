@@ -11,9 +11,7 @@ export default function CaseNew() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const goBack = () => {
-    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
-    if (idx > 0) navigate(-1);
-    else navigate('/');
+    navigate('/');
   };
 
   // Use local state for immediate feedback, sync to global store

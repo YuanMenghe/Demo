@@ -17,9 +17,7 @@ export default function CaseConfirm() {
   const draft = useAppStore(state => state.draft);
 
   const goBack = () => {
-    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
-    if (idx > 0) navigate(-1);
-    else navigate('/');
+    navigate('/case/new');
   };
   
   // Mock facts based on draft
@@ -168,7 +166,7 @@ export default function CaseConfirm() {
           onChange={(e) => setSupplementary(e.target.value)}
         />
         <button 
-          onClick={() => navigate('/case/result')}
+          onClick={() => navigate('/case/result', { state: { backTo: '/case/confirm' } })}
           className={cn(
             "w-full text-white font-semibold py-3.5 rounded-xl transition-colors",
             hasMissing ? "bg-amber-600 active:bg-amber-700" : "bg-emerald-600 active:bg-emerald-700"

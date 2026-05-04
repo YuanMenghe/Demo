@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, Home, Share, AlertTriangle, SendHorizonal, FileOutput, ChevronDown, ChevronUp, BookOpen, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -44,13 +44,14 @@ const AccordionSection = ({ title, children, defaultOpen = false, controlledOpen
 
 export default function AnalysisResult() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { clearDraft, updateDraft } = useAppStore();
 
-  const goBack = () => {
-    const idx = (window.history.state && (window.history.state as any).idx) ?? 0;
-    if (idx > 0) navigate(-1);
-    else navigate('/');
-  };
+  const backTo =
+    typeof (location.state as any)?.backTo === 'string'
+      ? (location.state as any).backTo
+      : undefined;
+  const goBack = () => navigate(backTo || '/');
   
   const [chatInput, setChatInput] = useState('');
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([]);
