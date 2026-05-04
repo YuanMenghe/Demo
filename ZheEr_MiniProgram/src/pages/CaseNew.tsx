@@ -1,7 +1,7 @@
 import { useAppStore, LymphomaSubtype } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, Plus, FileText, Trash2, UploadCloud } from 'lucide-react';
+import { ChevronLeft, Home, Plus, FileText, Trash2, UploadCloud } from 'lucide-react';
 import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -44,11 +44,21 @@ export default function CaseNew() {
   return (
     <div className="flex-1 flex flex-col h-full bg-neutral-50 pb-[80px]">
       {/* Header */}
-      <header className="px-4 py-3 bg-white flex items-center gap-3 sticky top-0 z-10 border-b border-neutral-100">
+      <header className="px-4 py-3 bg-white flex items-center justify-between sticky top-0 z-10 border-b border-neutral-100">
+        <div className="flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="p-1 -ml-1 active:bg-neutral-100 rounded-full text-neutral-900">
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <h1 className="font-semibold text-lg text-neutral-900">新建病例</h1>
+          <h1 className="font-semibold text-lg text-neutral-900">新建病例</h1>
+        </div>
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 -mr-2 rounded-full text-neutral-600 hover:bg-neutral-100 active:bg-neutral-200"
+          aria-label="回到首页"
+          title="回到首页"
+        >
+          <Home className="w-5 h-5" />
+        </button>
       </header>
 
       <main className="flex-1 px-4 py-4 overflow-y-auto space-y-4">

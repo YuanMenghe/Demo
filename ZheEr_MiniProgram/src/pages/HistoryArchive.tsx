@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Search, Trash2, Edit2 } from 'lucide-react';
+import { ChevronLeft, Home, Search, Trash2, Edit2 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'motion/react';
@@ -38,6 +38,14 @@ export default function HistoryArchive() {
           </button>
           <h1 className="font-semibold text-lg text-neutral-900">历史记录</h1>
         </div>
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 -mr-2 rounded-full text-neutral-600 hover:bg-neutral-100 active:bg-neutral-200"
+          aria-label="回到首页"
+          title="回到首页"
+        >
+          <Home className="w-5 h-5" />
+        </button>
       </header>
 
       <div className="p-4 shrink-0 bg-white shadow-sm shadow-neutral-100/50">
@@ -60,56 +68,56 @@ export default function HistoryArchive() {
         ) : (
           <div className="flex flex-col">
             {filteredHistory.map(item => (
-              <div key={item.id} className="relative bg-white border-b border-neutral-100 overflow-hidden group">
-                
-                {/* Actions Background (hidden by default, revealed on scroll) */}
-                <div className="absolute inset-y-0 right-0 flex items-center">
-                  <button 
-                    onClick={() => startRename(item.id, item.title)}
-                    className="w-[70px] h-full bg-neutral-200 text-neutral-700 flex flex-col items-center justify-center gap-1 active:bg-neutral-300"
+              <div key={item.id} className="bg-white border-b border-neutral-100">
+                <div className="px-4 py-3 flex items-center gap-3">
+                  <button
+                    onClick={() => navigate('/case/result')}
+                    className="flex-1 min-w-0 flex items-center gap-3 text-left"
                   >
-                     <Edit2 className="w-4 h-4" />
-                     <span className="text-[10px]">重命名</span>
+                    <div
+                      className={cn(
+                        'px-2 py-1 text-[10px] font-bold rounded-md shrink-0',
+                        item.subtype === 'DLBCL' && 'bg-emerald-100 text-emerald-800',
+                        item.subtype === 'FL' && 'bg-blue-100 text-blue-800',
+                        item.subtype === 'MCL' && 'bg-purple-100 text-purple-800',
+                        item.subtype === 'Other' && 'bg-neutral-100 text-neutral-800',
+                      )}
+                    >
+                      {item.subtype || '未知'}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold text-neutral-900 truncate flex items-center gap-2">
+                        {item.title}
+                        {item.status === 'analyzing' && (
+                          <span className="w-3 h-3 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                        )}
+                      </div>
+                      <div className="text-xs text-neutral-500 mt-1 truncate">{item.updatedAt}</div>
+                    </div>
                   </button>
-                  <button 
-                    onClick={() => {
-                       if (confirm('确认删除该记录及关联附件？')) {
-                         removeHistory(item.id);
-                       }
-                    }}
-                    className="w-[70px] h-full bg-red-500 text-white flex flex-col items-center justify-center gap-1 active:bg-red-600"
-                  >
-                     <Trash2 className="w-4 h-4" />
-                     <span className="text-[10px]">删除</span>
-                  </button>
-                </div>
 
-                {/* Main Content (Scrollable horizontally) */}
-                {/* To simulate native swipe on desktop cleanly, we use overflow-x-auto with snap */}
-                <div 
-                   className="relative bg-white p-4 flex items-center gap-3 overflow-x-auto snap-x snap-mandatory hide-scroll z-10"
-                   style={{ width: '100%', paddingRight: '160px', marginRight: '-140px' }} // hacky way to force horizontal scroll space
-                >
-                   <div className="snap-start w-full shrink-0 flex items-center gap-3 pr-[140px] cursor-pointer" onClick={() => navigate('/case/result')}>
-                      <div className={cn(
-                        "px-2 py-1 text-[10px] font-bold rounded-md shrink-0",
-                        item.subtype === 'DLBCL' && "bg-emerald-100 text-emerald-800",
-                        item.subtype === 'FL' && "bg-blue-100 text-blue-800",
-                        item.subtype === 'MCL' && "bg-purple-100 text-purple-800",
-                        item.subtype === 'Other' && "bg-neutral-100 text-neutral-800"
-                      )}>
-                        {item.subtype || '未知'}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-semibold text-neutral-900 truncate flex items-center gap-2">
-                          {item.title}
-                          {item.status === 'analyzing' && (
-                            <span className="w-3 h-3 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin shrink-0"></span>
-                          )}
-                        </div>
-                        <div className="text-xs text-neutral-500 mt-1">{item.updatedAt}</div>
-                      </div>
-                   </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => startRename(item.id, item.title)}
+                      className="p-2 rounded-lg text-neutral-600 hover:bg-neutral-100 active:bg-neutral-200"
+                      aria-label="重命名"
+                      title="重命名"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (confirm('确认删除该记录及关联附件？')) {
+                          removeHistory(item.id);
+                        }
+                      }}
+                      className="p-2 rounded-lg text-red-600 hover:bg-red-50 active:bg-red-100"
+                      aria-label="删除"
+                      title="删除"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -138,10 +146,6 @@ export default function HistoryArchive() {
           </>
         )}
       </AnimatePresence>
-      <style dangerouslySetInnerHTML={{__html: `
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-      `}} />
     </div>
   );
 }

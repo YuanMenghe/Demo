@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, Share, AlertTriangle, SendHorizonal, FileOutput, ChevronDown, ChevronUp, BookOpen, X } from 'lucide-react';
+import { ChevronLeft, Home, Share, AlertTriangle, SendHorizonal, FileOutput, ChevronDown, ChevronUp, BookOpen, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store';
 
@@ -177,6 +177,14 @@ export default function AnalysisResult() {
           </button>
           <h1 className="font-semibold text-lg text-neutral-900">分析结果</h1>
         </div>
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 -mr-2 rounded-full text-neutral-600 hover:bg-neutral-100 active:bg-neutral-200"
+          aria-label="回到首页"
+          title="回到首页"
+        >
+          <Home className="w-5 h-5" />
+        </button>
       </header>
 
       <main className="flex-1 overflow-y-auto px-4 py-4 pb-[100px]" ref={scrollRef}>
