@@ -6,7 +6,7 @@ import {
   ArrowRight, BrainCircuit, ChevronLeft, ChevronRight, CheckCircle2, 
   Circle, LayoutList, LocateFixed, Target, BookMarked, UserCircle, 
   Flag, AlertTriangle, Presentation, PenTool, Network, ChevronDown, ListChecks,
-  Settings2, X, SlidersHorizontal, Trash2, Plus
+  Settings2, X, SlidersHorizontal, Trash2, Plus, MessageCircle
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 
@@ -30,7 +30,19 @@ export function TutorWorkspace({ onNavigateToModule2 }: TutorWorkspaceProps) {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isPersonaOpen, setIsPersonaOpen] = useState(false);
+  // 移动端：聊天面板抽屉
+  const [chatOpen, setChatOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const STEPS: { id: DemoStep; label: string }[] = [
+    { id: 'profiling', label: '基础画像' },
+    { id: 'learning-map', label: '定制路径' },
+    { id: 'studying', label: '伴读问答' },
+    { id: 'assessment', label: '测评更新' },
+  ];
+  const currentStepIdx = STEPS.findIndex(s => s.id === demoStep);
+  const goPrevStep = () => currentStepIdx > 0 && setDemoStep(STEPS[currentStepIdx - 1].id);
+  const goNextStep = () => currentStepIdx < STEPS.length - 1 && setDemoStep(STEPS[currentStepIdx + 1].id);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -107,11 +119,12 @@ export function TutorWorkspace({ onNavigateToModule2 }: TutorWorkspaceProps) {
     <div className="flex h-full w-full bg-slate-50 relative overflow-hidden">
       
       {/* ⬅️ Left & Center Panel: Main Content View */}
-      <div className="flex-1 flex flex-col h-full bg-white relative rounded-r-[32px] shadow-[4px_0_24px_rgba(0,0,0,0.03)] z-10 border-r border-gray-100 overflow-hidden">
+      <div className="flex-1 flex flex-col h-full bg-white relative md:rounded-r-[32px] md:shadow-[4px_0_24px_rgba(0,0,0,0.03)] z-10 md:border-r border-gray-100 overflow-hidden">
         
         {/* Workspace Toolbar */}
-        <div className="h-14 border-b border-gray-100 flex items-center px-6 justify-between bg-white flex-shrink-0">
-          <div className="flex items-center gap-2">
+        <div className="h-14 border-b border-gray-100 flex items-center px-3 md:px-6 justify-between bg-white flex-shrink-0 gap-2">
+          {/* PC: 完整步骤条 */}
+          <div className="hidden md:flex items-center gap-2">
             <div className="flex items-center text-[11px] font-medium text-gray-400 bg-gray-50 rounded-full border border-gray-200">
                 <span className={cn("px-3 py-1.5 rounded-full transition-colors", demoStep === 'profiling' ? "bg-teal-500 text-white font-bold" : "cursor-pointer hover:bg-gray-100")} onClick={() => setDemoStep('profiling')}>1. 基础画像</span>
                 <ChevronRight size={14} className="text-gray-300" />
@@ -122,13 +135,45 @@ export function TutorWorkspace({ onNavigateToModule2 }: TutorWorkspaceProps) {
                 <span className={cn("px-3 py-1.5 rounded-full transition-colors", demoStep === 'assessment' ? "bg-teal-500 text-white font-bold" : "cursor-pointer hover:bg-gray-100")} onClick={() => setDemoStep('assessment')}>4. 测评更新</span>
             </div>
           </div>
+
+          {/* 手机: 紧凑步骤指示 */}
+          <div className="md:hidden flex items-center gap-1 flex-1 min-w-0">
+            <button
+              type="button"
+              onClick={goPrevStep}
+              disabled={currentStepIdx === 0}
+              className="w-9 h-9 flex items-center justify-center rounded-md text-gray-600 active:bg-gray-100 disabled:opacity-30 disabled:active:bg-transparent shrink-0"
+              aria-label="上一步"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <div className="flex-1 min-w-0 text-center bg-teal-50 border border-teal-100 rounded-full px-3 py-1.5">
+              <span className="text-xs font-bold text-teal-700">
+                {currentStepIdx + 1}/{STEPS.length}
+              </span>
+              <span className="text-xs font-medium text-teal-800 ml-1.5">
+                {STEPS[currentStepIdx].label}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={goNextStep}
+              disabled={currentStepIdx === STEPS.length - 1}
+              className="w-9 h-9 flex items-center justify-center rounded-md text-gray-600 active:bg-gray-100 disabled:opacity-30 disabled:active:bg-transparent shrink-0"
+              aria-label="下一步"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
              <button 
                onClick={() => setIsPersonaOpen(true)}
-               className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold border border-indigo-200 hover:border-indigo-600 transition-colors shadow-sm group"
+               className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white rounded-lg text-xs font-bold border border-indigo-200 hover:border-indigo-600 transition-colors shadow-sm group"
              >
-               <SlidersHorizontal size={14} className="group-hover:rotate-90 transition-transform" /> 独立入口：全景画像看板
+               <SlidersHorizontal size={14} className="group-hover:rotate-90 transition-transform" />
+               <span className="hidden md:inline">独立入口：全景画像看板</span>
+               <span className="md:hidden">画像看板</span>
              </button>
           </div>
         </div>
@@ -143,15 +188,45 @@ export function TutorWorkspace({ onNavigateToModule2 }: TutorWorkspaceProps) {
       </div>
 
       {/* ➡️ Right Panel: Chat Assistant */}
-      <div className="w-[380px] bg-white flex flex-col flex-shrink-0 relative">
-        <div className="h-14 border-b border-gray-100 flex items-center justify-between px-6 bg-white/80 backdrop-blur-md z-10">
+      {/* 手机端遮罩 */}
+      {chatOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/40 z-40"
+          onClick={() => setChatOpen(false)}
+        />
+      )}
+      <div
+        className={cn(
+          // PC 端布局
+          "md:relative md:w-[380px] md:h-auto md:translate-y-0 md:shadow-none md:rounded-none md:border-t-0 md:flex",
+          // 手机端：底部 Sheet
+          "fixed inset-x-0 bottom-0 z-50 h-[88vh] rounded-t-2xl border-t border-gray-200 shadow-2xl bg-white flex-col flex-shrink-0 transition-transform duration-300",
+          chatOpen ? "flex translate-y-0" : "translate-y-full md:flex md:translate-y-0"
+        )}
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        {/* 拖拽条（仅手机） */}
+        <div className="md:hidden flex justify-center pt-2 pb-1">
+          <div className="w-10 h-1 rounded-full bg-gray-300" />
+        </div>
+        <div className="h-14 border-b border-gray-100 flex items-center justify-between px-4 md:px-6 bg-white/80 backdrop-blur-md z-10">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center border border-teal-100">
               <Sparkles size={16} className="text-teal-600" />
             </div>
             <span className="text-sm font-semibold text-gray-800">学习伴读智能体</span>
           </div>
-          <span className="text-[10px] uppercase font-bold tracking-widest text-teal-600 bg-teal-50 border border-teal-100/50 px-2.5 py-1 rounded-md">陪伴中</span>
+          <div className="flex items-center gap-2">
+            <span className="hidden md:inline text-[10px] uppercase font-bold tracking-widest text-teal-600 bg-teal-50 border border-teal-100/50 px-2.5 py-1 rounded-md">陪伴中</span>
+            <button
+              type="button"
+              onClick={() => setChatOpen(false)}
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-500 active:bg-gray-100"
+              aria-label="收起对话"
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
         {/* Message Feed */}
@@ -236,6 +311,20 @@ export function TutorWorkspace({ onNavigateToModule2 }: TutorWorkspaceProps) {
       <AnimatePresence>
         {isPersonaOpen && <PersonaDashboardModal onClose={() => setIsPersonaOpen(false)} onNavigateToModule2={onNavigateToModule2} />}
       </AnimatePresence>
+
+      {/* 移动端浮动按钮：唤起伴读助手 */}
+      {!chatOpen && (
+        <button
+          type="button"
+          onClick={() => setChatOpen(true)}
+          className="md:hidden fixed bottom-5 right-5 z-30 w-14 h-14 rounded-full bg-gradient-to-br from-teal-400 to-emerald-500 text-white shadow-lg shadow-teal-500/30 flex items-center justify-center active:scale-95 transition-transform"
+          style={{ bottom: 'calc(1.25rem + env(safe-area-inset-bottom))' }}
+          aria-label="打开伴读助手"
+        >
+          <MessageCircle size={24} />
+          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-white" />
+        </button>
+      )}
     </div>
   );
 }
