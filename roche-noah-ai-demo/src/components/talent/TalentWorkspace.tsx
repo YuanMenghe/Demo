@@ -42,37 +42,37 @@ export function TalentWorkspace() {
       {/* ================= 左栏：学习计划 ================= */}
       {/* PC: 固定左栏；手机：顶部可折叠卡片 */}
       <aside className="md:w-72 bg-white md:rounded-2xl border-b md:border border-gray-200 md:shadow-sm flex flex-col md:overflow-hidden shrink-0">
-        {/* 折叠头：手机端可点击切换；PC 端常驻 */}
+        {/* 手机端折叠态：仅一行紧凑条 */}
         <button
           type="button"
           onClick={() => setPlanOpen((v) => !v)}
-          className="w-full text-left p-4 border-b border-gray-100 bg-gray-50/50 md:cursor-default"
+          className="md:hidden w-full flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50/50 text-left active:bg-gray-100 transition-colors"
           aria-expanded={planOpen}
         >
+          <Target size={16} className="text-teal-600 shrink-0" />
+          <span className="font-medium text-sm text-gray-900 shrink-0">学习计划</span>
+          <span className="text-xs text-gray-400 shrink-0">
+            {completedCount}/{LEARNING_PLAN.length}
+          </span>
+          <span className="text-xs text-gray-500 truncate flex-1 min-w-0">
+            · {activeItem.title}
+          </span>
+          <ChevronDown
+            size={18}
+            className={cn(
+              "text-gray-400 transition-transform shrink-0",
+              planOpen && "rotate-180"
+            )}
+          />
+        </button>
+
+        {/* PC 端：完整头部信息 */}
+        <div className="hidden md:block p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-2 mb-1">
             <Target size={18} className="text-teal-600" />
             <h2 className="font-semibold text-gray-900 border-none flex-1">个性化学习计划</h2>
-            {/* 仅手机端显示进度 + 折叠箭头 */}
-            <span className="md:hidden text-xs text-gray-500 font-medium">
-              {completedCount}/{LEARNING_PLAN.length}
-            </span>
-            <ChevronDown
-              size={18}
-              className={cn(
-                "md:hidden text-gray-400 transition-transform",
-                planOpen && "rotate-180"
-              )}
-            />
           </div>
           <p className="text-xs text-gray-500">基于您的目标："肿瘤免疫新靶点研究"</p>
-
-          {/* 当前章节摘要：手机折叠态时显示 */}
-          {!planOpen && (
-            <div className="mt-3 md:hidden text-sm text-gray-700">
-              <span className="text-teal-600 font-medium">当前：</span>
-              {activeItem.title}
-            </div>
-          )}
 
           <div className="mt-4 bg-white p-3 rounded-xl border border-teal-100 flex items-center justify-between">
             <div>
@@ -83,7 +83,22 @@ export function TalentWorkspace() {
             </div>
             <BrainCircuit size={24} className="text-teal-200" />
           </div>
-        </button>
+        </div>
+
+        {/* 手机端展开态：能力图谱卡片放在节点列表上方 */}
+        {planOpen && (
+          <div className="md:hidden px-3 pt-3">
+            <div className="bg-white p-3 rounded-xl border border-teal-100 flex items-center justify-between">
+              <div>
+                <div className="text-[10px] uppercase font-bold text-teal-600 mb-1 tracking-wider">
+                  当前能力图谱
+                </div>
+                <div className="text-sm font-medium text-gray-800">靶点挖掘能力 L2</div>
+              </div>
+              <BrainCircuit size={24} className="text-teal-200" />
+            </div>
+          </div>
+        )}
 
         {/* 学习节点列表：PC 常驻，手机展开时显示 */}
         <div
