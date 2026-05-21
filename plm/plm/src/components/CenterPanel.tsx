@@ -18,7 +18,10 @@ import {
   Presentation,
   GitCompare,
   Download,
-  Layers
+  Layers,
+  Pill,
+  Library,
+  Send
 } from 'lucide-react';
 import { CDSSResponse, Citation } from '../types';
 import { cn } from '../lib/utils';
@@ -147,6 +150,7 @@ const RichTextRenderer = ({
 
 interface CenterPanelProps {
   logic: ReturnType<typeof useCDSSLogic>;
+  isAnalyzing?: boolean;
   onCitationClick: (citation: Citation) => void;
   selectedCitationId?: string;
   onCitationHover?: (id: string | null) => void;
@@ -154,27 +158,33 @@ interface CenterPanelProps {
 
 export const CenterPanel: React.FC<CenterPanelProps> = ({ 
   logic, 
+  isAnalyzing: isAnalyzingProp,
   onCitationClick,
   selectedCitationId,
   onCitationHover
 }) => {
-  const { response, isAnalyzing } = logic;
-  const [activeTab, setActiveTab] = useState<'integrated' | 'guidelines' | 'evidence' | 'rwd'>('integrated');
+  const { response, isAnalyzing: isAnalyzingFromLogic } = logic;
+  const isAnalyzing = isAnalyzingProp ?? isAnalyzingFromLogic;
+  const [activeTab, setActiveTab] = useState<'integrated' | 'guidelines' | 'evidence' | 'drug_info' | 'user_kb'>('integrated');
 
   if (!response && !isAnalyzing) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-50 border-r border-slate-200">
-        <div className="text-center text-slate-400">
-          <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
-          <p>请在左侧输入病例信息并点击“生成诊疗方案”</p>
+      <div className="h-full flex flex-col items-center justify-center bg-slate-50 px-10 py-12 gap-10">
+        <div className="text-center max-w-sm">
+          <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <Activity className="w-7 h-7 text-teal-500" />
+          </div>
+          <h2 className="text-lg font-semibold text-slate-700 mb-2">智能诊疗方案</h2>
+          <p className="text-sm text-slate-400 leading-relaxed">在左侧输入患者病历，系统将自动匹配指南、检索文献并生成个性化方案。</p>
         </div>
       </div>
     );
   }
 
+
   if (isAnalyzing) {
     return (
-      <div className="h-full flex flex-col items-center justify-center bg-white border-r border-slate-200">
+      <div className="h-full flex flex-col items-center justify-center bg-white">
         <div className="relative w-24 h-24 mb-8">
           <motion.div
             className="absolute inset-0 border-4 border-slate-100 rounded-full"
@@ -265,13 +275,13 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
   };
 
   return (
-    <div className="h-full flex flex-col bg-white border-r border-slate-200 overflow-hidden relative">
+    <div className="h-full flex flex-col bg-white overflow-hidden relative">
       {/* Header Tabs */}
-      <div className="flex-none px-6 pt-6 pb-2 border-b border-slate-100 bg-white z-20">
+      <div className="flex-none px-6 pt-6 pb-4 border-b border-slate-100 bg-white z-20">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
             <Activity className="w-5 h-5 text-indigo-600" />
-            智能诊疗方案
+            数字孪生诊疗方案
           </h2>
           <div className="flex gap-2">
             <span className={`px-2 py-1 rounded text-xs font-medium ${
@@ -289,7 +299,8 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
             { id: 'integrated', label: '整合视图', icon: Layers },
             { id: 'guidelines', label: '指南推荐', icon: FileText },
             { id: 'evidence', label: '循证证据', icon: BookOpen },
-            { id: 'rwd', label: '真实世界', icon: Database },
+            { id: 'drug_info', label: '药品说明书', icon: Pill },
+            { id: 'user_kb', label: '用户知识库', icon: Library },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -310,108 +321,97 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto p-6 pb-24">
+        <div className="mx-auto w-full max-w-3xl">
         <AnimatePresence mode="wait">
-          {activeTab === 'rwd' && response?.rwdAnalysis ? (
+          {activeTab === 'drug_info' ? (
             <motion.div
-              key="rwd"
+              key="drug_info"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               className="space-y-6"
             >
-              {/* RWD Header Stats */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <div className="text-slate-500 text-xs mb-1">数据库总样本量</div>
-                  <div className="text-2xl font-bold text-slate-800">
-                    {response.rwdAnalysis.totalDatabaseSize.toLocaleString()}
+              {response?.drugInfo?.length ? response.drugInfo.map(drug => (
+                <div key={drug.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                  <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Pill className="w-5 h-5 text-indigo-600" />
+                      <h3 className="font-semibold text-slate-800">{drug.name} 说明书摘要</h3>
+                    </div>
+                    <span className={cn(
+                      "text-xs px-2 py-1 rounded font-medium",
+                      drug.indicationMatch === 'high' ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"
+                    )}>
+                      适应症匹配: {drug.indicationMatch === 'high' ? '强相关' : drug.indicationMatch === 'medium' ? '中相关' : '补充'}
+                    </span>
                   </div>
-                </div>
-                <div className="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
-                  <div className="text-indigo-600 text-xs mb-1 font-medium">匹配队列人数</div>
-                  <div className="text-2xl font-bold text-indigo-700">
-                    {response.rwdAnalysis.matchedCohortSize.toLocaleString()}
-                  </div>
-                </div>
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <div className="text-slate-500 text-xs mb-1">匹配质量</div>
-                  <div className={cn(
-                    "text-2xl font-bold",
-                    response.rwdAnalysis.matchQuality === 'high' ? "text-emerald-600" : 
-                    response.rwdAnalysis.matchQuality === 'medium' ? "text-amber-600" : "text-slate-600"
-                  )}>
-                    {response.rwdAnalysis.matchQuality === 'high' ? '高 (High)' : 
-                     response.rwdAnalysis.matchQuality === 'medium' ? '中 (Medium)' : '低 (Low)'}
-                  </div>
-                </div>
-              </div>
-
-              {/* Matching Criteria */}
-              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center gap-2">
-                  <Filter className="w-4 h-4 text-slate-500" />
-                  <h3 className="font-semibold text-slate-700 text-sm">智能匹配条件</h3>
-                </div>
-                <div className="p-4">
-                  <div className="space-y-4">
+                  <div className="p-4 space-y-4 text-sm">
+                    <div><span className="font-semibold text-slate-700">用法用量：</span><span className="text-slate-600">{drug.dosage}</span></div>
                     <div>
-                      <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider mb-2 block">
-                        高权重因子 (High Weight)
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {response.rwdAnalysis.criteria
-                          .filter(c => c.category === 'high_weight')
-                          .map((c, i) => (
-                            <div key={i} className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg text-sm border border-indigo-100">
-                              <span className="font-medium">{c.name}:</span>
-                              <span>{c.value}</span>
-                              {c.matchStatus === 'exact' && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />}
-                            </div>
-                          ))}
+                      <span className="font-semibold text-slate-700">合并用药判断：</span>
+                      <div className={cn(
+                        "mt-1 p-3 rounded-lg border",
+                        drug.interactionCheck.status === 'safe' ? "bg-emerald-50 border-emerald-100 text-emerald-800" :
+                        drug.interactionCheck.status === 'warning' ? "bg-amber-50 border-amber-100 text-amber-800" :
+                        "bg-rose-50 border-rose-100 text-rose-800"
+                      )}>
+                        <div className="font-medium">{drug.interactionCheck.suggestion}</div>
+                        <div className="text-xs mt-1 opacity-80">原因：{drug.interactionCheck.reason}</div>
                       </div>
                     </div>
-                    <div>
-                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">
-                        低权重因子 (Low Weight)
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {response.rwdAnalysis.criteria
-                          .filter(c => c.category === 'low_weight')
-                          .map((c, i) => (
-                            <div key={i} className={cn(
-                              "flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm border",
-                              c.matchStatus === 'ignored' 
-                                ? "bg-slate-50 text-slate-400 border-slate-100 line-through decoration-slate-300" 
-                                : "bg-slate-50 text-slate-600 border-slate-200"
-                            )}>
-                              <span className="font-medium">{c.name}:</span>
-                              <span>{c.value}</span>
-                            </div>
-                          ))}
+                    <div className="grid grid-cols-2 gap-4 pt-2">
+                      <div>
+                        <span className="font-semibold text-rose-700 text-xs block mb-1">核心禁忌</span>
+                        <ul className="list-disc pl-4 text-slate-600 space-y-1">
+                          {drug.contraindications.map((c, i) => <li key={i}>{c}</li>)}
+                        </ul>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-amber-700 text-xs block mb-1">不良反应</span>
+                        <ul className="list-disc pl-4 text-slate-600 space-y-1">
+                          {drug.adverseReactions.map((c, i) => <li key={i}>{c}</li>)}
+                        </ul>
                       </div>
                     </div>
                   </div>
                 </div>
+              )) : (
+                <div className="text-center py-10 text-slate-500">暂无相关药品说明书信息</div>
+              )}
+            </motion.div>
+          ) : activeTab === 'user_kb' ? (
+            <motion.div
+              key="user_kb"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="space-y-6"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+                  <Library className="w-5 h-5 text-indigo-600" />
+                  科室私有知识库 (RAG)
+                </h3>
+                <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">仅基于内部文档回答</span>
               </div>
-
-              {/* Cohort Flow Chart */}
-              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-slate-500" />
-                    <h3 className="font-semibold text-slate-700 text-sm">真实世界队列结局 (Real-World Outcomes)</h3>
-                  </div>
-                  <span className="text-xs text-slate-400">数据来源: {response.rwdAnalysis.dataSource}</span>
+              {response?.userKb && response.userKb.length > 0 ? (
+                <div className="space-y-4">
+                  {response.userKb.map((kb, i) => (
+                    <div key={kb.id || i} className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-bold text-slate-800">{kb.title}</h4>
+                        <span className="text-xs text-slate-400">来源: {kb.sourceFile}</span>
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed">{kb.content}</p>
+                    </div>
+                  ))}
                 </div>
-                <div className="p-0">
-                  <RWDFlowChart data={response.rwdAnalysis.flowData} />
+              ) : (
+                <div className="text-center py-16 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                  <Library className="w-8 h-8 text-slate-300 mx-auto mb-3" />
+                  <p className="text-slate-500">科室暂无相关文档</p>
                 </div>
-                <div className="px-4 py-3 bg-amber-50/50 border-t border-slate-100 text-sm text-slate-600">
-                  <span className="font-semibold text-amber-700 mr-2">总结:</span>
-                  {response.rwdAnalysis.summaryText}
-                </div>
-              </div>
-
+              )}
             </motion.div>
           ) : activeTab === 'guidelines' ? (
             <motion.div
@@ -428,7 +428,7 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
                 </h3>
                 <div className="space-y-2">
                   {response?.guidelines.map((g, i) => (
-                    <div key={i} className="flex items-center justify-between bg-white p-3 rounded-lg border border-teal-100 shadow-sm">
+                    <div key={g.id ?? i} className="flex items-center justify-between bg-white p-3 rounded-lg border border-teal-100 shadow-sm">
                       <span className="font-medium text-slate-800">{g.name}</span>
                       <span className={cn(
                         "text-xs px-2 py-1 rounded font-medium",
@@ -441,10 +441,56 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
                 </div>
               </div>
 
+              {/* 各指南意见：按来源区分显示 */}
+              <div className="space-y-5">
+                <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-teal-600" />
+                  各指南意见（按来源区分）
+                </h3>
+                {response?.guidelines?.filter(g => g.recommendations?.length).map((g, idx) => (
+                  <div key={g.id ?? idx} className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div className={cn(
+                      "px-4 py-3 border-b border-slate-200 flex items-center justify-between",
+                      g.type === 'primary' ? "bg-teal-50 border-teal-100" : "bg-slate-50 border-slate-100"
+                    )}>
+                      <span className="font-bold text-slate-900">{g.name}</span>
+                      <span className={cn(
+                        "text-xs px-2 py-1 rounded font-medium",
+                        g.type === 'primary' ? "bg-teal-200 text-teal-800" : "bg-slate-200 text-slate-700"
+                      )}>
+                        {g.type === 'primary' ? '主要依据' : '参考'}
+                      </span>
+                    </div>
+                    <div className="p-4 space-y-4">
+                      {g.recommendations?.map((rec, ri) => (
+                        <div key={ri} className="border-l-2 border-teal-200 pl-4 py-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-semibold text-slate-800">{rec.topic}</span>
+                            {rec.evidenceLevel && (
+                              <span className="text-xs px-2 py-0.5 bg-slate-100 text-slate-600 rounded font-medium">
+                                {rec.evidenceLevel}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-sm text-slate-600 leading-relaxed">
+                            <RichTextRenderer
+                              text={rec.content}
+                              citations={response?.citations}
+                              onCitationClick={onCitationClick}
+                              onCitationHover={onCitationHover}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
               <div className="space-y-4">
                 <h3 className="font-semibold text-slate-800 flex items-center gap-2">
                   <Shield className="w-5 h-5 text-teal-600" />
-                  指南推荐方案
+                  指南推荐方案（综合）
                 </h3>
                 {response?.treatments.map((treatment) => (
                   <div key={treatment.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
@@ -455,17 +501,26 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
                       </span>
                     </div>
                     <p className="text-slate-600 text-sm mb-4">{treatment.description}</p>
-                    
-                    {/* Show only guideline citations here */}
                     <div className="flex flex-wrap gap-2">
                       {treatment.citationIndices?.map(idx => {
                         const cit = response.citations?.find(c => c.index === idx);
                         if (cit?.sourceType !== 'guideline') return null;
                         return (
-                          <div key={idx} className="flex items-center gap-1.5 px-2 py-1 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600">
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onCitationClick(cit);
+                            }}
+                            onMouseEnter={() => onCitationHover?.(cit.id)}
+                            onMouseLeave={() => onCitationHover?.(null)}
+                            className="flex items-center gap-1.5 px-2 py-1 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600 hover:border-teal-300 hover:bg-teal-50/40 transition-colors"
+                            title={cit.title}
+                          >
                             <FileText className="w-3 h-3 text-slate-400" />
                             <span className="truncate max-w-[200px]">{cit.title}</span>
-                          </div>
+                          </button>
                         );
                       })}
                     </div>
@@ -496,6 +551,19 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
                   />
                 </div>
               )}
+
+              <div className="bg-indigo-50/80 rounded-xl border border-indigo-100 p-5">
+                <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-3">
+                  <BookOpen className="w-5 h-5 text-indigo-600" />
+                  循证推荐要点
+                </h3>
+                <div className="space-y-2 text-sm text-slate-700">
+                  <RichTextRenderer text="· 初治 DLBCL 一线首选 R-CHOP 或 Pola-R-CHP，依据 CSCO/NCCN 指南 [1][2] 及 POLARIX [3]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
+                  <RichTextRenderer text="· Pola-R-CHP 可改善 2 年 PFS，适用于 IPI 2–5 分等中高危患者 [3]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
+                  <RichTextRenderer text="· 预后分层建议采用 IPI/R-IPI [5]；双打击/三打击需更积极方案 [1][2]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
+                  <RichTextRenderer text="· 利妥昔单抗使用前必须筛查 HBsAg，阳性者预防性抗病毒 [1][2]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
+                </div>
+              </div>
 
               <div className="space-y-4">
                 <h3 className="font-semibold text-slate-800 flex items-center gap-2">
@@ -533,66 +601,6 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
                         )}
                       </div>
                       <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-indigo-400" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ) : activeTab === 'guidelines' ? (
-            <motion.div
-              key="guidelines"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="space-y-6"
-            >
-              <div className="bg-teal-50 border border-teal-100 rounded-xl p-4">
-                <h3 className="text-lg font-bold text-teal-900 mb-2 flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  参考指南
-                </h3>
-                <div className="space-y-2">
-                  {response?.guidelines.map((g, i) => (
-                    <div key={i} className="flex items-center justify-between bg-white p-3 rounded-lg border border-teal-100 shadow-sm">
-                      <span className="font-medium text-slate-800">{g.name}</span>
-                      <span className={cn(
-                        "text-xs px-2 py-1 rounded font-medium",
-                        g.type === 'primary' ? "bg-teal-100 text-teal-700" : "bg-slate-100 text-slate-600"
-                      )}>
-                        {g.type === 'primary' ? '主要依据' : '参考'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="font-semibold text-slate-800 flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-teal-600" />
-                  指南推荐方案
-                </h3>
-                {response?.treatments.map((treatment) => (
-                  <div key={treatment.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
-                    <div className="flex justify-between items-start mb-3">
-                      <h4 className="text-lg font-bold text-slate-800">{treatment.name}</h4>
-                      <span className="px-3 py-1 bg-teal-600 text-white text-sm font-bold rounded-full shadow-sm">
-                        {treatment.evidenceLevel} 类推荐
-                      </span>
-                    </div>
-                    <p className="text-slate-600 text-sm mb-4">{treatment.description}</p>
-                    
-                    {/* Show only guideline citations here */}
-                    <div className="flex flex-wrap gap-2">
-                      {treatment.citationIndices?.map(idx => {
-                        const cit = response.citations?.find(c => c.index === idx);
-                        if (cit?.sourceType !== 'guideline') return null;
-                        return (
-                          <div key={idx} className="flex items-center gap-1.5 px-2 py-1 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600">
-                            <FileText className="w-3 h-3 text-slate-400" />
-                            <span className="truncate max-w-[200px]">{cit.title}</span>
-                          </div>
-                        );
-                      })}
                     </div>
                   </div>
                 ))}
@@ -765,12 +773,17 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
               {/* Guidelines & Exams */}
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <h3 className="font-semibold text-slate-800 text-sm uppercase tracking-wider">参考指南</h3>
+                  <h3 className="font-semibold text-slate-800 text-sm uppercase tracking-wider">参考指南（按来源）</h3>
                   <ul className="space-y-2">
                     {response?.guidelines.map((g, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-slate-600 bg-slate-50 p-2 rounded border border-slate-100">
-                        <BookOpen className="w-4 h-4 text-indigo-400" />
-                        {g.name}
+                      <li key={g.id ?? i} className="flex items-center justify-between gap-2 text-sm text-slate-600 bg-slate-50 p-2.5 rounded border border-slate-100">
+                        <span className="flex items-center gap-2 min-w-0">
+                          <BookOpen className="w-4 h-4 text-indigo-400 shrink-0" />
+                          <span className="font-medium text-slate-800 truncate" title={g.name}>{g.name}</span>
+                        </span>
+                        <span className={cn("shrink-0 text-xs px-1.5 py-0.5 rounded", g.type === 'primary' ? "bg-teal-100 text-teal-700" : "bg-slate-200 text-slate-600")}>
+                          {g.type === 'primary' ? '主要依据' : '参考'}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -792,8 +805,47 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
               </div>
             </motion.div>
           )}
+        
         </AnimatePresence>
-      </div>
+
+        {/* 模块追问功能 */}
+        {activeTab !== 'integrated' && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 pt-6 border-t border-slate-200/60"
+          >
+            <div className="relative flex items-center bg-white border border-indigo-100 rounded-2xl shadow-[0_2px_10px_-3px_rgba(99,102,241,0.1)] focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:border-indigo-300 transition-all p-1.5 group">
+              <input 
+                type="text" 
+                placeholder={
+                  activeTab === 'guidelines' ? '基于当前指南推荐提问，例如：为什么没有推荐放疗？' :
+                  activeTab === 'evidence' ? '基于文献证据提问，例如：是否有关于高龄患者生存率的补充数据？' :
+                  activeTab === 'drug_info' ? '基于说明书提问，例如：出现输液反应时具体该如何处理？' :
+                  activeTab === 'user_kb' ? '基于内部知识库提问，例如：我院对于该亚型有什么特殊的补充检查要求？' :
+                  '输入您的追问...'
+                }
+                className="w-full bg-transparent px-4 py-2.5 text-sm text-slate-700 outline-none placeholder:text-slate-400"
+              />
+              <button className="flex-shrink-0 bg-indigo-600 text-white p-2.5 rounded-xl hover:bg-indigo-700 transition-colors shadow-sm active:scale-95 flex items-center gap-1.5 group-focus-within:bg-indigo-500">
+                <span className="text-xs font-semibold pl-1 hidden sm:inline">发送</span>
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="flex items-center gap-2 mt-3 px-2">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="text-xs text-slate-400">AI 将结合当前患者特征与 <strong className="text-slate-500 font-medium">{
+                activeTab === 'guidelines' ? '指南推荐' :
+                activeTab === 'evidence' ? '循证证据' :
+                activeTab === 'drug_info' ? '药品说明书' :
+                activeTab === 'user_kb' ? '科室私有知识库' : ''
+              }</strong> 为您解答</span>
+            </div>
+          </motion.div>
+        )}
+
+          </div>
+        </div>
 
       {/* Bottom Action Bar */}
       {response?.diagnosisStatus !== 'unclear' && (
@@ -822,3 +874,4 @@ function ActionButton({ icon, label }: { icon: React.ReactNode; label: string })
     </button>
   );
 }
+
