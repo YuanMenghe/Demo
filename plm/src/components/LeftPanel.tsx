@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  AlertTriangle, Check, ChevronDown, Sparkles, User,
+  AlertTriangle, UploadCloud, Check, ChevronDown, Sparkles, User,
   Activity, ShieldAlert, PlayCircle, Pencil, Edit3, RefreshCw, FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
