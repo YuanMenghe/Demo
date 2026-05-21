@@ -1,0 +1,34 @@
+{
+  "name": "patient-like-me",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.35.0",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "jsdom": "^25.0.1",
+    "tailwindcss": "^4.1.14",
+    "@tailwindcss/vite": "^4.1.14",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0",
+    "vitest": "^2.1.6"
+  }
+}
