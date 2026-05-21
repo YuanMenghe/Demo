@@ -1,128 +1,125 @@
-import React from 'react';
-import { RWDFlowNode as RWDFlowNodeType } from '../types';
-import { cn } from '../lib/utils';
+import React, { useMemo } from 'react';
+import type { RWDFlowNode } from '@/types';
+import { cn } from '@/lib/utils';
 
-interface RWDFlowChartProps {
-  data: RWDFlowNodeType;
+function fmt(n?: number) {
+  if (n == null) return '';
+  try { return n.toLocaleString(); } catch { return String(n); }
 }
 
-const NodeCard: React.FC<{ node: RWDFlowNodeType }> = ({ node }) => {
-  const isOutcome = node.type === 'outcome';
-  const isTerminal = node.status === 'terminal';
-  
-  // Determine color styles based on node type/status
-  let bgColor = 'bg-white';
-  let borderColor = 'border-slate-200';
-  let textColor = 'text-slate-700';
-  
-  if (node.color) {
-    // We use inline styles for dynamic colors from data, but fallback to classes
-    // For simplicity in this demo, we'll use the color prop for the border/accent
-  }
+function pct(value: number, total: number) {
+  return total > 0 ? Math.round((value / total) * 1000) / 10 : 100;
+}
+
+const PALETTE = ['#4F46E5', '#0EA5E9', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+
+function depthColor(d: number) {
+  return PALETTE[Math.min(d, PALETTE.length - 1)];
+}
+
+function typeLabel(depth: number, isLeaf: boolean) {
+  if (depth === 0) return '筛选层级';
+  return isLeaf ? '临床结局' : '治疗路径';
+}
+
+const Card: React.FC<{
+  node: RWDFlowNode;
+  depth: number;
+  parentValue: number;
+  inlineChildren?: boolean;
+}> = ({ node, depth, parentValue, inlineChildren }) => {
+  const p = pct(node.value, parentValue);
+  const color = depthColor(depth);
+  const isLeaf = !node.children?.length;
 
   return (
-    <div 
-      className={cn(
-        "relative flex flex-col p-3 rounded-lg border shadow-sm min-w-[180px] max-w-[220px] transition-all hover:shadow-md",
-        isOutcome ? "bg-slate-50" : "bg-white",
-        isTerminal ? "border-l-4 border-l-red-400" : "border-l-4 border-l-emerald-400"
-      )}
-      style={{ borderLeftColor: node.color }}
+    <div
+      className="flex flex-col rounded-lg border border-slate-200 shadow-sm bg-white overflow-hidden shrink-0"
+      style={{ borderLeftColor: color, borderLeftWidth: 3, width: 176 }}
     >
-      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
-        {node.type === 'state' ? '初始队列' : node.type === 'treatment' ? '治疗方案' : '临床结局'}
-      </span>
-      <span className="font-medium text-slate-900 text-sm leading-tight mb-2">
-        {node.label}
-      </span>
-      <div className="mt-auto flex items-center justify-between">
-        <span className="text-lg font-bold text-slate-700">
-          {node.percentage}%
-        </span>
-        {node.count !== undefined && (
-          <span className="text-xs text-slate-400">
-            N={node.count}
-          </span>
-        )}
+      <div className="px-2.5 py-2">
+        <div className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color }}>
+          {typeLabel(depth, isLeaf && !inlineChildren)}
+        </div>
+        <div className="text-xs font-semibold text-slate-800 leading-snug mb-1 line-clamp-2">{node.label}</div>
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-sm font-bold text-slate-700 tabular-nums">{p}%</span>
+          <span className="text-[10px] text-slate-400 tabular-nums">N={fmt(node.value)}</span>
+        </div>
       </div>
-    </div>
-  );
-};
-
-const FlowBranch: React.FC<{ node: RWDFlowNodeType; isRoot?: boolean }> = ({ node, isRoot = false }) => {
-  const hasChildren = node.children && node.children.length > 0;
-
-  return (
-    <div className="flex items-center">
-      {/* Node Content */}
-      <NodeCard node={node} />
-
-      {/* Connector to Children */}
-      {hasChildren && (
-        <div className="flex items-center">
-          {/* Horizontal Line from Parent */}
-          <div className="w-8 h-px bg-slate-300"></div>
-          
-          {/* Children Container */}
-          <div className="flex flex-col gap-6">
-            {node.children!.map((child, index) => (
-              <div key={child.id} className="flex items-center relative">
-                {/* Vertical Connector Logic would go here for a perfect tree, 
-                    but for a simple flex layout, we just render branches. 
-                    To make it look like a tree, we need a parent wrapper that handles the branching lines.
-                    For this MVP, we'll stick to simple horizontal flow. 
-                */}
-                {/* Connector to Child */}
-                {/* <div className="w-4 h-px bg-slate-300"></div> */}
-                <FlowBranch node={child} />
+      {inlineChildren && node.children?.length && (
+        <div className="border-t border-slate-100 bg-slate-50/70 px-2.5 py-1.5 space-y-1">
+          {node.children.map(c => {
+            const cp = pct(c.value, node.value);
+            return (
+              <div key={c.id} className="flex items-center gap-1">
+                <span className="text-[10px] text-slate-600 truncate flex-1 min-w-0">{c.label}</span>
+                <span className="text-[10px] font-bold text-slate-500 tabular-nums shrink-0 w-9 text-right">{cp}%</span>
+                <div className="w-10 h-1.5 bg-slate-200 rounded-full overflow-hidden shrink-0">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ width: `${Math.max(6, cp)}%`, backgroundColor: color, opacity: 0.7 }}
+                  />
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       )}
     </div>
   );
 };
 
-// Improved Tree Layout using CSS Grid/Flex to align connectors
-const FlowTree: React.FC<{ node: RWDFlowNodeType }> = ({ node }) => {
-  const hasChildren = node.children && node.children.length > 0;
+const Branch: React.FC<{
+  node: RWDFlowNode;
+  depth: number;
+  parentValue: number;
+}> = ({ node, depth, parentValue }) => {
+  const kids = node.children ?? [];
+  const allLeaves = kids.length > 0 && kids.every(c => !c.children?.length);
+
+  if (kids.length === 0 || allLeaves) {
+    return <Card node={node} depth={depth} parentValue={parentValue} inlineChildren={allLeaves} />;
+  }
 
   return (
     <div className="flex items-center">
-      <NodeCard node={node} />
-      
-      {hasChildren && (
-        <>
-          <div className="w-12 h-px bg-slate-300 flex-shrink-0"></div>
-          <div className="flex flex-col gap-4 relative">
-            {/* Vertical Line covering the span of children */}
-            {node.children!.length > 1 && (
-              <div className="absolute left-0 top-10 bottom-10 w-px bg-slate-300 -ml-px"></div>
-            )}
-            
-            {node.children!.map((child, index) => (
-              <div key={child.id} className="flex items-center relative">
-                {/* Horizontal connector from vertical line to child */}
-                {node.children!.length > 1 && (
-                  <div className="w-6 h-px bg-slate-300 flex-shrink-0 -ml-6 mr-0"></div>
-                )}
-                <FlowTree node={child} />
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+      <Card node={node} depth={depth} parentValue={parentValue} />
+      <div className="w-4 h-px bg-slate-300 shrink-0" />
 
-export const RWDFlowChart: React.FC<RWDFlowChartProps> = ({ data }) => {
-  return (
-    <div className="w-full overflow-x-auto p-4 bg-slate-50/50 rounded-xl border border-slate-100">
-      <div className="min-w-max">
-        <FlowTree node={data} />
+      <div className={cn('flex flex-col relative', kids.length > 1 ? 'gap-2' : '')}>
+        {kids.length > 1 && (
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-slate-300" />
+        )}
+        {kids.map((child) => (
+          <div key={child.id} className="flex items-center">
+            <div className={cn('h-px bg-slate-300 shrink-0', kids.length > 1 ? 'w-4' : 'w-0')} />
+            <Branch node={child} depth={depth + 1} parentValue={node.value} />
+          </div>
+        ))}
       </div>
     </div>
   );
 };
+
+export function RWDFlowChart({ data }: { data: RWDFlowNode[] }) {
+  if (!data?.length) return null;
+
+  const root = useMemo(() => {
+    if (data.length === 1) return data[0];
+    return {
+      id: '__root__',
+      label: '总人群',
+      value: data.reduce((s, n) => s + n.value, 0),
+      children: data,
+    } as RWDFlowNode;
+  }, [data]);
+
+  return (
+    <div className="w-full overflow-x-auto px-3 py-3">
+      <div className="inline-flex">
+        <Branch node={root} depth={0} parentValue={root.value} />
+      </div>
+    </div>
+  );
+}

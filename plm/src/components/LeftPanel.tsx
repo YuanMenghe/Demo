@@ -88,6 +88,22 @@ export function LeftPanel({ logic, slim=false, onAnalyze, onResetToInput, isAnal
               </div>
             </div>
             
+            
+            <div className="mt-4">
+              <div className="flex items-center gap-2 mb-2">
+                <UploadCloud className="w-4 h-4 text-teal-600" />
+                <h3 className="text-sm font-bold text-slate-800">上传病历/检查报告 (可选)</h3>
+              </div>
+              <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-teal-50 hover:border-teal-300 transition-colors group">
+                <div className="flex flex-col items-center justify-center pt-3 pb-4">
+                  <UploadCloud className="w-6 h-6 text-slate-400 mb-1 group-hover:text-teal-600 transition-colors" />
+                  <p className="text-xs text-slate-500"><span className="font-semibold text-teal-600">点击上传</span> 或拖拽文件至此</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">支持 PDF, JPG, PNG 等格式</p>
+                </div>
+                <input type="file" className="hidden" accept=".pdf,image/*" />
+              </label>
+            </div>
+            
             <AnimatePresence>
               {showPIIAlert && (
                 <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col gap-3 shadow-sm">
@@ -122,19 +138,21 @@ export function LeftPanel({ logic, slim=false, onAnalyze, onResetToInput, isAnal
                 );
                 return (
                   <div className="grid grid-cols-2 gap-4">
-                    {cell("年龄", <input type="text" className={inputCls} placeholder="岁" value={sd.age ?? ""} onChange={e => setBasic("age", e.target.value)} />)}
+                    {cell("当前治疗阶段", <select className={inputCls} value={sd.treatmentStage ?? ""} onChange={e => setBasic("treatmentStage", e.target.value)}><option value="">请选择</option><option value="疑似待诊断">疑似待诊断</option><option value="初诊初治">初诊初治</option><option value="治疗中">治疗中</option><option value="二线">二线</option><option value="三线及以上">三线及以上</option><option value="随访">随访</option></select>)}
+                    {cell("年龄", <input type="number" className={inputCls} placeholder="数值" value={sd.age ?? ""} onChange={e => setBasic("age", e.target.value)} />)}
                     {cell("性别", <select className={inputCls} value={sd.gender ?? ""} onChange={e => setBasic("gender", e.target.value)}><option value="">请选择</option><option value="男">男</option><option value="女">女</option></select>)}
-                    {cell("ECOG 评分", <select className={inputCls} value={sd.ecog ?? ""} onChange={e => setBasic("ecog", e.target.value)}><option value="">请选择</option><option value="0">0 - 活动自如</option><option value="1">1 - 轻体力受限</option><option value="2">2 - 丧失工作能力</option><option value="3">3 - 卧床 &gt; 50%</option><option value="4">4 - 全卧床</option></select>)}
-                    {cell("Ann Arbor 分期", <select className={inputCls} value={sd.annArborStage ?? ""} onChange={e => setBasic("annArborStage", e.target.value)}><option value="">请选择</option><option value="I">I 期</option><option value="II">II 期</option><option value="III">III 期</option><option value="IV">IV 期</option></select>)}
-                    {cell("LDH", <select className={inputCls} value={sd.ldh ?? ""} onChange={e => setBasic("ldh", e.target.value)}><option value="">请选择</option><option value="正常">正常</option><option value="升高">升高</option><option value="未查">未查</option></select>)}
-                    {cell("结外受累部位数", <select className={inputCls} value={sd.extranodalSites ?? ""} onChange={e => setBasic("extranodalSites", e.target.value)}><option value="">请选择</option><option value="0">0</option><option value="1">1</option><option value=">1">&gt;1</option><option value="未查">未查</option></select>)}
-                    {cell("B 症状", <select className={inputCls} value={sd.bSymptoms ?? ""} onChange={e => setBasic("bSymptoms", e.target.value)}><option value="">请选择</option><option value="无">无</option><option value="有">有（发热/盗汗/体重减轻&gt;10%）</option></select>)}
-                    {cell("病理亚型", <select className={inputCls} value={sd.cellOfOrigin ?? ""} onChange={e => setBasic("cellOfOrigin", e.target.value)}><option value="">请选择</option><option value="GCB">GCB</option><option value="非GCB">非 GCB (ABC)</option><option value="未分型">未分型</option></select>)}
-                    {cell("双打击/三打击 (FISH)", <select className={inputCls} value={sd.doubleHit ?? ""} onChange={e => setBasic("doubleHit", e.target.value)}><option value="">请选择</option><option value="否">否</option><option value="双打击">双打击</option><option value="三打击">三打击</option><option value="未做">未做</option></select>)}
-                    {cell("大肿块 (≥10 cm)", <select className={inputCls} value={sd.bulky ?? ""} onChange={e => setBasic("bulky", e.target.value)}><option value="">请选择</option><option value="否">否</option><option value="是">是</option><option value="未评估">未评估</option></select>)}
-                    {cell("原发部位", <select className={inputCls} value={sd.primarySite ?? ""} onChange={e => setBasic("primarySite", e.target.value)}><option value="">请选择</option><option value="淋巴结">淋巴结</option><option value="原发纵隔">原发纵隔</option><option value="胃肠道">胃肠道</option><option value="其他结外">其他结外</option></select>)}
-                    {cell("骨髓侵犯", <select className={inputCls} value={sd.boneMarrow ?? ""} onChange={e => setBasic("boneMarrow", e.target.value)}><option value="">请选择</option><option value="否">否</option><option value="是">是</option><option value="未查">未查</option></select>)}
-                    {cell("HBsAg", <select className={inputCls} value={sd.hbsag ?? ""} onChange={e => setBasic("hbsag", e.target.value)}><option value="">请选择</option><option value="阴性">阴性</option><option value="阳性">阳性</option><option value="未查">未查</option></select>)}
+                    {cell("体能状态", <select className={inputCls} value={sd.ecog ?? ""} onChange={e => setBasic("ecog", e.target.value)}><option value="">请选择</option><option value="ECOG 0">ECOG 0</option><option value="ECOG 1">ECOG 1</option><option value="ECOG 2">ECOG 2</option><option value="ECOG 3">ECOG 3</option><option value="ECOG 4">ECOG 4</option></select>)}
+                    {cell("病理状态及亚型", <input type="text" className={inputCls} placeholder="填空" value={sd.pathology ?? ""} onChange={e => setBasic("pathology", e.target.value)} />)}
+                    {cell("分期", <select className={inputCls} value={sd.stage ?? ""} onChange={e => setBasic("stage", e.target.value)}><option value="">请选择</option><option value="I">I</option><option value="II">II</option><option value="III">III</option><option value="IV">IV</option><option value="不详">不详</option></select>)}
+                    {cell("B症状", <select className={inputCls} value={sd.bSymptoms ?? ""} onChange={e => setBasic("bSymptoms", e.target.value)}><option value="">请选择</option><option value="阳性">阳性</option><option value="阴性">阴性</option><option value="不详">不详</option></select>)}
+                    {cell("结外受累", <select className={inputCls} value={sd.extranodal ?? ""} onChange={e => setBasic("extranodal", e.target.value)}><option value="">请选择</option><option value="无">无</option><option value="有">有</option><option value="不详">不详</option></select>)}
+                    {cell("CNS受累/症状", <select className={inputCls} value={sd.cns ?? ""} onChange={e => setBasic("cns", e.target.value)}><option value="">请选择</option><option value="无">无</option><option value="有">有</option><option value="待评估">待评估</option><option value="不详">不详</option></select>)}
+                    {cell("骨髓受累", <select className={inputCls} value={sd.boneMarrow ?? ""} onChange={e => setBasic("boneMarrow", e.target.value)}><option value="">请选择</option><option value="无">无</option><option value="有">有</option><option value="未做">未做</option><option value="不详">不详</option></select>)}
+                    {cell("Bulky disease", <select className={inputCls} value={sd.bulky ?? ""} onChange={e => setBasic("bulky", e.target.value)}><option value="">请选择</option><option value="是">是</option><option value="否">否</option><option value="不详">不详</option></select>)}
+                    {cell("LDH状态", <select className={inputCls} value={sd.ldh ?? ""} onChange={e => setBasic("ldh", e.target.value)}><option value="">请选择</option><option value="正常">正常</option><option value="升高">升高</option><option value="未做">未做</option></select>)}
+                    {cell("肝肾功能状态", <select className={inputCls} value={sd.liverRenal ?? ""} onChange={e => setBasic("liverRenal", e.target.value)}><option value="">请选择</option><option value="均无异常">均无异常</option><option value="肝功能异常">肝功能异常</option><option value="肾功能异常">肾功能异常</option><option value="均异常">均异常</option><option value="未做">未做</option></select>)}
+                    {cell("传染病筛查", <select className={inputCls} value={sd.infections ?? ""} onChange={e => setBasic("infections", e.target.value)}><option value="">请选择</option><option value="阴性">阴性</option><option value="阳性">阳性</option><option value="未做">未做</option><option value="不详">不详</option></select>)}
+                    {cell("LVEF", <select className={inputCls} value={sd.lvef ?? ""} onChange={e => setBasic("lvef", e.target.value)}><option value="">请选择</option><option value="正常">正常</option><option value="异常">异常</option><option value="未做">未做</option><option value="不适用">不适用</option></select>)}
                   </div>
                 );
               })()}
