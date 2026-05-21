@@ -20,7 +20,8 @@ import {
   Download,
   Layers,
   Pill,
-  Library
+  Library,
+  Send
 } from 'lucide-react';
 import { CDSSResponse, Citation } from '../types';
 import { cn } from '../lib/utils';
@@ -804,9 +805,47 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
               </div>
             </motion.div>
           )}
+        
         </AnimatePresence>
+
+        {/* 模块追问功能 */}
+        {activeTab !== 'integrated' && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 pt-6 border-t border-slate-200/60"
+          >
+            <div className="relative flex items-center bg-white border border-indigo-100 rounded-2xl shadow-[0_2px_10px_-3px_rgba(99,102,241,0.1)] focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:border-indigo-300 transition-all p-1.5 group">
+              <input 
+                type="text" 
+                placeholder={
+                  activeTab === 'guidelines' ? '基于当前指南推荐提问，例如：为什么没有推荐放疗？' :
+                  activeTab === 'evidence' ? '基于文献证据提问，例如：是否有关于高龄患者生存率的补充数据？' :
+                  activeTab === 'drug_info' ? '基于说明书提问，例如：出现输液反应时具体该如何处理？' :
+                  activeTab === 'user_kb' ? '基于内部知识库提问，例如：我院对于该亚型有什么特殊的补充检查要求？' :
+                  '输入您的追问...'
+                }
+                className="w-full bg-transparent px-4 py-2.5 text-sm text-slate-700 outline-none placeholder:text-slate-400"
+              />
+              <button className="flex-shrink-0 bg-indigo-600 text-white p-2.5 rounded-xl hover:bg-indigo-700 transition-colors shadow-sm active:scale-95 flex items-center gap-1.5 group-focus-within:bg-indigo-500">
+                <span className="text-xs font-semibold pl-1 hidden sm:inline">发送</span>
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="flex items-center gap-2 mt-3 px-2">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="text-xs text-slate-400">AI 将结合当前患者特征与 <strong className="text-slate-500 font-medium">{
+                activeTab === 'guidelines' ? '指南推荐' :
+                activeTab === 'evidence' ? '循证证据' :
+                activeTab === 'drug_info' ? '药品说明书' :
+                activeTab === 'user_kb' ? '科室私有知识库' : ''
+              }</strong> 为您解答</span>
+            </div>
+          </motion.div>
+        )}
+
+          </div>
         </div>
-      </div>
 
       {/* Bottom Action Bar */}
       {response?.diagnosisStatus !== 'unclear' && (
