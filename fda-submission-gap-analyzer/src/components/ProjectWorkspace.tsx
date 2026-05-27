@@ -10,7 +10,14 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { downloadAnalysisBundleZip } from '@/lib/analysisReportExport';
 import type { AnalysisExportContext } from '@/lib/reportExportContent';
 import { DEFAULT_SELECTED_MODULES, type AnalysisModuleId } from '@/lib/analysisModules';
-import { DEFAULT_PROJECT_DOCUMENTS, type ProjectDocument } from '@/lib/projectDocuments';
+import {
+  createProjectDocument,
+  DEFAULT_PROJECT_DOCUMENTS,
+  getLatestDocumentsByDocKey,
+  MODULE_LABELS,
+  MODULE_ORDER,
+  type ProjectDocument,
+} from '@/lib/projectDocuments';
 
 interface ProjectWorkspaceProps {
   project: any;
@@ -43,9 +50,14 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     }] : [])
   ]);
 
-  const [selectedFiles, setSelectedFiles] = useState<string[]>(() => initialDocuments().map((d) => d.id));
+  const [selectedFiles, setSelectedFiles] = useState<string[]>(() => {
+    const docs = initialDocuments();
+    const latest = getLatestDocumentsByDocKey(docs);
+    return [...latest.values()].map((d) => d.id);
+  });
   const [selectedModules, setSelectedModules] = useState<AnalysisModuleId[]>([...DEFAULT_SELECTED_MODULES]);
   const [bundleDownloadingId, setBundleDownloadingId] = useState<string | null>(null);
+  const [configLevel, setConfigLevel] = useState<'module' | 'folder' | 'file'>('file');
 
   const handleUploadComplete = () => {
     setIsUploading(false);
@@ -54,13 +66,14 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     // Add some mock new documents
     const ts = new Date().toISOString().replace('T', ' ').substring(0, 16);
     const newDocs: ProjectDocument[] = [
-      { id: `d${Date.now()}`, name: 'updated_protocol_v3.pdf', module: 'M5', folder: '5.3.1 Protocols', time: ts },
-      { id: `d${Date.now() + 1}`, name: 'new_safety_data.pdf', module: 'M2', folder: '2.7 Clinical Summary', time: ts },
+      createProjectDocument({ id: `d${Date.now()}`, name: 'updated_protocol_v3.pdf', module: 'M5', folder: '5.3.1 Protocols', time: ts }),
+      createProjectDocument({ id: `d${Date.now() + 1}`, name: 'new_safety_data.pdf', module: 'M2', folder: '2.7 Clinical Summary', time: ts }),
     ];
     const nextDocs =
       documents.length === 0 ? [...DEFAULT_PROJECT_DOCUMENTS] : [...newDocs, ...documents];
     setDocuments(nextDocs);
-    setSelectedFiles(nextDocs.map((d) => d.id));
+    const latest = getLatestDocumentsByDocKey(nextDocs);
+    setSelectedFiles([...latest.values()].map((d) => d.id));
 
     onUpdateProject({
       ...project,
@@ -94,10 +107,45 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     setSelectedFiles(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
   };
 
+  const selectAllLatest = () => {
+    const latest = getLatestDocumentsByDocKey(documents);
+    setSelectedFiles([...latest.values()].map((d) => d.id));
+  };
+
+  const clearSelected = () => setSelectedFiles([]);
+
   const toggleModule = (id: AnalysisModuleId) => {
     setSelectedModules((prev) =>
       prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
     );
+  };
+
+  const latestDocs = [...getLatestDocumentsByDocKey(documents).values()];
+
+  const toggleSelectLatestModule = (moduleId: ProjectDocument['module']) => {
+    const targetIds = latestDocs.filter((d) => d.module === moduleId).map((d) => d.id);
+    setSelectedFiles((prev) => {
+      const set = new Set(prev);
+      const allSelected = targetIds.every((id) => set.has(id));
+      if (allSelected) targetIds.forEach((id) => set.delete(id));
+      else targetIds.forEach((id) => set.add(id));
+      return [...set];
+    });
+  };
+
+  const toggleSelectLatestFolder = (folderKey: string) => {
+    const [moduleId, ...rest] = folderKey.split('/');
+    const folder = rest.join('/');
+    const targetIds = latestDocs
+      .filter((d) => d.module === (moduleId as ProjectDocument['module']) && d.folder === folder)
+      .map((d) => d.id);
+    setSelectedFiles((prev) => {
+      const set = new Set(prev);
+      const allSelected = targetIds.every((id) => set.has(id));
+      if (allSelected) targetIds.forEach((id) => set.delete(id));
+      else targetIds.forEach((id) => set.add(id));
+      return [...set];
+    });
   };
 
   const buildExportContext = (analysis: { name: string; date: string; files: number; modules: string[] }): AnalysisExportContext => ({
@@ -198,12 +246,103 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <DocumentModuleTree
-                documents={documents}
-                mode="select"
-                selectedIds={selectedFiles}
-                onToggle={toggleFile}
-              />
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs text-slate-500">{t('选择级别', 'Selection level')}</span>
+                  <div className="flex items-center gap-2">
+                    {([
+                      { id: 'module', label: t('模块级', 'Module') },
+                      { id: 'folder', label: t('子文件夹级', 'Folder') },
+                      { id: 'file', label: t('单文件级', 'File') },
+                    ] as const).map((opt) => (
+                      <Button
+                        key={opt.id}
+                        type="button"
+                        variant={configLevel === opt.id ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setConfigLevel(opt.id)}
+                      >
+                        {opt.label}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button type="button" variant="outline" size="sm" onClick={selectAllLatest}>
+                    {t('选择全部（最新版本）', 'Select all (latest versions)')}
+                  </Button>
+                  <Button type="button" variant="outline" size="sm" onClick={clearSelected}>
+                    {t('全部清空', 'Clear all')}
+                  </Button>
+                </div>
+              </div>
+              {configLevel === 'module' ? (
+                <div className="space-y-2">
+                  {MODULE_ORDER.map((m) => {
+                    const ids = latestDocs.filter((d) => d.module === m).map((d) => d.id);
+                    if (ids.length === 0) return null;
+                    const checked = ids.every((id) => selectedFiles.includes(id));
+                    const label = language === 'zh' ? MODULE_LABELS[m].zh : MODULE_LABELS[m].en;
+                    return (
+                      <div key={m} className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50">
+                        <Checkbox
+                          id={`lvl-mod-${m}`}
+                          checked={checked}
+                          onCheckedChange={() => toggleSelectLatestModule(m)}
+                          className="mt-1"
+                        />
+                        <label htmlFor={`lvl-mod-${m}`} className="cursor-pointer flex-1">
+                          <div className="text-sm font-medium text-slate-900">{label}</div>
+                          <div className="text-xs text-slate-500 mt-1">
+                            {ids.length} {t('个文档（最新版本）', 'latest-version docs')}
+                          </div>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : configLevel === 'folder' ? (
+                <div className="space-y-2">
+                  {(() => {
+                    const map = new Map<string, { ids: string[]; label: string }>();
+                    for (const d of latestDocs) {
+                      const key = `${d.module}/${d.folder}`;
+                      const entry = map.get(key) ?? { ids: [], label: '' };
+                      entry.ids.push(d.id);
+                      entry.label = key;
+                      map.set(key, entry);
+                    }
+                    return [...map.entries()]
+                      .sort(([a], [b]) => a.localeCompare(b))
+                      .map(([key, entry]) => {
+                        const checked = entry.ids.every((id) => selectedFiles.includes(id));
+                        return (
+                          <div key={key} className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50">
+                            <Checkbox
+                              id={`lvl-folder-${key}`}
+                              checked={checked}
+                              onCheckedChange={() => toggleSelectLatestFolder(key)}
+                              className="mt-1"
+                            />
+                            <label htmlFor={`lvl-folder-${key}`} className="cursor-pointer flex-1">
+                              <div className="text-sm font-medium text-slate-900">{key}</div>
+                              <div className="text-xs text-slate-500 mt-1">
+                                {entry.ids.length} {t('个文档（最新版本）', 'latest-version docs')}
+                              </div>
+                            </label>
+                          </div>
+                        );
+                      });
+                  })()}
+                </div>
+              ) : (
+                <DocumentModuleTree
+                  documents={documents}
+                  mode="select"
+                  selectedIds={selectedFiles}
+                  onToggle={toggleFile}
+                />
+              )}
             </CardContent>
           </Card>
 
