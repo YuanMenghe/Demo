@@ -35,7 +35,7 @@ export default function AnalyzingView({ onComplete }: AnalyzingViewProps) {
     {
       id: 4,
       title: t('可能的审查问题预测', 'Predicted review questions'),
-      description: t('基于历史审评与 CRL 先例生成问题清单...', 'Generating questions from review history and CRL precedent...'),
+      description: t('基于历史审查报告与 CRL 先例生成问题清单...', 'Generating questions from review history and CRL precedent...'),
       icon: AlertTriangle,
     },
   ];

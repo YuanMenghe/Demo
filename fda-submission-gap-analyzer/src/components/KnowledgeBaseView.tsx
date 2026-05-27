@@ -39,6 +39,7 @@ export default function KnowledgeBaseView() {
   const [uploading, setUploading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const addPanelRef = useRef<HTMLDivElement>(null);
 
   const stats = useMemo(() => {
     const notes = entries.filter((e) => e.kind === 'text').length;
@@ -178,7 +179,7 @@ export default function KnowledgeBaseView() {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
           {/* Add panel */}
-          <Card className="lg:col-span-2 border-slate-200 shadow-sm">
+          <Card ref={addPanelRef} className="lg:col-span-2 border-slate-200 shadow-sm">
             <CardHeader className="pb-3">
               <CardTitle className="text-lg">{t('添加内容', 'Add content')}</CardTitle>
               <CardDescription>
@@ -285,6 +286,27 @@ export default function KnowledgeBaseView() {
                   <p className="text-sm text-slate-500 mt-2 max-w-sm">
                     {t('在左侧添加笔记或 PDF，条目会显示在这里，并可在材料完整性等模块中引用。', 'Add a note or PDF on the left; entries appear here and can be cited in analysis modules.')}
                   </p>
+                  <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        setAddMode('note');
+                        addPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }}
+                    >
+                      {t('添加笔记', 'Add note')}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        setAddMode('file');
+                        addPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }}
+                    >
+                      {t('上传文件', 'Upload file')}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ) : (

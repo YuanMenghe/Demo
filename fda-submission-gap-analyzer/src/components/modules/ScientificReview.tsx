@@ -8,24 +8,56 @@ import { CitationLink } from '../CitationLink';
 export default function ScientificReview() {
   const { t } = useLanguage();
 
+  const jump = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div>
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="lg:flex lg:items-start lg:gap-6">
+        <aside className="hidden lg:block lg:w-56 lg:shrink-0">
+          <div className="sticky top-24 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            <div className="text-xs font-semibold text-slate-500 px-2 py-1">{t('目录', 'Contents')}</div>
+            <div className="mt-1 space-y-1">
+              {[
+                { id: 'sr-overview', label: t('概览', 'Overview') },
+                { id: 'sr-design', label: t('研究设计', 'Study design') },
+                { id: 'sr-endpoints', label: t('关键终点', 'Endpoints') },
+                { id: 'sr-population', label: t('人群外推性', 'Extrapolation') },
+                { id: 'sr-statistics', label: t('统计学', 'Statistics') },
+                { id: 'sr-cmc', label: t('CMC/检查风险', 'CMC / inspection') },
+              ].map((it) => (
+                <button
+                  key={it.id}
+                  type="button"
+                  className="w-full text-left px-2 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50"
+                  onClick={() => jump(it.id)}
+                >
+                  {it.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <div className="flex-1 space-y-8">
+      <div id="sr-overview">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900">{t('科学性审查', 'Scientific Validity Review')}</h2>
         <p className="text-slate-500 mt-2">
-          {t('对照 FDA 临床指南、美国指南和 PubMed 文献评估临床和 CMC 数据。', 'Evaluation of clinical and CMC data against FDA clinical guidance, US guidelines, and PubMed literature.')}
+          {t('对照监管指南、公开文献与行业共识评估临床和 CMC 数据。', 'Evaluation of clinical and CMC data against guidance, public literature, and industry consensus.')}
         </p>
       </div>
 
       <Card className="border-slate-200 shadow-sm">
         <CardHeader className="bg-slate-50 border-b border-slate-100">
           <CardTitle className="text-lg">{t('详细科学评估', 'Detailed Scientific Assessment')}</CardTitle>
-          <CardDescription>{t('点击展开每个部分以查看详细发现和 FDA 参考依据。', 'Click to expand each section for detailed findings and FDA references.')}</CardDescription>
+          <CardDescription>{t('点击展开每个部分以查看详细发现与参考依据。', 'Click to expand each section for detailed findings and references.')}</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <Accordion type="single" collapsible className="w-full">
             
-            <AccordionItem value="design" className="border-b border-slate-100 px-6">
+            <AccordionItem id="sr-design" value="design" className="border-b border-slate-100 px-6">
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
@@ -39,10 +71,10 @@ export default function ScientificReview() {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pb-6 pt-2 text-slate-700 space-y-4">
-                <p>{t('随机、双盲、阳性对照设计符合 FDA 对该适应症关键疗效试验的期望。', 'The randomized, double-blind, active-controlled design aligns with FDA expectations for pivotal efficacy trials in this indication.')}</p>
+                <p>{t('随机、双盲、阳性对照设计符合监管机构对该适应症关键疗效试验的一般期望。', 'The randomized, double-blind, active-controlled design aligns with common regulatory expectations for pivotal efficacy trials in this indication.')}</p>
                 <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
                   <h4 className="font-semibold text-slate-900 mb-2 flex items-center">
-                    <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('FDA 参考依据', 'FDA Reference')}
+                    <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('参考依据', 'Reference')}
                   </h4>
                   <p className="text-sm text-slate-600">{t('FDA 行业指南：为人类药物和生物制品提供有效性的临床证据。', 'FDA Guidance for Industry: Providing Clinical Evidence of Effectiveness for Human Drug and Biological Products.')}</p>
                   <div className="mt-2">
@@ -52,7 +84,7 @@ export default function ScientificReview() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="endpoints" className="border-b border-slate-100 px-6">
+            <AccordionItem id="sr-endpoints" value="endpoints" className="border-b border-slate-100 px-6">
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
@@ -73,7 +105,7 @@ export default function ScientificReview() {
                 </ul>
                 <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4">
                   <h4 className="font-semibold text-slate-900 mb-2 flex items-center">
-                    <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('FDA 参考依据', 'FDA Reference')}
+                    <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('参考依据', 'Reference')}
                   </h4>
                   <p className="text-sm text-slate-600">{t('FDA 指南：用于批准抗癌药物和生物制品的临床试验终点。', 'FDA Guidance: Clinical Trial Endpoints for the Approval of Cancer Drugs and Biologics.')}</p>
                   <div className="mt-2">
@@ -83,7 +115,7 @@ export default function ScientificReview() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="population" className="border-b border-slate-100 px-6">
+            <AccordionItem id="sr-population" value="population" className="border-b border-slate-100 px-6">
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600">
@@ -98,13 +130,13 @@ export default function ScientificReview() {
               </AccordionTrigger>
               <AccordionContent className="pb-6 pt-2 text-slate-700 space-y-4">
                 <p className="text-red-700 font-medium">{t('关键问题：临床数据主要来自中国中心 (>85%)。', 'Critical Issue: The clinical data is predominantly from Chinese sites (>85%).')}</p>
-                <p>{t('FDA 要求数据适用于美国人群。试验人群缺乏多样性（特别是白人、非裔美国人和西班牙裔患者代表性不足）构成了重大的监管风险。', 'FDA requires data that is applicable to the US population. The lack of diversity in the trial population (specifically underrepresentation of Caucasian, African American, and Hispanic patients) poses a significant regulatory risk.')}</p>
+                <p>{t('监管机构通常要求数据适用于目标地区人群。试验人群缺乏多样性可能构成重大的监管风险。', 'Regulators typically expect applicability to the target population. Limited diversity may pose regulatory risk.')}</p>
                 <ul className="list-disc pl-5 space-y-2 text-sm">
                   <li><span className="font-semibold text-slate-900">{t('行动要求：', 'Action Required:')}</span> {t('进行稳健的桥接研究，或提供广泛的 PK/PD 和疾病流行病学论证 (ICH E5)，以支持向美国人群的外推。', 'Conduct a robust bridging study or provide extensive PK/PD and disease epidemiology justification (ICH E5) to support extrapolation to the US population.')}</li>
                 </ul>
                 <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4">
                   <h4 className="font-semibold text-slate-900 mb-2 flex items-center">
-                    <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('FDA 参考依据', 'FDA Reference')}
+                    <BookOpen className="w-4 h-4 mr-2 text-blue-500" /> {t('参考依据', 'Reference')}
                   </h4>
                   <p className="text-sm text-slate-600">{t('ICH E5 (R1) 接受外国临床数据的种族因素；FDA 草案指南：改善临床试验中代表性不足的种族和民族人群入组的多样性计划。', 'ICH E5 (R1) Ethnic Factors in the Acceptability of Foreign Clinical Data; FDA Draft Guidance: Diversity Plans to Improve Enrollment of Participants from Underrepresented Racial and Ethnic Populations in Clinical Trials.')}</p>
                   <div className="mt-2">
@@ -114,7 +146,7 @@ export default function ScientificReview() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="statistics" className="border-b border-slate-100 px-6">
+            <AccordionItem id="sr-statistics" value="statistics" className="border-b border-slate-100 px-6">
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
@@ -135,7 +167,7 @@ export default function ScientificReview() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="cmc" className="px-6">
+            <AccordionItem id="sr-cmc" value="cmc" className="px-6">
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
@@ -160,6 +192,8 @@ export default function ScientificReview() {
           </Accordion>
         </CardContent>
       </Card>
+        </div>
+      </div>
     </div>
   );
 }

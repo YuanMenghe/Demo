@@ -68,9 +68,38 @@ export default function MaterialCompleteness() {
     },
   ];
 
+  const jump = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div>
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="lg:flex lg:items-start lg:gap-6">
+        <aside className="hidden lg:block lg:w-56 lg:shrink-0">
+          <div className="sticky top-24 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            <div className="text-xs font-semibold text-slate-500 px-2 py-1">{t('目录', 'Contents')}</div>
+            <div className="mt-1 space-y-1">
+              {[
+                { id: 'mc-overview', label: t('概览', 'Overview') },
+                { id: 'mc-formal', label: t('形式完整性清单', 'Formal missing list') },
+                { id: 'mc-technical', label: t('技术完整性报告', 'Technical integrity') },
+              ].map((it) => (
+                <button
+                  key={it.id}
+                  type="button"
+                  className="w-full text-left px-2 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50"
+                  onClick={() => jump(it.id)}
+                >
+                  {it.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <div className="flex-1 space-y-8">
+          <div id="mc-overview">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900">{t('材料完整性检查', 'Material Completeness Check')}</h2>
         <p className="text-slate-500 mt-2">
           {t(
@@ -104,7 +133,7 @@ export default function MaterialCompleteness() {
         </AlertDescription>
       </Alert>
 
-      <Card className="border-slate-200 shadow-sm">
+      <Card id="mc-formal" className="border-slate-200 shadow-sm">
         <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
           <div className="flex items-center space-x-2">
             <ClipboardList className="w-5 h-5 text-amber-500" />
@@ -155,7 +184,7 @@ export default function MaterialCompleteness() {
         </CardContent>
       </Card>
 
-      <Card className="border-slate-200 shadow-sm">
+      <Card id="mc-technical" className="border-slate-200 shadow-sm">
         <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
           <div className="flex items-center space-x-2">
             <FileSearch className="w-5 h-5 text-blue-500" />
@@ -189,6 +218,8 @@ export default function MaterialCompleteness() {
           ))}
         </CardContent>
       </Card>
+        </div>
+      </div>
     </div>
   );
 }

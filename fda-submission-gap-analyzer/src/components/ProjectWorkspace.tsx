@@ -32,6 +32,7 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
   const [isConfiguring, setIsConfiguring] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [viewingAnalysis, setViewingAnalysis] = useState<any>(null);
+  const [preferLatest, setPreferLatest] = useState(true);
 
   const initialDocuments = (): ProjectDocument[] => {
     if (!project?.docCount) return [];
@@ -112,6 +113,10 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     setSelectedFiles([...latest.values()].map((d) => d.id));
   };
 
+  const selectAllIncludingHistory = () => {
+    setSelectedFiles(documents.map((d) => d.id));
+  };
+
   const clearSelected = () => setSelectedFiles([]);
 
   const toggleModule = (id: AnalysisModuleId) => {
@@ -123,7 +128,8 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
   const latestDocs = [...getLatestDocumentsByDocKey(documents).values()];
 
   const toggleSelectLatestModule = (moduleId: ProjectDocument['module']) => {
-    const targetIds = latestDocs.filter((d) => d.module === moduleId).map((d) => d.id);
+    const pool = preferLatest ? latestDocs : documents;
+    const targetIds = pool.filter((d) => d.module === moduleId).map((d) => d.id);
     setSelectedFiles((prev) => {
       const set = new Set(prev);
       const allSelected = targetIds.every((id) => set.has(id));
@@ -136,7 +142,8 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
   const toggleSelectLatestFolder = (folderKey: string) => {
     const [moduleId, ...rest] = folderKey.split('/');
     const folder = rest.join('/');
-    const targetIds = latestDocs
+    const pool = preferLatest ? latestDocs : documents;
+    const targetIds = pool
       .filter((d) => d.module === (moduleId as ProjectDocument['module']) && d.folder === folder)
       .map((d) => d.id);
     setSelectedFiles((prev) => {
@@ -268,33 +275,67 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Button type="button" variant="outline" size="sm" onClick={selectAllLatest}>
-                    {t('选择全部（最新版本）', 'Select all (latest versions)')}
+                  <div className="flex items-center gap-2 mr-1">
+                    <Checkbox
+                      id="prefer-latest"
+                      checked={preferLatest}
+                      onCheckedChange={(v) => {
+                        const on = v === true;
+                        setPreferLatest(on);
+                        if (on) selectAllLatest();
+                      }}
+                    />
+                    <label htmlFor="prefer-latest" className="text-xs text-slate-700 cursor-pointer select-none">
+                      {t('默认只选最新版本（推荐）', 'Prefer latest versions (recommended)')}
+                    </label>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={preferLatest ? selectAllLatest : selectAllIncludingHistory}
+                  >
+                    {preferLatest
+                      ? t('选择全部（最新版本）', 'Select all (latest versions)')
+                      : t('选择全部（含历史版本）', 'Select all (all versions)')}
                   </Button>
                   <Button type="button" variant="outline" size="sm" onClick={clearSelected}>
                     {t('全部清空', 'Clear all')}
                   </Button>
                 </div>
               </div>
+              <p className="text-xs text-slate-500 mb-4">
+                {t(
+                  '推荐仅选择每个文档的最新版本，以减少重复分析与结果噪声；如需对比历史版本，可展开版本列表并手动勾选旧版。',
+                  'Selecting only the latest version per document reduces duplicate processing and noisy results. Expand the version list to include older versions when needed.'
+                )}
+              </p>
               {configLevel === 'module' ? (
                 <div className="space-y-2">
                   {MODULE_ORDER.map((m) => {
-                    const ids = latestDocs.filter((d) => d.module === m).map((d) => d.id);
-                    if (ids.length === 0) return null;
-                    const checked = ids.every((id) => selectedFiles.includes(id));
+                    const latestIds = latestDocs.filter((d) => d.module === m).map((d) => d.id);
+                    const allIds = documents.filter((d) => d.module === m).map((d) => d.id);
+                    if (latestIds.length === 0) return null;
+                    const checkedState: boolean | 'indeterminate' =
+                      latestIds.every((id) => selectedFiles.includes(id))
+                        ? true
+                        : latestIds.some((id) => selectedFiles.includes(id))
+                          ? 'indeterminate'
+                          : false;
+                    const selectedCount = allIds.filter((id) => selectedFiles.includes(id)).length;
                     const label = language === 'zh' ? MODULE_LABELS[m].zh : MODULE_LABELS[m].en;
                     return (
                       <div key={m} className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50">
                         <Checkbox
                           id={`lvl-mod-${m}`}
-                          checked={checked}
+                          checked={checkedState}
                           onCheckedChange={() => toggleSelectLatestModule(m)}
                           className="mt-1"
                         />
                         <label htmlFor={`lvl-mod-${m}`} className="cursor-pointer flex-1">
                           <div className="text-sm font-medium text-slate-900">{label}</div>
                           <div className="text-xs text-slate-500 mt-1">
-                            {ids.length} {t('个文档（最新版本）', 'latest-version docs')}
+                            {t('已选', 'Selected')} {selectedCount} / {t('最新', 'Latest')} {latestIds.length} / {t('总计', 'Total')} {allIds.length}
                           </div>
                         </label>
                       </div>
@@ -304,30 +345,43 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
               ) : configLevel === 'folder' ? (
                 <div className="space-y-2">
                   {(() => {
-                    const map = new Map<string, { ids: string[]; label: string }>();
+                    const map = new Map<string, { latestIds: string[]; allIds: string[] }>();
                     for (const d of latestDocs) {
                       const key = `${d.module}/${d.folder}`;
-                      const entry = map.get(key) ?? { ids: [], label: '' };
-                      entry.ids.push(d.id);
-                      entry.label = key;
+                      const entry = map.get(key) ?? { latestIds: [], allIds: [] };
+                      entry.latestIds.push(d.id);
+                      map.set(key, entry);
+                    }
+                    for (const d of documents) {
+                      const key = `${d.module}/${d.folder}`;
+                      const entry = map.get(key) ?? { latestIds: [], allIds: [] };
+                      entry.allIds.push(d.id);
                       map.set(key, entry);
                     }
                     return [...map.entries()]
                       .sort(([a], [b]) => a.localeCompare(b))
                       .map(([key, entry]) => {
-                        const checked = entry.ids.every((id) => selectedFiles.includes(id));
+                        const checkedState: boolean | 'indeterminate' =
+                          entry.latestIds.length === 0
+                            ? false
+                            : entry.latestIds.every((id) => selectedFiles.includes(id))
+                              ? true
+                              : entry.latestIds.some((id) => selectedFiles.includes(id))
+                                ? 'indeterminate'
+                                : false;
+                        const selectedCount = entry.allIds.filter((id) => selectedFiles.includes(id)).length;
                         return (
                           <div key={key} className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50">
                             <Checkbox
                               id={`lvl-folder-${key}`}
-                              checked={checked}
+                              checked={checkedState}
                               onCheckedChange={() => toggleSelectLatestFolder(key)}
                               className="mt-1"
                             />
                             <label htmlFor={`lvl-folder-${key}`} className="cursor-pointer flex-1">
                               <div className="text-sm font-medium text-slate-900">{key}</div>
                               <div className="text-xs text-slate-500 mt-1">
-                                {entry.ids.length} {t('个文档（最新版本）', 'latest-version docs')}
+                                {t('已选', 'Selected')} {selectedCount} / {t('最新', 'Latest')} {entry.latestIds.length} / {t('总计', 'Total')} {entry.allIds.length}
                               </div>
                             </label>
                           </div>
@@ -341,6 +395,8 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
                   mode="select"
                   selectedIds={selectedFiles}
                   onToggle={toggleFile}
+                  onToggleLatestModule={toggleSelectLatestModule}
+                  onToggleLatestFolder={toggleSelectLatestFolder}
                 />
               )}
             </CardContent>

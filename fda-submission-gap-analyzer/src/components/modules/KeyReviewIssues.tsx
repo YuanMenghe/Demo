@@ -82,7 +82,7 @@ export default function KeyReviewIssues() {
       <div>
         <h2 className="text-2xl font-bold tracking-tight text-slate-900">{t('可能的审查问题预测', 'Predicted review questions')}</h2>
         <p className="text-slate-500 mt-2">
-          {t('基于同类适应症历史审评报告、CRL 与公开先例，预测监管机构可能提出的信息请求与审查问题。', 'Predicted information requests and review questions based on historical review reports, CRLs, and public precedent for similar indications.')}
+          {t('基于同类适应症历史审查报告、CRL 与公开先例，预测监管机构可能提出的信息请求与审查问题。', 'Predicted information requests and review questions based on historical review reports, CRLs, and public precedent for similar indications.')}
         </p>
       </div>
 

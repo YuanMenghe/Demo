@@ -17,6 +17,8 @@ type Props = {
   mode?: Mode;
   selectedIds?: string[];
   onToggle?: (id: string) => void;
+  onToggleLatestModule?: (moduleId: ProjectDocument['module']) => void;
+  onToggleLatestFolder?: (folderKey: string) => void;
 };
 
 function groupByDocKey(files: ProjectDocument[]) {
@@ -26,6 +28,7 @@ function groupByDocKey(files: ProjectDocument[]) {
     list.push(f);
     map.set(f.docKey, list);
   }
+  // Sort each version list (newest first)
   for (const [k, list] of map.entries()) {
     list.sort((a, b) => {
       if (b.versionSortKey !== a.versionSortKey) return b.versionSortKey - a.versionSortKey;
@@ -41,12 +44,15 @@ export default function DocumentModuleTree({
   mode = 'view',
   selectedIds = [],
   onToggle,
+  onToggleLatestModule,
+  onToggleLatestFolder,
 }: Props) {
   const { t, language } = useLanguage();
   const grouped = groupDocumentsByModule(documents);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(() => new Set(MODULE_ORDER));
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(() => new Set());
   const [expandedDocKeys, setExpandedDocKeys] = useState<Set<string>>(() => new Set());
+  const selectedSet = new Set(selectedIds);
 
   const toggleModule = (m: string) => {
     setExpandedModules((prev) => {
@@ -80,7 +86,7 @@ export default function DocumentModuleTree({
   }
 
   return (
-    <div className="space-y-2">
+    <div className={mode === 'view' ? 'grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-3' : 'space-y-2'}>
       {MODULE_ORDER.map((moduleId) => {
         const folders = grouped.get(moduleId)!;
         const folderEntries = [...folders.entries()].sort(([a], [b]) => a.localeCompare(b));
@@ -89,6 +95,19 @@ export default function DocumentModuleTree({
 
         const moduleOpen = expandedModules.has(moduleId);
         const label = language === 'zh' ? MODULE_LABELS[moduleId].zh : MODULE_LABELS[moduleId].en;
+        const moduleAllIds = folderEntries.flatMap(([, files]) => files.map((f) => f.id));
+        const moduleLatestIds = folderEntries
+          .flatMap(([, files]) => groupByDocKey(files).map(([, versions]) => versions[0]!.id));
+        const moduleSelectedCount = moduleAllIds.filter((id) => selectedSet.has(id)).length;
+        const moduleLatestCount = moduleLatestIds.length;
+        const moduleCheckboxState: boolean | 'indeterminate' =
+          moduleLatestCount === 0
+            ? false
+            : moduleLatestIds.every((id) => selectedSet.has(id))
+              ? true
+              : moduleLatestIds.some((id) => selectedSet.has(id))
+                ? 'indeterminate'
+                : false;
 
         const expandAllInModule = () => {
           setExpandedModules((prev) => new Set(prev).add(moduleId));
@@ -137,8 +156,22 @@ export default function DocumentModuleTree({
               ) : (
                 <ChevronRight className="w-4 h-4 text-slate-500 shrink-0" />
               )}
+              {mode === 'select' && onToggleLatestModule && (
+                <span
+                  className="shrink-0"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleLatestModule(moduleId);
+                  }}
+                >
+                  <Checkbox checked={moduleCheckboxState} aria-label={t('选择该模块最新版本', 'Select latest in module')} />
+                </span>
+              )}
               <Folder className="w-4 h-4 text-blue-600 shrink-0" />
               <span className="font-semibold text-slate-900 text-sm flex-1">{label}</span>
+              <span className="text-xs text-slate-500 hidden sm:inline">
+                {t('已选', 'Selected')} {moduleSelectedCount} / {t('最新', 'Latest')} {moduleLatestCount} / {t('总计', 'Total')} {fileCount}
+              </span>
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
@@ -161,23 +194,38 @@ export default function DocumentModuleTree({
                   {t('收起全部', 'Collapse all')}
                 </button>
               </div>
-              <span className="text-xs text-slate-500">
-                {fileCount} {t('个文件', 'files')}
+              <span className="text-xs text-slate-500 sm:hidden">
+                {moduleSelectedCount}/{moduleLatestCount}/{fileCount}
               </span>
             </button>
 
             {moduleOpen && (
-              <div className="divide-y divide-slate-50">
+              <div className={mode === 'view' ? 'p-2' : 'divide-y divide-slate-50'}>
+                <div className={mode === 'view' ? 'grid grid-cols-1 lg:grid-cols-2 gap-2' : ''}>
                 {folderEntries.map(([folderName, files]) => {
                   const folderKey = `${moduleId}/${folderName}`;
                   const folderOpen = expandedFolders.has(folderKey);
                   const docKeyGroups = groupByDocKey(files);
+                  const folderAllIds = files.map((f) => f.id);
+                  const folderLatestIds = docKeyGroups.map(([, versions]) => versions[0]!.id);
+                  const folderSelectedCount = folderAllIds.filter((id) => selectedSet.has(id)).length;
+                  const folderLatestCount = folderLatestIds.length;
+                  const folderCheckboxState: boolean | 'indeterminate' =
+                    folderLatestCount === 0
+                      ? false
+                      : folderLatestIds.every((id) => selectedSet.has(id))
+                        ? true
+                        : folderLatestIds.some((id) => selectedSet.has(id))
+                          ? 'indeterminate'
+                          : false;
 
                   return (
-                    <div key={folderKey}>
+                    <div key={folderKey} className={mode === 'view' ? 'rounded-lg border border-slate-200 bg-white overflow-hidden' : ''}>
                       <button
                         type="button"
-                        className="w-full flex items-center gap-2 pl-8 pr-4 py-2.5 hover:bg-slate-50 text-left"
+                        className={mode === 'view'
+                          ? 'w-full flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-left'
+                          : 'w-full flex items-center gap-2 pl-8 pr-4 py-2.5 hover:bg-slate-50 text-left'}
                         onClick={() => toggleFolder(folderKey)}
                       >
                         {folderOpen ? (
@@ -185,16 +233,30 @@ export default function DocumentModuleTree({
                         ) : (
                           <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         )}
+                        {mode === 'select' && onToggleLatestFolder && (
+                          <span
+                            className="shrink-0"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onToggleLatestFolder(folderKey);
+                            }}
+                          >
+                            <Checkbox checked={folderCheckboxState} aria-label={t('选择该文件夹最新版本', 'Select latest in folder')} />
+                          </span>
+                        )}
                         <Folder className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="text-sm font-medium text-slate-700 flex-1">{folderName}</span>
-                        <span className="text-xs text-slate-400">{files.length}</span>
+                        <span className="text-sm font-medium text-slate-700 flex-1 truncate">{folderName}</span>
+                        <span className="text-xs text-slate-400 hidden sm:inline">
+                          {t('已选', 'Selected')} {folderSelectedCount} / {t('最新', 'Latest')} {folderLatestCount} / {t('总计', 'Total')} {files.length}
+                        </span>
+                        <span className="text-xs text-slate-400 sm:hidden">{folderSelectedCount}/{folderLatestCount}/{files.length}</span>
                       </button>
                       {folderOpen && (
                         <div className="pb-3">
                           <div
                             className={
                               mode === 'view'
-                                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 px-4 pl-14 pr-4'
+                                ? 'space-y-1 px-3 pb-2'
                                 : 'flex flex-col'
                             }
                           >
@@ -208,7 +270,7 @@ export default function DocumentModuleTree({
                                   key={docKey}
                                   className={
                                     mode === 'view'
-                                      ? 'rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors p-3'
+                                      ? 'flex items-center gap-2 rounded-md border border-slate-200 bg-white hover:bg-slate-50 transition-colors px-2.5 py-2'
                                       : 'flex items-center gap-3 pl-14 pr-4 py-2 text-sm hover:bg-slate-50'
                                   }
                                 >
@@ -230,10 +292,10 @@ export default function DocumentModuleTree({
                                         {latest.version}
                                       </Badge>
                                     </div>
-                                    {mode === 'view' && (
-                                      <span className="text-xs text-slate-400 block mt-1">{latest.time}</span>
-                                    )}
                                   </label>
+                                  {mode === 'view' && (
+                                    <span className="text-xs text-slate-400 shrink-0 tabular-nums">{latest.time.split(' ')[0]}</span>
+                                  )}
 
                                   {hasHistory && (
                                     <button
@@ -253,12 +315,12 @@ export default function DocumentModuleTree({
                               );
 
                               return (
-                                <div key={docKey}>
+                                <div key={docKey} className={mode === 'view' ? '' : ''}>
                                   {row}
                                   {hasHistory && docKeyOpen && (
                                     <div className={mode === 'view' ? 'mt-1' : ''}>
-                                      <div className={mode === 'view' ? 'rounded-lg border border-slate-100 bg-slate-50 p-2' : 'pl-14 pr-4 pb-2'}>
-                                        <div className="space-y-1">
+                                      <div className={mode === 'view' ? 'rounded-md border border-slate-100 bg-slate-50 p-2' : 'pl-14 pr-4 pb-2'}>
+                                        <div className={mode === 'view' ? 'space-y-1' : 'space-y-1'}>
                                           {versions.slice(1).map((v) => (
                                             <div
                                               key={v.id}
@@ -281,13 +343,15 @@ export default function DocumentModuleTree({
                                                 className="flex-1 min-w-0 cursor-pointer"
                                               >
                                                 <div className="flex items-center gap-2 min-w-0">
-                                                  <span className="text-slate-700 truncate">{v.name}</span>
+                                                  <span className="text-slate-700 truncate">{v.docKey}</span>
                                                   <Badge variant="outline" className="shrink-0">
                                                     {v.version}
                                                   </Badge>
                                                 </div>
-                                                {mode === 'view' && <span className="text-xs text-slate-400 block">{v.time}</span>}
                                               </label>
+                                              {mode === 'view' && (
+                                                <span className="text-xs text-slate-400 shrink-0 tabular-nums">{v.time.split(' ')[0]}</span>
+                                              )}
                                             </div>
                                           ))}
                                         </div>
@@ -303,6 +367,7 @@ export default function DocumentModuleTree({
                     </div>
                   );
                 })}
+                </div>
               </div>
             )}
           </div>

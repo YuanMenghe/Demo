@@ -81,7 +81,7 @@ export default function UploadView({ onComplete, compact = false }: UploadViewPr
                 <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5" />
                 <div>
                   <h3 className="font-medium">{t('可能的审查问题预测', 'Predicted review questions')}</h3>
-                  <p className="text-sm text-slate-500">{t('基于历史审评与 CRL 先例预测审查问题', 'Predict questions from review history and CRL precedent')}</p>
+                  <p className="text-sm text-slate-500">{t('基于历史审查报告与 CRL 先例预测审查问题', 'Predict questions from review history and CRL precedent')}</p>
                 </div>
               </div>
             </div>

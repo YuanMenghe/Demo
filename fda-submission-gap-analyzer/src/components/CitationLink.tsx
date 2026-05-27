@@ -40,7 +40,7 @@ export function CitationUserLink({ entryId, className }: UserProps) {
       type="button"
       variant="link"
       size="sm"
-      className={`h-auto p-0 text-xs text-teal-700 inline-flex items-center gap-1 ${className ?? ''}`}
+      className={`h-auto p-0 text-xs text-blue-600 inline-flex items-center gap-1 ${className ?? ''}`}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -48,7 +48,7 @@ export function CitationUserLink({ entryId, className }: UserProps) {
       }}
     >
       <BookOpen className="w-3.5 h-3.5 shrink-0" />
-      {t('知识库 PDF', 'KB PDF')}
+      {t('溯源', 'Source')}
     </Button>
   );
 }

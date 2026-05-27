@@ -44,6 +44,7 @@ export const DEFAULT_PROJECT_DOCUMENTS: ProjectDocument[] = [
 ];
 
 function parseTimeToSortKey(time: string): number {
+  // Accepts 'YYYY-MM-DD HH:mm' used in this demo dataset.
   const iso = time.includes('T') ? time : time.replace(' ', 'T');
   const ms = Date.parse(iso);
   return Number.isFinite(ms) ? ms : 0;
@@ -55,6 +56,7 @@ function deriveDocKeyAndVersion(name: string, time: string): { docKey: string; v
   const ext = extMatch?.[1] ?? '';
   const base = ext ? name.slice(0, -ext.length) : name;
 
+  // Common patterns: xxx_v3, xxx-v3, xxx v3
   const vMatch = base.match(/(?:^|[\s._-])v(\d+)\b/i);
   if (vMatch) {
     const vNum = Number(vMatch[1]);
@@ -66,6 +68,7 @@ function deriveDocKeyAndVersion(name: string, time: string): { docKey: string; v
     };
   }
 
+  // Date version embedded in name: YYYY-MM-DD or YYYYMMDD
   const dateMatch = base.match(/\b(20\d{2})[-.]?(0[1-9]|1[0-2])[-.]?([0-2]\d|3[01])\b/);
   if (dateMatch) {
     const y = Number(dateMatch[1]);
@@ -80,6 +83,7 @@ function deriveDocKeyAndVersion(name: string, time: string): { docKey: string; v
     };
   }
 
+  // Fallback: show date portion from upload time; compare by time.
   const dateLabel = time.split(' ')[0] ?? time;
   return {
     docKey: name,
