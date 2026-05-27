@@ -50,21 +50,35 @@ function parseTimeToSortKey(time: string): number {
   return Number.isFinite(ms) ? ms : 0;
 }
 
+function semverToSortKey(v: string): number {
+  // v like "1.2.3" or "1.2" or "1"
+  // Encode into a single number: major*1e9 + minor*1e6 + patch*1e3 + build
+  // (segments capped to 4, each segment capped to 0-999)
+  const parts = v
+    .split('.')
+    .map((x) => Number(x))
+    .filter((n) => Number.isFinite(n))
+    .slice(0, 4)
+    .map((n) => Math.max(0, Math.min(999, Math.trunc(n))));
+  const [a = 0, b = 0, c = 0, d = 0] = parts;
+  return a * 1_000_000_000 + b * 1_000_000 + c * 1_000 + d;
+}
+
 function deriveDocKeyAndVersion(name: string, time: string): { docKey: string; version: string; versionSortKey: number } {
   const lower = name.toLowerCase();
   const extMatch = lower.match(/(\.[a-z0-9]+)$/i);
   const ext = extMatch?.[1] ?? '';
   const base = ext ? name.slice(0, -ext.length) : name;
 
-  // Common patterns: xxx_v3, xxx-v3, xxx v3
-  const vMatch = base.match(/(?:^|[\s._-])v(\d+)\b/i);
+  // Common patterns: xxx_v1.1, xxx-v1.1, xxx v1.1, xxx_v3
+  const vMatch = base.match(/(?:^|[\s._-])v(\d+(?:\.\d+)*)\b/i);
   if (vMatch) {
-    const vNum = Number(vMatch[1]);
-    const cleanedBase = base.replace(/(?:^|[\s._-])v\d+\b/i, '').replace(/[_\s.-]+$/, '');
+    const raw = vMatch[1];
+    const cleanedBase = base.replace(/(?:^|[\s._-])v\d+(?:\.\d+)*\b/i, '').replace(/[_\s.-]+$/, '');
     return {
       docKey: `${cleanedBase}${ext}`,
-      version: `v${vNum}`,
-      versionSortKey: Number.isFinite(vNum) ? vNum : 0,
+      version: `v${raw}`,
+      versionSortKey: semverToSortKey(raw),
     };
   }
 
