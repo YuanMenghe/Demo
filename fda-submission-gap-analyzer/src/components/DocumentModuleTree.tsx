@@ -201,7 +201,6 @@ export default function DocumentModuleTree({
 
             {moduleOpen && (
               <div className={mode === 'view' ? 'p-2' : 'divide-y divide-slate-50'}>
-                <div className={mode === 'view' ? 'grid grid-cols-1 lg:grid-cols-2 gap-2' : ''}>
                 {folderEntries.map(([folderName, files]) => {
                   const folderKey = `${moduleId}/${folderName}`;
                   const folderOpen = expandedFolders.has(folderKey);
@@ -245,7 +244,9 @@ export default function DocumentModuleTree({
                           </span>
                         )}
                         <Folder className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="text-sm font-medium text-slate-700 flex-1 truncate">{folderName}</span>
+                        <span className="text-sm font-medium text-slate-700 flex-1 min-w-0">
+                          <span className="block truncate">{folderName}</span>
+                        </span>
                         <span className="text-xs text-slate-400 hidden sm:inline">
                           {t('已选', 'Selected')} {folderSelectedCount} / {t('最新', 'Latest')} {folderLatestCount} / {t('总计', 'Total')} {files.length}
                         </span>
@@ -367,7 +368,6 @@ export default function DocumentModuleTree({
                     </div>
                   );
                 })}
-                </div>
               </div>
             )}
           </div>
