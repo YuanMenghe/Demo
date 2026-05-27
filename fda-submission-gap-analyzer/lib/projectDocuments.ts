@@ -26,11 +26,14 @@ export const MODULE_LABELS: Record<EctdModule, { zh: string; en: string }> = {
 export const MODULE_ORDER: EctdModule[] = ['M1', 'M2', 'M3', 'M4', 'M5'];
 
 export const DEFAULT_PROJECT_DOCUMENTS: ProjectDocument[] = [
-  createProjectDocument({ id: 'd1', name: 'form-fda-356h-draft.pdf', module: 'M1', folder: '1.1 Forms', time: '2026-03-23 10:00' }),
-  createProjectDocument({ id: 'd2', name: 'cover-letter.pdf', module: 'M1', folder: '1.0 Cover', time: '2026-03-23 10:02' }),
+  // Demo: a few files include semantic versions (v1.0/v1.1/v2.0) to exercise version grouping.
+  createProjectDocument({ id: 'd1', name: 'form-fda-356h-draft_v1.0.pdf', module: 'M1', folder: '1.1 Forms', time: '2026-03-22 09:00' }),
+  createProjectDocument({ id: 'd1b', name: 'form-fda-356h-draft_v1.1.pdf', module: 'M1', folder: '1.1 Forms', time: '2026-03-23 10:00' }),
+  createProjectDocument({ id: 'd2', name: 'cover-letter_v1.0.pdf', module: 'M1', folder: '1.0 Cover', time: '2026-03-22 10:02' }),
+  createProjectDocument({ id: 'd2b', name: 'cover-letter_v1.1.pdf', module: 'M1', folder: '1.0 Cover', time: '2026-03-23 10:02' }),
   createProjectDocument({ id: 'd3', name: 'debarment-certification.pdf', module: 'M1', folder: '1.2 Certifications', time: '2026-03-23 10:05' }),
   createProjectDocument({ id: 'd4', name: 'financial-disclosure-index.pdf', module: 'M1', folder: '1.3 Financial', time: '2026-03-22 16:00' }),
-  createProjectDocument({ id: 'd5', name: '2.5-clinical-overview.pdf', module: 'M2', folder: '2.5 Clinical Overview', time: '2026-03-23 09:30' }),
+  createProjectDocument({ id: 'd5', name: '2.5-clinical-overview_v2.0.pdf', module: 'M2', folder: '2.5 Clinical Overview', time: '2026-03-23 09:30' }),
   createProjectDocument({ id: 'd6', name: '2.7-clinical-summary.pdf', module: 'M2', folder: '2.7 Clinical Summary', time: '2026-03-23 09:35' }),
   createProjectDocument({ id: 'd7', name: 'quality-overall-summary.pdf', module: 'M2', folder: '2.3 Quality Overall Summary', time: '2026-03-22 14:00' }),
   createProjectDocument({ id: 'd8', name: '3.2.P.5-control-drug-product.pdf', module: 'M3', folder: '3.2.P Drug Product', time: '2026-03-23 11:00' }),
@@ -38,7 +41,8 @@ export const DEFAULT_PROJECT_DOCUMENTS: ProjectDocument[] = [
   createProjectDocument({ id: 'd10', name: '3.2.P.2-development.pdf', module: 'M3', folder: '3.2.P Drug Product', time: '2026-03-22 11:20' }),
   createProjectDocument({ id: 'd11', name: 'nonclinical-overview.pdf', module: 'M4', folder: '4.2 Overview', time: '2026-03-21 15:30' }),
   createProjectDocument({ id: 'd12', name: 'toxicology-core-study.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 15:45' }),
-  createProjectDocument({ id: 'd13', name: 'clinical-study-report-001.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-23 10:00' }),
+  createProjectDocument({ id: 'd13', name: 'clinical-study-report-001_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 10:00' }),
+  createProjectDocument({ id: 'd13b', name: 'clinical-study-report-001_v1.1.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-23 10:00' }),
   createProjectDocument({ id: 'd14', name: '5.3.5.1-efficacy-report.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-23 10:10' }),
   createProjectDocument({ id: 'd15', name: 'investigator-brochure.pdf', module: 'M5', folder: '5.2 Tabular Listings', time: '2026-03-21 09:15' }),
 ];
