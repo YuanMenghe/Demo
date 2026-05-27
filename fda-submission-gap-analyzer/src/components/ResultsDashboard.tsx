@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, CheckSquare, Microscope, AlertOctagon, PenTool, FileDown, FileText, Package, Share2, Loader2 } from 'lucide-react';
+import { ArrowLeft, CheckSquare, Microscope, AlertOctagon, FileDown, FileText, Package, Share2, Loader2 } from 'lucide-react';
 import MaterialCompleteness from './modules/MaterialCompleteness';
 import ScientificReview from './modules/ScientificReview';
 import KeyReviewIssues from './modules/KeyReviewIssues';
-import ResponseCopilot from './modules/ResponseCopilot';
 import { useLanguage } from '@/lib/i18n';
+import { DEFAULT_SELECTED_MODULES, type AnalysisModuleId } from '@/lib/analysisModules';
 import type { AnalysisExportContext } from '@/lib/reportExportContent';
 import {
   downloadAnalysisPdf,
@@ -24,25 +24,24 @@ export interface ReportExportMeta {
 interface ResultsDashboardProps {
   onReset: () => void;
   hideHeader?: boolean;
-  selectedModules?: string[];
-  /** When set, shows PDF / Word / ZIP download + share in the report view */
+  selectedModules?: AnalysisModuleId[];
   reportExport?: ReportExportMeta | null;
 }
 
 export default function ResultsDashboard({
   onReset,
   hideHeader = false,
-  selectedModules = ['completeness', 'scientific', 'issues', 'copilot'],
+  selectedModules = DEFAULT_SELECTED_MODULES,
   reportExport = null,
 }: ResultsDashboardProps) {
   const { t, language } = useLanguage();
-  const [activeTab, setActiveTab] = useState(selectedModules[0] || 'completeness');
+  const [activeTab, setActiveTab] = useState<string>(selectedModules[0] || 'completeness');
   const [exporting, setExporting] = useState<null | 'pdf' | 'docx' | 'zip'>(null);
 
   const exportCtx: AnalysisExportContext = useMemo(
     () => ({
       projectName: reportExport?.projectName ?? t('演示项目', 'Demo project'),
-      analysisName: reportExport?.analysisName ?? t('差距分析报告', 'Gap analysis report'),
+      analysisName: reportExport?.analysisName ?? t('申报审查报告', 'Submission review report'),
       analysisDate: reportExport?.analysisDate ?? '—',
       fileCount: reportExport?.fileCount ?? 0,
       modules: selectedModules,
@@ -76,30 +75,15 @@ export default function ResultsDashboard({
 
   const exportToolbar = reportExport ? (
     <div className="flex flex-wrap items-center justify-end gap-2 mb-4">
-      <Button
-        variant="outline"
-        size="sm"
-        disabled={!!exporting}
-        onClick={() => void runExport('pdf')}
-      >
+      <Button variant="outline" size="sm" disabled={!!exporting} onClick={() => void runExport('pdf')}>
         {exporting === 'pdf' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileDown className="w-4 h-4 mr-2" />}
         {t('下载 PDF', 'Download PDF')}
       </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        disabled={!!exporting}
-        onClick={() => void runExport('docx')}
-      >
+      <Button variant="outline" size="sm" disabled={!!exporting} onClick={() => void runExport('docx')}>
         {exporting === 'docx' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />}
         {t('下载 Word', 'Download Word')}
       </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        disabled={!!exporting}
-        onClick={() => void runExport('zip')}
-      >
+      <Button variant="outline" size="sm" disabled={!!exporting} onClick={() => void runExport('zip')}>
         {exporting === 'zip' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Package className="w-4 h-4 mr-2" />}
         {t('打包下载 (PDF+Word)', 'Download bundle (PDF+Word)')}
       </Button>
@@ -109,6 +93,9 @@ export default function ResultsDashboard({
       </Button>
     </div>
   ) : null;
+
+  const tabCols =
+    selectedModules.length === 1 ? 'grid-cols-1' : selectedModules.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -120,8 +107,8 @@ export default function ResultsDashboard({
                 <ArrowLeft className="w-5 h-5" />
               </Button>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">{t('FDA NDA/BLA 差距分析报告', 'FDA NDA/BLA Gap Analysis Report')}</h1>
-                <p className="text-xs text-slate-500">{t('目标：NDA - 非小细胞肺癌', 'Target: NDA - Non-Small Cell Lung Cancer')}</p>
+                <h1 className="text-xl font-bold text-slate-900">{t('申报审查分析报告', 'Submission review report')}</h1>
+                <p className="text-xs text-slate-500">{t('输入范围：M1–M5', 'Scope: Modules M1–M5')}</p>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2 justify-end">
@@ -149,17 +136,12 @@ export default function ResultsDashboard({
       <main className={`flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 ${hideHeader ? 'py-4' : 'py-8'}`}>
         {hideHeader && exportToolbar}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className={`grid w-full h-auto p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-sm ${
-            selectedModules.length === 1 ? 'grid-cols-1' :
-            selectedModules.length === 2 ? 'grid-cols-2' :
-            selectedModules.length === 3 ? 'grid-cols-3' :
-            'grid-cols-4'
-          }`}>
+          <TabsList className={`grid w-full h-auto p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-sm ${tabCols}`}>
             {selectedModules.includes('completeness') && (
               <TabsTrigger value="completeness" className="py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg">
                 <div className="flex flex-col items-center space-y-1">
                   <CheckSquare className="w-5 h-5" />
-                  <span className="font-medium">{t('1. 完整性', '1. Completeness')}</span>
+                  <span className="font-medium text-center text-xs sm:text-sm">{t('1. 材料完整性', '1. Completeness')}</span>
                 </div>
               </TabsTrigger>
             )}
@@ -167,7 +149,7 @@ export default function ResultsDashboard({
               <TabsTrigger value="scientific" className="py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg">
                 <div className="flex flex-col items-center space-y-1">
                   <Microscope className="w-5 h-5" />
-                  <span className="font-medium">{t('2. 科学性', '2. Scientific Validity')}</span>
+                  <span className="font-medium text-center text-xs sm:text-sm">{t('2. 科学性', '2. Scientific')}</span>
                 </div>
               </TabsTrigger>
             )}
@@ -175,15 +157,7 @@ export default function ResultsDashboard({
               <TabsTrigger value="issues" className="py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg">
                 <div className="flex flex-col items-center space-y-1">
                   <AlertOctagon className="w-5 h-5" />
-                  <span className="font-medium">{t('3. 核心问题', '3. Key FDA Issues')}</span>
-                </div>
-              </TabsTrigger>
-            )}
-            {selectedModules.includes('copilot') && (
-              <TabsTrigger value="copilot" className="py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg">
-                <div className="flex flex-col items-center space-y-1">
-                  <PenTool className="w-5 h-5" />
-                  <span className="font-medium">{t('4. 回复草拟', '4. Response Copilot')}</span>
+                  <span className="font-medium text-center text-xs sm:text-sm">{t('3. 审查问题', '3. Review Qs')}</span>
                 </div>
               </TabsTrigger>
             )}
@@ -203,11 +177,6 @@ export default function ResultsDashboard({
             {selectedModules.includes('issues') && (
               <TabsContent value="issues" className="mt-0 outline-none">
                 <KeyReviewIssues />
-              </TabsContent>
-            )}
-            {selectedModules.includes('copilot') && (
-              <TabsContent value="copilot" className="mt-0 outline-none">
-                <ResponseCopilot />
               </TabsContent>
             )}
           </div>

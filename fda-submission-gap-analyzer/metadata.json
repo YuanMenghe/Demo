@@ -1,5 +1,5 @@
 {
-  "name": "FDA Submission Gap Analyzer",
-  "description": "A simulated AI system that evaluates CDE submission documents against FDA NDA/BLA requirements, identifies gaps, and drafts responses.",
+  "name": "申报审查智能体",
+  "description": "A simulated intelligent agent for submission review: M1–M5 material completeness, scientific validity, and predicted review questions.",
   "requestFramePermissions": []
 }

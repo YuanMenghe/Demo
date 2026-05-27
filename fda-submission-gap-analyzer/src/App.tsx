@@ -27,7 +27,7 @@ export default function App() {
       type: 'NDA',
       indication: 'Non-Small Cell Lung Cancer',
       lastUpdated: '2026-03-23',
-      docCount: 12,
+      docCount: 15,
       status: 'analyzed',
     },
     {

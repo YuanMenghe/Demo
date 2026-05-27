@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle2, Loader2, FileSearch, ShieldCheck, AlertTriangle, FileSignature } from 'lucide-react';
+import { CheckCircle2, Loader2, FileSearch, ShieldCheck, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 
 interface AnalyzingViewProps {
@@ -14,22 +14,39 @@ export default function AnalyzingView({ onComplete }: AnalyzingViewProps) {
   const [progress, setProgress] = useState(0);
 
   const steps = [
-    { id: 1, title: t('读取 CDE 文件', 'Reading CDE Documents'), description: t('解析 eCTD 结构并提取内容...', 'Parsing eCTD structure and extracting content...'), icon: FileSearch },
-    { id: 2, title: t('模块 1：材料完整性', 'Module 1: Material Completeness'), description: t('对照 21 CFR Part 11 & eCTD 4.0 标准检查...', 'Checking against 21 CFR Part 11 & eCTD 4.0 standards...'), icon: CheckCircle2 },
-    { id: 3, title: t('模块 2：科学性审查', 'Module 2: Scientific Validity'), description: t('对照 FDA 指南审查研究设计、终点和统计学...', 'Reviewing study design, endpoints, and statistics against FDA guidance...'), icon: ShieldCheck },
-    { id: 4, title: t('模块 3：重点审查问题', 'Module 3: Key Review Issues'), description: t('从 FDA CRL 数据库识别潜在问题...', 'Identifying potential questions from FDA CRL Database...'), icon: AlertTriangle },
-    { id: 5, title: t('模块 4：回复辅助草拟', 'Module 4: Response Copilot'), description: t('准备草拟环境和逻辑分析...', 'Preparing drafting environment and logic analysis...'), icon: FileSignature },
+    {
+      id: 1,
+      title: t('读取 M1–M5 卷宗', 'Reading M1–M5 dossier'),
+      description: t('解析 eCTD 目录与各模块子文件夹...', 'Parsing eCTD TOC and module subfolders...'),
+      icon: FileSearch,
+    },
+    {
+      id: 2,
+      title: t('材料完整性检查', 'Material completeness'),
+      description: t('形式缺失项清单 + 技术完整性报告...', 'Formal missing list + technical integrity report...'),
+      icon: CheckCircle2,
+    },
+    {
+      id: 3,
+      title: t('科学性审查', 'Scientific validity'),
+      description: t('对照指南审查研究设计、终点与统计学...', 'Reviewing design, endpoints, and statistics vs guidance...'),
+      icon: ShieldCheck,
+    },
+    {
+      id: 4,
+      title: t('可能的审查问题预测', 'Predicted review questions'),
+      description: t('基于历史审评与 CRL 先例生成问题清单...', 'Generating questions from review history and CRL precedent...'),
+      icon: AlertTriangle,
+    },
   ];
 
   useEffect(() => {
     const totalDuration = 8000;
-    const stepDuration = totalDuration / steps.length;
-    
     let currentProgress = 0;
     const interval = setInterval(() => {
       currentProgress += 100 / (totalDuration / 50);
       setProgress(Math.min(currentProgress, 100));
-      
+
       const stepIndex = Math.min(Math.floor((currentProgress / 100) * steps.length), steps.length - 1);
       setCurrentStep(stepIndex);
 
@@ -49,8 +66,8 @@ export default function AnalyzingView({ onComplete }: AnalyzingViewProps) {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-6">
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">{t('AI 差距分析进行中', 'AI Gap Analysis in Progress')}</h2>
-          <p className="text-slate-500">{t('正在将您的 CDE 申报材料与 FDA NDA/BLA 要求进行比对。', 'Comparing your CDE submission against FDA NDA/BLA requirements.')}</p>
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">{t('申报审查分析进行中', 'Submission review in progress')}</h2>
+          <p className="text-slate-500">{t('正在处理 M1–M5 输入并生成审查报告。', 'Processing M1–M5 inputs and generating the review report.')}</p>
         </div>
 
         <Progress value={progress} className="h-3 mb-10" />
@@ -71,9 +88,11 @@ export default function AnalyzingView({ onComplete }: AnalyzingViewProps) {
                   isCurrent ? 'bg-blue-50 border border-blue-100' : 'bg-transparent'
                 }`}
               >
-                <div className={`mt-1 flex-shrink-0 ${
-                  isCompleted ? 'text-green-500' : isCurrent ? 'text-blue-500' : 'text-slate-300'
-                }`}>
+                <div
+                  className={`mt-1 flex-shrink-0 ${
+                    isCompleted ? 'text-green-500' : isCurrent ? 'text-blue-500' : 'text-slate-300'
+                  }`}
+                >
                   {isCompleted ? (
                     <CheckCircle2 className="w-6 h-6" />
                   ) : isCurrent ? (
@@ -83,14 +102,18 @@ export default function AnalyzingView({ onComplete }: AnalyzingViewProps) {
                   )}
                 </div>
                 <div>
-                  <h4 className={`font-semibold ${
-                    isCompleted ? 'text-slate-900' : isCurrent ? 'text-blue-900' : 'text-slate-400'
-                  }`}>
+                  <h4
+                    className={`font-semibold ${
+                      isCompleted ? 'text-slate-900' : isCurrent ? 'text-blue-900' : 'text-slate-400'
+                    }`}
+                  >
                     {step.title}
                   </h4>
-                  <p className={`text-sm mt-1 ${
-                    isCompleted ? 'text-slate-600' : isCurrent ? 'text-blue-700' : 'text-slate-400'
-                  }`}>
+                  <p
+                    className={`text-sm mt-1 ${
+                      isCompleted ? 'text-slate-600' : isCurrent ? 'text-blue-700' : 'text-slate-400'
+                    }`}
+                  >
                     {step.description}
                   </p>
                 </div>

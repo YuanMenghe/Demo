@@ -29,7 +29,7 @@ export default function ProjectList({ projects, onSelectProject, onCreateProject
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">{t('项目管理', 'Project Management')}</h1>
-            <p className="text-slate-500 mt-2">{t('管理您的 FDA 申报分析项目，支持增量上传和持续审查。', 'Manage your FDA submission analysis projects, supporting incremental uploads and continuous review.')}</p>
+            <p className="text-slate-500 mt-2">{t('管理申报审查项目，按 M1–M5 组织文档并支持增量分析与持续审查。', 'Manage submission review projects with M1–M5 document organization, incremental uploads, and ongoing review.')}</p>
           </div>
           <Button onClick={onCreateProject} className="bg-blue-600 hover:bg-blue-700 text-white">
             <Plus className="w-4 h-4 mr-2" />

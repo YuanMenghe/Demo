@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, UploadCloud, FileText, CheckCircle2, Search, Plus, Clock, Play, Settings2, FileCheck2, Activity, Package, Loader2 } from 'lucide-react';
+import { ArrowLeft, UploadCloud, FileText, Clock, Play, Settings2, FileCheck2, Activity, Package, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import ResultsDashboard from './ResultsDashboard';
 import UploadView from './UploadView';
+import DocumentModuleTree from './DocumentModuleTree';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { downloadAnalysisBundleZip } from '@/lib/analysisReportExport';
 import type { AnalysisExportContext } from '@/lib/reportExportContent';
+import { DEFAULT_SELECTED_MODULES, type AnalysisModuleId } from '@/lib/analysisModules';
+import { DEFAULT_PROJECT_DOCUMENTS, type ProjectDocument } from '@/lib/projectDocuments';
 
 interface ProjectWorkspaceProps {
   project: any;
@@ -23,25 +26,25 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [viewingAnalysis, setViewingAnalysis] = useState<any>(null);
 
-  const [documents, setDocuments] = useState([
-    { id: 'd1', name: 'clinical-study-report-001.pdf', module: 'Module 5', time: '2026-03-23 10:00' },
-    { id: 'd2', name: 'cmc-quality-summary.pdf', module: 'Module 3', time: '2026-03-23 10:05' },
-    { id: 'd3', name: 'nonclinical-overview.pdf', module: 'Module 2', time: '2026-03-22 15:30' },
-    { id: 'd4', name: 'investigator-brochure.pdf', module: 'Module 1', time: '2026-03-21 09:15' }
-  ]);
+  const initialDocuments = (): ProjectDocument[] => {
+    if (!project?.docCount) return [];
+    return DEFAULT_PROJECT_DOCUMENTS.slice(0, Math.min(project.docCount, DEFAULT_PROJECT_DOCUMENTS.length));
+  };
+
+  const [documents, setDocuments] = useState<ProjectDocument[]>(initialDocuments);
 
   const [analyses, setAnalyses] = useState<any[]>([
     ...(project?.status === 'analyzed' ? [{
       id: 'a1',
       date: '2026-03-23 10:30',
-      name: 'Initial Full Analysis',
-      files: 4,
-      modules: ['completeness', 'scientific', 'issues', 'copilot']
+      name: t('首次全量分析 (M1–M5)', 'Initial full analysis (M1–M5)'),
+      files: initialDocuments().length || DEFAULT_PROJECT_DOCUMENTS.length,
+      modules: [...DEFAULT_SELECTED_MODULES],
     }] : [])
   ]);
 
-  const [selectedFiles, setSelectedFiles] = useState<string[]>(documents.map(d => d.id));
-  const [selectedModules, setSelectedModules] = useState<string[]>(['completeness', 'scientific', 'issues', 'copilot']);
+  const [selectedFiles, setSelectedFiles] = useState<string[]>(() => initialDocuments().map((d) => d.id));
+  const [selectedModules, setSelectedModules] = useState<AnalysisModuleId[]>([...DEFAULT_SELECTED_MODULES]);
   const [bundleDownloadingId, setBundleDownloadingId] = useState<string | null>(null);
 
   const handleUploadComplete = () => {
@@ -49,15 +52,19 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     setActiveTab('documents');
     
     // Add some mock new documents
-    const newDocs = [
-      { id: `d${Date.now()}`, name: 'updated_protocol_v3.pdf', module: 'Module 5', time: new Date().toISOString().replace('T', ' ').substring(0, 16) },
-      { id: `d${Date.now()+1}`, name: 'new_safety_data.pdf', module: 'Module 2', time: new Date().toISOString().replace('T', ' ').substring(0, 16) }
+    const ts = new Date().toISOString().replace('T', ' ').substring(0, 16);
+    const newDocs: ProjectDocument[] = [
+      { id: `d${Date.now()}`, name: 'updated_protocol_v3.pdf', module: 'M5', folder: '5.3.1 Protocols', time: ts },
+      { id: `d${Date.now() + 1}`, name: 'new_safety_data.pdf', module: 'M2', folder: '2.7 Clinical Summary', time: ts },
     ];
-    setDocuments([...newDocs, ...documents]);
-    
+    const nextDocs =
+      documents.length === 0 ? [...DEFAULT_PROJECT_DOCUMENTS] : [...newDocs, ...documents];
+    setDocuments(nextDocs);
+    setSelectedFiles(nextDocs.map((d) => d.id));
+
     onUpdateProject({
       ...project,
-      docCount: project.docCount + newDocs.length,
+      docCount: nextDocs.length,
       name: project.name === 'New Project' ? 'Project Delta - Auto' : project.name
     });
   };
@@ -87,8 +94,10 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     setSelectedFiles(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
   };
 
-  const toggleModule = (id: string) => {
-    setSelectedModules(prev => prev.includes(id) ? prev.filter(m => m !== id) : [...prev, id]);
+  const toggleModule = (id: AnalysisModuleId) => {
+    setSelectedModules((prev) =>
+      prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
+    );
   };
 
   const buildExportContext = (analysis: { name: string; date: string; files: number; modules: string[] }): AnalysisExportContext => ({
@@ -184,25 +193,17 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
           <Card>
             <CardHeader>
               <CardTitle>{t('选择要分析的文档', 'Select Documents to Analyze')}</CardTitle>
-              <CardDescription>{t('选择本次分析需要包含的源文件。', 'Select the source files to include in this analysis run.')}</CardDescription>
+              <CardDescription>
+                {t('按 M1–M5 模块与子文件夹勾选本次分析所包含的源文件。', 'Select source files by M1–M5 module and subfolder for this run.')}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {documents.map(doc => (
-                  <div key={doc.id} className="flex items-center space-x-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50">
-                    <Checkbox 
-                      id={`doc-${doc.id}`} 
-                      checked={selectedFiles.includes(doc.id)}
-                      onCheckedChange={() => toggleFile(doc.id)}
-                    />
-                    <label htmlFor={`doc-${doc.id}`} className="flex-1 flex items-center cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      <FileText className="w-4 h-4 text-blue-500 mr-2" />
-                      {doc.name}
-                    </label>
-                    <span className="text-xs text-slate-400">{doc.module}</span>
-                  </div>
-                ))}
-              </div>
+              <DocumentModuleTree
+                documents={documents}
+                mode="select"
+                selectedIds={selectedFiles}
+                onToggle={toggleFile}
+              />
             </CardContent>
           </Card>
 
@@ -212,13 +213,24 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
               <CardDescription>{t('选择本次运行需要执行的审查模块。', 'Select the review modules to execute in this run.')}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 {[
-                  { id: 'completeness', name: t('1. 完整性检查', '1. Completeness Check'), desc: t('识别缺失或需要改写的文件', 'Identify missing or rewrite-required documents') },
-                  { id: 'scientific', name: t('2. 科学性审查', '2. Scientific Validity'), desc: t('对照 FDA 指南检查研究设计', 'Check study design against FDA guidance') },
-                  { id: 'issues', name: t('3. 核心问题预测', '3. Key FDA Issues'), desc: t('预测 FDA 可能提出的问题', 'Predict potential FDA questions') },
-                  { id: 'copilot', name: t('4. 回复草拟', '4. Response Copilot'), desc: t('为潜在问题草拟回复', 'Draft responses for potential issues') }
-                ].map(mod => (
+                  {
+                    id: 'completeness' as const,
+                    name: t('1. 材料完整性检查', '1. Material completeness'),
+                    desc: t('形式完整性（内容缺失项清单）+ 内容完整性（技术完整性报告），输入 M1–M5', 'Formal missing-item list + technical integrity report for M1–M5'),
+                  },
+                  {
+                    id: 'scientific' as const,
+                    name: t('2. 科学性审查', '2. Scientific validity'),
+                    desc: t('对照指南与文献评估临床与 CMC 科学性', 'Clinical and CMC scientific assessment vs guidance'),
+                  },
+                  {
+                    id: 'issues' as const,
+                    name: t('3. 可能的审查问题预测', '3. Predicted review questions'),
+                    desc: t('预测监管机构可能提出的审查问题', 'Predict likely regulatory review questions'),
+                  },
+                ].map((mod) => (
                   <div key={mod.id} className="flex items-start space-x-3 p-4 rounded-lg border border-slate-100 hover:bg-slate-50">
                     <Checkbox 
                       id={`mod-${mod.id}`} 
@@ -303,34 +315,20 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
               </div>
             </div>
             
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-              <div className="grid grid-cols-12 gap-4 p-4 border-b border-slate-100 bg-slate-50 text-sm font-medium text-slate-500">
-                <div className="col-span-6">{t('文件名', 'File Name')}</div>
-                <div className="col-span-3">{t('模块', 'Module')}</div>
-                <div className="col-span-3">{t('上传时间', 'Upload Time')}</div>
+            <p className="text-sm text-slate-500">
+              {t(
+                '文档按 M1–M5 模块与子文件夹组织，便于管理大量 eCTD 源文件。',
+                'Documents are organized by Modules M1–M5 and subfolders for large eCTD source sets.'
+              )}
+            </p>
+            {documents.length === 0 ? (
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-8 text-center text-slate-500">
+                <FileText className="w-12 h-12 mx-auto text-slate-300 mb-3" />
+                <p>{t('暂无文档，请点击右上角上传', 'No documents yet, click upload to add some')}</p>
               </div>
-              <div className="divide-y divide-slate-100">
-                {documents.length === 0 ? (
-                  <div className="p-8 text-center text-slate-500">
-                    <FileText className="w-12 h-12 mx-auto text-slate-300 mb-3" />
-                    <p>{t('暂无文档，请点击右上角上传', 'No documents yet, click upload to add some')}</p>
-                  </div>
-                ) : (
-                  documents.map((doc) => (
-                    <div key={doc.id} className="grid grid-cols-12 gap-4 p-4 items-center text-sm hover:bg-slate-50 transition-colors">
-                      <div className="col-span-6 flex items-center font-medium text-slate-700">
-                        <FileText className="w-4 h-4 mr-3 text-blue-500" />
-                        {doc.name}
-                      </div>
-                      <div className="col-span-3 text-slate-500">
-                        <span className="px-2 py-1 bg-slate-100 rounded-md text-xs">{doc.module}</span>
-                      </div>
-                      <div className="col-span-3 text-slate-400">{doc.time}</div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
+            ) : (
+              <DocumentModuleTree documents={documents} mode="view" />
+            )}
           </div>
         ) : (
           <div className="space-y-6">
@@ -391,7 +389,7 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="flex items-center"><Settings2 className="w-4 h-4 mr-2" /> {t('执行模块数', 'Modules Run')}</span>
-                          <span className="font-medium text-slate-900">{analysis.modules.length}/4</span>
+                          <span className="font-medium text-slate-900">{analysis.modules.length}/3</span>
                         </div>
                       </div>
                     </CardContent>

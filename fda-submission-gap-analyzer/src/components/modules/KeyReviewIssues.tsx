@@ -80,9 +80,9 @@ export default function KeyReviewIssues() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900">{t('FDA 重点审查问题预测', 'FDA Key Review Issues Prediction')}</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900">{t('可能的审查问题预测', 'Predicted review questions')}</h2>
         <p className="text-slate-500 mt-2">
-          {t('基于类似肿瘤学申请的历史 FDA 审查报告和 CRL 预测的潜在信息请求 (IR) 和审查问题。', 'Potential Information Requests (IRs) and review questions predicted based on historical FDA review reports and CRLs for similar oncology applications.')}
+          {t('基于同类适应症历史审评报告、CRL 与公开先例，预测监管机构可能提出的信息请求与审查问题。', 'Predicted information requests and review questions based on historical review reports, CRLs, and public precedent for similar indications.')}
         </p>
       </div>
 

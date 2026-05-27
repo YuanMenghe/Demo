@@ -30,7 +30,7 @@ export default function AppSidebar({ route, onNavigate, onOpenLogin, onOpenSetti
   return (
     <aside className="flex h-screen w-56 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="p-4 border-b border-slate-100">
-        <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t('FDA 差距分析', 'FDA Gap Lab')}</div>
+        <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t('申报审查智能体', 'Submission Review Agent')}</div>
         <div className="text-sm font-bold text-slate-900 mt-1 truncate">{t('工作台', 'Workspace')}</div>
       </div>
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
