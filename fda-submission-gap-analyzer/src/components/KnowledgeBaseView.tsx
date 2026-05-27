@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { CitationUserLink } from './CitationLink';
 
-type AddMode = 'note' | 'pdf';
+type AddMode = 'note' | 'file';
 
 function formatBytes(bytes: number, lang: 'zh' | 'en') {
   if (bytes < 1024) return `${bytes} B`;
@@ -30,7 +30,7 @@ function formatBytes(bytes: number, lang: 'zh' | 'en') {
 
 export default function KnowledgeBaseView() {
   const { t, language } = useLanguage();
-  const { entries, addTextEntry, addPdfEntry, removeEntry } = useKnowledge();
+  const { entries, addTextEntry, addFileEntry, removeEntry, getFileBlob } = useKnowledge();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [addMode, setAddMode] = useState<AddMode>('note');
@@ -43,13 +43,15 @@ export default function KnowledgeBaseView() {
   const stats = useMemo(() => {
     const notes = entries.filter((e) => e.kind === 'text').length;
     const pdfs = entries.filter((e) => e.kind === 'pdf').length;
+    const docs = entries.filter((e) => e.kind === 'docx').length;
+    const csvs = entries.filter((e) => e.kind === 'csv').length;
     const bytes = entries.reduce((sum, e) => {
-      if (e.kind === 'pdf' && e.pdfDataBase64) {
-        return sum + Math.floor((e.pdfDataBase64.length * 3) / 4);
+      if ((e.kind === 'pdf' || e.kind === 'docx') && e.fileDataBase64) {
+        return sum + Math.floor((e.fileDataBase64.length * 3) / 4);
       }
       return sum + (e.textContent?.length ?? 0);
     }, 0);
-    return { notes, pdfs, total: entries.length, bytes };
+    return { notes, pdfs, docs, csvs, total: entries.length, bytes };
   }, [entries]);
 
   const handleSaveText = () => {
@@ -60,18 +62,29 @@ export default function KnowledgeBaseView() {
     setErr(null);
   };
 
-  const processPdfFile = async (file: File) => {
-    if (file.type !== 'application/pdf') {
-      setErr(t('请上传 PDF 文件', 'Please upload a PDF file'));
+  const processFile = async (file: File) => {
+    const name = file.name || '';
+    const ext = name.split('.').pop()?.toLowerCase();
+    const ok =
+      file.type === 'application/pdf' ||
+      file.type === 'text/csv' ||
+      file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      ext === 'pdf' ||
+      ext === 'csv' ||
+      ext === 'docx';
+    if (!ok) {
+      setErr(t('请上传 PDF / Word(.docx) / CSV 文件', 'Please upload PDF / Word(.docx) / CSV'));
       return;
     }
     setErr(null);
     setUploading(true);
     try {
-      await addPdfEntry(file);
+      await addFileEntry(file);
     } catch (ex: unknown) {
       if (ex instanceof Error && ex.message === 'FILE_TOO_LARGE') {
         setErr(t('文件过大（演示限制约 900KB）', 'File too large (demo limit ~900KB)'));
+      } else if (ex instanceof Error && ex.message === 'UNSUPPORTED_TYPE') {
+        setErr(t('暂不支持该文件类型', 'Unsupported file type'));
       } else {
         setErr(t('上传失败', 'Upload failed'));
       }
@@ -83,14 +96,27 @@ export default function KnowledgeBaseView() {
   const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = '';
-    if (file) void processPdfFile(file);
+    if (file) void processFile(file);
   };
 
   const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
-    if (file) void processPdfFile(file);
+    if (file) void processFile(file);
+  };
+
+  const downloadEntry = (entryId: string, fallbackName: string) => {
+    const blob = getFileBlob(entryId);
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fallbackName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const modeBtn = (mode: AddMode, label: string, icon: ReactNode) => (
@@ -137,6 +163,12 @@ export default function KnowledgeBaseView() {
             <Badge variant="secondary" className="bg-white border border-slate-200 text-slate-700 px-3 py-1.5 h-auto">
               PDF {stats.pdfs}
             </Badge>
+            <Badge variant="secondary" className="bg-white border border-slate-200 text-slate-700 px-3 py-1.5 h-auto">
+              Word {stats.docs}
+            </Badge>
+            <Badge variant="secondary" className="bg-white border border-slate-200 text-slate-700 px-3 py-1.5 h-auto">
+              CSV {stats.csvs}
+            </Badge>
             <Badge variant="outline" className="px-3 py-1.5 h-auto gap-1.5">
               <HardDrive className="w-3.5 h-3.5" />
               {formatBytes(stats.bytes, language)}
@@ -156,7 +188,7 @@ export default function KnowledgeBaseView() {
             <CardContent className="space-y-4">
               <div className="flex gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200">
                 {modeBtn('note', t('笔记', 'Note'), <StickyNote className="w-4 h-4" />)}
-                {modeBtn('pdf', 'PDF', <FileText className="w-4 h-4" />)}
+                {modeBtn('file', t('文件', 'File'), <FileText className="w-4 h-4" />)}
               </div>
 
               {addMode === 'note' ? (
@@ -208,7 +240,7 @@ export default function KnowledgeBaseView() {
                       <UploadCloud className="w-10 h-10 text-slate-400 mx-auto" />
                     )}
                     <p className="text-sm font-medium text-slate-700 mt-3">
-                      {t('拖拽 PDF 到此处，或点击选择', 'Drag PDF here or click to browse')}
+                      {t('拖拽 PDF / Word / CSV 到此处，或点击选择', 'Drag PDF / Word / CSV here or click to browse')}
                     </p>
                     <p className="text-xs text-slate-500 mt-1">
                       {t('单文件 ≤ 900KB（演示限制）', 'Max ~900KB per file (demo limit)')}
@@ -217,7 +249,7 @@ export default function KnowledgeBaseView() {
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept="application/pdf"
+                    accept=".pdf,.docx,.csv,application/pdf,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     className="sr-only"
                     onChange={handleFileInput}
                     disabled={uploading}
@@ -264,10 +296,18 @@ export default function KnowledgeBaseView() {
                         <div className="flex gap-3">
                           <div
                             className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
-                              e.kind === 'pdf' ? 'bg-amber-50 text-amber-600' : 'bg-teal-50 text-teal-600'
+                              e.kind === 'pdf' || e.kind === 'docx'
+                                ? 'bg-amber-50 text-amber-600'
+                                : e.kind === 'csv'
+                                  ? 'bg-indigo-50 text-indigo-600'
+                                  : 'bg-teal-50 text-teal-600'
                             }`}
                           >
-                            {e.kind === 'pdf' ? <FileText className="w-5 h-5" /> : <StickyNote className="w-5 h-5" />}
+                            {e.kind === 'pdf' || e.kind === 'docx' || e.kind === 'csv' ? (
+                              <FileText className="w-5 h-5" />
+                            ) : (
+                              <StickyNote className="w-5 h-5" />
+                            )}
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex flex-wrap items-start justify-between gap-2">
@@ -275,7 +315,13 @@ export default function KnowledgeBaseView() {
                                 <div className="flex flex-wrap items-center gap-2">
                                   <span className="font-medium text-slate-900 truncate">{e.title}</span>
                                   <Badge variant="outline" className="text-[10px] uppercase tracking-wide">
-                                    {e.kind === 'pdf' ? 'PDF' : t('笔记', 'Note')}
+                                    {e.kind === 'pdf'
+                                      ? 'PDF'
+                                      : e.kind === 'docx'
+                                        ? 'DOCX'
+                                        : e.kind === 'csv'
+                                          ? 'CSV'
+                                          : t('笔记', 'Note')}
                                   </Badge>
                                 </div>
                                 <time className="text-xs text-slate-400 mt-0.5 block">
@@ -299,15 +345,50 @@ export default function KnowledgeBaseView() {
                               </p>
                             )}
 
-                            {e.kind === 'pdf' && (
+                            {(e.kind === 'pdf' || e.kind === 'docx') && (
                               <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-                                <span className="text-slate-500 truncate max-w-[200px]">{e.pdfName}</span>
-                                {e.pdfDataBase64 && (
+                                <span className="text-slate-500 truncate max-w-[260px]">{e.fileName ?? e.title}</span>
+                                {e.fileDataBase64 && (
                                   <span className="text-xs text-slate-400">
-                                    {formatBytes(Math.floor((e.pdfDataBase64.length * 3) / 4), language)}
+                                    {formatBytes(Math.floor((e.fileDataBase64.length * 3) / 4), language)}
                                   </span>
                                 )}
-                                <CitationUserLink entryId={e.id} />
+                                {e.kind === 'pdf' ? (
+                                  <CitationUserLink entryId={e.id} />
+                                ) : (
+                                  <Button
+                                    type="button"
+                                    variant="link"
+                                    size="sm"
+                                    className="h-auto p-0 text-xs text-blue-600"
+                                    onClick={() => downloadEntry(e.id, e.fileName ?? e.title)}
+                                  >
+                                    {t('下载', 'Download')}
+                                  </Button>
+                                )}
+                              </div>
+                            )}
+
+                            {e.kind === 'csv' && (
+                              <div className="mt-3 space-y-2">
+                                <div className="flex flex-wrap items-center gap-2 text-sm">
+                                  <span className="text-slate-500 truncate max-w-[260px]">{e.fileName ?? e.title}</span>
+                                  <Button
+                                    type="button"
+                                    variant="link"
+                                    size="sm"
+                                    className="h-auto p-0 text-xs text-blue-600"
+                                    onClick={() => downloadEntry(e.id, e.fileName ?? e.title)}
+                                  >
+                                    {t('下载', 'Download')}
+                                  </Button>
+                                </div>
+                                {typeof e.textContent === 'string' && e.textContent.trim() && (
+                                  <pre className="text-xs leading-relaxed bg-slate-50 rounded-lg p-3 border border-slate-100 overflow-x-auto max-h-40">
+                                    {e.textContent.split('\n').slice(0, 12).join('\n')}
+                                    {e.textContent.split('\n').length > 12 ? '\n…' : ''}
+                                  </pre>
+                                )}
                               </div>
                             )}
                           </div>

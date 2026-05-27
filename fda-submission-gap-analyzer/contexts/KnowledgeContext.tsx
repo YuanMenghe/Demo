@@ -4,9 +4,12 @@ export type KnowledgeEntry = {
   id: string;
   title: string;
   createdAt: string;
-  kind: 'text' | 'pdf';
+  kind: 'text' | 'pdf' | 'docx' | 'csv';
   textContent?: string;
-  /** Base64 for small PDFs only (demo persistence) */
+  /** Base64 for small files only (demo persistence). */
+  fileDataBase64?: string;
+  fileName?: string;
+  /** Backward-compat fields (kept for old localStorage). */
   pdfDataBase64?: string;
   pdfName?: string;
 };
@@ -18,7 +21,18 @@ function loadInitial(): KnowledgeEntry[] {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as KnowledgeEntry[];
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [];
+    // migrate older PDF fields to unified file fields
+    return parsed.map((e) => {
+      if (e.kind === 'pdf') {
+        return {
+          ...e,
+          fileName: e.fileName ?? e.pdfName ?? e.title,
+          fileDataBase64: e.fileDataBase64 ?? e.pdfDataBase64,
+        };
+      }
+      return e;
+    });
   } catch {
     return [];
   }
@@ -27,9 +41,10 @@ function loadInitial(): KnowledgeEntry[] {
 interface KnowledgeContextValue {
   entries: KnowledgeEntry[];
   addTextEntry: (title: string, text: string) => void;
-  addPdfEntry: (file: File) => Promise<void>;
+  addFileEntry: (file: File) => Promise<void>;
   removeEntry: (id: string) => void;
   getPdfBlob: (id: string) => Blob | null;
+  getFileBlob: (id: string) => Blob | null;
 }
 
 const KnowledgeContext = createContext<KnowledgeContextValue | undefined>(undefined);
@@ -47,12 +62,37 @@ export function KnowledgeProvider({ children }: { children: React.ReactNode }) {
 
   const getPdfBlob = useCallback((id: string) => {
     const e = entries.find((x) => x.id === id);
-    if (!e || e.kind !== 'pdf' || !e.pdfDataBase64) return null;
-    const bin = atob(e.pdfDataBase64);
+    if (!e || e.kind !== 'pdf') return null;
+    const base64 = e.fileDataBase64 ?? e.pdfDataBase64;
+    if (!base64) return null;
+    const bin = atob(base64);
     const bytes = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     return new Blob([bytes], { type: 'application/pdf' });
   }, [entries]);
+
+  const getFileBlob = useCallback(
+    (id: string) => {
+      const e = entries.find((x) => x.id === id);
+      if (!e) return null;
+      if (e.kind === 'csv' && typeof e.textContent === 'string') {
+        return new Blob([e.textContent], { type: 'text/csv;charset=utf-8' });
+      }
+      if ((e.kind === 'pdf' || e.kind === 'docx') && (e.fileDataBase64 || e.pdfDataBase64)) {
+        const base64 = e.fileDataBase64 ?? e.pdfDataBase64!;
+        const bin = atob(base64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        const type =
+          e.kind === 'pdf'
+            ? 'application/pdf'
+            : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        return new Blob([bytes], { type });
+      }
+      return null;
+    },
+    [entries]
+  );
 
   const addTextEntry = useCallback((title: string, text: string) => {
     const id = `k-${Date.now()}`;
@@ -68,11 +108,34 @@ export function KnowledgeProvider({ children }: { children: React.ReactNode }) {
     ]);
   }, []);
 
-  const addPdfEntry = useCallback(async (file: File) => {
+  const addFileEntry = useCallback(async (file: File) => {
+    const name = file.name || 'file';
+    const ext = name.split('.').pop()?.toLowerCase();
+    const kind: KnowledgeEntry['kind'] =
+      file.type === 'application/pdf' || ext === 'pdf'
+        ? 'pdf'
+        : file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || ext === 'docx'
+          ? 'docx'
+          : file.type === 'text/csv' || ext === 'csv'
+            ? 'csv'
+            : 'text';
+
+    if (kind === 'text') throw new Error('UNSUPPORTED_TYPE');
+
     const buf = await file.arrayBuffer();
-    if (buf.byteLength > 900_000) {
-      throw new Error('FILE_TOO_LARGE');
+    if (buf.byteLength > 900_000) throw new Error('FILE_TOO_LARGE');
+
+    const id = `k-${Date.now()}`;
+
+    if (kind === 'csv') {
+      const text = new TextDecoder('utf-8').decode(buf);
+      setEntries((prev) => [
+        { id, title: name, createdAt: new Date().toISOString(), kind, fileName: name, textContent: text },
+        ...prev,
+      ]);
+      return;
     }
+
     let base64 = '';
     const bytes = new Uint8Array(buf);
     const chunk = 0x8000;
@@ -80,16 +143,8 @@ export function KnowledgeProvider({ children }: { children: React.ReactNode }) {
       base64 += String.fromCharCode(...bytes.subarray(i, i + chunk));
     }
     base64 = btoa(base64);
-    const id = `k-${Date.now()}`;
     setEntries((prev) => [
-      {
-        id,
-        title: file.name,
-        createdAt: new Date().toISOString(),
-        kind: 'pdf',
-        pdfName: file.name,
-        pdfDataBase64: base64,
-      },
+      { id, title: name, createdAt: new Date().toISOString(), kind, fileName: name, fileDataBase64: base64 },
       ...prev,
     ]);
   }, []);
@@ -99,8 +154,8 @@ export function KnowledgeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ entries, addTextEntry, addPdfEntry, removeEntry, getPdfBlob }),
-    [entries, addTextEntry, addPdfEntry, removeEntry, getPdfBlob]
+    () => ({ entries, addTextEntry, addFileEntry, removeEntry, getPdfBlob, getFileBlob }),
+    [entries, addTextEntry, addFileEntry, removeEntry, getPdfBlob, getFileBlob]
   );
 
   return <KnowledgeContext.Provider value={value}>{children}</KnowledgeContext.Provider>;
