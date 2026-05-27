@@ -136,29 +136,41 @@ export default function ResultsDashboard({
       <main className={`flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 ${hideHeader ? 'py-4' : 'py-8'}`}>
         {hideHeader && exportToolbar}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className={`grid w-full h-auto p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-sm ${tabCols}`}>
+          <TabsList
+            variant="line"
+            className="w-full flex flex-wrap items-center justify-start gap-2 bg-transparent p-0 h-10"
+          >
             {selectedModules.includes('completeness') && (
-              <TabsTrigger value="completeness" className="py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg">
-                <div className="flex flex-col items-center space-y-1">
-                  <CheckSquare className="w-5 h-5" />
-                  <span className="font-medium text-center text-xs sm:text-sm">{t('1. 材料完整性', '1. Completeness')}</span>
-                </div>
+              <TabsTrigger
+                value="completeness"
+                className="h-10 px-3 rounded-lg border border-slate-200 bg-white/60 hover:bg-white data-[state=active]:bg-white data-[state=active]:shadow-sm"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <CheckSquare className="w-4 h-4" />
+                  <span className="font-medium text-sm">{t('材料完整性', 'Completeness')}</span>
+                </span>
               </TabsTrigger>
             )}
             {selectedModules.includes('scientific') && (
-              <TabsTrigger value="scientific" className="py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg">
-                <div className="flex flex-col items-center space-y-1">
-                  <Microscope className="w-5 h-5" />
-                  <span className="font-medium text-center text-xs sm:text-sm">{t('2. 科学性', '2. Scientific')}</span>
-                </div>
+              <TabsTrigger
+                value="scientific"
+                className="h-10 px-3 rounded-lg border border-slate-200 bg-white/60 hover:bg-white data-[state=active]:bg-white data-[state=active]:shadow-sm"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <Microscope className="w-4 h-4" />
+                  <span className="font-medium text-sm">{t('科学性', 'Scientific')}</span>
+                </span>
               </TabsTrigger>
             )}
             {selectedModules.includes('issues') && (
-              <TabsTrigger value="issues" className="py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg">
-                <div className="flex flex-col items-center space-y-1">
-                  <AlertOctagon className="w-5 h-5" />
-                  <span className="font-medium text-center text-xs sm:text-sm">{t('3. 审查问题', '3. Review Qs')}</span>
-                </div>
+              <TabsTrigger
+                value="issues"
+                className="h-10 px-3 rounded-lg border border-slate-200 bg-white/60 hover:bg-white data-[state=active]:bg-white data-[state=active]:shadow-sm"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <AlertOctagon className="w-4 h-4" />
+                  <span className="font-medium text-sm">{t('审查问题预测', 'Review Qs')}</span>
+                </span>
               </TabsTrigger>
             )}
           </TabsList>
