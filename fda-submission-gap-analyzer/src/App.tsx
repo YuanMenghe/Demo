@@ -27,7 +27,8 @@ export default function App() {
       type: 'NDA',
       indication: 'Non-Small Cell Lung Cancer',
       lastUpdated: '2026-03-23',
-      docCount: 15,
+      // Use a larger slice so M4/M5 multi-study mock data is visible in the demo.
+      docCount: 80,
       status: 'analyzed',
     },
     {
