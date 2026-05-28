@@ -341,9 +341,7 @@ export default function DocumentModuleTree({
                                     key={studyKey}
                                     className={
                                       mode === 'view'
-                                        ? open
-                                          ? 'rounded-lg border border-slate-200 bg-white overflow-hidden xl:col-span-2'
-                                          : 'rounded-lg border border-slate-200 bg-white overflow-hidden'
+                                        ? 'rounded-lg border border-slate-200 bg-white overflow-hidden'
                                         : ''
                                     }
                                   >
