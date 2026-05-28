@@ -54,3 +54,30 @@
 完成配置后点击「开始执行分析」，系统将生成审查报告（材料完整性 / 科学性审查 / 可能的审查问题预测）。\n
 分析完成后，可在「分析记录」中查看历史结果，并进行打包导出（Bundle）。\n
 
+### 8) 历史分析记录（Analysis history）→ 打开某次分析结果
+
+在项目工作区顶部切到「分析记录」，可以看到历史分析卡片列表。\n
+点击某个分析卡片（示例：首次全量分析），进入分析结果页。\n
+
+![分析记录](./screenshots/02-workspace-analysis.png)
+
+### 9) 分析结果页（Results dashboard）→ Tabs / 导出
+
+分析结果页包含三个主标签页（Tabs）：\n
+- 材料完整性\n
+- 科学性审查\n
+- 审查问题预测\n
+\n
+页面右上角提供导出入口（PDF / Word / 打包下载等）。\n
+
+![分析结果页-材料完整性](./screenshots/08-results-material.png)
+
+![分析结果页-科学性审查](./screenshots/09-results-scientific.png)
+
+### 10) 用户知识库（Knowledge base）→ 添加笔记/上传文件/溯源
+
+在左侧导航点击「用户知识库」，可添加笔记或上传文件（PDF/DOCX/CSV），作为审查依据的补充资料。\n
+在分析结果页中，引用到内置法规 PDF 或知识库 PDF 时，可通过统一的「溯源」入口打开来源。\n
+
+![用户知识库](./screenshots/10-knowledge-base.png)
+
