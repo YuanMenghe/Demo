@@ -11,14 +11,17 @@ import {
 } from '@/lib/projectDocuments';
 
 type Mode = 'view' | 'select';
+type SelectionLevel = 'module' | 'folder' | 'study' | 'file';
 
 type Props = {
   documents: ProjectDocument[];
   mode?: Mode;
+  selectionLevel?: SelectionLevel;
   selectedIds?: string[];
   onToggle?: (id: string) => void;
   onToggleLatestModule?: (moduleId: ProjectDocument['module']) => void;
   onToggleLatestFolder?: (folderKey: string) => void;
+  onToggleLatestStudy?: (studyKey: string) => void;
 };
 
 function groupByDocKey(files: ProjectDocument[]) {
@@ -42,15 +45,18 @@ function groupByDocKey(files: ProjectDocument[]) {
 export default function DocumentModuleTree({
   documents,
   mode = 'view',
+  selectionLevel = 'file',
   selectedIds = [],
   onToggle,
   onToggleLatestModule,
   onToggleLatestFolder,
+  onToggleLatestStudy,
 }: Props) {
   const { t, language } = useLanguage();
   const grouped = groupDocumentsByModule(documents);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(() => new Set(MODULE_ORDER));
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(() => new Set());
+  const [expandedStudies, setExpandedStudies] = useState<Set<string>>(() => new Set());
   const [expandedDocKeys, setExpandedDocKeys] = useState<Set<string>>(() => new Set());
   const selectedSet = new Set(selectedIds);
 
@@ -79,6 +85,26 @@ export default function DocumentModuleTree({
       else next.add(key);
       return next;
     });
+  };
+
+  const toggleStudy = (key: string) => {
+    setExpandedStudies((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const groupByStudyId = (files: ProjectDocument[]) => {
+    const map = new Map<string, ProjectDocument[]>();
+    for (const f of files) {
+      const key = f.studyId ?? 'Unassigned';
+      const list = map.get(key) ?? [];
+      list.push(f);
+      map.set(key, list);
+    }
+    return [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
   };
 
   if (documents.length === 0) {
@@ -116,11 +142,30 @@ export default function DocumentModuleTree({
             for (const [folderName] of folderEntries) next.add(`${moduleId}/${folderName}`);
             return next;
           });
+          setExpandedStudies((prev) => {
+            const next = new Set(prev);
+            if (moduleId === 'M4' || moduleId === 'M5') {
+              for (const [folderName, files] of folderEntries) {
+                for (const [studyId] of groupByStudyId(files)) {
+                  next.add(`${moduleId}/${folderName}/${studyId}`);
+                }
+              }
+            }
+            return next;
+          });
           setExpandedDocKeys((prev) => {
             const next = new Set(prev);
-            for (const [, files] of folderEntries) {
-              for (const [, versions] of groupByDocKey(files)) {
-                if (versions.length > 1) next.add(versions[0]!.docKey);
+            for (const [folderName, files] of folderEntries) {
+              if (moduleId === 'M4' || moduleId === 'M5') {
+                for (const [studyId, studyFiles] of groupByStudyId(files)) {
+                  for (const [, versions] of groupByDocKey(studyFiles)) {
+                    if (versions.length > 1) next.add(`${moduleId}/${folderName}/${studyId}/${versions[0]!.docKey}`);
+                  }
+                }
+              } else {
+                for (const [, versions] of groupByDocKey(files)) {
+                  if (versions.length > 1) next.add(versions[0]!.docKey);
+                }
               }
             }
             return next;
@@ -133,11 +178,26 @@ export default function DocumentModuleTree({
             for (const [folderName] of folderEntries) next.delete(`${moduleId}/${folderName}`);
             return next;
           });
+          setExpandedStudies((prev) => {
+            const next = new Set(prev);
+            for (const [folderName, files] of folderEntries) {
+              for (const [studyId] of groupByStudyId(files)) next.delete(`${moduleId}/${folderName}/${studyId}`);
+            }
+            return next;
+          });
           setExpandedDocKeys((prev) => {
             const next = new Set(prev);
-            for (const [, files] of folderEntries) {
-              for (const [, versions] of groupByDocKey(files)) {
-                next.delete(versions[0]!.docKey);
+            for (const [folderName, files] of folderEntries) {
+              if (moduleId === 'M4' || moduleId === 'M5') {
+                for (const [studyId, studyFiles] of groupByStudyId(files)) {
+                  for (const [, versions] of groupByDocKey(studyFiles)) {
+                    next.delete(`${moduleId}/${folderName}/${studyId}/${versions[0]!.docKey}`);
+                  }
+                }
+              } else {
+                for (const [, versions] of groupByDocKey(files)) {
+                  next.delete(versions[0]!.docKey);
+                }
               }
             }
             return next;
@@ -156,7 +216,7 @@ export default function DocumentModuleTree({
               ) : (
                 <ChevronRight className="w-4 h-4 text-slate-500 shrink-0" />
               )}
-              {mode === 'select' && onToggleLatestModule && (
+              {mode === 'select' && selectionLevel === 'module' && onToggleLatestModule && (
                 <span
                   className="shrink-0"
                   onClick={(e) => {
@@ -204,9 +264,12 @@ export default function DocumentModuleTree({
                 {folderEntries.map(([folderName, files]) => {
                   const folderKey = `${moduleId}/${folderName}`;
                   const folderOpen = expandedFolders.has(folderKey);
+                  const isStudyModule = moduleId === 'M4' || moduleId === 'M5';
                   const docKeyGroups = groupByDocKey(files);
                   const folderAllIds = files.map((f) => f.id);
-                  const folderLatestIds = docKeyGroups.map(([, versions]) => versions[0]!.id);
+                  const folderLatestIds = isStudyModule
+                    ? groupByStudyId(files).flatMap(([, studyFiles]) => groupByDocKey(studyFiles).map(([, versions]) => versions[0]!.id))
+                    : docKeyGroups.map(([, versions]) => versions[0]!.id);
                   const folderSelectedCount = folderAllIds.filter((id) => selectedSet.has(id)).length;
                   const folderLatestCount = folderLatestIds.length;
                   const folderCheckboxState: boolean | 'indeterminate' =
@@ -232,7 +295,7 @@ export default function DocumentModuleTree({
                         ) : (
                           <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         )}
-                        {mode === 'select' && onToggleLatestFolder && (
+                        {mode === 'select' && selectionLevel === 'folder' && onToggleLatestFolder && (
                           <span
                             className="shrink-0"
                             onClick={(e) => {
@@ -254,124 +317,298 @@ export default function DocumentModuleTree({
                       </button>
                       {folderOpen && (
                         <div className="pb-3">
-                          <div
-                            className={
-                              mode === 'view'
-                                ? 'grid grid-cols-1 xl:grid-cols-2 gap-1 px-3 pb-2'
-                                : 'flex flex-col'
-                            }
-                          >
-                            {docKeyGroups.map(([docKey, versions]) => {
-                              const latest = versions[0]!;
-                              const hasHistory = versions.length > 1;
-                              const docKeyOpen = expandedDocKeys.has(docKey);
+                          {isStudyModule ? (
+                            <div className={mode === 'view' ? 'grid grid-cols-1 xl:grid-cols-2 gap-2 px-3 pb-2' : 'flex flex-col'}>
+                              {groupByStudyId(files).map(([studyId, studyFiles]) => {
+                                const studyKey = `${moduleId}/${folderName}/${studyId}`;
+                                const open = expandedStudies.has(studyKey);
+                                const studyDocKeyGroups = groupByDocKey(studyFiles);
+                                const studyAllIds = studyFiles.map((f) => f.id);
+                                const studyLatestIds = studyDocKeyGroups.map(([, versions]) => versions[0]!.id);
+                                const studySelectedCount = studyAllIds.filter((id) => selectedSet.has(id)).length;
+                                const studyLatestCount = studyLatestIds.length;
+                                const studyCheckboxState: boolean | 'indeterminate' =
+                                  studyLatestCount === 0
+                                    ? false
+                                    : studyLatestIds.every((id) => selectedSet.has(id))
+                                      ? true
+                                      : studyLatestIds.some((id) => selectedSet.has(id))
+                                        ? 'indeterminate'
+                                        : false;
 
-                              const row = (
-                                <div
-                                  key={docKey}
-                                  className={
-                                    mode === 'view'
-                                      ? 'flex items-center gap-2 rounded-md border border-slate-200 bg-white hover:bg-slate-50 transition-colors px-2.5 py-2'
-                                      : 'flex items-center gap-3 pl-14 pr-4 py-2 text-sm hover:bg-slate-50'
-                                  }
-                                >
-                                  {mode === 'select' && onToggle && (
-                                    <Checkbox
-                                      id={`doc-${latest.id}`}
-                                      checked={selectedIds.includes(latest.id)}
-                                      onCheckedChange={() => onToggle(latest.id)}
-                                    />
-                                  )}
-                                  <FileText className="w-4 h-4 text-blue-500 shrink-0" />
-                                  <label
-                                    htmlFor={mode === 'select' ? `doc-${latest.id}` : undefined}
-                                    className="flex-1 min-w-0 cursor-pointer"
+                                return (
+                                  <div
+                                    key={studyKey}
+                                    className={
+                                      mode === 'view'
+                                        ? open
+                                          ? 'rounded-lg border border-slate-200 bg-white overflow-hidden xl:col-span-2'
+                                          : 'rounded-lg border border-slate-200 bg-white overflow-hidden'
+                                        : ''
+                                    }
                                   >
-                                    <div className="flex items-center gap-2 min-w-0">
-                                      <span className="font-medium text-slate-800 truncate">{latest.docKey}</span>
-                                      <Badge variant="secondary" className="shrink-0">
-                                        {latest.version}
-                                      </Badge>
-                                    </div>
-                                  </label>
-                                  {mode === 'view' && (
-                                    <span className="text-xs text-slate-400 shrink-0 tabular-nums">{latest.time.split(' ')[0]}</span>
-                                  )}
-
-                                  {hasHistory && (
                                     <button
                                       type="button"
-                                      className="text-xs text-slate-500 hover:text-slate-900 inline-flex items-center gap-1 shrink-0"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        toggleDocKey(docKey);
-                                      }}
+                                      className={mode === 'view'
+                                        ? 'w-full flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-left'
+                                        : 'w-full flex items-center gap-2 pl-14 pr-4 py-2.5 hover:bg-slate-50 text-left'}
+                                      onClick={() => toggleStudy(studyKey)}
                                     >
-                                      <Layers className="w-3.5 h-3.5" />
-                                      {versions.length}
-                                      {docKeyOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                                      {open ? (
+                                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                      ) : (
+                                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                      )}
+                                      {mode === 'select' && selectionLevel === 'study' && onToggleLatestStudy && (
+                                        <span
+                                          className="shrink-0"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            onToggleLatestStudy(studyKey);
+                                          }}
+                                        >
+                                          <Checkbox checked={studyCheckboxState} aria-label={t('选择该研究最新版本', 'Select latest in study')} />
+                                        </span>
+                                      )}
+                                      <Layers className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                                      <span className="text-sm font-medium text-slate-800 flex-1 min-w-0">
+                                        <span className="block truncate">
+                                          {studyId === 'Unassigned' ? t('未归类研究', 'Unassigned') : studyId}
+                                        </span>
+                                      </span>
+                                      <span className="text-xs text-slate-400 hidden sm:inline">
+                                        {t('已选', 'Selected')} {studySelectedCount} / {t('最新', 'Latest')} {studyLatestCount} / {t('总计', 'Total')} {studyAllIds.length}
+                                      </span>
+                                      <span className="text-xs text-slate-400 sm:hidden">
+                                        {studySelectedCount}/{studyLatestCount}/{studyAllIds.length}
+                                      </span>
                                     </button>
-                                  )}
-                                </div>
-                              );
 
-                              return (
-                                <div
-                                  key={docKey}
-                                  className={
-                                    mode === 'view'
-                                      ? hasHistory && docKeyOpen
-                                        ? 'xl:col-span-2'
-                                        : ''
-                                      : ''
-                                  }
-                                >
-                                  {row}
-                                  {hasHistory && docKeyOpen && (
-                                    <div className={mode === 'view' ? 'mt-1' : ''}>
-                                      <div className={mode === 'view' ? 'rounded-md border border-slate-100 bg-slate-50 p-2' : 'pl-14 pr-4 pb-2'}>
-                                        <div className={mode === 'view' ? 'space-y-1' : 'space-y-1'}>
-                                          {versions.slice(1).map((v) => (
-                                            <div
-                                              key={v.id}
-                                              className={
-                                                mode === 'view'
-                                                  ? 'flex items-center gap-2 px-2 py-1 rounded hover:bg-white'
-                                                  : 'flex items-center gap-3 py-1.5 text-sm hover:bg-slate-50'
-                                              }
-                                            >
-                                              {mode === 'select' && onToggle && (
-                                                <Checkbox
-                                                  id={`doc-${v.id}`}
-                                                  checked={selectedIds.includes(v.id)}
-                                                  onCheckedChange={() => onToggle(v.id)}
-                                                />
-                                              )}
-                                              <FileText className="w-4 h-4 text-slate-400 shrink-0" />
-                                              <label
-                                                htmlFor={mode === 'select' ? `doc-${v.id}` : undefined}
-                                                className="flex-1 min-w-0 cursor-pointer"
+                                    {open && (
+                                      <div className={mode === 'view' ? 'p-2' : ''}>
+                                        <div className={mode === 'view' ? 'space-y-1' : 'flex flex-col'}>
+                                          {studyDocKeyGroups.map(([docKey, versions]) => {
+                                            const latest = versions[0]!;
+                                            const hasHistory = versions.length > 1;
+                                            const docKeyOpen = expandedDocKeys.has(`${studyKey}/${docKey}`);
+
+                                            const row = (
+                                              <div
+                                                key={docKey}
+                                                className={
+                                                  mode === 'view'
+                                                    ? 'flex items-center gap-2 rounded-md border border-slate-200 bg-white hover:bg-slate-50 transition-colors px-2.5 py-2'
+                                                    : 'flex items-center gap-3 pl-20 pr-4 py-2 text-sm hover:bg-slate-50'
+                                                }
                                               >
-                                                <div className="flex items-center gap-2 min-w-0">
-                                                  <span className="text-slate-700 truncate">{v.docKey}</span>
-                                                  <Badge variant="outline" className="shrink-0">
-                                                    {v.version}
-                                                  </Badge>
-                                                </div>
-                                              </label>
-                                              {mode === 'view' && (
-                                                <span className="text-xs text-slate-400 shrink-0 tabular-nums">{v.time.split(' ')[0]}</span>
-                                              )}
-                                            </div>
-                                          ))}
+                                                {mode === 'select' && selectionLevel === 'file' && onToggle && (
+                                                  <Checkbox
+                                                    id={`doc-${latest.id}`}
+                                                    checked={selectedIds.includes(latest.id)}
+                                                    onCheckedChange={() => onToggle(latest.id)}
+                                                  />
+                                                )}
+                                                <FileText className="w-4 h-4 text-blue-500 shrink-0" />
+                                                <label
+                                                  htmlFor={mode === 'select' && selectionLevel === 'file' ? `doc-${latest.id}` : undefined}
+                                                  className="flex-1 min-w-0 cursor-pointer"
+                                                >
+                                                  <div className="flex items-center gap-2 min-w-0">
+                                                    <span className="font-medium text-slate-800 truncate">{latest.docKey}</span>
+                                                    <Badge variant="secondary" className="shrink-0">
+                                                      {latest.version}
+                                                    </Badge>
+                                                  </div>
+                                                </label>
+                                                {mode === 'view' && (
+                                                  <span className="text-xs text-slate-400 shrink-0 tabular-nums">{latest.time.split(' ')[0]}</span>
+                                                )}
+
+                                                {hasHistory && (
+                                                  <button
+                                                    type="button"
+                                                    className="text-xs text-slate-500 hover:text-slate-900 inline-flex items-center gap-1 shrink-0"
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      toggleDocKey(`${studyKey}/${docKey}`);
+                                                    }}
+                                                  >
+                                                    <Layers className="w-3.5 h-3.5" />
+                                                    {versions.length}
+                                                    {docKeyOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                                                  </button>
+                                                )}
+                                              </div>
+                                            );
+
+                                            return (
+                                              <div key={docKey}>
+                                                {row}
+                                                {hasHistory && docKeyOpen && (
+                                                  <div className={mode === 'view' ? 'mt-1' : ''}>
+                                                    <div className={mode === 'view' ? 'rounded-md border border-slate-100 bg-slate-50 p-2' : 'pl-20 pr-4 pb-2'}>
+                                                      <div className="space-y-1">
+                                                        {versions.slice(1).map((v) => (
+                                                          <div
+                                                            key={v.id}
+                                                            className={
+                                                              mode === 'view'
+                                                                ? 'flex items-center gap-2 px-2 py-1 rounded hover:bg-white'
+                                                                : 'flex items-center gap-3 py-1.5 text-sm hover:bg-slate-50'
+                                                            }
+                                                          >
+                                                            {mode === 'select' && selectionLevel === 'file' && onToggle && (
+                                                              <Checkbox
+                                                                id={`doc-${v.id}`}
+                                                                checked={selectedIds.includes(v.id)}
+                                                                onCheckedChange={() => onToggle(v.id)}
+                                                              />
+                                                            )}
+                                                            <FileText className="w-4 h-4 text-slate-400 shrink-0" />
+                                                            <label
+                                                              htmlFor={mode === 'select' && selectionLevel === 'file' ? `doc-${v.id}` : undefined}
+                                                              className="flex-1 min-w-0 cursor-pointer"
+                                                            >
+                                                              <div className="flex items-center gap-2 min-w-0">
+                                                                <span className="text-slate-700 truncate">{v.docKey}</span>
+                                                                <Badge variant="outline" className="shrink-0">
+                                                                  {v.version}
+                                                                </Badge>
+                                                              </div>
+                                                            </label>
+                                                            {mode === 'view' && (
+                                                              <span className="text-xs text-slate-400 shrink-0 tabular-nums">{v.time.split(' ')[0]}</span>
+                                                            )}
+                                                          </div>
+                                                        ))}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </div>
+                                            );
+                                          })}
                                         </div>
                                       </div>
-                                    </div>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <div className={mode === 'view' ? 'grid grid-cols-1 xl:grid-cols-2 gap-1 px-3 pb-2' : 'flex flex-col'}>
+                              {docKeyGroups.map(([docKey, versions]) => {
+                                const latest = versions[0]!;
+                                const hasHistory = versions.length > 1;
+                                const docKeyOpen = expandedDocKeys.has(docKey);
+
+                                const row = (
+                                  <div
+                                    key={docKey}
+                                    className={
+                                      mode === 'view'
+                                        ? 'flex items-center gap-2 rounded-md border border-slate-200 bg-white hover:bg-slate-50 transition-colors px-2.5 py-2'
+                                        : 'flex items-center gap-3 pl-14 pr-4 py-2 text-sm hover:bg-slate-50'
+                                    }
+                                  >
+                                    {mode === 'select' && selectionLevel === 'file' && onToggle && (
+                                      <Checkbox
+                                        id={`doc-${latest.id}`}
+                                        checked={selectedIds.includes(latest.id)}
+                                        onCheckedChange={() => onToggle(latest.id)}
+                                      />
+                                    )}
+                                    <FileText className="w-4 h-4 text-blue-500 shrink-0" />
+                                    <label
+                                      htmlFor={mode === 'select' && selectionLevel === 'file' ? `doc-${latest.id}` : undefined}
+                                      className="flex-1 min-w-0 cursor-pointer"
+                                    >
+                                      <div className="flex items-center gap-2 min-w-0">
+                                        <span className="font-medium text-slate-800 truncate">{latest.docKey}</span>
+                                        <Badge variant="secondary" className="shrink-0">
+                                          {latest.version}
+                                        </Badge>
+                                      </div>
+                                    </label>
+                                    {mode === 'view' && (
+                                      <span className="text-xs text-slate-400 shrink-0 tabular-nums">{latest.time.split(' ')[0]}</span>
+                                    )}
+
+                                    {hasHistory && (
+                                      <button
+                                        type="button"
+                                        className="text-xs text-slate-500 hover:text-slate-900 inline-flex items-center gap-1 shrink-0"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          toggleDocKey(docKey);
+                                        }}
+                                      >
+                                        <Layers className="w-3.5 h-3.5" />
+                                        {versions.length}
+                                        {docKeyOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                                      </button>
+                                    )}
+                                  </div>
+                                );
+
+                                return (
+                                  <div
+                                    key={docKey}
+                                    className={
+                                      mode === 'view'
+                                        ? hasHistory && docKeyOpen
+                                          ? 'xl:col-span-2'
+                                          : ''
+                                        : ''
+                                    }
+                                  >
+                                    {row}
+                                    {hasHistory && docKeyOpen && (
+                                      <div className={mode === 'view' ? 'mt-1' : ''}>
+                                        <div className={mode === 'view' ? 'rounded-md border border-slate-100 bg-slate-50 p-2' : 'pl-14 pr-4 pb-2'}>
+                                          <div className="space-y-1">
+                                            {versions.slice(1).map((v) => (
+                                              <div
+                                                key={v.id}
+                                                className={
+                                                  mode === 'view'
+                                                    ? 'flex items-center gap-2 px-2 py-1 rounded hover:bg-white'
+                                                    : 'flex items-center gap-3 py-1.5 text-sm hover:bg-slate-50'
+                                                }
+                                              >
+                                                {mode === 'select' && selectionLevel === 'file' && onToggle && (
+                                                  <Checkbox
+                                                    id={`doc-${v.id}`}
+                                                    checked={selectedIds.includes(v.id)}
+                                                    onCheckedChange={() => onToggle(v.id)}
+                                                  />
+                                                )}
+                                                <FileText className="w-4 h-4 text-slate-400 shrink-0" />
+                                                <label
+                                                  htmlFor={mode === 'select' && selectionLevel === 'file' ? `doc-${v.id}` : undefined}
+                                                  className="flex-1 min-w-0 cursor-pointer"
+                                                >
+                                                  <div className="flex items-center gap-2 min-w-0">
+                                                    <span className="text-slate-700 truncate">{v.docKey}</span>
+                                                    <Badge variant="outline" className="shrink-0">
+                                                      {v.version}
+                                                    </Badge>
+                                                  </div>
+                                                </label>
+                                                {mode === 'view' && (
+                                                  <span className="text-xs text-slate-400 shrink-0 tabular-nums">{v.time.split(' ')[0]}</span>
+                                                )}
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

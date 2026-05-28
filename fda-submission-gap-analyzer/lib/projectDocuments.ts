@@ -6,6 +6,11 @@ export interface ProjectDocument {
   module: EctdModule;
   /** Subfolder within the module (eCTD section grouping) */
   folder: string;
+  /**
+   * Optional study identifier for M4/M5 where files are naturally grouped by study.
+   * Derived from filename in this demo (e.g. BA1234_SAP_v1.1.pdf -> BA1234).
+   */
+  studyId?: string;
   time: string;
   /** Logical document key across versions (same doc, different versions) */
   docKey: string;
@@ -40,10 +45,45 @@ export const DEFAULT_PROJECT_DOCUMENTS: ProjectDocument[] = [
   createProjectDocument({ id: 'd9', name: '3.2.S-drug-substance.pdf', module: 'M3', folder: '3.2.S Drug Substance', time: '2026-03-23 11:05' }),
   createProjectDocument({ id: 'd10', name: '3.2.P.2-development.pdf', module: 'M3', folder: '3.2.P Drug Product', time: '2026-03-22 11:20' }),
   createProjectDocument({ id: 'd11', name: 'nonclinical-overview.pdf', module: 'M4', folder: '4.2 Overview', time: '2026-03-21 15:30' }),
-  createProjectDocument({ id: 'd12', name: 'toxicology-core-study.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 15:45' }),
-  createProjectDocument({ id: 'd13', name: 'clinical-study-report-001_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 10:00' }),
-  createProjectDocument({ id: 'd13b', name: 'clinical-study-report-001_v1.1.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-23 10:00' }),
-  createProjectDocument({ id: 'd14', name: '5.3.5.1-efficacy-report.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-23 10:10' }),
+  // M4 demo: studies can repeat a consistent file bundle
+  createProjectDocument({ id: 'd12', name: 'NCX901_toxicology_report_body_v1.0.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-20 15:45' }),
+  createProjectDocument({ id: 'd12b', name: 'NCX901_toxicology_report_body_v1.1.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 15:45' }),
+  createProjectDocument({ id: 'd12c', name: 'NCX901_protocol_v1.0.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-19 10:05' }),
+  createProjectDocument({ id: 'd12d', name: 'NCX901_protocol_v1.1.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 10:05' }),
+  createProjectDocument({ id: 'd12e', name: 'NCX901_sap_v1.0.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-19 10:15' }),
+  createProjectDocument({ id: 'd12f', name: 'NCX901_define_v1.0.xml', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 11:15' }),
+  createProjectDocument({ id: 'd12g', name: 'NCX901_sdtm_dataset_v1.0.xpt', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 11:20' }),
+  createProjectDocument({ id: 'd12h', name: 'NCX901_adam_dataset_v1.0.xpt', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 11:22' }),
+  createProjectDocument({ id: 'd12i', name: 'NCX901_analysis_programs_v1.0.zip', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-21 11:30' }),
+  createProjectDocument({ id: 'd12j', name: 'NCX902_toxicology_report_body_v1.0.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-20 13:00' }),
+  createProjectDocument({ id: 'd12k', name: 'NCX902_protocol_v1.0.pdf', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-20 13:10' }),
+  createProjectDocument({ id: 'd12l', name: 'NCX902_define_v1.0.xml', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-20 13:15' }),
+  createProjectDocument({ id: 'd12m', name: 'NCX902_sdtm_dataset_v1.0.xpt', module: 'M4', folder: '4.2.3 Toxicology', time: '2026-03-20 13:18' }),
+  // M5 demo: one study can contain a large repeated bundle of leaf files
+  createProjectDocument({ id: 'd13', name: 'BA1234_csr_body_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 10:00' }),
+  createProjectDocument({ id: 'd13b', name: 'BA1234_csr_body_v1.1.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-23 10:00' }),
+  createProjectDocument({ id: 'd13c', name: 'BA1234_synopsis_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 10:05' }),
+  createProjectDocument({ id: 'd13d', name: 'BA1234_protocol_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-21 09:10' }),
+  createProjectDocument({ id: 'd13e', name: 'BA1234_protocol_amendment_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:10' }),
+  createProjectDocument({ id: 'd13f', name: 'BA1234_sample_crf_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:20' }),
+  createProjectDocument({ id: 'd13g', name: 'BA1234_informed_consent_list_v1.0.xlsx', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:25' }),
+  createProjectDocument({ id: 'd13h', name: 'BA1234_randomization_scheme_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:30' }),
+  createProjectDocument({ id: 'd13i', name: 'BA1234_audit_certificate_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:35' }),
+  createProjectDocument({ id: 'd13j', name: 'BA1234_sap_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:45' }),
+  createProjectDocument({ id: 'd13k', name: 'BA1234_publications_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:50' }),
+  createProjectDocument({ id: 'd13l', name: 'BA1234_subject_listings_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:55' }),
+  createProjectDocument({ id: 'd13m', name: 'BA1234_crf_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 09:58' }),
+  createProjectDocument({ id: 'd13n', name: 'BA1234_sdtm_dataset_v1.0.xpt', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 11:05' }),
+  createProjectDocument({ id: 'd13o', name: 'BA1234_adam_dataset_v1.0.xpt', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 11:08' }),
+  createProjectDocument({ id: 'd13p', name: 'BA1234_define_v1.0.xml', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 11:10' }),
+  createProjectDocument({ id: 'd13q', name: 'BA1234_analysis_programs_v1.0.zip', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 11:12' }),
+  createProjectDocument({ id: 'd13r', name: 'BA1234_acrf_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 11:20' }),
+  createProjectDocument({ id: 'd13s', name: 'BA1234_reviewer_guide_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-22 11:25' }),
+  createProjectDocument({ id: 'd14', name: 'BA5678_csr_body_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-20 10:10' }),
+  createProjectDocument({ id: 'd14b', name: 'BA5678_synopsis_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-20 10:12' }),
+  createProjectDocument({ id: 'd14c', name: 'BA5678_protocol_v1.0.pdf', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-20 10:15' }),
+  createProjectDocument({ id: 'd14d', name: 'BA5678_sdtm_dataset_v1.0.xpt', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-20 10:20' }),
+  createProjectDocument({ id: 'd14e', name: 'BA5678_define_v1.0.xml', module: 'M5', folder: '5.3.5 Reports', time: '2026-03-20 10:25' }),
   createProjectDocument({ id: 'd15', name: 'investigator-brochure.pdf', module: 'M5', folder: '5.2 Tabular Listings', time: '2026-03-21 09:15' }),
 ];
 
@@ -66,6 +106,29 @@ function semverToSortKey(v: string): number {
     .map((n) => Math.max(0, Math.min(999, Math.trunc(n))));
   const [a = 0, b = 0, c = 0, d = 0] = parts;
   return a * 1_000_000_000 + b * 1_000_000 + c * 1_000 + d;
+}
+
+function deriveStudyIdFromName(name: string): string | undefined {
+  const lower = name.toLowerCase();
+  const extMatch = lower.match(/(\.[a-z0-9]+)$/i);
+  const ext = extMatch?.[1] ?? '';
+  const base = ext ? name.slice(0, -ext.length) : name;
+
+  // Remove explicit version tokens to reduce false positives (e.g. v1.1).
+  const cleaned = base.replace(/(?:^|[\s._-])v\d+(?:\.\d+)*\b/gi, ' ');
+  const tokens = cleaned.split(/[^a-z0-9]+/i).filter(Boolean);
+
+  // Prefer common eCTD study-like IDs (can be tightened later once naming conventions are known).
+  for (const raw of tokens) {
+    const token = raw.toUpperCase();
+    if (/^(BA|BE|NCT|STUDY)[-_]?[0-9A-Z]{3,}$/.test(token)) {
+      return token.replace(/[-_]/g, '');
+    }
+    if (/^[A-Z]{2,}[0-9]{3,}$/.test(token) && token !== 'CSR') {
+      return token.replace(/[-_]/g, '');
+    }
+  }
+  return undefined;
 }
 
 function deriveDocKeyAndVersion(name: string, time: string): { docKey: string; version: string; versionSortKey: number } {
@@ -110,9 +173,10 @@ function deriveDocKeyAndVersion(name: string, time: string): { docKey: string; v
   };
 }
 
-export function createProjectDocument(input: Omit<ProjectDocument, 'docKey' | 'version' | 'versionSortKey'>): ProjectDocument {
+export function createProjectDocument(input: Omit<ProjectDocument, 'docKey' | 'version' | 'versionSortKey' | 'studyId'>): ProjectDocument {
   const derived = deriveDocKeyAndVersion(input.name, input.time);
-  return { ...input, ...derived };
+  const studyId = input.module === 'M4' || input.module === 'M5' ? deriveStudyIdFromName(input.name) : undefined;
+  return { ...input, studyId, ...derived };
 }
 
 export function getLatestDocumentsByDocKey(docs: ProjectDocument[]) {

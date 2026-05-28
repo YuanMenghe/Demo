@@ -58,7 +58,7 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
   });
   const [selectedModules, setSelectedModules] = useState<AnalysisModuleId[]>([...DEFAULT_SELECTED_MODULES]);
   const [bundleDownloadingId, setBundleDownloadingId] = useState<string | null>(null);
-  const [configLevel, setConfigLevel] = useState<'module' | 'folder' | 'file'>('file');
+  const [configLevel, setConfigLevel] = useState<'module' | 'folder' | 'study' | 'file'>('file');
 
   const handleUploadComplete = () => {
     setIsUploading(false);
@@ -145,6 +145,25 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
     const pool = preferLatest ? latestDocs : documents;
     const targetIds = pool
       .filter((d) => d.module === (moduleId as ProjectDocument['module']) && d.folder === folder)
+      .map((d) => d.id);
+    setSelectedFiles((prev) => {
+      const set = new Set(prev);
+      const allSelected = targetIds.every((id) => set.has(id));
+      if (allSelected) targetIds.forEach((id) => set.delete(id));
+      else targetIds.forEach((id) => set.add(id));
+      return [...set];
+    });
+  };
+
+  const toggleSelectLatestStudy = (studyKey: string) => {
+    const [moduleId, folder, studyId] = studyKey.split('/');
+    const pool = preferLatest ? latestDocs : documents;
+    const targetIds = pool
+      .filter((d) =>
+        d.module === (moduleId as ProjectDocument['module']) &&
+        d.folder === folder &&
+        (d.studyId ?? 'Unassigned') === studyId
+      )
       .map((d) => d.id);
     setSelectedFiles((prev) => {
       const set = new Set(prev);
@@ -260,6 +279,7 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
                     {([
                       { id: 'module', label: t('模块级', 'Module') },
                       { id: 'folder', label: t('子文件夹级', 'Folder') },
+                      { id: 'study', label: t('研究级', 'Study') },
                       { id: 'file', label: t('单文件级', 'File') },
                     ] as const).map((opt) => (
                       <Button
@@ -389,14 +409,67 @@ export default function ProjectWorkspace({ project, onBack, onUpdateProject }: P
                       });
                   })()}
                 </div>
+              ) : configLevel === 'study' ? (
+                <div className="space-y-2">
+                  {(() => {
+                    const map = new Map<string, { latestIds: string[]; allIds: string[] }>();
+                    for (const d of latestDocs) {
+                      const key = `${d.module}/${d.folder}/${d.studyId ?? 'Unassigned'}`;
+                      const entry = map.get(key) ?? { latestIds: [], allIds: [] };
+                      entry.latestIds.push(d.id);
+                      map.set(key, entry);
+                    }
+                    for (const d of documents) {
+                      const key = `${d.module}/${d.folder}/${d.studyId ?? 'Unassigned'}`;
+                      const entry = map.get(key) ?? { latestIds: [], allIds: [] };
+                      entry.allIds.push(d.id);
+                      map.set(key, entry);
+                    }
+                    return [...map.entries()]
+                      .sort(([a], [b]) => a.localeCompare(b))
+                      .map(([key, entry]) => {
+                        // only show meaningful study groups (primarily M4/M5) but allow Unassigned
+                        const [m] = key.split('/');
+                        if (m !== 'M4' && m !== 'M5') return null;
+                        const checkedState: boolean | 'indeterminate' =
+                          entry.latestIds.length === 0
+                            ? false
+                            : entry.latestIds.every((id) => selectedFiles.includes(id))
+                              ? true
+                              : entry.latestIds.some((id) => selectedFiles.includes(id))
+                                ? 'indeterminate'
+                                : false;
+                        const selectedCount = entry.allIds.filter((id) => selectedFiles.includes(id)).length;
+                        return (
+                          <div key={key} className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50">
+                            <Checkbox
+                              id={`lvl-study-${key}`}
+                              checked={checkedState}
+                              onCheckedChange={() => toggleSelectLatestStudy(key)}
+                              className="mt-1"
+                            />
+                            <label htmlFor={`lvl-study-${key}`} className="cursor-pointer flex-1">
+                              <div className="text-sm font-medium text-slate-900">{key}</div>
+                              <div className="text-xs text-slate-500 mt-1">
+                                {t('已选', 'Selected')} {selectedCount} / {t('最新', 'Latest')} {entry.latestIds.length} / {t('总计', 'Total')} {entry.allIds.length}
+                              </div>
+                            </label>
+                          </div>
+                        );
+                      })
+                      .filter(Boolean);
+                  })()}
+                </div>
               ) : (
                 <DocumentModuleTree
                   documents={documents}
                   mode="select"
+                  selectionLevel={configLevel}
                   selectedIds={selectedFiles}
                   onToggle={toggleFile}
                   onToggleLatestModule={toggleSelectLatestModule}
                   onToggleLatestFolder={toggleSelectLatestFolder}
+                  onToggleLatestStudy={toggleSelectLatestStudy}
                 />
               )}
             </CardContent>
