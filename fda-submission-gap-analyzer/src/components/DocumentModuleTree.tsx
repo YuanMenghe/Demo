@@ -86,7 +86,7 @@ export default function DocumentModuleTree({
   }
 
   return (
-    <div className={mode === 'view' ? 'grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-3' : 'space-y-2'}>
+    <div className={mode === 'view' ? 'space-y-3' : 'space-y-2'}>
       {MODULE_ORDER.map((moduleId) => {
         const folders = grouped.get(moduleId)!;
         const folderEntries = [...folders.entries()].sort(([a], [b]) => a.localeCompare(b));
@@ -257,7 +257,7 @@ export default function DocumentModuleTree({
                           <div
                             className={
                               mode === 'view'
-                                ? 'space-y-1 px-3 pb-2'
+                                ? 'grid grid-cols-1 xl:grid-cols-2 gap-1 px-3 pb-2'
                                 : 'flex flex-col'
                             }
                           >
@@ -316,7 +316,16 @@ export default function DocumentModuleTree({
                               );
 
                               return (
-                                <div key={docKey} className={mode === 'view' ? '' : ''}>
+                                <div
+                                  key={docKey}
+                                  className={
+                                    mode === 'view'
+                                      ? hasHistory && docKeyOpen
+                                        ? 'xl:col-span-2'
+                                        : ''
+                                      : ''
+                                  }
+                                >
                                   {row}
                                   {hasHistory && docKeyOpen && (
                                     <div className={mode === 'view' ? 'mt-1' : ''}>
