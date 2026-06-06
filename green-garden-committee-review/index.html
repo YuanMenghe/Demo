@@ -412,6 +412,259 @@
         font-weight: 800;
       }
 
+      .issue-tool {
+        display: grid;
+        gap: 18px;
+        border: 1px solid var(--line);
+        background: #fffaf1;
+        padding: 22px;
+      }
+
+      .issue-tool-head {
+        display: grid;
+        grid-template-columns: 1fr minmax(260px, 0.72fr);
+        align-items: end;
+        gap: 18px;
+      }
+
+      .issue-tool-head h2 {
+        margin-bottom: 0;
+      }
+
+      .issue-tool-head p:last-child {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 1.06rem;
+      }
+
+      .issue-filters {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .issue-filters button {
+        display: grid;
+        min-height: 68px;
+        cursor: pointer;
+        gap: 2px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 10px 12px;
+        text-align: left;
+      }
+
+      .issue-filters button.active {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: var(--white);
+      }
+
+      .issue-filters strong {
+        font-size: 1.16rem;
+      }
+
+      .issue-filters span {
+        color: inherit;
+        font-size: 0.92rem;
+        opacity: 0.78;
+      }
+
+      .issue-workbench {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.84fr) minmax(0, 1.16fr);
+        gap: 18px;
+      }
+
+      .issue-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .issue-list.inline {
+        gap: 14px;
+      }
+
+      .issue-card {
+        border: 1px solid var(--line);
+        background: var(--white);
+      }
+
+      .issue-card.active {
+        border-color: var(--ink);
+      }
+
+      .issue-item {
+        display: grid;
+        min-height: 74px;
+        cursor: pointer;
+        align-items: center;
+        grid-template-columns: 52px 1fr;
+        gap: 12px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 12px;
+        text-align: left;
+        width: 100%;
+      }
+
+      .issue-card .issue-item {
+        grid-template-columns: 52px 1fr auto;
+        border: 0;
+      }
+
+      .issue-card .issue-item b {
+        justify-self: end;
+        min-width: 52px;
+        background: #f0ede5;
+        color: #3d382f;
+        padding: 7px 10px;
+        text-align: center;
+        font-size: 0.92rem;
+      }
+
+      .issue-card.active .issue-item {
+        border-color: var(--ink);
+        box-shadow: inset 6px 0 0 var(--ink);
+      }
+
+      .issue-item strong {
+        display: block;
+        font-size: 1.08rem;
+        line-height: 1.28;
+      }
+
+      .issue-item em {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-style: normal;
+      }
+
+      .issue-no {
+        display: inline-flex;
+        width: 46px;
+        height: 46px;
+        align-items: center;
+        justify-content: center;
+        color: #fffdf8;
+        font-size: 1.12rem;
+        font-weight: 900;
+      }
+
+      .issue-no.red {
+        background: var(--red);
+      }
+
+      .issue-no.orange {
+        background: var(--amber);
+      }
+
+      .issue-no.yellow {
+        background: var(--yellow);
+      }
+
+      .issue-detail {
+        display: grid;
+        gap: 18px;
+        border: 0;
+        border-top: 9px solid var(--red);
+        background: var(--white);
+        padding: 20px;
+      }
+
+      .issue-detail.orange {
+        border-top-color: var(--amber);
+      }
+
+      .issue-detail.yellow {
+        border-top-color: var(--yellow);
+      }
+
+      .issue-detail-title {
+        display: grid;
+        grid-template-columns: 54px 1fr;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .issue-detail-title p {
+        margin-bottom: 3px;
+        color: var(--muted);
+        font-size: 0.96rem;
+        font-weight: 900;
+      }
+
+      .issue-detail-title h3 {
+        margin-bottom: 0;
+        font-size: clamp(1.7rem, 5vw, 2.35rem);
+      }
+
+      .issue-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .issue-meta span {
+        border: 1px solid var(--line);
+        background: #f0ede5;
+        color: #423d35;
+        padding: 7px 10px;
+        font-size: 0.96rem;
+        font-weight: 800;
+      }
+
+      .evidence-rows {
+        display: grid;
+        border-top: 1px solid var(--line);
+      }
+
+      .evidence-rows section {
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        gap: 8px;
+        border-bottom: 1px solid var(--line);
+        padding: 16px 0;
+      }
+
+      .evidence-rows strong {
+        color: var(--blue);
+        font-size: 1rem;
+      }
+
+      .evidence-rows p,
+      .evidence-rows blockquote {
+        margin: 0;
+      }
+
+      .evidence-rows blockquote {
+        border-left: 6px solid var(--amber);
+        background: #fff4d8;
+        padding: 12px 14px;
+        font-weight: 900;
+        line-height: 1.62;
+      }
+
+      .submit-line {
+        display: grid;
+        gap: 8px;
+        background: #1d1b18;
+        color: #fffdf8;
+        padding: 16px;
+      }
+
+      .submit-line strong {
+        color: #ffd166;
+      }
+
+      .submit-line span {
+        font-size: 1.06rem;
+        font-weight: 900;
+        line-height: 1.62;
+      }
+
       .check-list {
         display: grid;
         gap: 12px;
@@ -507,7 +760,9 @@
       @media (max-width: 980px) {
         .hero,
         .summary-grid,
-        .risk-grid {
+        .risk-grid,
+        .issue-tool-head,
+        .issue-workbench {
           grid-template-columns: 1fr;
         }
 
@@ -539,6 +794,37 @@
         .detail-list summary {
           flex-direction: column;
           align-items: flex-start;
+        }
+
+        .issue-tool {
+          margin-right: -18px;
+          margin-left: -18px;
+          padding: 18px 16px;
+        }
+
+        .issue-filters {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .issue-item {
+          grid-template-columns: 48px 1fr;
+        }
+
+        .issue-card .issue-item {
+          grid-template-columns: 48px 1fr;
+          align-items: start;
+        }
+
+        .issue-card .issue-item b {
+          grid-column: 2;
+          justify-self: start;
+          margin-top: 6px;
+        }
+
+        .evidence-rows section {
+          grid-template-columns: 1fr;
+          gap: 6px;
+          padding: 15px 0;
         }
 
         .copy-panel {
@@ -591,7 +877,7 @@
             </p>
             <div class="action-row">
               <a href="#submit" class="primary-link">▣ 复制提交意见</a>
-              <a href="#details" class="secondary-link">↓ 看逐条说明</a>
+              <a href="#compare" class="secondary-link">↓ 看原文对照</a>
             </div>
           </div>
           <div class="notice-visual" aria-hidden="true">
@@ -700,6 +986,24 @@
         </div>
       </section>
 
+      <section id="compare">
+        <div class="wrap">
+          <div class="issue-tool">
+            <div class="issue-tool-head">
+              <div>
+                <p class="label">原文对照修改表</p>
+                <h2>点一条，看原文、风险和建议改法</h2>
+              </div>
+              <p>
+                适合在业主群里逐条解释：先看草案怎么写，再看可能损害什么权利，最后给出可落地的修改文本。
+              </p>
+            </div>
+            <div class="issue-filters" id="issueFilters" aria-label="问题风险筛选"></div>
+            <div class="issue-list inline" id="issueList" aria-label="问题列表"></div>
+          </div>
+        </div>
+      </section>
+
       <section>
         <div class="wrap">
           <p class="label">逐条展开</p>
@@ -799,6 +1103,383 @@
       const copyButton = document.getElementById("copyButton");
       const shareButton = document.getElementById("shareButton");
       const printButton = document.getElementById("printButton");
+      const issueFiltersEl = document.getElementById("issueFilters");
+      const issueListEl = document.getElementById("issueList");
+
+      const issueFilters = [
+        { id: "all", label: "全部", hint: "12 条" },
+        { id: "red", label: "红色", hint: "优先反对" },
+        { id: "orange", label: "橙色", hint: "需要重写" },
+        { id: "yellow", label: "黄色", hint: "补充完善" },
+      ];
+
+      const verificationNotes = {
+        "vote-threshold": {
+          source: "已核对：业主公约.txt 第 32-42 行；议事规则.txt 第 27-37 行。",
+          basis: "依据：民法典第 278 条；北京市物业管理条例第 34、35 条。",
+        },
+        "silent-consent": {
+          source: "已核对：议事规则.txt 第 120-127 行。",
+          basis: "依据：民法典第 278 条；北京市物业管理条例第 35 条。",
+        },
+        "restricted-rights": {
+          source: "已核对：业主公约.txt 第 80-86 行；议事规则.txt 第 143-154、197-210 行。",
+          basis: "依据：北京市物业管理条例第 27、39 条；全国人大法工委审查研究案例。",
+        },
+        "public-income-authorization": {
+          source: "已核对：业主公约.txt 第 91-96 行；议事规则.txt 第 332-336、376-385 行。",
+          basis: "依据：北京市物业管理条例第 34、44 条。",
+        },
+        "property-paid-committee": {
+          source: "已核对：议事规则.txt 第 155-166、390-411 行。",
+          basis: "依据：北京市物业管理条例第 34、44 条关于委员津贴、共有资金和业委会职责边界。",
+        },
+        "repair-under-50000": {
+          source: "已核对：业主公约.txt 第 159-169 行。",
+          basis: "依据：民法典第 281 条；北京市物业管理条例第 84-86、88 条。",
+        },
+        "face-recognition": {
+          source: "已核对：业主公约.txt 第 172-180 行。",
+          basis: "依据：人脸识别技术应用安全管理办法第 4、6、10 条；北京市物业管理条例第 78 条。",
+        },
+        "decoration-blacklist": {
+          source: "已核对：业主公约.txt 第 107-120 行。",
+          basis: "依据：北京市物业管理条例第 65、78、79 条。",
+        },
+        "arrears-publicity": {
+          source: "已核对：业主公约.txt 第 49-54 行。",
+          basis: "依据：北京市物业管理条例第 27 条；全国人大法工委审查研究案例；个人信息最小必要原则。",
+        },
+        "tenant-liability": {
+          source: "已核对：业主公约.txt 第 180、190 行。",
+          basis: "依据：民法典关于合同责任、侵权责任的一般规则；物业费连带交纳与一般违规连带责任需区分。",
+        },
+        "regional-vote": {
+          source: "已核对：议事规则.txt 第 27-33 行。",
+          basis: "依据：民法典第 271、274、278 条；北京市物业管理条例第 26、34 条。",
+        },
+        "vehicle-limits": {
+          source: "已核对：业主公约.txt 第 123-126 行。",
+          basis: "依据：合理使用物业和共有道路管理原则；该条主要是合理性和例外机制问题。",
+        },
+      };
+
+      const issues = [
+        {
+          id: "vote-threshold",
+          no: "01",
+          level: "red",
+          levelText: "红色 · 优先反对",
+          title: "表决门槛仍是旧口径",
+          file: "《业主管理规约》《议事规则》",
+          clause: "管理规约第六条；议事规则第二条",
+          original:
+            "管理规约：决定第(六)、（七）项事项，应当经专有部分占建筑物总面积三分之二以上的业主且占总人数三分之二以上的业主同意。议事规则另写第（十九）、（二十）项。",
+          whyWrong:
+            "现行《民法典》第 278 条要求先看参与表决门槛，再按参与表决业主计算同意比例。草案还漏掉了“利用共有部分经营活动”的高门槛。",
+          harmedRights:
+            "可能降低重大事项表决门槛，影响物业选聘、维修资金、公共收益、共有部分经营等决议效力。",
+          suggestion:
+            "按《民法典》第 278 条完整重写：先满足面积和人数各三分之二以上参与表决；筹集维修资金、改建重建、改变共有部分用途或利用共有部分经营活动，经参与表决面积和人数各四分之三以上同意；其他事项经参与表决面积和人数各过半同意。",
+          submitLine:
+            "请按《民法典》第278条重写表决规则，并将共有部分经营活动纳入高门槛事项。",
+        },
+        {
+          id: "silent-consent",
+          no: "02",
+          level: "red",
+          levelText: "红色 · 必须删除",
+          title: "未反馈视为同意多数",
+          file: "《议事规则》",
+          clause: "第十一条",
+          original: "表决票有效送达即视为参与表决，未反馈视为同意多数。",
+          whyWrong:
+            "送达不等于业主真实参与，沉默也不能推定为赞成或随多数。微信、QQ、钉钉等非官方表决工具还存在身份核验和留痕风险。",
+          harmedRights:
+            "会把没看到、没回复、没投票的业主变成赞成票，损害表决权、知情权和真实意思表示。",
+          suggestion:
+            "删除该句。改为：未实际反馈同意、反对或弃权意见的，不得推定为同意；互联网表决原则上使用北京市主管部门电子投票系统。",
+          submitLine:
+            "请删除“未反馈视为同意多数”，业主沉默不得推定为同意。",
+        },
+        {
+          id: "restricted-rights",
+          no: "03",
+          level: "red",
+          levelText: "红色 · 必须删除",
+          title: "限制表决权、选举权并扣减基数",
+          file: "《业主管理规约》《议事规则》",
+          clause: "管理规约第二十八条；议事规则第十四条、第十八条",
+          original:
+            "对被限制选举权、表决权的业主，其专有面积不计入建筑物总面积，其人数不计入总人数。",
+          whyWrong:
+            "业主共同管理权不能因欠费或争议被规约直接剥夺。把这类业主从面积和人数基数中扣除，会人为改变表决结果。",
+          harmedRights:
+            "损害业主参加业主大会、投票、参选、被选举以及共有收益分配等共同管理权。",
+          suggestion:
+            "删除限制表决权、选举权、被选举权和扣减面积/人数基数条款。欠费或违规应通过催缴、整改、仲裁、诉讼或行政投诉处理。",
+          submitLine:
+            "请删除限制共同管理权及扣减总面积、总人数的全部条款。",
+        },
+        {
+          id: "public-income-authorization",
+          no: "04",
+          level: "red",
+          levelText: "红色 · 授权过宽",
+          title: "公共收益授权业委会决定",
+          file: "《业主管理规约》《议事规则》",
+          clause: "管理规约第三十一条；议事规则第三十三条、第四十二条",
+          original:
+            "由业主大会或业主大会授权业主委员会决定用于小区共用部分管理支出，并按本规约规定向全体业主公示。",
+          whyWrong:
+            "北京条例明确公共收益、共有部分经营、维修资金等重大事项应由业主大会决定，不能概括授权业委会自行决定。",
+          harmedRights:
+            "损害全体业主对公共收益、共有资金和共有部分经营的知情权、决定权、监督权。",
+          suggestion:
+            "改为：业委会只能拟订方案并公开预算、用途、金额和审计安排；公共收益和重大共有资金支出须经业主大会或相关业主依法表决。",
+          submitLine:
+            "请删除业主大会概括授权业委会处分公共收益的表述。",
+        },
+        {
+          id: "property-paid-committee",
+          no: "05",
+          level: "red",
+          levelText: "红色 · 利益冲突",
+          title: "业委会经费由物业公司支付",
+          file: "《议事规则》",
+          clause: "第十五条、第四十四条至第四十六条",
+          original:
+            "工作经费包括全职业委会工作人员工资待遇及财务记账费；经费来源包括不超过上一年度收缴物业费总和 2%，由物业公司支付。",
+          whyWrong:
+            "业委会应监督物业公司。如果经费、工资或辅助人员费用由物业公司直接支付，容易形成利益绑定。",
+          harmedRights:
+            "损害业主对物业服务、收费、公共收益和业委会履职的独立监督权。",
+          suggestion:
+            "删除“由物业公司支付”。经费、委员津贴、秘书和财务人员费用应列入业主大会预算，明确金额、期限、用途、发放对象、公开和审计机制。",
+          submitLine:
+            "请删除物业公司支付业委会经费，并改为业主大会预算化、限额化、审计化。",
+        },
+        {
+          id: "repair-under-50000",
+          no: "06",
+          level: "orange",
+          levelText: "橙色 · 需要重写",
+          title: "5 万元以下维修由物业直接组织",
+          file: "《业主管理规约》",
+          clause: "第三十八条、第三十九条",
+          original:
+            "物业共用部分的维修、更新、改造符合下述情形之一的，由物业服务人直接组织实施；其中包括“物业维修、更新、改造费用在 5 万 元以下”。",
+          whyWrong:
+            "低于 5 万元不代表可以没有报价、验收、公示和禁止拆分规则。普通维修也可能长期消耗公共收益或共有资金。",
+          harmedRights:
+            "损害业主对共有资金使用的知情权、监督权和对维修质量的验收监督。",
+          suggestion:
+            "保留急修例外；普通维修应至少有维修方案、费用来源、报价或比价、业主公示、施工验收、结算公开，并禁止拆分项目规避表决。",
+          submitLine:
+            "请重写 5 万元以下维修条款，增加报价、验收、公示和禁止拆分规则。",
+        },
+        {
+          id: "face-recognition",
+          no: "07",
+          level: "orange",
+          levelText: "橙色 · 必须收窄",
+          title: "强制人脸识别、责成终止租赁",
+          file: "《业主管理规约》",
+          clause: "第四十一条",
+          original:
+            "长期借住人员必须报备，且不允许群住。录入人脸识别……对违反本规约出租或者转租的，业主委员会有权书面责成业主、物业使用人立即终止租赁、借住行为。",
+          whyWrong:
+            "人脸信息属于敏感个人信息，不能作为唯一通行方式。业委会一般无权直接终止业主与承租人、借住人之间的民事关系。",
+          harmedRights:
+            "损害个人信息权益、居住使用权益、业主出租收益权和正常访客通行便利。",
+          suggestion:
+            "删除“必须录入人脸识别”和“责成立即终止租赁/借住”。改为登记授权、门禁卡或二维码等替代方式；违法出租走劝阻、整改、报告或诉讼程序。",
+          submitLine:
+            "请删除强制人脸识别和业委会终止租赁、借住的表述。",
+        },
+        {
+          id: "decoration-blacklist",
+          no: "08",
+          level: "orange",
+          levelText: "橙色 · 程序不足",
+          title: "装修黑名单和施工队离场",
+          file: "《业主管理规约》",
+          clause: "第三十五条",
+          original:
+            "业委会或物业有权要求该施工单位停工，不听劝阻的，要求该施工队离开小区，且进入装修黑名单，不被允许再进入本小区进行装修施工。",
+          whyWrong:
+            "安全管理可以有，但不能没有事实认定、书面告知、申辩、期限和解除机制。违法建设和消防违法应报告行政执法机关。",
+          harmedRights:
+            "可能损害业主正常装修、维修、施工选择和财产维护权，也可能形成选择性管理。",
+          suggestion:
+            "改为书面整改、临时安全措施、通知业主、报告行政机关；如需供应商准入管理，应明确期限、申辩、更正和解除机制。",
+          submitLine:
+            "请删除永久性装修黑名单，改为有程序、有期限、可申辩、可解除的管理机制。",
+        },
+        {
+          id: "arrears-publicity",
+          no: "09",
+          level: "yellow",
+          levelText: "黄色 · 需要收窄",
+          title: "欠费房号公示和严重标签",
+          file: "《业主管理规约》",
+          clause: "第十条、第二十二条",
+          original:
+            "公布物业服务费用收交情况，并注明欠交费用的业主房门号及欠费金额……并将该业主列为严重影响业主公共利益人员。",
+          whyWrong:
+            "催缴可以有，但“严重影响公共利益人员”属于自创标签。物业服务争议也不应被写成绝对不能作为依法抗辩的理由。",
+          harmedRights:
+            "可能损害个人信息权益、名誉权、依法抗辩和主张物业服务质量问题的权利。",
+          suggestion:
+            "删除自创标签。欠费公示应先核实、催告并给予异议期；公示范围坚持最小必要。物业争议应允许依法协商、投诉、仲裁或诉讼。",
+          submitLine:
+            "请删除“严重影响业主公共利益人员”，欠费处理应有核实、催告、异议期和最小必要公示。",
+        },
+        {
+          id: "tenant-liability",
+          no: "10",
+          level: "yellow",
+          levelText: "黄色 · 范围过宽",
+          title: "租户违规一概由业主连带负责",
+          file: "《业主管理规约》",
+          clause: "第四十六条",
+          original: "物业使用人违反本规约的，相关业主承担连带责任。",
+          whyWrong:
+            "物业费连带交纳可以区分保留，但把租户、借住人所有违规行为都一概转嫁给业主，范围过宽。",
+          harmedRights:
+            "损害出租业主的财产权、合同自治和按过错承担责任的公平性。",
+          suggestion:
+            "改为：实际行为人依法承担责任；业主明知、放任、未尽合理管理义务或依法应承担责任的，按法律规定和合同约定承担相应责任。",
+          submitLine:
+            "请删除租户所有违规都由业主连带承担的兜底条款。",
+        },
+        {
+          id: "regional-vote",
+          no: "11",
+          level: "yellow",
+          levelText: "黄色 · 需列边界",
+          title: "东西区单独表决边界不清",
+          file: "《议事规则》",
+          clause: "第二条",
+          original:
+            "东西区单一区域公共事务、共用部位、共用设施设备可由对应区域单独议事、单独表决。",
+          whyWrong:
+            "区域单独表决方向可以保留，但必须先列清哪些是单区共有、哪些是全小区共有、哪些是跨区事项。",
+          harmedRights:
+            "可能让一侧业主处分另一侧也有权益或需共同承担成本的事项，损害共有权和费用分担公平。",
+          suggestion:
+            "增加附件清单：东区单独事项、西区单独事项、全小区共有事项、跨区不得单独表决事项。物业服务合同、全体公共收益、主出入口、道路、安防、消防、管线等不得单区表决。",
+          submitLine:
+            "请补充东西区单独表决事项清单和全小区共有、跨区事项清单。",
+        },
+        {
+          id: "vehicle-limits",
+          no: "12",
+          level: "yellow",
+          levelText: "黄色 · 增加例外",
+          title: "大型车辆禁入缺少生活例外",
+          file: "《业主管理规约》",
+          clause: "第三十五条",
+          original:
+            "本小区不允许超过7.6长、超过23吨的车辆驶入，消防、公安、救护等应急车辆除外。",
+          whyWrong:
+            "别墅小区可能有搬家、装修、园林、抢修、大件家具和建材运输需求。只有应急车辆例外过窄。",
+          harmedRights:
+            "可能影响业主正常居住、房屋维护、装修、搬家和财产使用便利。",
+          suggestion:
+            "增加临时审批机制：明确申请材料、通行时段、路线、限速、押金或损害赔偿、现场引导；相关收费和损害赔偿纳入公开。",
+          submitLine:
+            "请为搬家、装修、抢修、园林和大件运输增加临时通行审批机制。",
+        },
+      ];
+
+      let activeFilter = "all";
+      let selectedIssueId = issues[0].id;
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function getVisibleIssues() {
+        return activeFilter === "all"
+          ? issues
+          : issues.filter((issue) => issue.level === activeFilter);
+      }
+
+      function renderIssues() {
+        const visibleIssues = getVisibleIssues();
+        if (selectedIssueId && !visibleIssues.some((issue) => issue.id === selectedIssueId)) {
+          selectedIssueId = visibleIssues[0].id;
+        }
+
+        issueFiltersEl.innerHTML = issueFilters
+          .map(
+            (filter) => `<button class="${filter.id === activeFilter ? "active" : ""}" data-filter="${filter.id}" type="button"><strong>${filter.label}</strong><span>${filter.hint}</span></button>`
+          )
+          .join("");
+
+        issueListEl.innerHTML = visibleIssues
+          .map((issue) => {
+            const isOpen = issue.id === selectedIssueId;
+            const verification = verificationNotes[issue.id];
+            const detailHtml = isOpen
+              ? `<div class="issue-detail ${issue.level}">
+                  <div class="issue-detail-title">
+                    <span class="issue-no ${issue.level}">${issue.no}</span>
+                    <div>
+                      <p>${escapeHtml(issue.levelText)}</p>
+                      <h3>${escapeHtml(issue.title)}</h3>
+                    </div>
+                  </div>
+                  <div class="issue-meta">
+                    <span>${escapeHtml(issue.file)}</span>
+                    <span>${escapeHtml(issue.clause)}</span>
+                  </div>
+                  <div class="evidence-rows">
+                    <section><strong>核验出处</strong><p>${escapeHtml(verification.source)}</p></section>
+                    <section><strong>依据核验</strong><p>${escapeHtml(verification.basis)}</p></section>
+                    <section><strong>草案原文摘录</strong><blockquote>${escapeHtml(issue.original)}</blockquote></section>
+                    <section><strong>问题在哪里</strong><p>${escapeHtml(issue.whyWrong)}</p></section>
+                    <section><strong>可能损害业主什么权利</strong><p>${escapeHtml(issue.harmedRights)}</p></section>
+                    <section><strong>建议修改成什么</strong><p>${escapeHtml(issue.suggestion)}</p></section>
+                  </div>
+                  <div class="submit-line"><strong>提交时可这样说：</strong><span>${escapeHtml(issue.submitLine)}</span></div>
+                </div>`
+              : "";
+
+            return `<article class="issue-card ${isOpen ? "active" : ""}">
+              <button class="issue-item" data-issue="${issue.id}" type="button" aria-expanded="${isOpen ? "true" : "false"}">
+                <span class="issue-no ${issue.level}">${issue.no}</span>
+                <span><strong>${escapeHtml(issue.title)}</strong><em>${escapeHtml(issue.levelText)}</em></span>
+                <b>${isOpen ? "收起" : "展开"}</b>
+              </button>
+              ${detailHtml}
+            </article>`;
+          })
+          .join("");
+      }
+
+      issueFiltersEl.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-filter]");
+        if (!button) return;
+        activeFilter = button.dataset.filter;
+        const nextIssues = getVisibleIssues();
+        selectedIssueId = nextIssues[0]?.id || issues[0].id;
+        renderIssues();
+      });
+
+      issueListEl.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-issue]");
+        if (!button) return;
+        selectedIssueId = selectedIssueId === button.dataset.issue ? "" : button.dataset.issue;
+        renderIssues();
+      });
+
+      renderIssues();
 
       copyButton.addEventListener("click", async () => {
         try {
