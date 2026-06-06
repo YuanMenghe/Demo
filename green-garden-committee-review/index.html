@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>绿茵花园业委会草案意见</title>
+    <meta
+      name="description"
+      content="面向业主和长辈阅读的业委会草案重点问题说明与可复制修改意见。"
+    />
+    <style>
+      :root {
+        --paper: #f7f4ee;
+        --ink: #1d1b18;
+        --muted: #5f5b53;
+        --line: #d9d0c1;
+        --white: #fffdf8;
+        --red: #b42318;
+        --red-bg: #fff0ed;
+        --amber: #a15c07;
+        --amber-bg: #fff4d8;
+        --yellow: #7a6412;
+        --yellow-bg: #fff8d7;
+        --green: #1d6b4a;
+        --green-bg: #e8f6ee;
+        --blue: #225a8a;
+        --blue-bg: #e9f3ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial,
+          sans-serif;
+        font-size: 19px;
+        line-height: 1.75;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      a,
+      summary {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .wrap {
+        margin: 0 auto;
+        max-width: 1120px;
+        padding: 0 18px;
+      }
+
+      .top-band {
+        border-bottom: 1px solid var(--line);
+        background:
+          linear-gradient(90deg, rgba(180, 35, 24, 0.08), transparent 34%),
+          linear-gradient(180deg, #fffaf1 0%, #f7f4ee 100%);
+      }
+
+      .hero {
+        display: grid;
+        gap: 34px;
+        grid-template-columns: 1.12fr 0.88fr;
+        align-items: center;
+        padding: 38px 18px 42px;
+      }
+
+      .label {
+        margin: 0 0 8px;
+        color: var(--blue);
+        font-size: 0.86rem;
+        font-weight: 800;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 18px;
+        font-size: clamp(2.35rem, 8vw, 4.85rem);
+        font-weight: 900;
+        line-height: 1.08;
+      }
+
+      h2 {
+        margin-bottom: 14px;
+        font-size: clamp(1.7rem, 5vw, 2.6rem);
+        font-weight: 900;
+        line-height: 1.16;
+      }
+
+      h3 {
+        margin-bottom: 8px;
+        font-size: 1.22rem;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+
+      .lead {
+        max-width: 780px;
+        margin-bottom: 20px;
+        color: var(--muted);
+        font-size: clamp(1.12rem, 3.5vw, 1.45rem);
+        line-height: 1.7;
+      }
+
+      .action-row,
+      .copy-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .primary-link,
+      .secondary-link,
+      .primary-button,
+      .secondary-button {
+        display: inline-flex;
+        min-height: 54px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 8px;
+        padding: 13px 18px;
+        border: 0;
+        font-size: 1.05rem;
+        font-weight: 900;
+      }
+
+      .primary-link,
+      .primary-button {
+        background: var(--red);
+        color: #fffdf8;
+      }
+
+      .secondary-link,
+      .secondary-button {
+        border: 1px solid var(--line);
+        background: var(--white);
+        color: var(--ink);
+      }
+
+      .primary-button,
+      .secondary-button {
+        cursor: pointer;
+      }
+
+      .notice-visual {
+        display: flex;
+        justify-content: center;
+      }
+
+      .notice-board {
+        position: relative;
+        width: min(100%, 430px);
+        max-width: 430px;
+        aspect-ratio: 1.2;
+        border: 10px solid #7a4d2d;
+        background: #d4a373;
+        box-shadow: 0 24px 70px rgba(72, 40, 17, 0.18);
+      }
+
+      .notice-paper {
+        position: absolute;
+        display: grid;
+        gap: 12px;
+        padding: 22px;
+        border: 1px solid rgba(29, 27, 24, 0.16);
+        background: #fffdf8;
+        box-shadow: 0 12px 24px rgba(72, 40, 17, 0.15);
+      }
+
+      .notice-paper span {
+        display: block;
+        height: 12px;
+        background: #d8d0c3;
+      }
+
+      .paper-title {
+        width: 56%;
+        height: 20px !important;
+        background: var(--red) !important;
+      }
+
+      .main-paper {
+        top: 13%;
+        left: 12%;
+        width: 58%;
+        height: 56%;
+      }
+
+      .side-paper {
+        right: 10%;
+        bottom: 14%;
+        width: 38%;
+        height: 38%;
+      }
+
+      .side-paper strong {
+        color: var(--red);
+        font-size: 5rem;
+        line-height: 0.9;
+      }
+
+      .risk-strip {
+        position: absolute;
+        bottom: 10%;
+        left: 13%;
+        width: 38%;
+        height: 16px;
+      }
+
+      .risk-strip.red {
+        background: var(--red);
+      }
+
+      .risk-strip.amber {
+        bottom: 16%;
+        background: #f3a712;
+      }
+
+      .pin {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        background: var(--blue);
+      }
+
+      .pin.one {
+        top: 10%;
+        left: 18%;
+      }
+
+      .pin.two {
+        top: 44%;
+        right: 19%;
+      }
+
+      section {
+        padding: 24px 0;
+      }
+
+      .summary-grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .priority-card {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-top: 7px solid var(--red);
+        background: var(--white);
+      }
+
+      .priority-card p {
+        margin-bottom: 10px;
+        color: var(--red);
+        font-size: 0.86rem;
+        font-weight: 900;
+      }
+
+      .priority-card h2 {
+        margin-bottom: 10px;
+        font-size: 1.28rem;
+      }
+
+      .priority-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .verdict {
+        padding: 22px;
+        border: 1px solid #b9d8f2;
+        border-left: 9px solid var(--blue);
+        background: var(--blue-bg);
+      }
+
+      .verdict p {
+        margin-bottom: 0;
+        color: #263f54;
+        font-size: 1.18rem;
+      }
+
+      .risk-grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .risk-card {
+        padding: 20px;
+        border: 1px solid var(--line);
+      }
+
+      .risk-card.red {
+        border-top: 8px solid var(--red);
+        background: var(--red-bg);
+      }
+
+      .risk-card.orange {
+        border-top: 8px solid var(--amber);
+        background: var(--amber-bg);
+      }
+
+      .risk-card.yellow {
+        border-top: 8px solid var(--yellow);
+        background: var(--yellow-bg);
+      }
+
+      .risk-title {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .risk-title strong {
+        font-size: 1.45rem;
+      }
+
+      .risk-title span,
+      .risk-card p {
+        color: var(--muted);
+      }
+
+      .risk-title span {
+        font-weight: 900;
+      }
+
+      .risk-card ul {
+        display: grid;
+        gap: 11px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .risk-card li {
+        border-left: 5px solid;
+        background: rgba(255, 255, 255, 0.55);
+        padding: 10px 12px;
+        line-height: 1.55;
+      }
+
+      .detail-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .detail-list details {
+        border: 1px solid var(--line);
+        background: var(--white);
+      }
+
+      .detail-list summary {
+        display: flex;
+        min-height: 72px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px;
+      }
+
+      .detail-list summary span {
+        font-size: 1.28rem;
+        font-weight: 900;
+      }
+
+      .detail-list summary strong {
+        flex: none;
+        border: 1px solid #bbdbc9;
+        border-radius: 999px;
+        background: var(--green-bg);
+        color: var(--green);
+        padding: 6px 10px;
+        font-size: 0.95rem;
+      }
+
+      .detail-list details p {
+        margin: 0;
+        border-top: 1px solid var(--line);
+        padding: 18px;
+      }
+
+      .action-note {
+        background: #f0ede5;
+        padding: 16px 18px;
+        font-weight: 800;
+      }
+
+      .check-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .check-list article {
+        display: grid;
+        grid-template-columns: 52px 1fr;
+        align-items: flex-start;
+        gap: 14px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 16px;
+      }
+
+      .check-list article > span {
+        display: inline-flex;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink);
+        color: var(--white);
+        font-weight: 900;
+      }
+
+      .check-list p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .copy-panel {
+        display: grid;
+        gap: 18px;
+        padding: 22px;
+        background: #1d1b18;
+        color: #fffdf8;
+      }
+
+      .copy-panel .label {
+        color: #ffd166;
+      }
+
+      .copy-panel p {
+        margin-bottom: 0;
+        color: #e8dfd0;
+      }
+
+      .copy-panel pre {
+        max-height: 520px;
+        overflow: auto;
+        margin: 0;
+        background: #fffdf8;
+        color: var(--ink);
+        white-space: pre-wrap;
+        padding: 18px;
+        font-family:
+          "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial,
+          sans-serif;
+        font-size: 1.03rem;
+        line-height: 1.65;
+      }
+
+      .copy-panel .secondary-button {
+        border-color: rgba(255, 255, 255, 0.34);
+        background: transparent;
+        color: #fffdf8;
+      }
+
+      .sources {
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 20px;
+      }
+
+      .sources h2 {
+        font-size: 1.5rem;
+      }
+
+      .sources p {
+        color: var(--muted);
+      }
+
+      .sources a {
+        display: inline-block;
+        margin: 0 16px 10px 0;
+        border-bottom: 2px solid var(--blue);
+        color: var(--blue);
+        font-size: 1rem;
+        font-weight: 900;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .summary-grid,
+        .risk-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .notice-visual {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 640px) {
+        body {
+          font-size: 18px;
+        }
+
+        .hero {
+          padding-top: 26px;
+        }
+
+        .primary-link,
+        .secondary-link,
+        .primary-button,
+        .secondary-button {
+          width: 100%;
+        }
+
+        .notice-board {
+          max-width: 320px;
+        }
+
+        .detail-list summary {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .copy-panel {
+          margin-right: -18px;
+          margin-left: -18px;
+        }
+      }
+
+      @media print {
+        .notice-visual,
+        .action-row,
+        .copy-actions {
+          display: none !important;
+        }
+
+        body {
+          background: #fff;
+          color: #000;
+          font-size: 14pt;
+        }
+
+        .top-band,
+        .priority-card,
+        .verdict,
+        .risk-card,
+        .detail-list details,
+        .copy-panel,
+        .sources {
+          border-color: #999 !important;
+          background: #fff !important;
+          color: #000 !important;
+        }
+
+        .copy-panel pre {
+          max-height: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="top-band">
+        <div class="wrap hero">
+          <div>
+            <p class="label">绿茵花园别墅小区 · 草案意见</p>
+            <h1>先看重点：这 5 条必须改</h1>
+            <p class="lead">
+              这不是律师函，是给业主、父母和邻居看的清晰版。结论是：A、B
+              的核心担忧多数真实，但需要用更稳、更准确的话来提意见。
+            </p>
+            <div class="action-row">
+              <a href="#submit" class="primary-link">▣ 复制提交意见</a>
+              <a href="#details" class="secondary-link">↓ 看逐条说明</a>
+            </div>
+          </div>
+          <div class="notice-visual" aria-hidden="true">
+            <div class="notice-board">
+              <div class="notice-paper main-paper">
+                <span class="paper-title"></span>
+                <span></span>
+                <span></span>
+                <span style="width: 78%"></span>
+              </div>
+              <div class="notice-paper side-paper">
+                <span></span>
+                <span></span>
+                <strong>5</strong>
+              </div>
+              <div class="risk-strip red"></div>
+              <div class="risk-strip amber"></div>
+              <div class="pin one"></div>
+              <div class="pin two"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap summary-grid">
+          <article class="priority-card">
+            <p>必须删除</p>
+            <h2>未反馈视为同意多数</h2>
+            <span>不能把没投票、没回复、没看到的业主算成同意。这个条款会严重降低真实表决门槛。</span>
+          </article>
+          <article class="priority-card">
+            <p>必须重写</p>
+            <h2>表决门槛仍是旧口径</h2>
+            <span>应按《民法典》第 278 条写清参与表决门槛和通过门槛，不能混写成总面积、总人数直接同意。</span>
+          </article>
+          <article class="priority-card">
+            <p>必须删除</p>
+            <h2>限制表决权、选举权</h2>
+            <span>不得因欠费或争议直接剥夺业主的共同管理权，也不得把这类业主从总人数、总面积里扣掉。</span>
+          </article>
+          <article class="priority-card">
+            <p>必须收紧</p>
+            <h2>公共收益和经费授权过宽</h2>
+            <span>公共收益、维修资金、物业选聘、收费标准等重大事项应由业主大会决定，不能概括授权业委会自行决定。</span>
+          </article>
+          <article class="priority-card">
+            <p>必须删除</p>
+            <h2>强制人脸识别、终止租赁</h2>
+            <span>人脸识别不能作为唯一通行方式；业委会也不应被写成有权直接终止租赁或借住关系。</span>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="verdict">
+            <h2>A、B 是否都是真的？</h2>
+            <p>
+              不是全部照单全收。B 的结构更稳；A
+              的重点大多成立，但“直接违法”“行政处罚”“民事诉讼法”等说法需要改准，避免被对方抓措辞漏洞。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="details">
+        <div class="wrap">
+          <p class="label">风险分级</p>
+          <h2>按长辈阅读习惯分成三组</h2>
+          <div class="risk-grid">
+            <article class="risk-card red">
+              <div class="risk-title"><strong>红色</strong><span>优先反对</span></div>
+              <p>这些条款会直接影响表决效力、共同管理权和公共资金。</p>
+              <ul>
+                <li>表决门槛没有按《民法典》第 278 条重写，且议事规则编号错乱。</li>
+                <li>表决票送达即视为参与，未反馈视为同意多数。</li>
+                <li>限制业主表决权、选举权、被选举权，并从总人数、总面积中剔除。</li>
+                <li>业主大会授权业委会决定公共收益用途。</li>
+                <li>物业公司支付业委会经费，业委会可能与物业形成利益绑定。</li>
+              </ul>
+            </article>
+            <article class="risk-card orange">
+              <div class="risk-title"><strong>橙色</strong><span>需要重写</span></div>
+              <p>这些条款有管理目的，但权限、程序、例外和监督都不够。</p>
+              <ul>
+                <li>5 万元以下维修由物业直接组织，缺少报价、验收、公示和禁止拆分规则。</li>
+                <li>装修黑名单、施工队离场没有认定、申辩、期限和解除机制。</li>
+                <li>强制录入人脸识别，且未提供门禁卡、二维码等替代方式。</li>
+                <li>业委会责成终止租赁、借住关系，超出一般自治管理边界。</li>
+                <li>东西区单独表决没有列清共有设施、收益和成本边界。</li>
+              </ul>
+            </article>
+            <article class="risk-card yellow">
+              <div class="risk-title"><strong>黄色</strong><span>补充完善</span></div>
+              <p>这些问题不一定直接导致无效，但会埋下后续争议。</p>
+              <ul>
+                <li>欠费房号公示和“严重影响公共利益人员”标签过硬，容易引发名誉和个人信息争议。</li>
+                <li>租户、借住人全部违规都让业主承担连带责任，范围过宽。</li>
+                <li>大车禁入没有给搬家、装修、抢修、园林、大件运输留审批通道。</li>
+                <li>共有部分、物业服务用房、公共收益点位没有附件清单。</li>
+                <li>草案有空白条款、错字和不存在编号，不应作为最终表决稿。</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <p class="label">逐条展开</p>
+          <h2>要解释时，看这几段</h2>
+          <div class="detail-list">
+            <details open>
+              <summary><span>1. 表决规则</span><strong>真实且严重</strong></summary>
+              <p>两份草案都没有完整采用《民法典》第 278 条的两层表决规则。议事规则还引用了不存在的第（十九）、（二十）项，并漏掉共有部分经营活动的高门槛。</p>
+              <div class="action-note">建议：按民法典原文重写，不要用旧版“双过半、双三分之二”口径。</div>
+            </details>
+            <details>
+              <summary><span>2. 沉默业主</span><strong>应坚决删除</strong></summary>
+              <p>“送达即参与、未反馈视为同意多数”会把没投票的人变成赞成票或随大流票，影响公共收益、物业选聘、维修资金等重大事项。</p>
+              <div class="action-note">建议：未实际反馈同意、反对或弃权意见的，不得推定为同意。</div>
+            </details>
+            <details>
+              <summary><span>3. 共同管理权</span><strong>高风险</strong></summary>
+              <p>草案把欠费、违规等问题和表决权、选举权、被选举权挂钩，还把相关业主从面积和人数基数里扣掉。这会动摇表决结果。</p>
+              <div class="action-note">建议：删除限制权利和扣减基数条款，欠费走催缴、仲裁或诉讼。</div>
+            </details>
+            <details>
+              <summary><span>4. 公共收益和经费</span><strong>授权过宽</strong></summary>
+              <p>公共收益属于全体业主，草案却允许业主大会概括授权业委会决定用途；业委会经费还可由物业公司支付，监督关系会变形。</p>
+              <div class="action-note">建议：所有重大支出进年度预算，业主大会表决，月度公开，年度审计。</div>
+            </details>
+            <details>
+              <summary><span>5. 人脸、租赁、装修</span><strong>管理目的可以有，权力不能写过头</strong></summary>
+              <p>人脸识别不能作为唯一方式；业委会一般无权终止租赁关系；装修黑名单也不能没有期限、申辩和解除机制。</p>
+              <div class="action-note">建议：改为登记、授权、劝阻、整改、报告行政机关，保留替代通行方式。</div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <p class="label">AI 意见校准</p>
+          <h2>哪些可用，哪些要改说法</h2>
+          <div class="check-list">
+            <article><span>A</span><div><h3>多数问题真实，但语言偏激</h3><p>保留核心风险，删除“夹带私货”等情绪化说法。</p></div></article>
+            <article><span>A</span><div><h3>民事诉讼法不是主依据</h3><p>本次主依据是《民法典》《北京市物业管理条例》和个人信息规则。</p></div></article>
+            <article><span>A</span><div><h3>黑名单、车辆限制不是当然违法</h3><p>准确说是程序不足、权限过宽、缺少例外。</p></div></article>
+            <article><span>A</span><div><h3>连带责任要区分</h3><p>物业费连带交纳可保留，租户所有违规一概连带过宽。</p></div></article>
+            <article><span>B</span><div><h3>整体更稳</h3><p>新增的人脸识别、5 万维修、东西区表决、共有清单问题都成立。</p></div></article>
+            <article><span>B</span><div><h3>引用要换成官方来源</h3><p>不要用百度法行宝，改用官方法律法规网页。</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="submit">
+        <div class="wrap">
+          <div class="copy-panel">
+            <div>
+              <p class="label">可直接提交</p>
+              <h2>10 条核心修改意见</h2>
+              <p>点击复制后，可以直接发到业主群、发给邻居，或整理成书面意见提交筹备方。</p>
+            </div>
+            <pre id="submitText">关于《业主管理规约》和《业主大会议事规则》草案的修改意见：
+
+1. 请按《民法典》第278条重写全部业主共同决定事项的表决规则，明确“参与表决门槛”和“通过门槛”，并将“改变共有部分用途或者利用共有部分经营活动”纳入高门槛事项。
+2. 请删除“表决票有效送达即视为参与表决，未反馈视为同意多数”。业主沉默不得推定为同意；互联网表决应使用北京市主管部门电子投票系统。
+3. 请删除限制业主表决权、选举权、被选举权，以及将相关业主从总面积、总人数中剔除的条款。
+4. 请删除“业主大会授权业委会决定公共收益用途”等概括授权。公共收益、维修资金、物业选聘、收费标准、共有部分经营等重大事项应由业主大会或相关业主依法共同决定。
+5. 请删除“业委会经费由物业公司支付”的经费来源。业委会工作经费、委员津贴、秘书财务人员费用应经业主大会预算表决，明确金额、期限、用途、审计和公开方式。
+6. 请删除强制录入人脸识别，以及业委会责成终止租赁或借住的条款。人员出入管理应提供非人脸替代方式；违法出租应走劝阻、整改、报告或诉讼程序。
+7. 请重写装修、黑名单、施工队离场条款，改为书面整改、临时安全措施、报告行政执法机关，不得设无期限、无申辩、无解除机制的黑名单。
+8. 请删除“严重影响业主公共利益人员”等自创标签。欠费公示应有核实、催告、异议期和最小必要范围。
+9. 请补充东西区单独表决事项清单、全小区共有事项清单、公共收益点位清单、物业服务用房和共有部分清单。
+10. 请修正全部编号错误、空白条款、错字和未完成内容，并在修改后重新公示完整文本。</pre>
+            <div class="copy-actions">
+              <button class="primary-button" id="copyButton">▣ 复制意见</button>
+              <button class="secondary-button" id="shareButton">↗ 分享链接</button>
+              <button class="secondary-button" id="printButton">□ 打印</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="sources">
+            <h2>依据来源</h2>
+            <p>
+              核心依据为《民法典》第 278、280、281、282、286 条，《北京市物业管理条例》，全国人大法工委关于限制业主共同管理权的审查案例，以及《人脸识别技术应用安全管理办法》。
+            </p>
+            <a href="https://www.cac.gov.cn/2020-06/01/c_15925617772683191.htm">民法典</a>
+            <a href="https://zjw.beijing.gov.cn/bjjs/xxgk/543346069/543346065/325733208/index.shtml">北京市物业管理条例</a>
+            <a href="https://www.npc.gov.cn/npc/c2/c30834/202301/t20230113_423341.html">全国人大法工委审查案例</a>
+            <a href="https://www.gov.cn/zhengce/zhengceku/202503/content_7016075.htm">人脸识别技术应用安全管理办法</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const submitText = document.getElementById("submitText");
+      const copyButton = document.getElementById("copyButton");
+      const shareButton = document.getElementById("shareButton");
+      const printButton = document.getElementById("printButton");
+
+      copyButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(submitText.textContent.trim());
+          copyButton.textContent = "✓ 已复制";
+          setTimeout(() => {
+            copyButton.textContent = "▣ 复制意见";
+          }, 1800);
+        } catch {
+          alert("复制失败，请长按文字手动复制。");
+        }
+      });
+
+      shareButton.addEventListener("click", async () => {
+        const payload = {
+          title: document.title,
+          text: "绿茵花园业委会草案重点问题和修改意见",
+          url: location.href,
+        };
+        if (navigator.share) {
+          await navigator.share(payload);
+        } else {
+          await navigator.clipboard.writeText(location.href);
+          shareButton.textContent = "✓ 链接已复制";
+          setTimeout(() => {
+            shareButton.textContent = "↗ 分享链接";
+          }, 1800);
+        }
+      });
+
+      printButton.addEventListener("click", () => {
+        window.print();
+      });
+    </script>
+  </body>
+</html>

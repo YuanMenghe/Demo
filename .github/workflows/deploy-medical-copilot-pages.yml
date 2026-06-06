@@ -104,6 +104,7 @@ jobs:
           mkdir -p "site/ai伦理审查辅助系统"
           mkdir -p site/roche-noah-ai-demo
           mkdir -p site/ZheEr_MiniProgram
+          mkdir -p site/green-garden-committee-review
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -125,6 +126,9 @@ jobs:
 
           # ZheEr MiniProgram / 淋巴瘤指南查询小程序 (Vite + React)
           cp -r ZheEr_MiniProgram/dist/* site/ZheEr_MiniProgram/
+
+          # 绿茵花园业委会草案意见（静态 HTML，未列入 Hub 导航）
+          cp -r green-garden-committee-review/* site/green-garden-committee-review/
 
           # Root: innocuous 404 (no project links)
           cat > site/index.html << 'ROOT404'
