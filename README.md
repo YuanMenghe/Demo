@@ -1,3 +1,13 @@
+# Demo · GitHub Pages 聚合仓库
+
+本仓库统一部署多个演示子站到 GitHub Pages。
+
+- **聚合导航（Hub）**：https://yuanmenghe.github.io/Demo/hub/Noah/
+- 站点根路径 `https://yuanmenghe.github.io/Demo/` 不再展示项目列表
+- **新增或更新子站、维护 Hub 链接**：请先阅读 [PAGES.md](./PAGES.md)
+
+---
+
 # 智汇MDT - 复杂病例智能体平台
 
 一个用于MDT（多学科会诊）病例管理的交互示意网站。

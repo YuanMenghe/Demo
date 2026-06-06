@@ -1,4 +1,8 @@
 # 构建 medical-copilot 并部署整个 Demo 站点到 GitHub Pages
+#
+# 新增子站：除构建/拷贝到 site/ 外，必须在 Hub 导航页添加卡片链接。
+# Hub 入口：https://yuanmenghe.github.io/Demo/hub/Noah/（根路径 /Demo/ 不再展示列表）
+# 详见仓库根目录 PAGES.md
 name: Deploy to GitHub Pages
 
 on:
@@ -156,6 +160,7 @@ jobs:
           ROOT404
 
           # Hub: project navigation at secret path only
+          # 新增子站时在此 grid 追加卡片；链接用 /${REPO_NAME}/<dir>/ 绝对路径。见 PAGES.md
           HUB_DIR="site/hub/${DEMO_HUB_SLUG}"
           mkdir -p "$HUB_DIR"
           cat > "$HUB_DIR/index.html" << LANDING
