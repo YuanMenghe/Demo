@@ -36,6 +36,7 @@ jobs:
             ai伦理审查辅助系统/package-lock.json
             roche-noah-ai-demo/package-lock.json
             ZheEr_MiniProgram/package-lock.json
+            mdt-beone/package-lock.json
 
       - name: Install and build medical-copilot
         working-directory: medical-copilot
@@ -77,6 +78,14 @@ jobs:
           npm ci
           npm run build
 
+      - name: Install and build mdt-beone (MDT_Beone CDSS)
+        working-directory: mdt-beone
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/mdt-beone/
+        run: |
+          npm ci
+          npm run build
+
       - name: Verify build output
         run: |
           echo "=== Built index.html ==="
@@ -105,6 +114,7 @@ jobs:
           mkdir -p site/roche-noah-ai-demo
           mkdir -p site/ZheEr_MiniProgram
           mkdir -p site/green-garden-committee-review
+          mkdir -p site/mdt-beone
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -129,6 +139,9 @@ jobs:
 
           # 绿茵花园业委会草案意见（静态 HTML，未列入 Hub 导航）
           cp -r green-garden-committee-review/* site/green-garden-committee-review/
+
+          # mdt-beone / MDT_Beone CDSS (Vite + React)
+          cp -r mdt-beone/dist/* site/mdt-beone/
 
           # Root: innocuous 404 (no project links)
           cat > site/index.html << 'ROOT404'
@@ -307,6 +320,10 @@ jobs:
                 <a class="card" href="/${REPO_NAME}/ZheEr_MiniProgram/">
                   <span class="card-title">淋巴瘤指南查询小程序</span>
                   <span class="card-desc">淋巴瘤指南与病例流程示意（NOAH AI）</span>
+                </a>
+                <a class="card" href="/${REPO_NAME}/mdt-beone/">
+                  <span class="card-title">MDT_Beone CDSS</span>
+                  <span class="card-desc">指南问答 + PubMed 问答 + 综合诊疗建议</span>
                 </a>
               </main>
               <footer>YuanMenghe / Demo · GitHub Pages</footer>
