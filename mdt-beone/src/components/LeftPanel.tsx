@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import {
-  AlertTriangle, UploadCloud, Check, ChevronDown, Sparkles, User,
-  Activity, ShieldAlert, PlayCircle, Pencil, Edit3, RefreshCw, FileText
+  AlertTriangle, Check, ChevronDown, Sparkles,
+  ShieldAlert, PlayCircle, Pencil, Edit3, RefreshCw, FileText,
+  X, FileUp, ArrowUp
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCDSSLogic } from "@/hooks/useCDSSLogic";
@@ -24,6 +25,8 @@ export function LeftPanel({ logic, slim=false, onAnalyze, onResetToInput, isAnal
   const [showPIIAlert, setShowPIIAlert] = useState(false);
   const [tempText, setTempText] = useState("");
   const [isScenarioMenuOpen, setIsScenarioMenuOpen] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleAnalyzeClick = () => {
     const { hasPII, maskedText } = checkPII(patientContext.unstructuredText);
@@ -35,180 +38,349 @@ export function LeftPanel({ logic, slim=false, onAnalyze, onResetToInput, isAnal
     setShowPIIAlert(false); onAnalyze?.();
   };
 
+  const handleTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+      e.preventDefault();
+      if (!isAnalyzing && patientContext.unstructuredText?.trim()) handleAnalyzeClick();
+    }
+  };
+
+  const handleFiles = (incoming: FileList | File[] | null) => {
+    if (!incoming) return;
+    const arr = Array.from(incoming);
+    setFiles(prev => [...prev, ...arr]);
+  };
+
+  const removeFile = (idx: number) => setFiles(prev => prev.filter((_, i) => i !== idx));
+
+  const formatBytes = (n: number) => {
+    if (n < 1024) return `${n} B`;
+    if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+    return `${(n / 1024 / 1024).toFixed(1)} MB`;
+  };
+
   if (slim) {
     return <SlimPanel logic={logic} onAnalyze={onAnalyze} onResetToInput={onResetToInput} isAnalyzing={isAnalyzing} />;
   }
 
+  const charCount = patientContext.unstructuredText?.length ?? 0;
+  const canSubmit = !isAnalyzing && !!patientContext.unstructuredText?.trim();
+
   return (
-    <div className="h-full flex flex-col bg-slate-50/50 overflow-y-auto">
-      <div className="flex-1 flex flex-col w-full max-w-5xl mx-auto px-8 pt-12 pb-8">
-        <div className="flex items-start justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-800 tracking-tight">患者信息录入</h1>
-            <p className="text-slate-500 mt-1.5">粘贴病历，AI 将自动分析并提取关键临床要素</p>
+    <div className="h-full flex flex-col bg-gradient-to-b from-slate-50 via-white to-slate-50/60 overflow-y-auto">
+      <div className="flex-1 flex flex-col w-full max-w-3xl mx-auto px-6 sm:px-8 pt-12 pb-10">
+
+        {/* ── Hero ── */}
+        <div className="flex flex-col items-center text-center mb-10">
+          <div className="inline-flex items-center gap-1.5 mb-4 px-3 py-1 bg-teal-50 border border-teal-100 rounded-full">
+            <Sparkles className="w-3 h-3 text-teal-600" />
+            <span className="text-[11px] font-semibold text-teal-700 tracking-wide">MDT_Beone · 智能临床决策</span>
           </div>
-          <div className="relative">
-            <button onClick={() => setIsScenarioMenuOpen(!isScenarioMenuOpen)} className="flex items-center gap-2 text-teal-700 bg-teal-50 hover:bg-teal-100 px-4 py-2 rounded-xl font-medium transition-colors shadow-sm border border-teal-100/50">
-              <PlayCircle className="w-4 h-4" /> 演示案例
+          <h1 className="text-3xl sm:text-[2rem] font-bold text-slate-900 tracking-tight leading-tight">
+            患者信息录入
+          </h1>
+          <p className="text-slate-500 mt-3 text-[15px] max-w-md leading-relaxed">
+            粘贴病历或上传报告，AI 将自动提取临床要素并匹配指南证据。
+          </p>
+
+          {/* 演示案例选择器 */}
+          <div className="relative mt-6">
+            <button
+              onClick={() => setIsScenarioMenuOpen(!isScenarioMenuOpen)}
+              className="group inline-flex items-center gap-2 text-sm text-slate-600 hover:text-teal-700 bg-white hover:bg-teal-50/60 border border-slate-200 hover:border-teal-200 px-4 py-2 rounded-full font-medium transition-all shadow-sm hover:shadow"
+            >
+              <PlayCircle className="w-4 h-4 text-teal-600" />
+              <span>试用演示案例</span>
+              <ChevronDown className={cn("w-3.5 h-3.5 text-slate-400 transition-transform", isScenarioMenuOpen && "rotate-180")} />
             </button>
-            {isScenarioMenuOpen && (
-              <>
-                <div className="fixed inset-0 z-10" onClick={() => setIsScenarioMenuOpen(false)} />
-                <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-100 z-20 py-2 overflow-hidden">
-                  {SCENARIOS && Object.values(SCENARIOS).map(scenario => (
-                    <button key={scenario.id} onClick={() => { loadScenario(scenario.id as any); setIsScenarioMenuOpen(false); }}
-                      className={cn("w-full text-left px-5 py-3 text-sm transition-colors", currentScenarioId === scenario.id ? "bg-teal-50 text-teal-700 font-semibold" : "hover:bg-slate-50 text-slate-700")}>
-                      {scenario.name}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+            <AnimatePresence>
+              {isScenarioMenuOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setIsScenarioMenuOpen(false)} />
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 z-20 py-2 overflow-hidden"
+                  >
+                    {SCENARIOS && Object.values(SCENARIOS).map(scenario => (
+                      <button
+                        key={scenario.id}
+                        onClick={() => { loadScenario(scenario.id as any); setIsScenarioMenuOpen(false); }}
+                        className={cn(
+                          "w-full text-left px-5 py-3 text-sm transition-colors flex items-center gap-2.5",
+                          currentScenarioId === scenario.id
+                            ? "bg-teal-50/70 text-teal-700 font-semibold"
+                            : "hover:bg-slate-50 text-slate-700"
+                        )}
+                      >
+                        <span className={cn(
+                          "w-1.5 h-1.5 rounded-full shrink-0",
+                          currentScenarioId === scenario.id ? "bg-teal-500" : "bg-slate-300"
+                        )} />
+                        <span className="flex-1">{scenario.name}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 flex-1 min-h-0">
-          {/* 左侧：自然语言输入区 */}
-          <div className="lg:col-span-3 flex flex-col space-y-4">
-            <div className="flex items-center justify-between">
-              <label className="text-base font-semibold text-slate-800 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-teal-600" />
-                病历文本
-              </label>
+        {/* ── 输入卡(textarea + 内嵌 toolbar) ── */}
+        <div className={cn(
+          "relative bg-white rounded-3xl border shadow-[0_4px_24px_-8px_rgba(15,23,42,0.08)] transition-all overflow-hidden",
+          "border-slate-200/80 focus-within:border-teal-300 focus-within:shadow-[0_8px_32px_-8px_rgba(13,148,136,0.18)]"
+        )}>
+          <textarea
+            className="w-full px-6 pt-6 pb-2 text-[15px] text-slate-800 bg-transparent border-none focus:outline-none resize-none placeholder:text-slate-400 leading-relaxed min-h-[260px] max-h-[460px]"
+            placeholder="在此粘贴患者病历，例如：65 岁男性，发现左侧颈部包块 2 月余。病理：弥漫大 B 细胞淋巴瘤，GCB 亚型。Ann Arbor III 期 A，LDH 升高，HBsAg 阳性..."
+            value={patientContext.unstructuredText}
+            onChange={e => setPatientContext(prev => ({ ...prev, unstructuredText: e.target.value }))}
+            onKeyDown={handleTextareaKeyDown}
+          />
+          {/* toolbar */}
+          <div className="flex items-center justify-between px-4 pb-3 pt-1">
+            <div className="flex items-center gap-3 text-[11px] text-slate-400 font-medium">
+              <span className="inline-flex items-center gap-1">
+                <FileText className="w-3 h-3" />
+                {charCount.toLocaleString()} 字符
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-500 font-mono">Ctrl</kbd>
+                <span>+</span>
+                <kbd className="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-500 font-mono">Enter</kbd>
+                <span className="text-slate-400">分析</span>
+              </span>
             </div>
-            <div className="relative flex-1 flex flex-col min-h-[300px]">
-              <textarea className="flex-1 w-full p-5 text-base text-slate-700 bg-white border border-slate-200 shadow-sm rounded-2xl focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 resize-none transition-all placeholder:text-slate-400 leading-relaxed"
-                placeholder="请在此粘贴患者的病历摘要、主诉、现病史、查体及病理结果..." value={patientContext.unstructuredText}
-                onChange={e => setPatientContext(prev => ({ ...prev, unstructuredText: e.target.value }))} />
-              <div className="absolute bottom-4 right-4">
-                <button onClick={handleAnalyzeClick} disabled={isAnalyzing || !patientContext.unstructuredText?.trim()}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 disabled:opacity-40 disabled:cursor-not-allowed shadow-md hover:shadow-lg transition-all active:scale-95">
-                  {isAnalyzing ? <><span className="animate-spin">⏳</span> 分析中...</> : <><Sparkles className="w-4 h-4" /> 智能分析</>}
-                </button>
-              </div>
-            </div>
-            
-            
-            <div className="mt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <UploadCloud className="w-4 h-4 text-teal-600" />
-                <h3 className="text-sm font-bold text-slate-800">上传病历/检查报告 (可选)</h3>
-              </div>
-              <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-teal-50 hover:border-teal-300 transition-colors group">
-                <div className="flex flex-col items-center justify-center pt-3 pb-4">
-                  <UploadCloud className="w-6 h-6 text-slate-400 mb-1 group-hover:text-teal-600 transition-colors" />
-                  <p className="text-xs text-slate-500"><span className="font-semibold text-teal-600">点击上传</span> 或拖拽文件至此</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">支持 PDF, JPG, PNG 等格式</p>
-                </div>
-                <input type="file" className="hidden" accept=".pdf,image/*" />
-              </label>
-            </div>
-            
-            <AnimatePresence>
-              {showPIIAlert && (
-                <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col gap-3 shadow-sm">
-                  <div className="flex items-start gap-3">
-                    <ShieldAlert className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
-                    <div><p className="text-sm text-amber-900 font-bold">检测到隐私信息</p><p className="text-sm text-amber-700 mt-1">系统已自动遮罩敏感字段（如姓名、电话等），请确认后继续。</p></div>
-                  </div>
-                  <div className="flex justify-end gap-2 mt-1">
-                    <button onClick={() => setShowPIIAlert(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">取消</button>
-                    <button onClick={handlePIIConfirm} className="px-4 py-2 text-sm font-bold bg-amber-100 text-amber-800 hover:bg-amber-200 rounded-xl transition-colors">确认并提交</button>
-                  </div>
-                </motion.div>
+            <button
+              onClick={handleAnalyzeClick}
+              disabled={!canSubmit}
+              aria-label="智能分析"
+              className={cn(
+                "inline-flex items-center justify-center w-9 h-9 rounded-full shadow-sm transition-all active:scale-95",
+                canSubmit
+                  ? "bg-slate-900 text-white hover:bg-slate-800 hover:shadow-md"
+                  : "bg-slate-100 text-slate-400 cursor-not-allowed"
               )}
-            </AnimatePresence>
+            >
+              {isAnalyzing
+                ? <span className="animate-spin text-sm">⏳</span>
+                : <ArrowUp className="w-4 h-4" strokeWidth={2.5} />}
+            </button>
           </div>
+        </div>
 
-          {/* 右侧：结构化字段与识别结果（弥漫大B细胞淋巴瘤诊疗关键信息） */}
-          <div className="lg:col-span-2 flex flex-col space-y-6">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-              <label className="text-base font-semibold text-slate-800 flex items-center gap-2">
-                <User className="w-4 h-4 text-teal-600" />
-                基本信息
-              </label>
-              {(() => {
-                const sd = patientContext.structuredData ?? {};
-                const setBasic = (key: string, value: string) =>
-                  setPatientContext(prev => ({ ...prev, structuredData: { ...(prev.structuredData ?? {}), [key]: value } }));
-                const inputCls = "w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 bg-slate-50 placeholder:text-slate-300 transition-all";
-                const labelCls = "text-xs uppercase text-slate-500 font-bold tracking-wider";
-                const cell = (lbl: string, el: React.ReactNode) => (
-                  <div className="space-y-1.5"><label className={labelCls}>{lbl}</label>{el}</div>
-                );
-                return (
-                  <div className="grid grid-cols-2 gap-4">
-                    {cell("当前治疗阶段", <select className={inputCls} value={sd.treatmentStage ?? ""} onChange={e => setBasic("treatmentStage", e.target.value)}><option value="">请选择</option><option value="疑似待诊断">疑似待诊断</option><option value="初诊初治">初诊初治</option><option value="治疗中">治疗中</option><option value="二线">二线</option><option value="三线及以上">三线及以上</option><option value="随访">随访</option></select>)}
-                    {cell("年龄", <input type="number" className={inputCls} placeholder="数值" value={sd.age ?? ""} onChange={e => setBasic("age", e.target.value)} />)}
-                    {cell("性别", <select className={inputCls} value={sd.gender ?? ""} onChange={e => setBasic("gender", e.target.value)}><option value="">请选择</option><option value="男">男</option><option value="女">女</option></select>)}
-                    {cell("体能状态", <select className={inputCls} value={sd.ecog ?? ""} onChange={e => setBasic("ecog", e.target.value)}><option value="">请选择</option><option value="ECOG 0">ECOG 0</option><option value="ECOG 1">ECOG 1</option><option value="ECOG 2">ECOG 2</option><option value="ECOG 3">ECOG 3</option><option value="ECOG 4">ECOG 4</option></select>)}
-                    {cell("病理状态及亚型", <input type="text" className={inputCls} placeholder="填空" value={sd.pathology ?? ""} onChange={e => setBasic("pathology", e.target.value)} />)}
-                    {cell("分期", <select className={inputCls} value={sd.stage ?? ""} onChange={e => setBasic("stage", e.target.value)}><option value="">请选择</option><option value="I">I</option><option value="II">II</option><option value="III">III</option><option value="IV">IV</option><option value="不详">不详</option></select>)}
-                    {cell("B症状", <select className={inputCls} value={sd.bSymptoms ?? ""} onChange={e => setBasic("bSymptoms", e.target.value)}><option value="">请选择</option><option value="阳性">阳性</option><option value="阴性">阴性</option><option value="不详">不详</option></select>)}
-                    {cell("结外受累", <select className={inputCls} value={sd.extranodal ?? ""} onChange={e => setBasic("extranodal", e.target.value)}><option value="">请选择</option><option value="无">无</option><option value="有">有</option><option value="不详">不详</option></select>)}
-                    {cell("CNS受累/症状", <select className={inputCls} value={sd.cns ?? ""} onChange={e => setBasic("cns", e.target.value)}><option value="">请选择</option><option value="无">无</option><option value="有">有</option><option value="待评估">待评估</option><option value="不详">不详</option></select>)}
-                    {cell("骨髓受累", <select className={inputCls} value={sd.boneMarrow ?? ""} onChange={e => setBasic("boneMarrow", e.target.value)}><option value="">请选择</option><option value="无">无</option><option value="有">有</option><option value="未做">未做</option><option value="不详">不详</option></select>)}
-                    {cell("Bulky disease", <select className={inputCls} value={sd.bulky ?? ""} onChange={e => setBasic("bulky", e.target.value)}><option value="">请选择</option><option value="是">是</option><option value="否">否</option><option value="不详">不详</option></select>)}
-                    {cell("LDH状态", <select className={inputCls} value={sd.ldh ?? ""} onChange={e => setBasic("ldh", e.target.value)}><option value="">请选择</option><option value="正常">正常</option><option value="升高">升高</option><option value="未做">未做</option></select>)}
-                    {cell("肝肾功能状态", <select className={inputCls} value={sd.liverRenal ?? ""} onChange={e => setBasic("liverRenal", e.target.value)}><option value="">请选择</option><option value="均无异常">均无异常</option><option value="肝功能异常">肝功能异常</option><option value="肾功能异常">肾功能异常</option><option value="均异常">均异常</option><option value="未做">未做</option></select>)}
-                    {cell("传染病筛查", <select className={inputCls} value={sd.infections ?? ""} onChange={e => setBasic("infections", e.target.value)}><option value="">请选择</option><option value="阴性">阴性</option><option value="阳性">阳性</option><option value="未做">未做</option><option value="不详">不详</option></select>)}
-                    {cell("LVEF", <select className={inputCls} value={sd.lvef ?? ""} onChange={e => setBasic("lvef", e.target.value)}><option value="">请选择</option><option value="正常">正常</option><option value="异常">异常</option><option value="未做">未做</option><option value="不适用">不适用</option></select>)}
-                  </div>
-                );
-              })()}
+        {/* ── 附件上传区 ── */}
+        <div className="mt-5">
+          <label
+            onDragOver={e => { e.preventDefault(); setIsDragging(true); }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={e => {
+              e.preventDefault();
+              setIsDragging(false);
+              handleFiles(e.dataTransfer.files);
+            }}
+            className={cn(
+              "group flex items-center justify-center gap-3 w-full px-5 py-4 rounded-2xl border border-dashed cursor-pointer transition-all",
+              isDragging
+                ? "bg-teal-50 border-teal-400 ring-4 ring-teal-500/10"
+                : "bg-white/60 border-slate-200 hover:bg-teal-50/40 hover:border-teal-300"
+            )}
+          >
+            <div className={cn(
+              "p-2 rounded-xl transition-colors",
+              isDragging ? "bg-teal-100" : "bg-slate-100 group-hover:bg-teal-100"
+            )}>
+              <FileUp className={cn(
+                "w-4 h-4 transition-colors",
+                isDragging ? "text-teal-700" : "text-slate-500 group-hover:text-teal-700"
+              )} />
             </div>
+            <div className="text-left flex-1 min-w-0">
+              <div className="text-sm text-slate-700 font-medium">
+                <span className="text-teal-700">点击上传</span>
+                <span className="text-slate-500"> 或拖拽病历 / 检查报告</span>
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">支持 PDF · DOCX · JPG · PNG (可选)</div>
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              accept=".pdf,.doc,.docx,image/*"
+              multiple
+              onChange={e => handleFiles(e.target.files)}
+            />
+          </label>
 
-            <AnimatePresence>
-              {response.concepts.length > 0 && (
-                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="text-base font-semibold text-slate-800 flex items-center gap-2"><Sparkles className="w-4 h-4 text-teal-600" />已识别要素</label>
-                    <span className="text-xs text-slate-400">点击标签可修改</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">{response.concepts.map(c => <ConceptTag key={c.id} concept={c} onConfirm={() => confirmConcept(c.id)} onUpdate={t => updateConcept(c.id, t)} />)}</div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+          {/* 文件 chip 列表 */}
+          <AnimatePresence>
+            {files.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mt-2 flex flex-wrap gap-2"
+              >
+                {files.map((f, i) => (
+                  <motion.div
+                    key={`${f.name}-${i}`}
+                    initial={{ opacity: 0, y: -4, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="inline-flex items-center gap-2 px-2.5 py-1.5 bg-white border border-slate-200 rounded-xl text-xs shadow-sm"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                    <span className="text-slate-700 truncate max-w-[180px]" title={f.name}>{f.name}</span>
+                    <span className="text-slate-400">{formatBytes(f.size)}</span>
+                    <button
+                      onClick={e => { e.preventDefault(); removeFile(i); }}
+                      className="text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-full p-0.5 transition-colors"
+                      aria-label="移除文件"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-            <AnimatePresence>
-              {response.missingInputs.length > 0 && (
-                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="p-5 bg-gradient-to-b from-amber-50 to-amber-50/30 border border-amber-200/60 rounded-2xl shadow-sm space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-amber-100 rounded-xl"><AlertTriangle className="w-5 h-5 text-amber-600" /></div>
-                    <div><p className="text-base font-bold text-amber-900">需要补充信息</p><p className="text-xs text-amber-700 mt-0.5">完善以下信息以获取更精准的方案</p></div>
-                  </div>
-                  <div className="space-y-3">{response.missingInputs.map(input => (
-                    <div key={input.id} className="bg-white border border-amber-200/60 rounded-xl p-3.5 shadow-sm space-y-2 hover:border-amber-300 transition-colors">
-                      <div className="flex items-start justify-between">
-                        <label className="text-sm font-bold text-slate-800 flex items-center gap-1.5">{input.label}<span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /></label>
-                        {input.requiredFor && <span className="text-[10px] px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md border border-amber-100 font-medium">{input.requiredFor === "guideline_unlock" ? "解锁指南" : input.requiredFor === "treatment_safety" ? "用药安全" : "必要信息"}</span>}
-                      </div>
-                      {input.type === "select" ? (
-                        <div className="relative">
-                          <select className="w-full text-sm pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 appearance-none transition-all" onChange={e => updateMissingInput(input.id, e.target.value)} defaultValue="">
-                            <option value="" disabled>请选择...</option>
-                            {input.allowEmpty && <option value="not_done">暂不填写</option>}
-                            {input.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                          </select>
-                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                        </div>
-                      ) : (
-                        <input type="text" className="w-full text-sm px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 placeholder:text-slate-400 transition-all" placeholder="请输入..." onBlur={e => updateMissingInput(input.id, e.target.value)} />
+        {/* ── PII 提示 ── */}
+        <AnimatePresence>
+          {showPIIAlert && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              className="mt-4 p-4 bg-amber-50/80 border border-amber-200/80 rounded-2xl flex flex-col gap-3 shadow-sm"
+            >
+              <div className="flex items-start gap-3">
+                <div className="p-1.5 bg-amber-100 rounded-lg shrink-0">
+                  <ShieldAlert className="w-4 h-4 text-amber-700" />
+                </div>
+                <div>
+                  <p className="text-sm text-amber-900 font-bold">检测到隐私信息</p>
+                  <p className="text-xs text-amber-700 mt-1 leading-relaxed">系统已自动遮罩敏感字段（如姓名、电话等），请确认后继续。</p>
+                </div>
+              </div>
+              <div className="flex justify-end gap-2">
+                <button onClick={() => setShowPIIAlert(false)} className="px-3.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">取消</button>
+                <button onClick={handlePIIConfirm} className="px-3.5 py-1.5 text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 rounded-lg shadow-sm transition-colors">确认并提交</button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── 已识别要素 (分析后) ── */}
+        <AnimatePresence>
+          {response.concepts.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mt-6 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-teal-600" />
+                  已识别要素
+                </label>
+                <span className="text-[11px] text-slate-400">点击标签可修改</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {response.concepts.map(c => (
+                  <ConceptTag key={c.id} concept={c} onConfirm={() => confirmConcept(c.id)} onUpdate={t => updateConcept(c.id, t)} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── 需要补充信息 (分析后) ── */}
+        <AnimatePresence>
+          {response.missingInputs.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mt-5 p-5 bg-gradient-to-b from-amber-50/80 to-amber-50/20 border border-amber-200/60 rounded-2xl shadow-sm"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-amber-100 rounded-xl">
+                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-amber-900">需要补充信息</p>
+                  <p className="text-[11px] text-amber-700 mt-0.5">完善以下信息以获取更精准的方案</p>
+                </div>
+              </div>
+              <div className="space-y-2.5">
+                {response.missingInputs.map(input => (
+                  <div key={input.id} className="bg-white border border-amber-200/60 rounded-xl p-3 shadow-sm space-y-2 hover:border-amber-300 transition-colors">
+                    <div className="flex items-start justify-between gap-2">
+                      <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                        {input.label}
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                      </label>
+                      {input.requiredFor && (
+                        <span className="text-[10px] px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md border border-amber-100 font-medium shrink-0">
+                          {input.requiredFor === "guideline_unlock" ? "解锁指南" : input.requiredFor === "treatment_safety" ? "用药安全" : "必要信息"}
+                        </span>
                       )}
                     </div>
-                  ))}</div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+                    {input.type === "select" ? (
+                      <div className="relative">
+                        <select
+                          className="w-full text-xs pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 appearance-none transition-all"
+                          onChange={e => updateMissingInput(input.id, e.target.value)}
+                          defaultValue=""
+                        >
+                          <option value="" disabled>请选择...</option>
+                          {input.allowEmpty && <option value="not_done">暂不填写</option>}
+                          {input.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                        </select>
+                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+                      </div>
+                    ) : (
+                      <input
+                        type="text"
+                        className="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 placeholder:text-slate-400 transition-all"
+                        placeholder="请输入..."
+                        onBlur={e => updateMissingInput(input.id, e.target.value)}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </div>
 
-      <div className="w-full bg-white border-t border-slate-200 p-4 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] z-10">
-        <div className="max-w-5xl mx-auto flex justify-end">
-          <button onClick={handleAnalyzeClick} disabled={isAnalyzing || !patientContext.unstructuredText?.trim()}
-            className="flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 rounded-xl font-bold text-base shadow-lg shadow-slate-900/20 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none min-w-[240px]">
-            {isAnalyzing ? <><span className="animate-spin text-lg">⏳</span> 正在分析...</> : <><Sparkles className="w-5 h-5" /> 生成治疗方案</>}
+      {/* ── 底部 sticky CTA ── */}
+      <div className="w-full bg-white/80 backdrop-blur-md border-t border-slate-200/80 px-6 py-4 shrink-0 shadow-[0_-6px_24px_-12px_rgba(15,23,42,0.1)] z-10">
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
+          <div className="text-xs text-slate-500 hidden sm:block">
+            {canSubmit ? "准备就绪 · 点击右侧按钮开始" : "请先输入或粘贴病历文本"}
+          </div>
+          <button
+            onClick={handleAnalyzeClick}
+            disabled={!canSubmit}
+            className={cn(
+              "flex items-center justify-center gap-2 px-7 py-3 rounded-xl font-bold text-sm transition-all active:scale-[0.98] min-w-[220px]",
+              canSubmit
+                ? "bg-gradient-to-br from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white shadow-lg shadow-teal-600/20 hover:shadow-xl hover:shadow-teal-600/30"
+                : "bg-slate-100 text-slate-400 cursor-not-allowed shadow-none"
+            )}
+          >
+            {isAnalyzing
+              ? <><span className="animate-spin text-base">⏳</span> 正在分析...</>
+              : <><Sparkles className="w-4 h-4" /> 生成治疗方案</>}
           </button>
         </div>
       </div>
