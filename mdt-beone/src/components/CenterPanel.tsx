@@ -8,7 +8,6 @@ import {
   AlertCircle,
   Filter,
   Users,
-  Shield,
   Ban,
   Sparkles,
   Stethoscope,
@@ -420,157 +419,156 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="space-y-6"
+              className="space-y-10"
             >
-              {/* Diagnosis Section */}
-              <div className="bg-indigo-50/50 rounded-xl p-4 border border-indigo-100">
-                <h3 className="text-lg font-bold text-indigo-900 mb-2">{response?.diagnosisTitle}</h3>
-                <div className="flex flex-wrap gap-2">
+              {/* 1. 诊断 —— 平铺标题 + 概念 chip */}
+              <section>
+                <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+                  {response?.diagnosisTitle}
+                </h2>
+                <div className="flex flex-wrap gap-1.5 mt-3">
                   {response?.concepts.filter(c => c.confirmed).map(c => (
-                    <span key={c.id} className="px-2 py-1 bg-white text-indigo-700 text-sm rounded border border-indigo-200 shadow-sm">
+                    <span
+                      key={c.id}
+                      className="px-2 py-0.5 text-xs text-slate-600 bg-slate-100 rounded"
+                    >
                       {c.text}
                     </span>
                   ))}
                 </div>
-              </div>
+              </section>
 
-              {/* Guidelines Section */}
+              {/* 2. 推荐方案 —— 核心焦点,左 teal 粗竖线 */}
               {response?.treatments && response.treatments.length > 0 && (
-                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-teal-100 text-teal-700 px-3 py-1 rounded-bl-lg text-xs font-bold">
-                    来源: 权威指南
-                  </div>
-                  <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-4">
-                    <Shield className="w-5 h-5 text-teal-600" />
-                    指南推荐方案
+                <section className="space-y-5">
+                  <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider">
+                    推荐方案
                   </h3>
-                  <div className="space-y-4">
-                    {response.treatments.map((treatment) => (
-                      <div key={treatment.id} className="bg-slate-50 rounded-lg border border-slate-200 p-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="text-base font-bold text-slate-800">{treatment.name}</h4>
-                          <span className="px-2 py-0.5 bg-teal-600 text-white text-xs font-bold rounded shadow-sm">
-                            {treatment.evidenceLevel} 类推荐
-                          </span>
-                        </div>
-                        <p className="text-slate-600 text-sm mb-3">{treatment.description}</p>
-                        
-                        {/* Contraindications Warning */}
-                        {treatment.contraindications && treatment.contraindications.length > 0 && (
-                          <div className="mt-3 mb-3 p-3 bg-red-50 border border-red-100 rounded-lg">
-                            <div className="flex items-start gap-2">
-                              <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 shrink-0" />
-                              <div className="space-y-1">
-                                {treatment.contraindications.map((c, i) => (
-                                  <p key={i} className="text-sm text-red-700 font-medium">
-                                    {c.reason}
-                                    <CitationBadge indices={c.citationIndices} />
-                                  </p>
-                                ))}
-                              </div>
+                  {response.treatments.map((treatment) => (
+                    <div
+                      key={treatment.id}
+                      className="border-l-[3px] border-teal-500 pl-5 py-1 space-y-3"
+                    >
+                      <div className="flex items-baseline gap-3 flex-wrap">
+                        <h4 className="text-lg font-bold text-slate-900">{treatment.name}</h4>
+                        <span className="text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded">
+                          {treatment.evidenceLevel} 类推荐
+                        </span>
+                      </div>
+                      <p className="text-sm text-slate-700 leading-relaxed">
+                        {treatment.description}
+                      </p>
+
+                      {/* 禁忌 —— inline 红色行 */}
+                      {treatment.contraindications && treatment.contraindications.length > 0 && (
+                        <div className="space-y-1">
+                          {treatment.contraindications.map((c, i) => (
+                            <div key={i} className="flex items-start gap-2 text-sm text-rose-700">
+                              <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                              <span>
+                                <span className="font-semibold">禁忌 · </span>
+                                {c.reason}
+                                <CitationBadge indices={c.citationIndices} />
+                              </span>
                             </div>
-                          </div>
-                        )}
+                          ))}
+                        </div>
+                      )}
 
-                        {/* Alternatives */}
-                        {treatment.alternatives && treatment.alternatives.length > 0 && (
-                          <div className="mt-3 mb-3 space-y-2">
-                            {treatment.alternatives.map((alt, altIdx) => (
-                              <div key={altIdx} className="ml-4 bg-blue-50 border border-blue-100 rounded-lg p-3 flex items-center gap-3 relative">
-                                <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-4 h-px bg-slate-300" />
-                                <div className="absolute -left-4 top-0 bottom-1/2 w-px bg-slate-300 -mt-3" />
-                                
-                                <div className="bg-blue-100 p-1.5 rounded-md text-blue-600">
-                                  <Sparkles className="w-4 h-4" />
-                                </div>
-                                <div>
-                                  <p className="text-sm font-bold text-blue-900">
-                                    推荐替代：{alt.name}
-                                    <CitationBadge indices={alt.citationIndices} />
-                                  </p>
-                                  <p className="text-xs text-blue-700">{alt.reason}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                      {/* 替代 —— inline 蓝色行 */}
+                      {treatment.alternatives && treatment.alternatives.length > 0 && (
+                        <div className="space-y-1">
+                          {treatment.alternatives.map((alt, altIdx) => (
+                            <div key={altIdx} className="flex items-start gap-2 text-sm text-blue-700">
+                              <Sparkles className="w-4 h-4 mt-0.5 shrink-0" />
+                              <span>
+                                <span className="font-semibold">替代 · {alt.name}</span>
+                                <span className="text-blue-600"> —— {alt.reason}</span>
+                                <CitationBadge indices={alt.citationIndices} />
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
 
-                        <div className="flex flex-wrap gap-2">
-                          {treatment.citationIndices?.map(idx => {
+                      {/* 引用来源 —— 极简内联链接 */}
+                      {treatment.citationIndices && treatment.citationIndices.length > 0 && (
+                        <div className="text-xs text-slate-500 flex flex-wrap items-center gap-x-3 gap-y-1 pt-1">
+                          <span className="text-slate-400">依据：</span>
+                          {treatment.citationIndices.map(idx => {
                             const cit = response.citations?.find(c => c.index === idx);
                             if (cit?.sourceType !== 'guideline') return null;
                             return (
-                              <div 
-                                key={idx} 
-                                onClick={() => onCitationClick(cit)}
-                                className="flex items-center gap-1.5 px-2 py-1 bg-white border border-slate-200 rounded text-xs text-slate-600 cursor-pointer hover:border-teal-300 hover:text-teal-700 transition-colors shadow-sm"
+                              <button
+                                key={idx}
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); onCitationClick(cit); }}
+                                onMouseEnter={() => onCitationHover?.(cit.id)}
+                                onMouseLeave={() => onCitationHover?.(null)}
+                                className="text-teal-700 hover:underline truncate max-w-[260px]"
+                                title={cit.title}
                               >
-                                <FileText className="w-3 h-3 text-teal-500" />
-                                <span className="truncate max-w-[200px]">{cit.title}</span>
-                              </div>
+                                {cit.title}
+                              </button>
                             );
                           })}
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                      )}
+                    </div>
+                  ))}
+                </section>
               )}
 
-              {/* Comprehensive Analysis Section (Evidence) */}
+              {/* 3. 循证医学分析 —— 平铺,只留小标题 */}
               {response?.comprehensiveAnalysis && (
-                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-blue-100 text-blue-700 px-3 py-1 rounded-bl-lg text-xs font-bold">
-                    来源: 循证医学
-                  </div>
-                  <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-4">
-                    <BookOpen className="w-5 h-5 text-blue-600" />
+                <section className="space-y-3">
+                  <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider">
                     循证医学分析
                   </h3>
-                  <RichTextRenderer 
-                    text={response.comprehensiveAnalysis} 
-                    citations={response.citations} 
-                    onCitationClick={onCitationClick} 
+                  <RichTextRenderer
+                    text={response.comprehensiveAnalysis}
+                    citations={response.citations}
+                    onCitationClick={onCitationClick}
                     onCitationHover={onCitationHover}
                   />
-                </div>
+                </section>
               )}
 
-
-
-              {/* Guidelines & Exams */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h3 className="font-semibold text-slate-800 text-sm uppercase tracking-wider">参考指南（按来源）</h3>
-                  <ul className="space-y-2">
+              {/* 4. 参考指南 + 建议完善检查 —— 并排,纯文本列表 */}
+              <section className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 pt-2 border-t border-slate-100">
+                <div className="space-y-2">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    参考指南
+                  </h3>
+                  <ul className="space-y-1.5">
                     {response?.guidelines.map((g, i) => (
-                      <li key={g.id ?? i} className="flex items-center justify-between gap-2 text-sm text-slate-600 bg-slate-50 p-2.5 rounded border border-slate-100">
-                        <span className="flex items-center gap-2 min-w-0">
-                          <BookOpen className="w-4 h-4 text-indigo-400 shrink-0" />
-                          <span className="font-medium text-slate-800 truncate" title={g.name}>{g.name}</span>
-                        </span>
-                        <span className={cn("shrink-0 text-xs px-1.5 py-0.5 rounded", g.type === 'primary' ? "bg-teal-100 text-teal-700" : "bg-slate-200 text-slate-600")}>
-                          {g.type === 'primary' ? '主要依据' : '参考'}
-                        </span>
+                      <li key={g.id ?? i} className="text-sm text-slate-700 flex items-baseline gap-2">
+                        <span className="text-slate-300 shrink-0">·</span>
+                        <span className="flex-1">{g.name}</span>
+                        {g.type === 'primary' && (
+                          <span className="text-[11px] text-teal-700 font-medium shrink-0">主要</span>
+                        )}
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className="space-y-3">
-                  <h3 className="font-semibold text-slate-800 text-sm uppercase tracking-wider">建议完善检查</h3>
-                  <ul className="space-y-2">
+                <div className="space-y-2">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    建议完善检查
+                  </h3>
+                  <ul className="space-y-1.5">
                     {response?.exams.map((e) => (
-                      <li key={e.id} className="flex items-start gap-2 text-sm text-slate-600 bg-slate-50 p-2 rounded border border-slate-100">
-                        <Activity className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                        <div>
-                          <span className="font-medium text-slate-800">{e.name}</span>
-                          <p className="text-xs text-slate-400">{e.purpose}</p>
+                      <li key={e.id} className="text-sm text-slate-700">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-slate-300 shrink-0">·</span>
+                          <span className="font-medium">{e.name}</span>
                         </div>
+                        <p className="text-xs text-slate-500 ml-3 mt-0.5">{e.purpose}</p>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </div>
+              </section>
             </motion.div>
           )}
         
