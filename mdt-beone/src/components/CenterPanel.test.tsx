@@ -18,20 +18,21 @@ describe('CenterPanel', () => {
     expect(screen.getByRole('button', { name: /PubMed 问答/ })).toBeInTheDocument();
   });
 
-  it('guidelines tab shows reference guidelines and recommendations', async () => {
+  it('guidelines tab shows guideline sources and recommendations', async () => {
     render(<Wrapper />);
     await waitFor(() => screen.getByRole('button', { name: /指南问答/ }));
     fireEvent.click(screen.getByRole('button', { name: /指南问答/ }));
-    expect(screen.getByText(/参考指南/)).toBeInTheDocument();
-    expect(screen.getByText(/指南推荐方案/)).toBeInTheDocument();
+    expect(screen.getByText(/共参考/)).toBeInTheDocument();
+    expect(screen.getByText(/CSCO 淋巴瘤诊疗指南/)).toBeInTheDocument();
+    expect(screen.getAllByText(/一线治疗/).length).toBeGreaterThan(0);
   });
 
-  it('evidence tab shows analysis and key studies', async () => {
+  it('evidence tab shows key studies', async () => {
     render(<Wrapper />);
     await waitFor(() => screen.getByRole('button', { name: /PubMed 问答/ }));
     fireEvent.click(screen.getByRole('button', { name: /PubMed 问答/ }));
-    expect(screen.getByText(/循证医学分析/)).toBeInTheDocument();
     expect(screen.getByText(/关键临床研究/)).toBeInTheDocument();
+    expect(screen.getAllByText(/POLARIX/).length).toBeGreaterThan(0);
   });
 
   it('follow-up input only renders in guidelines / evidence tabs', async () => {

@@ -5,9 +5,7 @@ import {
   Activity, 
   FileText, 
   ChevronRight, 
-  ExternalLink, 
   AlertCircle,
-  CheckCircle2,
   Filter,
   Users,
   Shield,
@@ -323,114 +321,42 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              <div className="bg-teal-50 border border-teal-100 rounded-xl p-4">
-                <h3 className="text-lg font-bold text-teal-900 mb-2 flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  参考指南
-                </h3>
-                <div className="space-y-2">
-                  {response?.guidelines.map((g, i) => (
-                    <div key={g.id ?? i} className="flex items-center justify-between bg-white p-3 rounded-lg border border-teal-100 shadow-sm">
-                      <span className="font-medium text-slate-800">{g.name}</span>
-                      <span className={cn(
-                        "text-xs px-2 py-1 rounded font-medium",
-                        g.type === 'primary' ? "bg-teal-100 text-teal-700" : "bg-slate-100 text-slate-600"
-                      )}>
-                        {g.type === 'primary' ? '主要依据' : '参考'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+              <div className="text-xs text-slate-500">
+                共参考 {response?.guidelines?.length ?? 0} 部指南
               </div>
 
-              {/* 各指南意见：按来源区分显示 */}
-              <div className="space-y-5">
-                <h3 className="font-semibold text-slate-800 flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-teal-600" />
-                  各指南意见（按来源区分）
-                </h3>
-                {response?.guidelines?.filter(g => g.recommendations?.length).map((g, idx) => (
-                  <div key={g.id ?? idx} className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                    <div className={cn(
-                      "px-4 py-3 border-b border-slate-200 flex items-center justify-between",
-                      g.type === 'primary' ? "bg-teal-50 border-teal-100" : "bg-slate-50 border-slate-100"
-                    )}>
-                      <span className="font-bold text-slate-900">{g.name}</span>
-                      <span className={cn(
-                        "text-xs px-2 py-1 rounded font-medium",
-                        g.type === 'primary' ? "bg-teal-200 text-teal-800" : "bg-slate-200 text-slate-700"
-                      )}>
-                        {g.type === 'primary' ? '主要依据' : '参考'}
-                      </span>
-                    </div>
-                    <div className="p-4 space-y-4">
-                      {g.recommendations?.map((rec, ri) => (
-                        <div key={ri} className="border-l-2 border-teal-200 pl-4 py-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-sm font-semibold text-slate-800">{rec.topic}</span>
-                            {rec.evidenceLevel && (
-                              <span className="text-xs px-2 py-0.5 bg-slate-100 text-slate-600 rounded font-medium">
-                                {rec.evidenceLevel}
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-sm text-slate-600 leading-relaxed">
-                            <RichTextRenderer
-                              text={rec.content}
-                              citations={response?.citations}
-                              onCitationClick={onCitationClick}
-                              onCitationHover={onCitationHover}
-                            />
-                          </div>
+              {response?.guidelines?.filter(g => g.recommendations?.length).map((g, idx) => (
+                <section key={g.id ?? idx} className="space-y-4">
+                  <h3 className="text-base font-bold text-slate-900 flex items-baseline gap-2">
+                    {g.name}
+                    {g.type === 'primary' && (
+                      <span className="text-[11px] font-medium text-teal-700">主要依据</span>
+                    )}
+                  </h3>
+                  <div className="space-y-3">
+                    {g.recommendations?.map((rec, ri) => (
+                      <div key={ri} className="text-sm leading-relaxed">
+                        <div className="text-slate-900">
+                          <span className="font-semibold">{rec.topic}</span>
+                          {rec.evidenceLevel && (
+                            <span className="text-xs text-slate-500 ml-2">· {rec.evidenceLevel}</span>
+                          )}
                         </div>
-                      ))}
-                    </div>
+                        <div className="text-slate-700 mt-0.5">
+                          <RichTextRenderer
+                            text={rec.content}
+                            citations={response?.citations}
+                            onCitationClick={onCitationClick}
+                            onCitationHover={onCitationHover}
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="font-semibold text-slate-800 flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-teal-600" />
-                  指南推荐方案（综合）
-                </h3>
-                {response?.treatments.map((treatment) => (
-                  <div key={treatment.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
-                    <div className="flex justify-between items-start mb-3">
-                      <h4 className="text-lg font-bold text-slate-800">{treatment.name}</h4>
-                      <span className="px-3 py-1 bg-teal-600 text-white text-sm font-bold rounded-full shadow-sm">
-                        {treatment.evidenceLevel} 类推荐
-                      </span>
-                    </div>
-                    <p className="text-slate-600 text-sm mb-4">{treatment.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {treatment.citationIndices?.map(idx => {
-                        const cit = response.citations?.find(c => c.index === idx);
-                        if (cit?.sourceType !== 'guideline') return null;
-                        return (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onCitationClick(cit);
-                            }}
-                            onMouseEnter={() => onCitationHover?.(cit.id)}
-                            onMouseLeave={() => onCitationHover?.(null)}
-                            className="flex items-center gap-1.5 px-2 py-1 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600 hover:border-teal-300 hover:bg-teal-50/40 transition-colors"
-                            title={cit.title}
-                          >
-                            <FileText className="w-3 h-3 text-slate-400" />
-                            <span className="truncate max-w-[200px]">{cit.title}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                </section>
+              ))}
             </motion.div>
           ) : activeTab === 'evidence' ? (
             <motion.div
@@ -438,77 +364,55 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              {/* Added Comprehensive Analysis Section */}
               {response?.comprehensiveAnalysis && (
-                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-                  <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-4">
-                    <CheckCircle2 className="w-5 h-5 text-indigo-600" />
-                    循证医学分析 (Evidence-Based Analysis)
-                  </h3>
-                  <RichTextRenderer 
-                    text={response.comprehensiveAnalysis} 
-                    citations={response.citations} 
-                    onCitationClick={onCitationClick} 
+                <section className="text-sm text-slate-700 leading-relaxed">
+                  <RichTextRenderer
+                    text={response.comprehensiveAnalysis}
+                    citations={response.citations}
+                    onCitationClick={onCitationClick}
                     onCitationHover={onCitationHover}
                   />
-                </div>
+                </section>
               )}
 
-              <div className="bg-indigo-50/80 rounded-xl border border-indigo-100 p-5">
-                <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-3">
-                  <BookOpen className="w-5 h-5 text-indigo-600" />
-                  循证推荐要点
-                </h3>
-                <div className="space-y-2 text-sm text-slate-700">
-                  <RichTextRenderer text="· 初治 DLBCL 一线首选 R-CHOP 或 Pola-R-CHP，依据 CSCO/NCCN 指南 [1][2] 及 POLARIX [3]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
-                  <RichTextRenderer text="· Pola-R-CHP 可改善 2 年 PFS，适用于 IPI 2–5 分等中高危患者 [3]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
-                  <RichTextRenderer text="· 预后分层建议采用 IPI/R-IPI [5]；双打击/三打击需更积极方案 [1][2]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
-                  <RichTextRenderer text="· 利妥昔单抗使用前必须筛查 HBsAg，阳性者预防性抗病毒 [1][2]。" citations={response?.citations} onCitationClick={onCitationClick} onCitationHover={onCitationHover} />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="font-semibold text-slate-800 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-indigo-600" />
-                  关键临床研究 (Key Studies)
-                </h3>
-                {response?.citations?.filter(c => c.sourceType === 'pubmed').map((cit) => (
-                  <div 
-                    key={cit.id} 
-                    onClick={() => onCitationClick(cit)}
-                    className="group bg-white rounded-xl border border-slate-200 p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 w-8 h-8 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-sm">
-                        {cit.index}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-slate-900 text-sm mb-1 group-hover:text-indigo-700 transition-colors">
-                          {cit.title}
-                        </h4>
-                        <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
-                          <span className="font-medium text-slate-700">{cit.journal}</span>
-                          <span>•</span>
-                          <span>{cit.year}</span>
-                          {cit.impactFactor && (
-                            <span className="px-1.5 py-0.5 bg-indigo-50 text-indigo-700 rounded font-medium">
-                              IF: {cit.impactFactor}
+              {response?.citations?.some(c => c.sourceType === 'pubmed') && (
+                <section className="space-y-3">
+                  <h3 className="text-base font-bold text-slate-900">关键临床研究</h3>
+                  <ul className="space-y-3">
+                    {response?.citations?.filter(c => c.sourceType === 'pubmed').map((cit) => (
+                      <li
+                        key={cit.id}
+                        onClick={() => onCitationClick(cit)}
+                        onMouseEnter={() => onCitationHover?.(cit.id)}
+                        onMouseLeave={() => onCitationHover?.(null)}
+                        className="group cursor-pointer text-sm leading-relaxed"
+                      >
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-xs font-mono text-slate-400 shrink-0 w-5">[{cit.index}]</span>
+                          <div className="flex-1 min-w-0">
+                            <span className="font-semibold text-slate-900 group-hover:text-indigo-700 transition-colors">
+                              {cit.title}
                             </span>
-                          )}
+                            <span className="text-slate-400"> · </span>
+                            <span className="text-xs text-slate-500">{cit.journal}</span>
+                            {cit.year && <span className="text-xs text-slate-500"> {cit.year}</span>}
+                            {cit.impactFactor && (
+                              <span className="text-xs text-slate-400"> · IF {cit.impactFactor}</span>
+                            )}
+                            {cit.abstract && (
+                              <p className="text-xs text-slate-500 leading-relaxed mt-1 line-clamp-2">
+                                {cit.abstract}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                        {cit.abstract && (
-                          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                            {cit.abstract}
-                          </p>
-                        )}
-                      </div>
-                      <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-indigo-400" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
             </motion.div>
           ) : (
             <motion.div
