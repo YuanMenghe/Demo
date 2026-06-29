@@ -653,7 +653,7 @@ const BUNDLE_DATA = {
         "followup_outcome"
       ],
       "categoryConfidence": 1.0,
-      "reasoning": "该文档是一份来自湖南省肿瘤医院的PET/CT中心报告，详细描述了患者曾好桃进行的腹部PET-MR检查过程、影像表现及诊断意见。文档包含典型的影像学描述（如T1/T2信号、SUVmax、放射性浓聚等）和临床诊断建议，属于典型的影像报告类别。",
+      "reasoning": "该文档是一份来自湖南省肿瘤医院的PET/CT中心报告，详细描述了患者曾某某进行的腹部PET-MR检查过程、影像表现及诊断意见。文档包含典型的影像学描述（如T1/T2信号、SUVmax、放射性浓聚等）和临床诊断建议，属于典型的影像报告类别。",
       "routing": {
         "promptTemplateId": "cat.imaging_report.1.0.0",
         "extractionMode": "extract",
@@ -1636,7 +1636,7 @@ const BUNDLE_DATA = {
           "title": "检验报告 - 异常凝血酶原、甲胎蛋白测定",
           "hospital": "湖南中医药大学第一附属医院",
           "type": "laboratory_report",
-          "description": "患者曾好桃（女，55岁）在肝病科/感染性疾病科就诊期间的两项肿瘤/肝功能相关标志物检测结果显著升高。"
+          "description": "患者曾某某（女，55岁）在肝病科/感染性疾病科就诊期间的两项肿瘤/肝功能相关标志物检测结果显著升高。"
         },
         {
           "date": "2025-05-09",
@@ -2887,7 +2887,7 @@ const BUNDLE_DATA = {
           "title": "检验报告 - 异常凝血酶原、甲胎蛋白测定",
           "hospital": "湖南中医药大学第一附属医院",
           "type": "default",
-          "desc": "患者曾好桃（女，55岁）在肝病科/感染性疾病科就诊期间的两项肿瘤/肝功能相关标志物检测结果显著升高。",
+          "desc": "患者曾某某（女，55岁）在肝病科/感染性疾病科就诊期间的两项肿瘤/肝功能相关标志物检测结果显著升高。",
           "observations": [
             {
               "name": "异常凝血酶原",

@@ -1497,7 +1497,7 @@
     ],
     "patientRecord": {
       "patient": {
-        "name": "曾好桃",
+        "name": "曾某某",
         "sex": "未知",
         "identifiers": [
           {
@@ -1605,7 +1605,7 @@
         ],
         "contacts": [],
         "basicInfo": {
-          "name": "曾好桃",
+          "name": "曾某某",
           "gender": "female",
           "age": 55,
           "ageUnit": "岁",
@@ -3977,7 +3977,7 @@
         "jsonPath": "/patientRecord/clinicalSummary/presentHistory",
         "confidence": 0.95,
         "sourceSpans": [
-          "患者曾好桃，女，55岁，因发现HBsAg阳性7年，发现肝内占位1天于2025-02-26 12:13由门诊以“1. 乙型肝炎肝硬化；2. 肝恶性肿瘤？”收住入院。入院症见：患者精神状态良好，无恶寒发热、腹胀腹痛等不适，饮食正常，夜寐安，近1年体重增加4kg，大便正常，小便正常。"
+          "患者曾某某，女，55岁，因发现HBsAg阳性7年，发现肝内占位1天于2025-02-26 12:13由门诊以“1. 乙型肝炎肝硬化；2. 肝恶性肿瘤？”收住入院。入院症见：患者精神状态良好，无恶寒发热、腹胀腹痛等不适，饮食正常，夜寐安，近1年体重增加4kg，大便正常，小便正常。"
         ]
       },
       {
@@ -3998,7 +3998,7 @@
         "jsonPath": "/patientRecord/patient/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名：曾好桃"
+          "姓名：曾某某"
         ]
       },
       {
@@ -4019,7 +4019,7 @@
         "jsonPath": "/patientRecordPatch/patient/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名：曾好桃"
+          "姓名：曾某某"
         ]
       },
       {
@@ -4068,7 +4068,7 @@
         "jsonPath": "/patientRecordPatch/patient/basicInfo/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名：曾好桃"
+          "姓名：曾某某"
         ]
       },
       {
@@ -4124,7 +4124,7 @@
         "jsonPath": "$.patientRecordPatch.patient.name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名：曾好桃"
+          "姓名：曾某某"
         ]
       },
       {
@@ -4251,7 +4251,7 @@
         "jsonPath": "/patientRecordPatch/patient/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名： 曾好桃"
+          "姓名： 曾某某"
         ]
       },
       {
@@ -4300,7 +4300,7 @@
         "jsonPath": "/patientRecordPatch/patient/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名：** 曾好桃"
+          "姓名：** 曾某某"
         ]
       },
       {
@@ -4349,7 +4349,7 @@
         "jsonPath": "/patientRecord/patient/basicInfo/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名：曾好桃"
+          "姓名：曾某某"
         ]
       },
       {
@@ -4420,7 +4420,7 @@
         "jsonPath": "$.patientRecordPatch.patient.basicInfo.name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名：曾好桃"
+          "姓名：曾某某"
         ]
       },
       {
@@ -4498,7 +4498,7 @@
         "jsonPath": "$.patientRecordPatch.patient.name",
         "confidence": 1.0,
         "sourceSpans": [
-          "曾好桃"
+          "曾某某"
         ]
       },
       {
@@ -4657,7 +4657,7 @@
         "jsonPath": "/patientRecordPatch/patient/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名 | 曾好桃"
+          "姓名 | 曾某某"
         ]
       },
       {
@@ -4720,7 +4720,7 @@
         "jsonPath": "$.patientRecordPatch.patient.name",
         "confidence": 1.0,
         "sourceSpans": [
-          "姓名 | 曾好桃"
+          "姓名 | 曾某某"
         ]
       },
       {
@@ -4938,7 +4938,7 @@
         "jsonPath": "/patientRecordPatch/patient/name",
         "confidence": 1.0,
         "sourceSpans": [
-          "患者姓名：曾好桃"
+          "患者姓名：曾某某"
         ]
       },
       {
@@ -5261,7 +5261,7 @@
     ],
     "uiProjection": {
       "id": "TEMP-38585f7b",
-      "name": "曾好桃",
+      "name": "曾某某",
       "gender": "未知",
       "age": 55,
       "disease": "待补充",
@@ -5784,7 +5784,7 @@
         "pastHistory": "",
         "familyHistory": "",
         "personalHistory": "",
-        "name": "曾好桃",
+        "name": "曾某某",
         "gender": "女",
         "age": "55岁",
         "patientId": "00739401",
@@ -5795,7 +5795,7 @@
         "bedNumber": "01",
         "hospital": "湖南中医药大学第一附属医院",
         "patientType": "住院",
-        "patientName": "曾好桃",
+        "patientName": "曾某某",
         "bed": "14",
         "outpatientId": "2502190202",
         "radiologyId": "6250533",
