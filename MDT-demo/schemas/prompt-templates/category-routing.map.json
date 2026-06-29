@@ -1,0 +1,280 @@
+{
+  "schemaVersion": "1.0.0",
+  "defaultPromptVersion": "1.0.0",
+  "categories": [
+    {
+      "id": "identity_admin",
+      "promptTemplateId": "cat.identity_admin.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/sourceDocuments",
+        "/patientRecord/patient",
+        "/patientRecord/documents",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/patient/patientId",
+        "/patientRecord/patient/mrn",
+        "/patientRecord/patient/name",
+        "/patientRecord/patient/sex",
+        "/patientRecord/patient/age",
+        "/patientRecord/patient/dateOfBirth",
+        "/patientRecord/patient/identifiers",
+        "/patientRecord/patient/contacts",
+        "/patientRecord/patient/address"
+      ]
+    },
+    {
+      "id": "admission_discharge",
+      "promptTemplateId": "cat.admission_discharge.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/clinicalSummary",
+        "/patientRecord/timeline",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/clinicalSummary/chiefComplaint",
+        "/patientRecord/clinicalSummary/presentHistory",
+        "/patientRecord/clinicalSummary/primaryDiagnosis/display",
+        "/patientRecord/clinicalSummary/treatmentStatus"
+      ]
+    },
+    {
+      "id": "history_physical",
+      "promptTemplateId": "cat.history_physical.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "patient-ui",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/clinicalSummary",
+        "/uiProjection/basicInfo",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/clinicalSummary/chiefComplaint",
+        "/patientRecord/clinicalSummary/presentHistory",
+        "/patientRecord/clinicalSummary/pastHistory",
+        "/patientRecord/clinicalSummary/familyHistory",
+        "/patientRecord/clinicalSummary/personalHistory",
+        "/patientRecord/clinicalSummary/comorbidities"
+      ]
+    },
+    {
+      "id": "diagnosis_staging",
+      "promptTemplateId": "cat.diagnosis_staging.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "patient-ui",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/clinicalSummary",
+        "/patientRecord/timeline",
+        "/uiProjection",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/clinicalSummary/primaryDiagnosis",
+        "/patientRecord/clinicalSummary/secondaryDiagnoses",
+        "/patientRecord/clinicalSummary/stage",
+        "/patientRecord/clinicalSummary/treatmentStatus"
+      ]
+    },
+    {
+      "id": "pathology_molecular",
+      "promptTemplateId": "cat.pathology_molecular.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/clinicalSummary",
+        "/patientRecord/observations",
+        "/patientRecord/timeline",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/clinicalSummary/primaryDiagnosis/pathologyConfirmed",
+        "/patientRecord/observations",
+        "/patientRecord/timeline"
+      ]
+    },
+    {
+      "id": "imaging_report",
+      "promptTemplateId": "cat.imaging_report.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/observations",
+        "/patientRecord/timeline",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/observations/category",
+        "/patientRecord/observations/display",
+        "/patientRecord/observations/effectiveDate",
+        "/patientRecord/timeline"
+      ]
+    },
+    {
+      "id": "laboratory_report",
+      "promptTemplateId": "cat.laboratory_report.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "patient-ui",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/observations",
+        "/patientRecord/timeline",
+        "/uiProjection/indicators",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/observations/code",
+        "/patientRecord/observations/effectiveDate",
+        "/patientRecord/observations/valueNumber",
+        "/patientRecord/observations/valueText",
+        "/patientRecord/observations/referenceRange",
+        "/patientRecord/observations/abnormalFlag"
+      ]
+    },
+    {
+      "id": "procedure_surgery",
+      "promptTemplateId": "cat.procedure_surgery.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/procedures",
+        "/patientRecord/timeline",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/procedures/name",
+        "/patientRecord/procedures/date",
+        "/patientRecord/procedures/type",
+        "/patientRecord/procedures/hospital",
+        "/patientRecord/procedures/outcome"
+      ]
+    },
+    {
+      "id": "medication_therapy",
+      "promptTemplateId": "cat.medication_therapy.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "patient-ui",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/medications",
+        "/patientRecord/timeline",
+        "/patientRecord/clinicalSummary",
+        "/uiProjection",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/medications/name",
+        "/patientRecord/medications/dose",
+        "/patientRecord/medications/route",
+        "/patientRecord/medications/frequency",
+        "/patientRecord/medications/startDate",
+        "/patientRecord/medications/endDate",
+        "/patientRecord/medications/status",
+        "/patientRecord/clinicalSummary/treatmentStatus"
+      ]
+    },
+    {
+      "id": "mdt_record",
+      "promptTemplateId": "cat.mdt_record.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/clinicalSummary",
+        "/patientRecord/timeline",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/clinicalSummary/mdtPurpose",
+        "/patientRecord/clinicalSummary/mdtRecommendation",
+        "/patientRecord/timeline"
+      ]
+    },
+    {
+      "id": "followup_outcome",
+      "promptTemplateId": "cat.followup_outcome.1.0.0",
+      "extractionMode": "extract",
+      "targetSchemas": [
+        "patient-canonical",
+        "patient-ui",
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/patientRecord/timeline",
+        "/patientRecord/clinicalSummary",
+        "/patientRecord/observations",
+        "/uiProjection/timeline",
+        "/fieldProvenance",
+        "/issues"
+      ],
+      "focusFields": [
+        "/patientRecord/timeline/type",
+        "/patientRecord/timeline/description",
+        "/patientRecord/clinicalSummary/treatmentStatus",
+        "/patientRecord/observations"
+      ]
+    },
+    {
+      "id": "other_nonclinical",
+      "promptTemplateId": "cat.other_nonclinical.1.0.0",
+      "extractionMode": "metadata_only",
+      "targetSchemas": [
+        "extraction-result-envelope"
+      ],
+      "targetPaths": [
+        "/sourceDocuments",
+        "/quality",
+        "/issues"
+      ],
+      "focusFields": [
+        "/sourceDocuments",
+        "/quality/notes",
+        "/issues"
+      ]
+    }
+  ]
+}

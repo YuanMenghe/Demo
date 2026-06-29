@@ -115,6 +115,7 @@ jobs:
           mkdir -p site/ZheEr_MiniProgram
           mkdir -p site/green-garden-committee-review
           mkdir -p site/mdt-beone
+          mkdir -p site/MDT-demo
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -142,6 +143,9 @@ jobs:
 
           # mdt-beone / MDT_Beone CDSS (Vite + React)
           cp -r mdt-beone/dist/* site/mdt-beone/
+
+          # MDT-demo / 智汇MDT 升级版 (static HTML + 离线数据/脚本，仅前端发布)
+          cp -r MDT-demo/* site/MDT-demo/
 
           # Root: innocuous 404 (no project links)
           cat > site/index.html << 'ROOT404'
@@ -324,6 +328,10 @@ jobs:
                 <a class="card" href="/${REPO_NAME}/mdt-beone/">
                   <span class="card-title">MDT_Beone CDSS</span>
                   <span class="card-desc">指南问答 + PubMed 问答 + 综合诊疗建议</span>
+                </a>
+                <a class="card" href="/${REPO_NAME}/MDT-demo/">
+                  <span class="card-title">MDT-demo · 智汇MDT 升级版</span>
+                  <span class="card-desc">病例多模态抽取与 MDT 看板（含 Gemini 数据流水线）</span>
                 </a>
               </main>
               <footer>YuanMenghe / Demo · GitHub Pages</footer>

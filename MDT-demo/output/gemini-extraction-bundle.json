@@ -1,0 +1,4661 @@
+{
+  "bundleSchemaVersion": "1.0.0",
+  "generatedAt": "2026-03-23T17:19:52+00:00",
+  "inputDirectory": "/Users/andy/Downloads/zhihui-mdt/md",
+  "schemaDirectory": "/Users/andy/Downloads/zhihui-mdt/schemas",
+  "model": "gemini-3-flash-preview",
+  "classifications": [
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-46a7bb7b-3431-4154-a9e7-06bfa1ff8e7d",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-a125e81afa1a",
+        "fileName": "微信图片_2025-08-19_134812_410.md"
+      },
+      "primaryCategory": "admission_discharge",
+      "secondaryCategories": [
+        "procedure_surgery",
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档明确标注为‘出院记录’，包含了患者从入院情况、入院诊断、诊疗经过（含手术过程及MDT会诊）到术后复查的完整住院周期总结，属于典型的出院小结。",
+      "routing": {
+        "promptTemplateId": "cat.admission_discharge.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-ea6df7fe-74f9-42dd-9e42-2a15434e7bd4",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-82a8ea1c1b27",
+        "fileName": "微信图片_2025-08-19_134821_875.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging",
+        "followup_outcome"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的影像诊断报告单，包含胸部和上腹部CT平扫加增强的检查结果。报告详细描述了影像表现（如肺结节、肝切除术后状态、积液等）并给出了放射学诊断结论，属于典型的影像报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-1f9f4bc1-c932-47a2-9d7c-36178b38185b",
+      "classifiedAt": "2026-03-23T17:19:31+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-cf7a28e8f487",
+        "fileName": "微信图片_2025-08-19_134825_595.md"
+      },
+      "primaryCategory": "identity_admin",
+      "secondaryCategories": [
+        "admission_discharge"
+      ],
+      "categoryConfidence": 0.95,
+      "reasoning": "该文档片段包含患者姓名、住院号、科室、病区等基本身份识别信息，以及明确的入院时间记录，属于典型的入院行政登记或病历首页页眉信息。",
+      "routing": {
+        "promptTemplateId": "cat.identity_admin.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-cfa5682d-8fbc-47e7-aad7-f33c568d0d39",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-d05150a8ed3b",
+        "fileName": "微信图片_2025-08-19_134830_003.md"
+      },
+      "primaryCategory": "admission_discharge",
+      "secondaryCategories": [
+        "mdt_record",
+        "procedure_surgery"
+      ],
+      "categoryConfidence": 0.95,
+      "reasoning": "该文档包含明确的出院诊断、出院情况、出院医嘱以及出院病例分型，属于典型的出院小结或出院记录。文档中还提及了MDT会诊记录和手术操作（穿刺活检+微波消融），因此添加了相关的次要类别。",
+      "routing": {
+        "promptTemplateId": "cat.admission_discharge.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-8b3bc2da-ecb8-4d6b-99dc-ffbc808e7240",
+      "classifiedAt": "2026-03-23T17:19:26+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-08aa0e41acd3",
+        "fileName": "微信图片_2025-08-19_134835_043.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging",
+        "history_physical"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是一份典型的超声检查报告单，包含超声描述（肝、胆、脾、胰）和超声提示（诊断意见），属于影像学报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-56134173-cfab-431f-bf46-9b97ea7f6518",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-d43c0606ba68",
+        "fileName": "微信图片_2025-08-19_134838_859.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "history_physical"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的超声科彩色超声报告单，包含详细的超声测量值（LA, LV, EF等）、超声描述（二维、M型、CDFI）以及超声提示（结论），属于典型的影像检查报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-50340f61-b042-441a-a856-ca6059029a80",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-cccee3c91419",
+        "fileName": "微信图片_2025-08-19_134842_299.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "history_physical"
+      ],
+      "categoryConfidence": 0.95,
+      "reasoning": "该文档是一份典型的动态心电图（Holter）分析报告，包含心率、室性/房性节律、心率变异性（HRV）、ST段分析等电生理检查数据及医生结论。根据医学文档分类惯例，心电图报告通常归类于影像与功能检查报告（imaging_report）。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-67a4d9f7-af79-4091-94eb-304005b9f157",
+      "classifiedAt": "2026-03-23T17:19:24+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-5c778071756b",
+        "fileName": "微信图片_2025-08-19_134845_786.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的影像诊断报告单，内容涉及磁共振肝脾平扫增强+DWI检查的表现与放射学诊断，明确提及肝细胞CA（肝癌）及肝硬化等诊断结论。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-3cfe49dc-4eb8-495e-a1e2-88a71cccd3b5",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-b141d8eb87c5",
+        "fileName": "微信图片_2025-08-19_134849_050.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的影像诊断报告单，包含患者基本信息、检查名称（上腹部CT成像平扫+增强）、影像表现描述以及放射学诊断结论。报告中明确提到了肝脏病变的CT特征（如快进快出）并给出了初步诊断建议（原发性肝CA？），因此主类别为imaging_report，次要类别涉及疾病诊断。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-1998192e-c438-4d7c-acc6-0bf820e66aba",
+      "classifiedAt": "2026-03-23T17:19:26+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-ebb0afdb6f59",
+        "fileName": "微信图片_2025-08-19_134852_491.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的影像诊断报告单，明确记录了胸部CT平扫的检查表现与放射学诊断结果，属于典型的影像报告。诊断结论中提及转移瘤可能性，涉及疾病分期诊断。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-a3610bf4-1e4e-4adf-8f57-1a54f27a7e71",
+      "classifiedAt": "2026-03-23T17:19:26+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-8742ba1c1184",
+        "fileName": "微信图片_2025-08-19_134855_810.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging",
+        "followup_outcome"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的磁共振（MRI）影像诊断报告单。内容包含检查名称（磁共振肝脾平扫增强+DWI）、影像表现描述以及放射学诊断结论。文档中还涉及了与既往片子的对比（随访性质）以及对病灶性质的初步判断（诊断分期性质）。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-928c7e60-c9af-4d51-aab6-a3915ea43001",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-530d2fbe74ca",
+        "fileName": "微信图片_2025-08-19_134859_011.md"
+      },
+      "primaryCategory": "admission_discharge",
+      "secondaryCategories": [
+        "mdt_record",
+        "medication_therapy"
+      ],
+      "categoryConfidence": 0.95,
+      "reasoning": "该文档包含明确的出院情况、出院诊断（中医及西医）、出院医嘱及带药指导，符合出院记录的特征。同时文中详细记录了MDT会诊意见及后续的治疗调整建议，因此包含多学科讨论及药物治疗相关内容。",
+      "routing": {
+        "promptTemplateId": "cat.admission_discharge.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-32cbae20-2b4b-4d89-be6f-59965fc199bf",
+      "classifiedAt": "2026-03-23T17:19:26+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-a459e3a31cbf",
+        "fileName": "微信图片_2025-08-19_134904_987.md"
+      },
+      "primaryCategory": "followup_outcome",
+      "secondaryCategories": [
+        "procedure_surgery",
+        "medication_therapy"
+      ],
+      "categoryConfidence": 0.9,
+      "reasoning": "该文档是对患者治疗过程的时间轴摘要，记录了从手术、多次介入治疗（单换）、靶向药物（仑伐替尼）使用到消融治疗的完整随访路径，属于典型的随访与治疗结局记录。",
+      "routing": {
+        "promptTemplateId": "cat.followup_outcome.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-66d8f949-5722-42ce-9169-c2b7f9568a9d",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh-CN",
+      "document": {
+        "documentId": "doc-0584f80fc3d3",
+        "fileName": "微信图片_2025-08-19_134908_546.md"
+      },
+      "primaryCategory": "pathology_molecular",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的病理图文报告单，包含病理诊断（肝细胞性肝癌）、免疫组化结果（Ki67, Hepa1等）以及显微镜下的病理切片描述，属于典型的病理学报告。同时涉及肿瘤的分级分期（G2/S4, MVI=M1），故关联诊断分期类别。",
+      "routing": {
+        "promptTemplateId": "cat.pathology_molecular.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-f7658a3f-2dfe-4421-8f81-4325f8ba1ef3",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-a1373a21eba2",
+        "fileName": "微信图片_2025-08-19_134912_235.md"
+      },
+      "primaryCategory": "pathology_molecular",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的病理图文报告单，包含病理科号、显微镜下HE染色图像描述以及明确的病理诊断建议（右肝穿刺组织见异型细胞，建议免疫组化），属于典型的病理学报告。",
+      "routing": {
+        "promptTemplateId": "cat.pathology_molecular.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-513664b5-90c1-4853-a476-257889269b9a",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-504c3907b7d7",
+        "fileName": "微信图片_2025-08-19_134920_522.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "history_physical"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的影像诊断报告单，明确记录了胸部CT平扫的影像表现，包括双肺结节、磨玻璃影等描述，属于典型的影像学报告。文档中还包含了与既往影像资料的对比，具有一定的病史参考价值。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-2b6da508-2534-473b-b8e8-c9422a716d76",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-ca457dcae074",
+        "fileName": "微信图片_2025-08-19_134923_323.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是一份典型的‘影像诊断报告单’，包含患者基本信息、检查名称（上腹部CT成像平扫+增强）、影像表现描述以及放射学诊断结论。由于诊断结论中涉及对恶性肿瘤（原发性肝CA）的初步判断，因此将‘diagnosis_staging’列为次要类别。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-3586fe7e-4a1e-4bc6-b145-02da69db289d",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-77ee74a5168b",
+        "fileName": "微信图片_2025-08-19_134926_075.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging",
+        "followup_outcome"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的影像诊断报告单，包含胸部及上腹部CT平扫加增强的检查表现与放射学诊断。文中详细描述了肺部结节、肝癌术后状态、肝硬化及囊肿等影像学发现，并给出了Lung-RADS分级建议，属于典型的影像报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-2378660b-4362-4411-b287-dae15785226b",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh-CN",
+      "document": {
+        "documentId": "doc-71b62eadcd95",
+        "fileName": "微信图片_2025-08-19_134928_978.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "followup_outcome"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的磁共振（MRI）影像诊断报告单，包含检查名称、表现描述及放射学诊断，属于典型的影像报告。同时，报告中多次提及‘与老片对比’及‘大致同前’，具有随访评估性质。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-e4301ab1-4b6e-477c-9c89-a2fae1735264",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-b9793dcb69e5",
+        "fileName": "微信图片_2025-08-19_134932_587.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging",
+        "followup_outcome"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南中医药大学第一附属医院的影像诊断报告单，明确记录了磁共振肝脾平扫增强+DWI的检查结果。内容包含影像表现（T1WI/T2WI信号描述）与放射学诊断（肝右叶术后改变、肝硬化、囊肿等），属于典型的影像报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-eef611c1-0e01-49b8-b4e8-bc2e1c7cb55b",
+      "classifiedAt": "2026-03-23T17:19:26+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-d82012b4c999",
+        "fileName": "微信图片_2025-08-19_134935_411.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南师范大学附属第一医院的影像检查报告单，包含CT检查项目、影像表现（双肺结节、胸膜增厚、椎体骨折等）以及明确的诊断意见，属于典型的影像报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-4a8ffc7d-cf2e-4770-9fb1-060b55288ab8",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-cdf7e70e638e",
+        "fileName": "微信图片_2025-08-19_134938_250.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南省人民医院的超声检查报告单，包含超声所见（肝、胆、胰、脾、双肾及门静脉的影像学描述）和超声提示（诊断意见），属于典型的影像检查报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-a045f942-b9c2-421b-8210-02d568ecf7af",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-7df16c55cf0e",
+        "fileName": "微信图片_2025-08-19_134942_682.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是湖南省人民医院的超声检查报告单，包含患者基本信息、超声所见（肝、胆、胰、脾、肾等器官的影像描述）以及超声提示（诊断意见），属于典型的影像学报告。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-897087cb-cbb2-47e6-922a-5b55d28a3dd8",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-8d6ceed8ee93",
+        "fileName": "微信图片_2025-08-19_134947_731.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging",
+        "followup_outcome"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是一份来自湖南省肿瘤医院的PET/CT中心报告，详细描述了患者曾好桃进行的腹部PET-MR检查过程、影像表现及诊断意见。文档包含典型的影像学描述（如T1/T2信号、SUVmax、放射性浓聚等）和临床诊断建议，属于典型的影像报告类别。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-2b51e0a2-5441-4029-a3cd-418c64b15a17",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-c86a33133786",
+        "fileName": "微信图片_2025-08-19_134950_531.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "diagnosis_staging",
+        "followup_outcome"
+      ],
+      "categoryConfidence": 0.95,
+      "reasoning": "The document is explicitly identified as a PET/CT (specifically FAPI-PET/MR) imaging report from Hunan Cancer Hospital. It contains patient demographics, clinical diagnosis (post-operative liver cancer), imaging findings, and physician signatures. Although it is the second page of a report, its structure and content are characteristic of diagnostic imaging.",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-f2ebb287-d937-4eed-974e-2053bbb478a3",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-1f8a731ba7e7",
+        "fileName": "微信图片_2025-08-19_134953_194.md"
+      },
+      "primaryCategory": "imaging_report",
+      "secondaryCategories": [
+        "followup_outcome",
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档为湖南省肿瘤医院的PET/CT中心出具的影像检查报告，详细记录了18F-FAPI PET-MR的检查所见与诊断意见，属于典型的影像报告。文档中涉及肝癌术后的复查与随访，并对病灶进行了分期与性质评估。",
+      "routing": {
+        "promptTemplateId": "cat.imaging_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-ec516d46-115e-4f67-af27-f92781566ea3",
+      "classifiedAt": "2026-03-23T17:19:26+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-d664aba095a6",
+        "fileName": "微信图片_2025-08-19_134957_379.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "文档明确标题为‘检验报告’，包含患者基本信息、申请科室、报告医生及具体的实验室检测指标（甲胎蛋白、糖类抗原19-9、癌胚抗原）及其结果与参考值，属于典型的实验室检验报告。",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-cee57d15-ae15-474a-858e-570bfe4d4a9b",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-6bcdf7ba7cfb",
+        "fileName": "微信图片_2025-08-19_135001_155.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是一份典型的临床检验报告，包含患者基本信息、申请科室、报告医生以及具体的检测指标（异常凝血酶原、甲胎蛋白及其异质体）。这些指标主要用于肝癌的筛查与诊断，因此次要类别关联至诊断分期。",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-75ace999-5d86-4f9f-8a90-6917d80faaf0",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh-CN",
+      "document": {
+        "documentId": "doc-d3e0474fca87",
+        "fileName": "微信图片_2025-08-19_135004_273.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "The document is explicitly titled '检验报告' (Laboratory Report) and contains structured lab results for Alpha-Fetoprotein (AFP). The secondary category 'diagnosis_staging' is included because the significantly elevated AFP level (>5000 ng/ml) is a critical diagnostic marker for primary liver cancer.",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-c996a617-c639-4a92-87a8-5f7ba7ca6621",
+      "classifiedAt": "2026-03-23T17:19:26+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-1c85300a84e5",
+        "fileName": "微信图片_2025-08-19_135007_074.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是典型的临床检验报告，标题明确为“检验报告”，包含患者基本信息、申请科室（肝病科）、报告医生及具体的实验室检测项目（乙肝、HIV、丙肝、梅毒等血清学检测结果）。",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-a4172c66-12f4-44aa-bc9a-9428e426c020",
+      "classifiedAt": "2026-03-23T17:19:29+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-8d837cd0c40b",
+        "fileName": "微信图片_2025-08-19_135012_914.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是典型的检验报告详情，包含患者基本信息、检验项目（白介素6、甲胎蛋白及其异质体）、具体数值结果、单位及参考值范围。由于涉及肿瘤标志物AFP及其异质体的高值分析，常用于肝癌筛查与诊断，故次要类别关联至诊断分期。",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-d4f4e492-e726-44fe-9eac-b378b4c54e38",
+      "classifiedAt": "2026-03-23T17:19:25+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-34dc4e16ad5d",
+        "fileName": "微信图片_2025-08-19_135015_882.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档明确标题为“检验报告”，包含患者基本信息、申请科室（肝病科）、检测指标（异常凝血酶原、甲胎蛋白测定）、检测结果及参考值，属于典型的实验室检验报告。由于涉及肿瘤标志物（AFP等），常用于辅助诊断或分期，故添加诊断分期为次要类别。",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-912406d0-dd8e-45f0-9802-9bda0199a68b",
+      "classifiedAt": "2026-03-23T17:19:28+00:00",
+      "language": "zh-CN",
+      "document": {
+        "documentId": "doc-ec85a0a0d6be",
+        "fileName": "微信图片_2025-08-19_135020_131.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档明确标识为‘检验报告’，包含患者基本信息、申请科室（肝病科）、具体的检测指标（甲胎蛋白测定）、检测结果（81.34 ng/ml）及其参考范围，属于典型的实验室检验报告。由于甲胎蛋白是肝癌筛查的重要指标，故关联至诊断分期类别。",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "classificationId": "cls-03c28377-87be-4888-a2be-59c043db6511",
+      "classifiedAt": "2026-03-23T17:19:27+00:00",
+      "language": "zh",
+      "document": {
+        "documentId": "doc-8c0b584ae225",
+        "fileName": "微信图片_2025-08-19_135023_571.md"
+      },
+      "primaryCategory": "laboratory_report",
+      "secondaryCategories": [
+        "diagnosis_staging"
+      ],
+      "categoryConfidence": 1.0,
+      "reasoning": "该文档是一份典型的检验报告，包含患者基本信息、申请科室（肝病科）、检测指标（异常凝血酶原、甲胎蛋白及其异质体）、检测结果、参考值以及异常提示。由于检测指标涉及肿瘤标志物且结果显著升高，对临床诊断（如肝癌）具有重要意义，因此次要类别归为诊断分期。",
+      "routing": {
+        "promptTemplateId": "cat.laboratory_report.1.0.0",
+        "extractionMode": "extract",
+        "targetSchemas": [
+          "patient-canonical",
+          "patient-ui",
+          "extraction-result-envelope"
+        ],
+        "priority": 3,
+        "notes": "auto-routed by local category-routing.map.json"
+      },
+      "issues": []
+    }
+  ],
+  "extractionResult": {
+    "schemaVersion": "1.0.0",
+    "extractionId": "ext-8c9e185e-b849-49c3-93b1-d754ff0ee2cc",
+    "extractedAt": "2026-03-23T17:19:19+00:00",
+    "pipeline": {
+      "ocrEngine": "markdown-input",
+      "nlpModel": "gemini-3-flash-preview",
+      "parserVersion": "gemini-data-extraction.py@1.0.0",
+      "language": "zh-CN",
+      "runtimeMs": 17626
+    },
+    "sourceDocuments": [
+      {
+        "documentId": "doc-a125e81afa1a",
+        "fileName": "微信图片_2025-08-19_134812_410.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "f741ad3d51b61860ef1f4edf710e875afdf264d822ba175535db3aec0596f3ca",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-82a8ea1c1b27",
+        "fileName": "微信图片_2025-08-19_134821_875.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "df5e2fe6e3016fbbf9a3d677550c54a42aed24c6916f73f263b2126a07881076",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-cf7a28e8f487",
+        "fileName": "微信图片_2025-08-19_134825_595.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "cf02e9b53b6f2994479c52181278e601f86a3cf8a5155ca70178124e165ebbe0",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-d05150a8ed3b",
+        "fileName": "微信图片_2025-08-19_134830_003.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "b6d4253c88bff3ee6202c8d98ac0940186c800f48d13910447ed5250e4389c38",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-08aa0e41acd3",
+        "fileName": "微信图片_2025-08-19_134835_043.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "e65f3cb392b97f2edbceecbed107de233f9eeadf6de51a50da1f25fd0b9bc16f",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-d43c0606ba68",
+        "fileName": "微信图片_2025-08-19_134838_859.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "ce0313a5e81513edc9722cdabed6860a948d1f3be05777438ab614b3c533a2d6",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-cccee3c91419",
+        "fileName": "微信图片_2025-08-19_134842_299.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "4dd65b93d2488067da6386bd2b6931fd43ea4db7b116503d9014abce679d47b7",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-5c778071756b",
+        "fileName": "微信图片_2025-08-19_134845_786.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "a38593db4d99b78e07e012dd00890f041b1a5dbc0da4c10bb837a9e184377347",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-b141d8eb87c5",
+        "fileName": "微信图片_2025-08-19_134849_050.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "f4d6f465c4d5bac428f7086e9bbadf656f5f20b0c308d1836028eeeef7fb4684",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-ebb0afdb6f59",
+        "fileName": "微信图片_2025-08-19_134852_491.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "5a3fcc6076d04ea3db4725c89b5d06c190d56199ce13092389d547dc74477582",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-8742ba1c1184",
+        "fileName": "微信图片_2025-08-19_134855_810.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "cde901a976dffbacb7f0e80de54b5c731564b6d672928c7640424e7144618a3a",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-530d2fbe74ca",
+        "fileName": "微信图片_2025-08-19_134859_011.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "d374892c2d4f894eee0f457766995ec71d4dbd4c53644230cf2b6bc66a66e26a",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-a459e3a31cbf",
+        "fileName": "微信图片_2025-08-19_134904_987.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "3d1998a538697522cc74bd2828c91c70869eca4dbb30fae4a8c795db909d4c71",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-0584f80fc3d3",
+        "fileName": "微信图片_2025-08-19_134908_546.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "b4dddc440671065b208aa33573ace3c939f57af150816a4563bb7b7f9753f7de",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-a1373a21eba2",
+        "fileName": "微信图片_2025-08-19_134912_235.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "f4d7d9aada70d8e536cad4a0af471f2150d0ccdea883ef5edaced766cfb600d6",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-504c3907b7d7",
+        "fileName": "微信图片_2025-08-19_134920_522.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "3da88ddda82836c8a2509cf30760011372b03cb7e885e86f789a8f6f77e7195e",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-ca457dcae074",
+        "fileName": "微信图片_2025-08-19_134923_323.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "5e397adc45b9a71a13da9ad7f10107256b859eccbb0689e79c29672ffe651600",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-77ee74a5168b",
+        "fileName": "微信图片_2025-08-19_134926_075.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "47d82f3e20278f1559cc27a44a511dd7bcc72f3551e944723543894c7dffe87c",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-71b62eadcd95",
+        "fileName": "微信图片_2025-08-19_134928_978.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "55b39cae5c7c02bcb29eccd47d3792f83abdf0c0f48c36faf231db1b166bfcde",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-b9793dcb69e5",
+        "fileName": "微信图片_2025-08-19_134932_587.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "8a45cad01b0534c83d2aff58347347aa2a0482007f47373ea0e5b5f60a086f68",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-d82012b4c999",
+        "fileName": "微信图片_2025-08-19_134935_411.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "e3030a8c9c2c70cb753c08b19c55e6315cc121a5e795a833a66b100563d2f13e",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-cdf7e70e638e",
+        "fileName": "微信图片_2025-08-19_134938_250.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "32d7cd387e91c63cacd19790da12fa74538b4ff3a8709b7e87371c89ca64552d",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-7df16c55cf0e",
+        "fileName": "微信图片_2025-08-19_134942_682.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "e73d9d3d32717b0270c97fc4f1502d54b99f73577fc037fc789e09003b394deb",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-8d6ceed8ee93",
+        "fileName": "微信图片_2025-08-19_134947_731.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "be5689e3d6253c1cc148ece94e74d553214882a54f5e243388130c093f51073f",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-c86a33133786",
+        "fileName": "微信图片_2025-08-19_134950_531.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "997dfac3dec54b7ade0d2f28e1d58fa79cf41ccfe84c4de4ca96be678115f742",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-1f8a731ba7e7",
+        "fileName": "微信图片_2025-08-19_134953_194.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "9a90a3c6f0a17244107e60a3f855727000a873f63ae39961fbbe6ca495442e78",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-d664aba095a6",
+        "fileName": "微信图片_2025-08-19_134957_379.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "fad98bdee45c2e2e9bee230838e994badb13abeba246a8f2dba95bb851d66718",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-6bcdf7ba7cfb",
+        "fileName": "微信图片_2025-08-19_135001_155.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "2fc43fa91ca4d782e3d34869df3b430d4952bb586a7f9064a3d9b617040d5ebc",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-d3e0474fca87",
+        "fileName": "微信图片_2025-08-19_135004_273.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "816ab6f1fb6aca1346f31dd80a09c01d7e12766b20b4504524d9413d0228e461",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-1c85300a84e5",
+        "fileName": "微信图片_2025-08-19_135007_074.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "5e62905334a5391ef9b72b5302bf49b2fe88c1a7bce784f7baba3ff4d463d8f0",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-8d837cd0c40b",
+        "fileName": "微信图片_2025-08-19_135012_914.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "c61b1be571b4efca870eb9a978ef6eccc1eb4b246becfff2b6054e939ccd780f",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-34dc4e16ad5d",
+        "fileName": "微信图片_2025-08-19_135015_882.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "6ecab96652bbf1e1a8e31fc783a9d91ca89d8d73ca97ec7fb15b319c70cd3b76",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-ec85a0a0d6be",
+        "fileName": "微信图片_2025-08-19_135020_131.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "c091efb2a0bd966cbd98555b59f9ba58f96e191e337e64cc96c508b8f75e44a0",
+        "sourceSystem": "local-md-folder"
+      },
+      {
+        "documentId": "doc-8c0b584ae225",
+        "fileName": "微信图片_2025-08-19_135023_571.md",
+        "mimeType": "text/markdown",
+        "checksumSha256": "a82c940532539d710da12716e3c2044379a9591a4f43e7c864a79c7d4d67180a",
+        "sourceSystem": "local-md-folder"
+      }
+    ],
+    "patientRecord": {
+      "patient": {
+        "name": "未知",
+        "sex": "未知",
+        "identifiers": [],
+        "contacts": []
+      },
+      "clinicalSummary": {
+        "primaryDiagnosis": {
+          "display": "待补充"
+        },
+        "secondaryDiagnoses": [],
+        "comorbidities": []
+      },
+      "timeline": [
+        {
+          "date": "2025-02-26",
+          "title": "入院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "admission",
+          "description": "因发现HBsAg阳性7年，发现肝内占位1天入院。初步诊断为乙型肝炎肝硬化、肝恶性肿瘤？"
+        },
+        {
+          "date": "2025-02-26",
+          "title": "上腹部增强CT",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "examination",
+          "description": "肝右叶异常密度灶（16×18mm），考虑恶性，原发性肝CA？肝硬化、脾大。"
+        },
+        {
+          "date": "2025-02-28",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "examination",
+          "description": "肝S7、8病灶（较大截面积为77mm×37mm），均考虑肝细胞CA。"
+        },
+        {
+          "date": "2025-03-04",
+          "title": "MDT会诊",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "consultation",
+          "description": "诊断明确，肝细胞恶性程度较高，S7/S8段侵犯，建议行外科手术切除治疗。"
+        },
+        {
+          "date": "2025-03-10",
+          "title": "手术治疗",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "surgery",
+          "description": "全麻下行腹腔镜探查+肝部分切除+膈肌修补术。"
+        },
+        {
+          "date": "2025-04-01",
+          "title": "出院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "discharge",
+          "description": "住院34天后出院。"
+        },
+        {
+          "date": "2025-02-26",
+          "title": "既往影像检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "报告中提及的对比老片日期。"
+        },
+        {
+          "date": "2025-03-18",
+          "title": "胸部及上腹部CT平扫+增强",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "肝CA部分切除术后复查。双肺多发结节，双肺散在炎症较前增多，双侧胸腔及右侧叶间裂积液较前新增。肝硬化、脾大，肝内多发囊肿，双肾多发小囊肿，腹腔少量积液。T12椎体压缩骨折。"
+        },
+        {
+          "date": "2025-08-05",
+          "title": "入院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "入院",
+          "description": "入院时间 09:55，科别：肝病/感染性疾病科"
+        },
+        {
+          "date": "2025-08-05",
+          "title": "行肝肿瘤MDT会诊",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "consultation",
+          "description": "患者肝细胞癌诊断明确，目前肝内病灶为囊性病变，出现肝内和肝外多发转移灶。建议更换靶免治疗方案为瑞戈非尼+替雷利珠，家属要求先行局部治疗。"
+        },
+        {
+          "date": "2025-08-11",
+          "title": "行肝包膜肿瘤穿刺活检术+微波消融术",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "surgery",
+          "description": "在麻醉下行肝包膜肿瘤穿刺活检术+微波消融术，术后予以止血等对症支持治疗。"
+        },
+        {
+          "date": "2025-08-11",
+          "title": "办理出院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "discharge",
+          "description": "患者及家属要求出院，经上级医师同意后予以办理出院。诊断为肝细胞癌、乙型肝炎肝硬化（失代偿期）等。"
+        },
+        {
+          "date": "2025-08-06",
+          "title": "肝胆胰脾彩超检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "超声提示肝硬化、脾稍大、胆囊继发改变（胆泥淤积可能）、肝多发囊肿及右肝内混合回声区（考虑术后改变）。"
+        },
+        {
+          "date": "2025-08-06",
+          "title": "心脏彩超检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "左房稍大；二尖瓣、三尖瓣轻度反流；左室舒张功能减低；收缩功能测值正常。"
+        },
+        {
+          "date": "2025-06-08",
+          "title": "动态心电图检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "窦性心律，频发房性早搏，可见房早成对、短阵房速，房早二、三联律，房早伴差传和房早未下传；部分快心率时段T波低值改变。"
+        },
+        {
+          "date": "2025-02-28",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "肝S7、8见片状、结节状T1WI稍低信号，T2压脂混杂高信号，较大截面积为77mm×37mm，增强呈“快进快出”改变，DWI上呈不均匀高信号；该病灶周围另见一类圆形异常信号影，直径约为20mm。诊断考虑肝细胞CA，肝硬化并多发增生结节、脾稍大，肝内多发囊肿，胆囊胆汁淤积可能，双肾多发小囊肿。"
+        },
+        {
+          "date": "2023-02-23",
+          "title": "上腹部CT检查（旧片）",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "历史对比影像资料，显示肝硬化、脾大、肝内钙化灶等基础病变。"
+        },
+        {
+          "date": "2025-02-26",
+          "title": "上腹部CT平扫+增强",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "肝右叶新发异常密度灶，考虑恶性（原发性肝癌？），伴肝硬化、脾大、肝肾多发囊肿。"
+        },
+        {
+          "date": "2025-04-18",
+          "title": "既往CT检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "既往CT老片，用于本次对比。"
+        },
+        {
+          "date": "2025-08-05",
+          "title": "胸部CT平扫-薄层扫描",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "双肺多发结节，较前增多、增大，右侧胸壁胸膜下新发多发结节，结合病史考虑转移瘤；双肺散在炎症；附见肝内低密度灶，右肾后方腹壁软组织结节。"
+        },
+        {
+          "date": "2025-04-19",
+          "title": "既往影像检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "老片对比基准日期"
+        },
+        {
+          "date": "2025-07-24",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "肝右叶术后改变范围增大；肝硬化并多发增生结节；肝内多发囊肿；右肾右后方新增异常信号，疑似转移。"
+        },
+        {
+          "date": "2025-08-05",
+          "title": "行肝肿瘤MDT会诊",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "consultation",
+          "description": "肝细胞癌诊断明确，考虑胆瘘，建议更换靶免治疗方案为瑞戈非尼+替雷利珠，家属要求先行局部治疗。"
+        },
+        {
+          "date": "2025-08-11",
+          "title": "肝包膜肿瘤穿刺活检术+微波消融术",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "surgery",
+          "description": "在局部浸润麻醉下行手术，术后予以止血等对症支持治疗。"
+        },
+        {
+          "date": "2025-08-11",
+          "title": "出院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "discharge",
+          "description": "患者及家属要求出院，办理出院手续。"
+        },
+        {
+          "date": "2025-03-10",
+          "title": "手术",
+          "type": "surgery",
+          "description": "手术治疗"
+        },
+        {
+          "date": "2025-03-29",
+          "title": "第一次单换",
+          "type": "procedure",
+          "description": "第一次单换（疑为导管/支架更换或换药）"
+        },
+        {
+          "date": "2025-04-19",
+          "title": "第二次单换",
+          "type": "procedure",
+          "description": "第二次单换"
+        },
+        {
+          "date": "2025-04-22",
+          "title": "第一次介入",
+          "type": "procedure",
+          "description": "第一次介入治疗"
+        },
+        {
+          "date": "2025-05-10",
+          "title": "第三次操作",
+          "type": "procedure",
+          "description": "第3次相关医疗操作"
+        },
+        {
+          "date": "2025-06-05",
+          "title": "第四次操作",
+          "type": "procedure",
+          "description": "第4次相关医疗操作"
+        },
+        {
+          "date": "2025-06-09",
+          "title": "停用仑伐替尼",
+          "type": "medication",
+          "description": "停止服用靶向药物仑伐替尼"
+        },
+        {
+          "date": "2025-06-28",
+          "title": "第五次操作",
+          "type": "procedure",
+          "description": "第5次相关医疗操作"
+        },
+        {
+          "date": "2025-08-11",
+          "title": "消融治疗",
+          "type": "procedure",
+          "description": "进行消融手术（如射频、微波或冷冻消融）"
+        },
+        {
+          "date": "2025-03-11",
+          "title": "肝肿块取样",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "procedure",
+          "description": "由肝胆胰、疝外科谭新华医生进行取样。"
+        },
+        {
+          "date": "2025-03-14",
+          "title": "病理诊断报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "pathology_report",
+          "description": "诊断为结节型–巢片状肝细胞性肝癌Ⅲ–Ⅳ级，伴肝硬化（G2/S4）及微血管侵犯（MVI=M1）。"
+        },
+        {
+          "date": "2025-08-12",
+          "title": "右肝穿刺活检取样",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "procedure",
+          "description": "由杜珊医生进行右肝穿刺组织取样。"
+        },
+        {
+          "date": "2025-08-14",
+          "title": "病理诊断报告签发",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "pathology_report",
+          "description": "（右肝穿刺组织）检见极少许核大深染的异型细胞，建议免疫组化（10项）进一步诊断。"
+        },
+        {
+          "date": "2025-01-18",
+          "title": "既往胸部CT检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "既往老片对比基准点"
+        },
+        {
+          "date": "2025-08-05",
+          "title": "胸部CT平扫-薄层扫描",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "双肺多发结节，最大结节位于右肺下叶前基底段胸膜下，大小约12mm×10mm；双肺散在条索状、磨玻璃样影。"
+        },
+        {
+          "date": "2023-02-23",
+          "title": "既往影像检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "description": "既往老片记录，显示肝硬化、脾大、肝内多发囊肿、肝内钙化灶及双肾多发小囊肿。"
+        },
+        {
+          "date": "2025-02-26",
+          "title": "上腹部CT成像（平扫+增强）",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "description": "肝右叶新发大片状稍低密度影，增强扫描不均匀强化；肝S8见16×18mm类圆形稍低密度影，呈“快进快出”强化。考虑恶性，原发性肝CA可能。"
+        },
+        {
+          "date": "2025-02-26",
+          "title": "既往影像检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "与2025-02-26老片对比，作为本次检查的参照基准。"
+        },
+        {
+          "date": "2025-03-18",
+          "title": "胸部及上腹部CT平扫+增强",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "肝CA部分切除术后复查。显示双肺多发结节、炎症及胸腔积液；肝术区渗出伴积气，肝硬化，腹腔积液。"
+        },
+        {
+          "date": "2025-03-27",
+          "title": "肝脏影像学检查（老片）",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "前次影像学检查，用于本次对比。"
+        },
+        {
+          "date": "2025-04-19",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "肝右叶术后改变，肝硬化并多发增生结节，肝内多发囊肿，双肾多发小囊肿，腹腔少量积液。"
+        },
+        {
+          "date": "2025-04-19",
+          "title": "既往影像检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "既往老片对比基准"
+        },
+        {
+          "date": "2025-06-05",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging_report",
+          "description": "肝右叶术后改变，范围较前明显增大；肝硬化并多发增生结节、脾稍大；肝内多发囊肿；双肾多发小囊肿；腹腔少量积液。"
+        },
+        {
+          "date": "2025-06-26",
+          "title": "肺部高分辨扫描（HRCT）及CT平扫三维成像",
+          "hospital": "湖南师范大学附属第一医院",
+          "type": "imaging_report",
+          "description": "双肺多发结节（Lung-RADS 2类），左肺下叶磨玻璃结节（5mm×3mm），右肺下叶实性结节（6mm×5mm）；双侧胸膜结节状增厚；T12椎体压缩性骨折；肝内多发低密度影伴钙化。"
+        },
+        {
+          "date": "2025-06-30",
+          "title": "腹部彩色多普勒超声常规检查",
+          "hospital": "湖南省人民医院",
+          "type": "imaging_report",
+          "description": "超声提示：肝多发囊肿；肝内无回声区；肝内高回声团（考虑增生结节）；胆囊多发息肉样病变；双肾强光斑（考虑结晶）。"
+        },
+        {
+          "date": "2025-06-30",
+          "title": "腹部彩色多普勒超声检查",
+          "hospital": "湖南省人民医院",
+          "type": "imaging_report",
+          "description": "超声提示：肝多发囊肿、肝内无回声区、肝内高回声团（考虑增生结节）、胆囊多发息肉样病变、双肾强光斑（考虑结晶）。"
+        },
+        {
+          "date": "2025-02-26",
+          "title": "外院CT检查",
+          "hospital": "外院",
+          "type": "imaging_report",
+          "description": "对比外院2025.02.26.CT，右肺下叶后基底段实性结节影为新发。"
+        },
+        {
+          "date": "2025-06-10",
+          "title": "腹部PET-MR检查",
+          "hospital": "湖南省肿瘤医院",
+          "type": "imaging_report",
+          "description": "肝癌术后复查。肝S7、8术后改变，术区内下缘见异常放射性浓聚影（SUVmax 6.3），建议除外局部复发；右肺下叶新发结节（SUVmax 2.1），建议除外转移。"
+        },
+        {
+          "date": "2025-06-10",
+          "title": "XY 腹部 PET-MR 检查",
+          "hospital": "湖南省肿瘤医院",
+          "type": "imaging_report",
+          "description": "临床诊断为肝癌术后。使用 FAPI-PET/MR 显像技术。报告结论显示全身其它部位未见明显异常。左侧边缘碎片信息提示可能存在肝S7、8放射性缺损、右肺下叶新发及双肺多发病变，需结合完整报告解读。"
+        },
+        {
+          "date": "2025-02-26",
+          "title": "外院CT检查",
+          "hospital": "外院",
+          "type": "imaging_report",
+          "description": "对比外院2025.02.26 CT，右肺下叶后基底段实性结节影为新发。"
+        },
+        {
+          "date": "2025-06-10",
+          "title": "XY 腹部 PET-MR",
+          "hospital": "湖南省肿瘤医院",
+          "type": "imaging_report",
+          "description": "肝癌术后复查。肝S7、8段术后改变，术区内下缘见异常放射性浓聚影（SUVmax 6.3），建议除外局部复发；右肺下叶新发结节（SUVmax 2.1），考虑炎性结节或转移瘤可能。"
+        },
+        {
+          "date": "2025-07-24",
+          "title": "肿瘤标志物检验报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "laboratory_report",
+          "description": "甲胎蛋白（AFP）极度升高（4151.0000 ng/ml），糖类抗原19-9及癌胚抗原正常。"
+        },
+        {
+          "date": "2025-07-23",
+          "title": "检验报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "laboratory_report",
+          "description": "肝病科、感染性疾病科检验报告，显示异常凝血酶原及甲胎蛋白系列指标显著升高。"
+        },
+        {
+          "date": "2025-08-05",
+          "title": "甲胎蛋白检验报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "laboratory_report",
+          "description": "甲胎蛋白(AFP)检测结果显著升高，数值为 5134.0000 ng/ml。"
+        },
+        {
+          "date": "2025-08-05",
+          "title": "检验报告 - 肝病科/感染性疾病科",
+          "hospital": "未知",
+          "type": "laboratory_report",
+          "description": "乙型肝炎病毒表面抗原显著升高 (1890.0000 COI)，HIV、丙肝及梅毒抗体检测均为阴性。"
+        },
+        {
+          "date": "2025-06-26",
+          "title": "检验报告详情",
+          "hospital": "湖南省人民医院",
+          "type": "laboratory_report",
+          "description": "包含白介素6、甲胎蛋白(AFP)及甲胎蛋白异质体测定。"
+        },
+        {
+          "date": "2025-06-03",
+          "title": "检验报告 - 异常凝血酶原、甲胎蛋白测定",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "laboratory_report",
+          "description": "患者曾好桃（女，55岁）在肝病科/感染性疾病科就诊期间的两项肿瘤/肝功能相关标志物检测结果显著升高。"
+        },
+        {
+          "date": "2025-05-09",
+          "title": "甲胎蛋白测定检验报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "laboratory_report",
+          "description": "甲胎蛋白测定结果为81.34 ng/ml，显著高于参考范围(0～16.80)。"
+        },
+        {
+          "date": "2025-07-23",
+          "title": "检验报告 (异常凝血酶原、甲胎蛋白等)",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "laboratory_report",
+          "description": "异常凝血酶原 258.70 ng/ml, 甲胎蛋白 > 1200 ng/ml, 甲胎蛋白异质体 1004.00 ng/ml"
+        }
+      ],
+      "observations": [
+        {
+          "code": "Temperature",
+          "display": "体温",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 36.2
+        },
+        {
+          "code": "Pulse",
+          "display": "脉搏",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 75
+        },
+        {
+          "code": "SystolicBP",
+          "display": "收缩压",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 116
+        },
+        {
+          "code": "DiastolicBP",
+          "display": "舒张压",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 75
+        },
+        {
+          "code": "HBsAg",
+          "display": "乙型肝炎病毒表面抗原",
+          "effectiveDate": "2025-02-27",
+          "valueNumber": 336.95
+        },
+        {
+          "code": "WBC",
+          "display": "白细胞",
+          "effectiveDate": "2025-02-27",
+          "valueNumber": 4.47
+        },
+        {
+          "code": "HGB",
+          "display": "血红蛋白",
+          "effectiveDate": "2025-02-27",
+          "valueNumber": 131
+        },
+        {
+          "code": "PLT",
+          "display": "血小板",
+          "effectiveDate": "2025-02-27",
+          "valueNumber": 147
+        },
+        {
+          "code": "PIVKA-II",
+          "display": "异常凝血酶原",
+          "effectiveDate": "2025-02-27",
+          "valueNumber": 6571
+        },
+        {
+          "code": "CA19-9",
+          "display": "糖类抗原19-9",
+          "effectiveDate": "2025-02-27",
+          "valueNumber": 32.82
+        },
+        {
+          "code": "AFP",
+          "display": "甲胎蛋白",
+          "effectiveDate": "2025-02-27",
+          "valueNumber": 23483.28
+        },
+        {
+          "code": "ICG-R15",
+          "display": "肝功能储备检查R15",
+          "effectiveDate": "2025-02-28",
+          "valueNumber": 6.6
+        },
+        {
+          "code": "CRP",
+          "display": "超敏C反应蛋白",
+          "effectiveDate": "2025-03-10",
+          "valueNumber": 38
+        },
+        {
+          "code": "WBC",
+          "display": "白细胞",
+          "effectiveDate": "2025-03-10",
+          "valueNumber": 13.71
+        },
+        {
+          "code": "HGB",
+          "display": "血红蛋白",
+          "effectiveDate": "2025-03-10",
+          "valueNumber": 106
+        },
+        {
+          "code": "ALT",
+          "display": "丙氨酸氨基转移酶",
+          "effectiveDate": "2025-03-10",
+          "valueNumber": 237.7
+        },
+        {
+          "code": "ALB",
+          "display": "白蛋白",
+          "effectiveDate": "2025-03-10",
+          "valueNumber": 33.8
+        },
+        {
+          "code": "肺结节直径",
+          "display": "右肺中外侧段实性结节大小",
+          "effectiveDate": "2025-03-18",
+          "valueNumber": 6.0
+        },
+        {
+          "code": "肝囊肿直径",
+          "display": "肝左叶较大低密度无强化灶直径",
+          "effectiveDate": "2025-03-18",
+          "valueNumber": 16.0
+        },
+        {
+          "code": "PLT",
+          "display": "血小板",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 104.0
+        },
+        {
+          "code": "WBC",
+          "display": "白细胞",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 3.4
+        },
+        {
+          "code": "NEUT%",
+          "display": "嗜中性粒细胞百分比",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 46.1
+        },
+        {
+          "code": "RBC",
+          "display": "红细胞",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 3.31
+        },
+        {
+          "code": "HGB",
+          "display": "血红蛋白",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 101.0
+        },
+        {
+          "code": "ALB",
+          "display": "白蛋白",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 33.9
+        },
+        {
+          "code": "TP",
+          "display": "总蛋白",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 61.1
+        },
+        {
+          "code": "CO2CP",
+          "display": "二氧化碳结合力",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 20.4
+        },
+        {
+          "code": "PR",
+          "display": "脉搏",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 53.0
+        },
+        {
+          "code": "SBP",
+          "display": "收缩压",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 94.0
+        },
+        {
+          "code": "DBP",
+          "display": "舒张压",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 59.0
+        },
+        {
+          "code": "HR",
+          "display": "心率",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 53.0
+        },
+        {
+          "code": "左肝上下径",
+          "display": "左肝上下径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 63
+        },
+        {
+          "code": "左肝前后径",
+          "display": "左肝前后径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 54
+        },
+        {
+          "code": "右肝最大斜径",
+          "display": "右肝最大斜径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 125
+        },
+        {
+          "code": "门静脉内径",
+          "display": "门静脉内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 11
+        },
+        {
+          "code": "胆总管内径",
+          "display": "胆总管内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 5
+        },
+        {
+          "code": "脾脏厚度",
+          "display": "脾脏厚度",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 40
+        },
+        {
+          "code": "脾脏长度",
+          "display": "脾脏长度",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 111
+        },
+        {
+          "code": "门静脉血流速度",
+          "display": "门静脉血流速度",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 18
+        },
+        {
+          "code": "脾静脉血流速度",
+          "display": "脾静脉血流速度",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 18
+        },
+        {
+          "code": "LA",
+          "display": "左心房内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 33.6
+        },
+        {
+          "code": "LV(d)",
+          "display": "左心室舒张末期内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 39
+        },
+        {
+          "code": "RA",
+          "display": "右心房内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 32
+        },
+        {
+          "code": "RV",
+          "display": "右心室内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 30
+        },
+        {
+          "code": "IVS",
+          "display": "室间隔厚度",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 9.5
+        },
+        {
+          "code": "LVIDLW",
+          "display": "左心室后壁厚度",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 9.4
+        },
+        {
+          "code": "AO",
+          "display": "主动脉根部内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 26.5
+        },
+        {
+          "code": "PA",
+          "display": "肺动脉主干内径",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 22
+        },
+        {
+          "code": "FS",
+          "display": "短轴缩短率",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 35
+        },
+        {
+          "code": "EF",
+          "display": "射血分数",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 64
+        },
+        {
+          "code": "E_Peak",
+          "display": "二尖瓣E峰流速",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 82
+        },
+        {
+          "code": "A_Peak",
+          "display": "二尖瓣A峰流速",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 60
+        },
+        {
+          "code": "PASP",
+          "display": "估测肺动脉压",
+          "effectiveDate": "2025-08-06",
+          "valueNumber": 39
+        },
+        {
+          "code": "AverageHeartRate",
+          "display": "平均心率",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 68
+        },
+        {
+          "code": "MaxHeartRate",
+          "display": "最快心率",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 110
+        },
+        {
+          "code": "MinHeartRate",
+          "display": "最慢心率",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 43
+        },
+        {
+          "code": "AtrialPrematureBeatsCount",
+          "display": "房性早搏总数",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 8918
+        },
+        {
+          "code": "AtrialTachycardiaEpisodes",
+          "display": "房速阵数",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 8
+        },
+        {
+          "code": "SDNN",
+          "display": "心率变异性SDNN",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 124
+        },
+        {
+          "code": "SDANN",
+          "display": "心率变异性SDANN",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 112
+        },
+        {
+          "code": "rMSSD",
+          "display": "心率变异性rMSSD",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 19
+        },
+        {
+          "code": "MaxRRInterval",
+          "display": "最长RR间期",
+          "effectiveDate": "2025-06-08",
+          "valueNumber": 1.895
+        },
+        {
+          "code": "肝脏病灶最大径",
+          "display": "肝S7、8病灶较大截面积长径",
+          "effectiveDate": "2025-02-28",
+          "valueNumber": 77
+        },
+        {
+          "code": "肝脏次要病灶直径",
+          "display": "肝S7、8病灶周围类圆形异常信号直径",
+          "effectiveDate": "2025-02-28",
+          "valueNumber": 20
+        },
+        {
+          "code": "肝内囊肿最大直径",
+          "display": "肝内多发类圆形T1低信号、T2高信号影较大者直径",
+          "effectiveDate": "2025-02-28",
+          "valueNumber": 14
+        },
+        {
+          "code": "左肾囊肿最大径",
+          "display": "左肾多发类圆形无强化灶较大者长径",
+          "effectiveDate": "2025-02-28",
+          "valueNumber": 7
+        },
+        {
+          "code": "肝S8病灶直径",
+          "display": "肝S8类圆形稍低密度影大小",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 18
+        },
+        {
+          "code": "肝左叶囊肿直径",
+          "display": "肝左叶较大低密度无强化灶直径",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 16
+        },
+        {
+          "code": "Lung_Nodule_Size",
+          "display": "右肺下叶最大实性结节大小(mm)",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 12
+        },
+        {
+          "code": "肝右叶病灶长径",
+          "display": "肝右叶近膈顶、包膜下病灶长径",
+          "effectiveDate": "2025-07-24",
+          "valueNumber": 82
+        },
+        {
+          "code": "肝内最大囊肿直径",
+          "display": "肝脏内多发类圆形T1低信号、T2高信号影最大直径",
+          "effectiveDate": "2025-07-24",
+          "valueNumber": 15
+        },
+        {
+          "code": "左肾最大囊肿长径",
+          "display": "左肾多发类圆形无强化灶较大者长径",
+          "effectiveDate": "2025-07-24",
+          "valueNumber": 7
+        },
+        {
+          "code": "右肾右后方新增病灶长径",
+          "display": "右肾右后方结节状异常信号长径",
+          "effectiveDate": "2025-07-24",
+          "valueNumber": 11
+        },
+        {
+          "code": "Pulse",
+          "display": "脉搏",
+          "effectiveDate": "2025-08-11",
+          "valueNumber": 53.0
+        },
+        {
+          "code": "Ki67",
+          "display": "Ki67阳性率",
+          "effectiveDate": "2025-03-14",
+          "valueNumber": 20
+        },
+        {
+          "code": "MVI",
+          "display": "微血管侵犯等级",
+          "effectiveDate": "2025-03-14",
+          "valueNumber": 1
+        },
+        {
+          "code": "Metavir_G",
+          "display": "慢性肝病炎症活动度分级",
+          "effectiveDate": "2025-03-14",
+          "valueNumber": 2
+        },
+        {
+          "code": "Metavir_S",
+          "display": "慢性肝病纤维化分期",
+          "effectiveDate": "2025-03-14",
+          "valueNumber": 4
+        },
+        {
+          "code": "免疫组化建议项数",
+          "display": "建议免疫组化检测项数",
+          "effectiveDate": "2025-08-14",
+          "valueNumber": 10
+        },
+        {
+          "code": "Lung_Nodule_Size",
+          "display": "肺结节最大径",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 12.0
+        },
+        {
+          "code": "肝S8病灶直径",
+          "display": "肝S8类圆形稍低密度影直径",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 18
+        },
+        {
+          "code": "肝左叶囊肿直径",
+          "display": "肝左叶较大类圆形低密度无强化灶直径",
+          "effectiveDate": "2025-02-26",
+          "valueNumber": 16
+        },
+        {
+          "code": "肺结节直径",
+          "display": "右肺中叶外侧段实性结节大小",
+          "effectiveDate": "2025-03-18",
+          "valueNumber": 6.0
+        },
+        {
+          "code": "肝内最大囊肿直径",
+          "display": "肝内多发类圆形T1低信号、T2高信号影（较大者）",
+          "effectiveDate": "2025-04-19",
+          "valueNumber": 15
+        },
+        {
+          "code": "左肾最大囊肿长径",
+          "display": "左肾多发类圆形无强化灶（较大者）",
+          "effectiveDate": "2025-04-19",
+          "valueNumber": 7
+        },
+        {
+          "code": "左肾最大囊肿短径",
+          "display": "左肾多发类圆形无强化灶（较大者）",
+          "effectiveDate": "2025-04-19",
+          "valueNumber": 4
+        },
+        {
+          "code": "肝右叶病灶长径",
+          "display": "肝右叶近膈顶、包膜下病灶长径",
+          "effectiveDate": "2025-06-05",
+          "valueNumber": 83
+        },
+        {
+          "code": "肝内囊肿最大直径",
+          "display": "肝脏内多发类圆形T1低信号、T2高信号影较大者直径",
+          "effectiveDate": "2025-06-05",
+          "valueNumber": 15
+        },
+        {
+          "code": "左肾囊肿长径",
+          "display": "左肾多发类圆形无强化灶较大者长径",
+          "effectiveDate": "2025-06-05",
+          "valueNumber": 7
+        },
+        {
+          "code": "左肺下叶磨玻璃结节直径",
+          "display": "左肺下叶前内基底段磨玻璃结节大小",
+          "effectiveDate": "2025-06-26",
+          "valueNumber": 5.0
+        },
+        {
+          "code": "右肺下叶实性结节直径",
+          "display": "右肺下叶前基底段实性结节大小",
+          "effectiveDate": "2025-06-26",
+          "valueNumber": 6.0
+        },
+        {
+          "code": "左肝长",
+          "display": "左肝长度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 74
+        },
+        {
+          "code": "左肝厚",
+          "display": "左肝厚度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 69
+        },
+        {
+          "code": "门静脉主干内径",
+          "display": "门静脉主干内径",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 12.4
+        },
+        {
+          "code": "胆囊壁厚度",
+          "display": "胆囊壁厚度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 4.1
+        },
+        {
+          "code": "胰头厚度",
+          "display": "胰头厚度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 15
+        },
+        {
+          "code": "胰体厚度",
+          "display": "胰体厚度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 12
+        },
+        {
+          "code": "胰尾厚度",
+          "display": "胰尾厚度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 19
+        },
+        {
+          "code": "脾厚",
+          "display": "脾脏厚度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 41
+        },
+        {
+          "code": "脾长",
+          "display": "脾脏长度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 121
+        },
+        {
+          "code": "右侧胸腔积液深度",
+          "display": "右侧胸腔液暗区深度",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 4
+        },
+        {
+          "code": "腹腔积液深度",
+          "display": "腹腔液暗区深度（肝肾夹角）",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 8
+        },
+        {
+          "code": "左肝长度",
+          "display": "左肝长",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 74
+        },
+        {
+          "code": "左肝厚度",
+          "display": "左肝厚",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 69
+        },
+        {
+          "code": "胆囊壁厚度",
+          "display": "胆囊壁厚",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 4.1
+        },
+        {
+          "code": "胰头厚度",
+          "display": "胰头厚",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 15
+        },
+        {
+          "code": "胰体厚度",
+          "display": "胰体厚",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 12
+        },
+        {
+          "code": "胰尾厚度",
+          "display": "胰尾厚",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 19
+        },
+        {
+          "code": "脾脏厚度",
+          "display": "脾厚",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 41
+        },
+        {
+          "code": "脾脏长度",
+          "display": "脾长",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 121
+        },
+        {
+          "code": "右侧胸腔积液深度",
+          "display": "右侧胸腔液暗区深",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 4
+        },
+        {
+          "code": "腹腔积液深度",
+          "display": "腹腔液暗区深",
+          "effectiveDate": "2025-06-30",
+          "valueNumber": 8
+        },
+        {
+          "code": "SUVmax (术区内下缘病灶)",
+          "display": "术区内下缘异常信号灶最大标准摄取值",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 6.3
+        },
+        {
+          "code": "SUVmax (术区边缘)",
+          "display": "肝术区边缘放射性浓聚最大标准摄取值",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 4.0
+        },
+        {
+          "code": "SUVmax (右肺下叶结节)",
+          "display": "右肺下叶后基底段实性结节最大标准摄取值",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 2.1
+        },
+        {
+          "code": "SUVmax (肺部斑片影)",
+          "display": "双肺散在斑片状模糊影最大标准摄取值",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 2.2
+        },
+        {
+          "code": "SUVmax (右前腹壁术区)",
+          "display": "右前腹壁术区软组织最大标准摄取值",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 2.9
+        },
+        {
+          "code": "SUVmax_Lung_Nodule",
+          "display": "右肺下叶后基底段结节SUVmax",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 2.1
+        },
+        {
+          "code": "SUVmax_Lung_Other",
+          "display": "右肺中叶结节SUVmax",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 1.0
+        },
+        {
+          "code": "SUVmax_Lung_Infection",
+          "display": "双肺散在模糊影SUVmax",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 2.2
+        },
+        {
+          "code": "SUVmax_Liver_Surgical_Edge",
+          "display": "肝术区边缘SUVmax",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 4.0
+        },
+        {
+          "code": "SUVmax_Liver_Lesion",
+          "display": "肝术区内下缘异常信号灶SUVmax",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 6.3
+        },
+        {
+          "code": "SUVmax_Abdominal_Wall",
+          "display": "右前腹壁术区SUVmax",
+          "effectiveDate": "2025-06-10",
+          "valueNumber": 2.9
+        },
+        {
+          "code": "甲胎蛋白",
+          "display": "甲胎蛋白 (AFP)",
+          "effectiveDate": "2025-07-24",
+          "valueNumber": 4151.0
+        },
+        {
+          "code": "糖类抗原19-9",
+          "display": "糖类抗原19-9 (CA19-9)",
+          "effectiveDate": "2025-07-24",
+          "valueNumber": 26.46
+        },
+        {
+          "code": "癌胚抗原",
+          "display": "癌胚抗原 (CEA)",
+          "effectiveDate": "2025-07-24",
+          "valueNumber": 1.15
+        },
+        {
+          "code": "异常凝血酶原",
+          "display": "异常凝血酶原 (ng/ml)",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 258.7
+        },
+        {
+          "code": "甲胎蛋白异质体比率",
+          "display": "甲胎蛋白异质体比率 (%)",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 10
+        },
+        {
+          "code": "甲胎蛋白异质体",
+          "display": "甲胎蛋白异质体 (ng/ml)",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 1004
+        },
+        {
+          "code": "甲胎蛋白测定",
+          "display": "甲胎蛋白测定 (ng/ml)",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 1200
+        },
+        {
+          "code": "甲胎蛋白",
+          "display": "甲胎蛋白 (AFP)",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 5134.0
+        },
+        {
+          "code": "乙型肝炎病毒表面抗原",
+          "display": "乙型肝炎病毒表面抗原",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 1890.0
+        },
+        {
+          "code": "人免疫缺陷性病毒抗原",
+          "display": "人免疫缺陷性病毒抗原",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 0.187
+        },
+        {
+          "code": "抗丙型肝炎病毒抗体",
+          "display": "抗丙型肝炎病毒抗体",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 0.051
+        },
+        {
+          "code": "人免疫缺陷病毒抗原/抗体联合检测",
+          "display": "人免疫缺陷病毒抗原/抗体联合检测",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 0.204
+        },
+        {
+          "code": "人免疫缺陷病毒抗体",
+          "display": "人免疫缺陷病毒抗体",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 0.082
+        },
+        {
+          "code": "梅毒螺旋体特异性抗体",
+          "display": "梅毒螺旋体特异性抗体",
+          "effectiveDate": "2025-08-05",
+          "valueNumber": 0.081
+        },
+        {
+          "code": "白细胞介素-6",
+          "display": "白细胞介素-6",
+          "effectiveDate": "2025-06-26",
+          "valueNumber": 3.44
+        },
+        {
+          "code": "甲胎蛋白",
+          "display": "甲胎蛋白",
+          "effectiveDate": "2025-06-26",
+          "valueNumber": 569.2
+        },
+        {
+          "code": "甲胎蛋白异质体",
+          "display": "甲胎蛋白异质体",
+          "effectiveDate": "2025-06-26",
+          "valueNumber": 98.24
+        },
+        {
+          "code": "甲胎蛋白异质体比率",
+          "display": "甲胎蛋白异质体比率",
+          "effectiveDate": "2025-06-26",
+          "valueNumber": 17.26
+        },
+        {
+          "code": "异常凝血酶原",
+          "display": "异常凝血酶原 (ng/ml)",
+          "effectiveDate": "2025-06-03",
+          "valueNumber": 69.13
+        },
+        {
+          "code": "甲胎蛋白测定",
+          "display": "甲胎蛋白测定 (ng/ml)",
+          "effectiveDate": "2025-06-03",
+          "valueNumber": 115.9
+        },
+        {
+          "code": "AFP",
+          "display": "甲胎蛋白测定",
+          "effectiveDate": "2025-05-09",
+          "valueNumber": 81.34
+        },
+        {
+          "code": "PIVKA-II",
+          "display": "异常凝血酶原",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 258.7
+        },
+        {
+          "code": "AFP-L3%",
+          "display": "甲胎蛋白异质体比率",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 10
+        },
+        {
+          "code": "AFP-L3",
+          "display": "甲胎蛋白异质体",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 1004
+        },
+        {
+          "code": "AFP",
+          "display": "甲胎蛋白测定",
+          "effectiveDate": "2025-07-23",
+          "valueNumber": 1200
+        }
+      ],
+      "procedures": [],
+      "medications": [],
+      "documents": []
+    },
+    "fieldProvenance": [],
+    "quality": {
+      "overallConfidence": 0.9897058823529411,
+      "completenessScore": 0.9,
+      "validationStatus": "pass",
+      "missingCriticalFields": [],
+      "conflicts": [],
+      "notes": "Generated by Gemini markdown extraction pipeline"
+    },
+    "issues": [],
+    "uiProjection": {
+      "id": "TEMP-ea51bb64",
+      "name": "未知",
+      "gender": "未知",
+      "age": 0,
+      "disease": "待补充",
+      "stage": "",
+      "complications": [],
+      "treatment": "待补充",
+      "group": "",
+      "lastUpdate": "2026-03-23 17:19",
+      "timeline": [
+        {
+          "date": "2023-02-23",
+          "title": "上腹部CT检查（旧片）",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "desc": "历史对比影像资料，显示肝硬化、脾大、肝内钙化灶等基础病变；既往老片记录，显示肝内多发囊肿及双肾多发小囊肿。",
+          "observations": []
+        },
+        {
+          "date": "2025-01-18",
+          "title": "既往胸部CT检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "既往老片对比基准点",
+          "observations": []
+        },
+        {
+          "date": "2025-02-26",
+          "title": "入院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "admission",
+          "desc": "因发现HBsAg阳性7年，发现肝内占位1天入院。初步诊断为乙型肝炎肝硬化、肝恶性肿瘤？",
+          "observations": [
+            {
+              "name": "Temperature",
+              "value": 36.2
+            },
+            {
+              "name": "Pulse",
+              "value": 75.0
+            },
+            {
+              "name": "SystolicBP",
+              "value": 116.0
+            },
+            {
+              "name": "DiastolicBP",
+              "value": 75.0
+            },
+            {
+              "name": "肝S8病灶直径",
+              "value": 18.0
+            },
+            {
+              "name": "肝左叶囊肿直径",
+              "value": 16.0
+            }
+          ]
+        },
+        {
+          "date": "2025-02-26",
+          "title": "上腹部CT成像（平扫+增强）",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "desc": "肝右叶异常密度灶（16×18mm），考虑恶性，原发性肝CA？肝硬化、脾大；肝右叶新发异常密度灶，考虑恶性（原发性肝癌？），伴肝硬化、脾大、肝肾多发囊肿；肝右叶新发大片状稍低密度影，增强扫描不均匀强化；肝S8见16×18mm类圆形稍低密度影，呈“快进快出”强化。考虑恶性，原发性肝CA可能；报告中提及的对比老片日期；与2025-02-26老片对比，作为本次检查的参照基准。",
+          "observations": [
+            {
+              "name": "Temperature",
+              "value": 36.2
+            },
+            {
+              "name": "Pulse",
+              "value": 75.0
+            },
+            {
+              "name": "SystolicBP",
+              "value": 116.0
+            },
+            {
+              "name": "DiastolicBP",
+              "value": 75.0
+            },
+            {
+              "name": "肝S8病灶直径",
+              "value": 18.0
+            },
+            {
+              "name": "肝左叶囊肿直径",
+              "value": 16.0
+            }
+          ]
+        },
+        {
+          "date": "2025-02-26",
+          "title": "外院CT检查",
+          "hospital": "外院",
+          "type": "default",
+          "desc": "对比外院2025.02.26.CT，右肺下叶后基底段实性结节影为新发。",
+          "observations": [
+            {
+              "name": "Temperature",
+              "value": 36.2
+            },
+            {
+              "name": "Pulse",
+              "value": 75.0
+            },
+            {
+              "name": "SystolicBP",
+              "value": 116.0
+            },
+            {
+              "name": "DiastolicBP",
+              "value": 75.0
+            },
+            {
+              "name": "肝S8病灶直径",
+              "value": 18.0
+            },
+            {
+              "name": "肝左叶囊肿直径",
+              "value": 16.0
+            }
+          ]
+        },
+        {
+          "date": "2025-02-28",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "examination",
+          "desc": "肝S7、8病灶（较大截面积为77mm×37mm），均考虑肝细胞CA。；肝S7、8见片状、结节状T1WI稍低信号，T2压脂混杂高信号，较大截面积为77mm×37mm，增强呈“快进快出”改变，DWI上呈不均匀高信号；该病灶周围另见一类圆形异常信号影，直径约为20mm。诊断考虑肝细胞CA，肝硬化并多发增生结节、脾稍大，肝内多发囊肿，胆囊胆汁淤积可能，双肾多发小囊肿。",
+          "observations": [
+            {
+              "name": "ICG-R15",
+              "value": 6.6
+            },
+            {
+              "name": "肝脏病灶最大径",
+              "value": 77.0
+            },
+            {
+              "name": "肝脏次要病灶直径",
+              "value": 20.0
+            },
+            {
+              "name": "肝内囊肿最大直径",
+              "value": 14.0
+            },
+            {
+              "name": "左肾囊肿最大径",
+              "value": 7.0
+            }
+          ]
+        },
+        {
+          "date": "2025-03-04",
+          "title": "MDT会诊",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "诊断明确，肝细胞恶性程度较高，S7/S8段侵犯，建议行外科手术切除治疗。",
+          "observations": []
+        },
+        {
+          "date": "2025-03-10",
+          "title": "手术治疗",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "surgery",
+          "desc": "全麻下行腹腔镜探查+肝部分切除+膈肌修补术。",
+          "observations": [
+            {
+              "name": "WBC",
+              "value": 13.71
+            },
+            {
+              "name": "HGB",
+              "value": 106.0
+            },
+            {
+              "name": "CRP",
+              "value": 38.0
+            },
+            {
+              "name": "ALT",
+              "value": 237.7
+            },
+            {
+              "name": "ALB",
+              "value": 33.8
+            }
+          ]
+        },
+        {
+          "date": "2025-03-11",
+          "title": "肝肿块取样",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "由肝胆胰、疝外科谭新华医生进行取样。",
+          "observations": []
+        },
+        {
+          "date": "2025-03-14",
+          "title": "病理诊断报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "诊断为结节型–巢片状肝细胞性肝癌Ⅲ–Ⅳ级，伴肝硬化（G2/S4）及微血管侵犯（MVI=M1）。",
+          "observations": [
+            {
+              "name": "Ki67",
+              "value": 20.0
+            },
+            {
+              "name": "MVI",
+              "value": 1.0
+            },
+            {
+              "name": "Metavir_G",
+              "value": 2.0
+            },
+            {
+              "name": "Metavir_S",
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "date": "2025-03-18",
+          "title": "胸部及上腹部CT平扫+增强",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "desc": "肝CA部分切除术后复查；双肺多发结节，双肺散在炎症较前增多，双侧胸腔及右侧叶间裂积液较前新增；肝硬化、脾大，肝内多发囊肿，双肾多发小囊肿，腹腔少量积液；T12椎体压缩骨折；肝术区渗出伴积气",
+          "observations": [
+            {
+              "name": "肺结节直径",
+              "value": 6.0
+            },
+            {
+              "name": "肝囊肿直径",
+              "value": 16.0
+            }
+          ]
+        },
+        {
+          "date": "2025-03-27",
+          "title": "肝脏影像学检查（老片）",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "前次影像学检查，用于本次对比。",
+          "observations": []
+        },
+        {
+          "date": "2025-03-29",
+          "title": "第一次单换",
+          "hospital": "未知",
+          "type": "default",
+          "desc": "第一次单换（疑为导管/支架更换或换药）",
+          "observations": []
+        },
+        {
+          "date": "2025-04-01",
+          "title": "出院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "住院34天后出院。",
+          "observations": []
+        },
+        {
+          "date": "2025-04-18",
+          "title": "既往CT检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "既往CT老片，用于本次对比。",
+          "observations": []
+        },
+        {
+          "date": "2025-04-19",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "desc": "肝右叶术后改变，肝硬化并多发增生结节，肝内多发囊肿，双肾多发小囊肿，腹腔少量积液。；老片对比基准日期；第二次单换",
+          "observations": [
+            {
+              "name": "肝内最大囊肿直径",
+              "value": 15.0
+            },
+            {
+              "name": "左肾最大囊肿长径",
+              "value": 7.0
+            },
+            {
+              "name": "左肾最大囊肿短径",
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "date": "2025-04-22",
+          "title": "第一次介入",
+          "hospital": "未知",
+          "type": "default",
+          "desc": "第一次介入治疗",
+          "observations": []
+        },
+        {
+          "date": "2025-05-09",
+          "title": "甲胎蛋白测定检验报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "甲胎蛋白测定结果为81.34 ng/ml，显著高于参考范围(0～16.80)。",
+          "observations": [
+            {
+              "name": "AFP",
+              "value": 81.34
+            }
+          ]
+        },
+        {
+          "date": "2025-05-10",
+          "title": "第三次操作",
+          "hospital": "未知",
+          "type": "default",
+          "desc": "第3次相关医疗操作",
+          "observations": []
+        },
+        {
+          "date": "2025-06-03",
+          "title": "检验报告 - 异常凝血酶原、甲胎蛋白测定",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "患者曾好桃（女，55岁）在肝病科/感染性疾病科就诊期间的两项肿瘤/肝功能相关标志物检测结果显著升高。",
+          "observations": [
+            {
+              "name": "异常凝血酶原",
+              "value": 69.13
+            },
+            {
+              "name": "甲胎蛋白测定",
+              "value": 115.9
+            }
+          ]
+        },
+        {
+          "date": "2025-06-05",
+          "title": "磁共振肝脾平扫增强+DWI",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "desc": "第4次相关医疗操作；肝右叶术后改变，范围较前明显增大；肝硬化并多发增生结节、脾稍大；肝内多发囊肿；双肾多发小囊肿；腹腔少量积液。",
+          "observations": [
+            {
+              "name": "肝内囊肿最大直径",
+              "value": 15.0
+            },
+            {
+              "name": "肝右叶病灶长径",
+              "value": 83.0
+            },
+            {
+              "name": "左肾囊肿长径",
+              "value": 7.0
+            }
+          ]
+        },
+        {
+          "date": "2025-06-08",
+          "title": "动态心电图检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "窦性心律，频发房性早搏，可见房早成对、短阵房速，房早二、三联律，房早伴差传和房早未下传；部分快心率时段T波低值改变。",
+          "observations": [
+            {
+              "name": "AverageHeartRate",
+              "value": 68.0
+            },
+            {
+              "name": "MaxHeartRate",
+              "value": 110.0
+            },
+            {
+              "name": "MinHeartRate",
+              "value": 43.0
+            },
+            {
+              "name": "AtrialPrematureBeatsCount",
+              "value": 8918.0
+            },
+            {
+              "name": "AtrialTachycardiaEpisodes",
+              "value": 8.0
+            },
+            {
+              "name": "SDNN",
+              "value": 124.0
+            },
+            {
+              "name": "SDANN",
+              "value": 112.0
+            },
+            {
+              "name": "rMSSD",
+              "value": 19.0
+            },
+            {
+              "name": "MaxRRInterval",
+              "value": 1.895
+            }
+          ]
+        },
+        {
+          "date": "2025-06-09",
+          "title": "停用仑伐替尼",
+          "hospital": "未知",
+          "type": "default",
+          "desc": "停止服用靶向药物仑伐替尼",
+          "observations": []
+        },
+        {
+          "date": "2025-06-10",
+          "title": "XY 腹部 PET-MR 检查",
+          "hospital": "湖南省肿瘤医院",
+          "type": "imaging",
+          "desc": "肝癌术后复查；使用 FAPI-PET/MR 显像技术；肝S7、8术后改变，术区内下缘见异常放射性浓聚影（SUVmax 6.3），建议除外局部复发；右肺下叶新发结节（SUVmax 2.1），考虑炎性结节或转移瘤可能；报告结论显示全身其它部位未见明显异常；左侧边缘碎片信息提示可能存在肝S7、8放射性缺损、右肺下叶新发及双肺多发病变，需结合完整报告解读。",
+          "observations": [
+            {
+              "name": "SUVmax (术区内下缘病灶)",
+              "value": 6.3
+            },
+            {
+              "name": "SUVmax (术区边缘)",
+              "value": 4.0
+            },
+            {
+              "name": "SUVmax (右肺下叶结节)",
+              "value": 2.1
+            },
+            {
+              "name": "SUVmax (肺部斑片影)",
+              "value": 2.2
+            },
+            {
+              "name": "SUVmax (右前腹壁术区)",
+              "value": 2.9
+            },
+            {
+              "name": "SUVmax_Lung_Nodule",
+              "value": 2.1
+            },
+            {
+              "name": "SUVmax_Lung_Other",
+              "value": 1.0
+            },
+            {
+              "name": "SUVmax_Lung_Infection",
+              "value": 2.2
+            },
+            {
+              "name": "SUVmax_Liver_Surgical_Edge",
+              "value": 4.0
+            },
+            {
+              "name": "SUVmax_Liver_Lesion",
+              "value": 6.3
+            },
+            {
+              "name": "SUVmax_Abdominal_Wall",
+              "value": 2.9
+            }
+          ]
+        },
+        {
+          "date": "2025-06-26",
+          "title": "肺部高分辨扫描（HRCT）及实验室检验报告",
+          "hospital": "湖南省人民医院",
+          "type": "examination",
+          "desc": "双肺多发结节（Lung-RADS 2类），左肺下叶磨玻璃结节（5mm×3mm），右肺下叶实性结节（6mm×5mm）；双侧胸膜结节状增厚；T12椎体压缩性骨折；肝内多发低密度影伴钙化；包含白介素6、甲胎蛋白(AFP)及甲胎蛋白异质体测定。",
+          "observations": [
+            {
+              "name": "左肺下叶磨玻璃结节直径",
+              "value": 5.0
+            },
+            {
+              "name": "右肺下叶实性结节直径",
+              "value": 6.0
+            },
+            {
+              "name": "甲胎蛋白",
+              "value": 569.2
+            },
+            {
+              "name": "甲胎蛋白异质体比率",
+              "value": 17.26
+            },
+            {
+              "name": "甲胎蛋白异质体",
+              "value": 98.24
+            },
+            {
+              "name": "白细胞介素-6",
+              "value": 3.44
+            }
+          ]
+        },
+        {
+          "date": "2025-06-28",
+          "title": "第五次操作",
+          "hospital": "未知",
+          "type": "default",
+          "desc": "第5次相关医疗操作",
+          "observations": []
+        },
+        {
+          "date": "2025-06-30",
+          "title": "腹部彩色多普勒超声常规检查",
+          "hospital": "湖南省人民医院",
+          "type": "imaging",
+          "desc": "超声提示：肝多发囊肿；肝内无回声区；肝内高回声团（考虑增生结节）；胆囊多发息肉样病变；双肾强光斑（考虑结晶）。",
+          "observations": [
+            {
+              "name": "脾脏厚度",
+              "value": 41.0
+            },
+            {
+              "name": "脾脏长度",
+              "value": 121.0
+            },
+            {
+              "name": "左肝长",
+              "value": 74.0
+            },
+            {
+              "name": "左肝厚",
+              "value": 69.0
+            },
+            {
+              "name": "门静脉主干内径",
+              "value": 12.4
+            },
+            {
+              "name": "胆囊壁厚度",
+              "value": 4.1
+            },
+            {
+              "name": "胰头厚度",
+              "value": 15.0
+            },
+            {
+              "name": "胰体厚度",
+              "value": 12.0
+            },
+            {
+              "name": "胰尾厚度",
+              "value": 19.0
+            },
+            {
+              "name": "脾厚",
+              "value": 41.0
+            },
+            {
+              "name": "脾长",
+              "value": 121.0
+            },
+            {
+              "name": "右侧胸腔积液深度",
+              "value": 4.0
+            },
+            {
+              "name": "腹腔积液深度",
+              "value": 8.0
+            },
+            {
+              "name": "左肝长度",
+              "value": 74.0
+            },
+            {
+              "name": "左肝厚度",
+              "value": 69.0
+            }
+          ]
+        },
+        {
+          "date": "2025-07-23",
+          "title": "检验报告 (异常凝血酶原、甲胎蛋白等)",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "examination",
+          "desc": "肝病科、感染性疾病科检验报告，显示异常凝血酶原及甲胎蛋白系列指标显著升高；异常凝血酶原 258.70 ng/ml, 甲胎蛋白 > 1200 ng/ml, 甲胎蛋白异质体 1004.00 ng/ml",
+          "observations": [
+            {
+              "name": "PIVKA-II",
+              "value": 258.7
+            },
+            {
+              "name": "AFP",
+              "value": 1200.0
+            },
+            {
+              "name": "异常凝血酶原",
+              "value": 258.7
+            },
+            {
+              "name": "甲胎蛋白异质体比率",
+              "value": 10.0
+            },
+            {
+              "name": "甲胎蛋白异质体",
+              "value": 1004.0
+            },
+            {
+              "name": "甲胎蛋白测定",
+              "value": 1200.0
+            },
+            {
+              "name": "AFP-L3%",
+              "value": 10.0
+            },
+            {
+              "name": "AFP-L3",
+              "value": 1004.0
+            }
+          ]
+        },
+        {
+          "date": "2025-07-24",
+          "title": "磁共振肝脾平扫增强+DWI及肿瘤标志物检验报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "desc": "肝右叶术后改变范围增大；肝硬化并多发增生结节；肝内多发囊肿；右肾右后方新增异常信号，疑似转移；甲胎蛋白（AFP）极度升高（4151.0000 ng/ml），糖类抗原19-9及癌胚抗原正常。",
+          "observations": [
+            {
+              "name": "肝右叶病灶长径",
+              "value": 82.0
+            },
+            {
+              "name": "肝内最大囊肿直径",
+              "value": 15.0
+            },
+            {
+              "name": "左肾最大囊肿长径",
+              "value": 7.0
+            },
+            {
+              "name": "右肾右后方新增病灶长径",
+              "value": 11.0
+            },
+            {
+              "name": "甲胎蛋白",
+              "value": 4151.0
+            },
+            {
+              "name": "糖类抗原19-9",
+              "value": 26.46
+            },
+            {
+              "name": "癌胚抗原",
+              "value": 1.15
+            }
+          ]
+        },
+        {
+          "date": "2025-08-05",
+          "title": "入院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "admission",
+          "desc": "入院时间 09:55，科别：肝病/感染性疾病科",
+          "observations": [
+            {
+              "name": "Lung_Nodule_Size",
+              "value": 12.0
+            },
+            {
+              "name": "甲胎蛋白",
+              "value": 5134.0
+            },
+            {
+              "name": "乙型肝炎病毒表面抗原",
+              "value": 1890.0
+            },
+            {
+              "name": "人免疫缺陷性病毒抗原",
+              "value": 0.187
+            },
+            {
+              "name": "抗丙型肝炎病毒抗体",
+              "value": 0.051
+            },
+            {
+              "name": "人免疫缺陷病毒抗原/抗体联合检测",
+              "value": 0.204
+            },
+            {
+              "name": "人免疫缺陷病毒抗体",
+              "value": 0.082
+            },
+            {
+              "name": "梅毒螺旋体特异性抗体",
+              "value": 0.081
+            }
+          ]
+        },
+        {
+          "date": "2025-08-05",
+          "title": "行肝肿瘤MDT会诊",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "mdt",
+          "desc": "患者肝细胞癌诊断明确，目前肝内病灶为囊性病变，出现肝内和肝外多发转移灶；考虑胆瘘，建议更换靶免治疗方案为瑞戈非尼+替雷利珠，家属要求先行局部治疗。",
+          "observations": [
+            {
+              "name": "Lung_Nodule_Size",
+              "value": 12.0
+            },
+            {
+              "name": "甲胎蛋白",
+              "value": 5134.0
+            },
+            {
+              "name": "乙型肝炎病毒表面抗原",
+              "value": 1890.0
+            },
+            {
+              "name": "人免疫缺陷性病毒抗原",
+              "value": 0.187
+            },
+            {
+              "name": "抗丙型肝炎病毒抗体",
+              "value": 0.051
+            },
+            {
+              "name": "人免疫缺陷病毒抗原/抗体联合检测",
+              "value": 0.204
+            },
+            {
+              "name": "人免疫缺陷病毒抗体",
+              "value": 0.082
+            },
+            {
+              "name": "梅毒螺旋体特异性抗体",
+              "value": 0.081
+            }
+          ]
+        },
+        {
+          "date": "2025-08-05",
+          "title": "胸部CT平扫-薄层扫描",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "imaging",
+          "desc": "双肺多发结节，较前增多、增大，右侧胸壁胸膜下新发多发结节，结合病史考虑转移瘤；双肺散在炎症；附见肝内低密度灶，右肾后方腹壁软组织结节；最大结节位于右肺下叶前基底段胸膜下，大小约12mm×10mm；双肺散在条索状、磨玻璃样影。",
+          "observations": [
+            {
+              "name": "Lung_Nodule_Size",
+              "value": 12.0
+            },
+            {
+              "name": "甲胎蛋白",
+              "value": 5134.0
+            },
+            {
+              "name": "乙型肝炎病毒表面抗原",
+              "value": 1890.0
+            },
+            {
+              "name": "人免疫缺陷性病毒抗原",
+              "value": 0.187
+            },
+            {
+              "name": "抗丙型肝炎病毒抗体",
+              "value": 0.051
+            },
+            {
+              "name": "人免疫缺陷病毒抗原/抗体联合检测",
+              "value": 0.204
+            },
+            {
+              "name": "人免疫缺陷病毒抗体",
+              "value": 0.082
+            },
+            {
+              "name": "梅毒螺旋体特异性抗体",
+              "value": 0.081
+            }
+          ]
+        },
+        {
+          "date": "2025-08-05",
+          "title": "甲胎蛋白及肝病相关检验报告",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "examination",
+          "desc": "甲胎蛋白(AFP)检测结果显著升高，数值为 5134.0000 ng/ml；乙型肝炎病毒表面抗原显著升高 (1890.0000 COI)，HIV、丙肝及梅毒抗体检测均为阴性。",
+          "observations": [
+            {
+              "name": "Lung_Nodule_Size",
+              "value": 12.0
+            },
+            {
+              "name": "甲胎蛋白",
+              "value": 5134.0
+            },
+            {
+              "name": "乙型肝炎病毒表面抗原",
+              "value": 1890.0
+            },
+            {
+              "name": "人免疫缺陷性病毒抗原",
+              "value": 0.187
+            },
+            {
+              "name": "抗丙型肝炎病毒抗体",
+              "value": 0.051
+            },
+            {
+              "name": "人免疫缺陷病毒抗原/抗体联合检测",
+              "value": 0.204
+            },
+            {
+              "name": "人免疫缺陷病毒抗体",
+              "value": 0.082
+            },
+            {
+              "name": "梅毒螺旋体特异性抗体",
+              "value": 0.081
+            }
+          ]
+        },
+        {
+          "date": "2025-08-06",
+          "title": "肝胆胰脾彩超及心脏彩超检查",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "examination",
+          "desc": "超声提示肝硬化、脾稍大、胆囊继发改变（胆泥淤积可能）、肝多发囊肿及右肝内混合回声区（考虑术后改变）；左房稍大；二尖瓣、三尖瓣轻度反流；左室舒张功能减低；收缩功能测值正常。",
+          "observations": [
+            {
+              "name": "左肝上下径",
+              "value": 63.0
+            },
+            {
+              "name": "左肝前后径",
+              "value": 54.0
+            },
+            {
+              "name": "右肝最大斜径",
+              "value": 125.0
+            },
+            {
+              "name": "门静脉内径",
+              "value": 11.0
+            },
+            {
+              "name": "胆总管内径",
+              "value": 5.0
+            },
+            {
+              "name": "脾脏厚度",
+              "value": 40.0
+            },
+            {
+              "name": "脾脏长度",
+              "value": 111.0
+            },
+            {
+              "name": "门静脉血流速度",
+              "value": 18.0
+            },
+            {
+              "name": "脾静脉血流速度",
+              "value": 18.0
+            },
+            {
+              "name": "LA",
+              "value": 33.6
+            },
+            {
+              "name": "LV(d)",
+              "value": 39.0
+            },
+            {
+              "name": "RA",
+              "value": 32.0
+            },
+            {
+              "name": "RV",
+              "value": 30.0
+            },
+            {
+              "name": "IVS",
+              "value": 9.5
+            },
+            {
+              "name": "LVIDLW",
+              "value": 9.4
+            },
+            {
+              "name": "AO",
+              "value": 26.5
+            },
+            {
+              "name": "PA",
+              "value": 22.0
+            },
+            {
+              "name": "FS",
+              "value": 35.0
+            },
+            {
+              "name": "EF",
+              "value": 64.0
+            },
+            {
+              "name": "E_Peak",
+              "value": 82.0
+            },
+            {
+              "name": "A_Peak",
+              "value": 60.0
+            },
+            {
+              "name": "PASP",
+              "value": 39.0
+            }
+          ]
+        },
+        {
+          "date": "2025-08-11",
+          "title": "行肝包膜肿瘤穿刺活检术+微波消融术",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "surgery",
+          "desc": "在麻醉下行肝包膜肿瘤穿刺活检术+微波消融术，术后予以止血等对症支持治疗；在局部浸润麻醉下行手术；进行消融手术（如射频、微波或冷冻消融）",
+          "observations": [
+            {
+              "name": "Pulse",
+              "value": 53.0
+            },
+            {
+              "name": "WBC",
+              "value": 3.4
+            },
+            {
+              "name": "HGB",
+              "value": 101.0
+            },
+            {
+              "name": "PLT",
+              "value": 104.0
+            },
+            {
+              "name": "ALB",
+              "value": 33.9
+            },
+            {
+              "name": "NEUT%",
+              "value": 46.1
+            },
+            {
+              "name": "RBC",
+              "value": 3.31
+            },
+            {
+              "name": "TP",
+              "value": 61.1
+            },
+            {
+              "name": "CO2CP",
+              "value": 20.4
+            },
+            {
+              "name": "PR",
+              "value": 53.0
+            },
+            {
+              "name": "SBP",
+              "value": 94.0
+            },
+            {
+              "name": "DBP",
+              "value": 59.0
+            },
+            {
+              "name": "HR",
+              "value": 53.0
+            }
+          ]
+        },
+        {
+          "date": "2025-08-11",
+          "title": "办理出院",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "患者及家属要求出院，经上级医师同意后予以办理出院。诊断为肝细胞癌、乙型肝炎肝硬化（失代偿期）等；患者及家属要求出院，办理出院手续。",
+          "observations": [
+            {
+              "name": "Pulse",
+              "value": 53.0
+            },
+            {
+              "name": "WBC",
+              "value": 3.4
+            },
+            {
+              "name": "HGB",
+              "value": 101.0
+            },
+            {
+              "name": "PLT",
+              "value": 104.0
+            },
+            {
+              "name": "ALB",
+              "value": 33.9
+            },
+            {
+              "name": "NEUT%",
+              "value": 46.1
+            },
+            {
+              "name": "RBC",
+              "value": 3.31
+            },
+            {
+              "name": "TP",
+              "value": 61.1
+            },
+            {
+              "name": "CO2CP",
+              "value": 20.4
+            },
+            {
+              "name": "PR",
+              "value": 53.0
+            },
+            {
+              "name": "SBP",
+              "value": 94.0
+            },
+            {
+              "name": "DBP",
+              "value": 59.0
+            },
+            {
+              "name": "HR",
+              "value": 53.0
+            }
+          ]
+        },
+        {
+          "date": "2025-08-12",
+          "title": "右肝穿刺活检取样",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "由杜珊医生进行右肝穿刺组织取样。",
+          "observations": []
+        },
+        {
+          "date": "2025-08-14",
+          "title": "病理诊断报告签发",
+          "hospital": "湖南中医药大学第一附属医院",
+          "type": "default",
+          "desc": "（右肝穿刺组织）检见极少许核大深染的异型细胞，建议免疫组化（10项）进一步诊断。",
+          "observations": [
+            {
+              "name": "免疫组化建议项数",
+              "value": 10.0
+            }
+          ]
+        }
+      ],
+      "indicators": {
+        "Temperature": [
+          {
+            "date": "2025-02-26",
+            "value": 36.2
+          }
+        ],
+        "Pulse": [
+          {
+            "date": "2025-02-26",
+            "value": 75.0
+          },
+          {
+            "date": "2025-08-11",
+            "value": 53.0
+          }
+        ],
+        "SystolicBP": [
+          {
+            "date": "2025-02-26",
+            "value": 116.0
+          }
+        ],
+        "DiastolicBP": [
+          {
+            "date": "2025-02-26",
+            "value": 75.0
+          }
+        ],
+        "HBsAg": [
+          {
+            "date": "2025-02-27",
+            "value": 336.95
+          }
+        ],
+        "WBC": [
+          {
+            "date": "2025-02-27",
+            "value": 4.47
+          },
+          {
+            "date": "2025-03-10",
+            "value": 13.71
+          },
+          {
+            "date": "2025-08-11",
+            "value": 3.4
+          }
+        ],
+        "HGB": [
+          {
+            "date": "2025-02-27",
+            "value": 131.0
+          },
+          {
+            "date": "2025-03-10",
+            "value": 106.0
+          },
+          {
+            "date": "2025-08-11",
+            "value": 101.0
+          }
+        ],
+        "PLT": [
+          {
+            "date": "2025-02-27",
+            "value": 147.0
+          },
+          {
+            "date": "2025-08-11",
+            "value": 104.0
+          }
+        ],
+        "PIVKA-II": [
+          {
+            "date": "2025-02-27",
+            "value": 6571.0
+          },
+          {
+            "date": "2025-07-23",
+            "value": 258.7
+          }
+        ],
+        "CA19-9": [
+          {
+            "date": "2025-02-27",
+            "value": 32.82
+          }
+        ],
+        "AFP": [
+          {
+            "date": "2025-02-27",
+            "value": 23483.28
+          },
+          {
+            "date": "2025-05-09",
+            "value": 81.34
+          },
+          {
+            "date": "2025-07-23",
+            "value": 1200.0
+          }
+        ],
+        "ICG-R15": [
+          {
+            "date": "2025-02-28",
+            "value": 6.6
+          }
+        ],
+        "CRP": [
+          {
+            "date": "2025-03-10",
+            "value": 38.0
+          }
+        ],
+        "ALT": [
+          {
+            "date": "2025-03-10",
+            "value": 237.7
+          }
+        ],
+        "ALB": [
+          {
+            "date": "2025-03-10",
+            "value": 33.8
+          },
+          {
+            "date": "2025-08-11",
+            "value": 33.9
+          }
+        ],
+        "肺结节直径": [
+          {
+            "date": "2025-03-18",
+            "value": 6.0
+          },
+          {
+            "date": "2025-03-18",
+            "value": 6.0
+          }
+        ],
+        "肝囊肿直径": [
+          {
+            "date": "2025-03-18",
+            "value": 16.0
+          }
+        ],
+        "NEUT%": [
+          {
+            "date": "2025-08-11",
+            "value": 46.1
+          }
+        ],
+        "RBC": [
+          {
+            "date": "2025-08-11",
+            "value": 3.31
+          }
+        ],
+        "TP": [
+          {
+            "date": "2025-08-11",
+            "value": 61.1
+          }
+        ],
+        "CO2CP": [
+          {
+            "date": "2025-08-11",
+            "value": 20.4
+          }
+        ],
+        "PR": [
+          {
+            "date": "2025-08-11",
+            "value": 53.0
+          }
+        ],
+        "SBP": [
+          {
+            "date": "2025-08-11",
+            "value": 94.0
+          }
+        ],
+        "DBP": [
+          {
+            "date": "2025-08-11",
+            "value": 59.0
+          }
+        ],
+        "HR": [
+          {
+            "date": "2025-08-11",
+            "value": 53.0
+          }
+        ],
+        "左肝上下径": [
+          {
+            "date": "2025-08-06",
+            "value": 63.0
+          }
+        ],
+        "左肝前后径": [
+          {
+            "date": "2025-08-06",
+            "value": 54.0
+          }
+        ],
+        "右肝最大斜径": [
+          {
+            "date": "2025-08-06",
+            "value": 125.0
+          }
+        ],
+        "门静脉内径": [
+          {
+            "date": "2025-08-06",
+            "value": 11.0
+          }
+        ],
+        "胆总管内径": [
+          {
+            "date": "2025-08-06",
+            "value": 5.0
+          }
+        ],
+        "脾脏厚度": [
+          {
+            "date": "2025-08-06",
+            "value": 40.0
+          },
+          {
+            "date": "2025-06-30",
+            "value": 41.0
+          }
+        ],
+        "脾脏长度": [
+          {
+            "date": "2025-08-06",
+            "value": 111.0
+          },
+          {
+            "date": "2025-06-30",
+            "value": 121.0
+          }
+        ],
+        "门静脉血流速度": [
+          {
+            "date": "2025-08-06",
+            "value": 18.0
+          }
+        ],
+        "脾静脉血流速度": [
+          {
+            "date": "2025-08-06",
+            "value": 18.0
+          }
+        ],
+        "LA": [
+          {
+            "date": "2025-08-06",
+            "value": 33.6
+          }
+        ],
+        "LV(d)": [
+          {
+            "date": "2025-08-06",
+            "value": 39.0
+          }
+        ],
+        "RA": [
+          {
+            "date": "2025-08-06",
+            "value": 32.0
+          }
+        ],
+        "RV": [
+          {
+            "date": "2025-08-06",
+            "value": 30.0
+          }
+        ],
+        "IVS": [
+          {
+            "date": "2025-08-06",
+            "value": 9.5
+          }
+        ],
+        "LVIDLW": [
+          {
+            "date": "2025-08-06",
+            "value": 9.4
+          }
+        ],
+        "AO": [
+          {
+            "date": "2025-08-06",
+            "value": 26.5
+          }
+        ],
+        "PA": [
+          {
+            "date": "2025-08-06",
+            "value": 22.0
+          }
+        ],
+        "FS": [
+          {
+            "date": "2025-08-06",
+            "value": 35.0
+          }
+        ],
+        "EF": [
+          {
+            "date": "2025-08-06",
+            "value": 64.0
+          }
+        ],
+        "E_Peak": [
+          {
+            "date": "2025-08-06",
+            "value": 82.0
+          }
+        ],
+        "A_Peak": [
+          {
+            "date": "2025-08-06",
+            "value": 60.0
+          }
+        ],
+        "PASP": [
+          {
+            "date": "2025-08-06",
+            "value": 39.0
+          }
+        ],
+        "AverageHeartRate": [
+          {
+            "date": "2025-06-08",
+            "value": 68.0
+          }
+        ],
+        "MaxHeartRate": [
+          {
+            "date": "2025-06-08",
+            "value": 110.0
+          }
+        ],
+        "MinHeartRate": [
+          {
+            "date": "2025-06-08",
+            "value": 43.0
+          }
+        ],
+        "AtrialPrematureBeatsCount": [
+          {
+            "date": "2025-06-08",
+            "value": 8918.0
+          }
+        ],
+        "AtrialTachycardiaEpisodes": [
+          {
+            "date": "2025-06-08",
+            "value": 8.0
+          }
+        ],
+        "SDNN": [
+          {
+            "date": "2025-06-08",
+            "value": 124.0
+          }
+        ],
+        "SDANN": [
+          {
+            "date": "2025-06-08",
+            "value": 112.0
+          }
+        ],
+        "rMSSD": [
+          {
+            "date": "2025-06-08",
+            "value": 19.0
+          }
+        ],
+        "MaxRRInterval": [
+          {
+            "date": "2025-06-08",
+            "value": 1.895
+          }
+        ],
+        "肝脏病灶最大径": [
+          {
+            "date": "2025-02-28",
+            "value": 77.0
+          }
+        ],
+        "肝脏次要病灶直径": [
+          {
+            "date": "2025-02-28",
+            "value": 20.0
+          }
+        ],
+        "肝内囊肿最大直径": [
+          {
+            "date": "2025-02-28",
+            "value": 14.0
+          },
+          {
+            "date": "2025-06-05",
+            "value": 15.0
+          }
+        ],
+        "左肾囊肿最大径": [
+          {
+            "date": "2025-02-28",
+            "value": 7.0
+          }
+        ],
+        "肝S8病灶直径": [
+          {
+            "date": "2025-02-26",
+            "value": 18.0
+          },
+          {
+            "date": "2025-02-26",
+            "value": 18.0
+          }
+        ],
+        "肝左叶囊肿直径": [
+          {
+            "date": "2025-02-26",
+            "value": 16.0
+          },
+          {
+            "date": "2025-02-26",
+            "value": 16.0
+          }
+        ],
+        "Lung_Nodule_Size": [
+          {
+            "date": "2025-08-05",
+            "value": 12.0
+          },
+          {
+            "date": "2025-08-05",
+            "value": 12.0
+          }
+        ],
+        "肝右叶病灶长径": [
+          {
+            "date": "2025-07-24",
+            "value": 82.0
+          },
+          {
+            "date": "2025-06-05",
+            "value": 83.0
+          }
+        ],
+        "肝内最大囊肿直径": [
+          {
+            "date": "2025-07-24",
+            "value": 15.0
+          },
+          {
+            "date": "2025-04-19",
+            "value": 15.0
+          }
+        ],
+        "左肾最大囊肿长径": [
+          {
+            "date": "2025-07-24",
+            "value": 7.0
+          },
+          {
+            "date": "2025-04-19",
+            "value": 7.0
+          }
+        ],
+        "右肾右后方新增病灶长径": [
+          {
+            "date": "2025-07-24",
+            "value": 11.0
+          }
+        ],
+        "Ki67": [
+          {
+            "date": "2025-03-14",
+            "value": 20.0
+          }
+        ],
+        "MVI": [
+          {
+            "date": "2025-03-14",
+            "value": 1.0
+          }
+        ],
+        "Metavir_G": [
+          {
+            "date": "2025-03-14",
+            "value": 2.0
+          }
+        ],
+        "Metavir_S": [
+          {
+            "date": "2025-03-14",
+            "value": 4.0
+          }
+        ],
+        "免疫组化建议项数": [
+          {
+            "date": "2025-08-14",
+            "value": 10.0
+          }
+        ],
+        "左肾最大囊肿短径": [
+          {
+            "date": "2025-04-19",
+            "value": 4.0
+          }
+        ],
+        "左肾囊肿长径": [
+          {
+            "date": "2025-06-05",
+            "value": 7.0
+          }
+        ],
+        "左肺下叶磨玻璃结节直径": [
+          {
+            "date": "2025-06-26",
+            "value": 5.0
+          }
+        ],
+        "右肺下叶实性结节直径": [
+          {
+            "date": "2025-06-26",
+            "value": 6.0
+          }
+        ],
+        "左肝长": [
+          {
+            "date": "2025-06-30",
+            "value": 74.0
+          }
+        ],
+        "左肝厚": [
+          {
+            "date": "2025-06-30",
+            "value": 69.0
+          }
+        ],
+        "门静脉主干内径": [
+          {
+            "date": "2025-06-30",
+            "value": 12.4
+          }
+        ],
+        "胆囊壁厚度": [
+          {
+            "date": "2025-06-30",
+            "value": 4.1
+          },
+          {
+            "date": "2025-06-30",
+            "value": 4.1
+          }
+        ],
+        "胰头厚度": [
+          {
+            "date": "2025-06-30",
+            "value": 15.0
+          },
+          {
+            "date": "2025-06-30",
+            "value": 15.0
+          }
+        ],
+        "胰体厚度": [
+          {
+            "date": "2025-06-30",
+            "value": 12.0
+          },
+          {
+            "date": "2025-06-30",
+            "value": 12.0
+          }
+        ],
+        "胰尾厚度": [
+          {
+            "date": "2025-06-30",
+            "value": 19.0
+          },
+          {
+            "date": "2025-06-30",
+            "value": 19.0
+          }
+        ],
+        "脾厚": [
+          {
+            "date": "2025-06-30",
+            "value": 41.0
+          }
+        ],
+        "脾长": [
+          {
+            "date": "2025-06-30",
+            "value": 121.0
+          }
+        ],
+        "右侧胸腔积液深度": [
+          {
+            "date": "2025-06-30",
+            "value": 4.0
+          },
+          {
+            "date": "2025-06-30",
+            "value": 4.0
+          }
+        ],
+        "腹腔积液深度": [
+          {
+            "date": "2025-06-30",
+            "value": 8.0
+          },
+          {
+            "date": "2025-06-30",
+            "value": 8.0
+          }
+        ],
+        "左肝长度": [
+          {
+            "date": "2025-06-30",
+            "value": 74.0
+          }
+        ],
+        "左肝厚度": [
+          {
+            "date": "2025-06-30",
+            "value": 69.0
+          }
+        ],
+        "SUVmax (术区内下缘病灶)": [
+          {
+            "date": "2025-06-10",
+            "value": 6.3
+          }
+        ],
+        "SUVmax (术区边缘)": [
+          {
+            "date": "2025-06-10",
+            "value": 4.0
+          }
+        ],
+        "SUVmax (右肺下叶结节)": [
+          {
+            "date": "2025-06-10",
+            "value": 2.1
+          }
+        ],
+        "SUVmax (肺部斑片影)": [
+          {
+            "date": "2025-06-10",
+            "value": 2.2
+          }
+        ],
+        "SUVmax (右前腹壁术区)": [
+          {
+            "date": "2025-06-10",
+            "value": 2.9
+          }
+        ],
+        "SUVmax_Lung_Nodule": [
+          {
+            "date": "2025-06-10",
+            "value": 2.1
+          }
+        ],
+        "SUVmax_Lung_Other": [
+          {
+            "date": "2025-06-10",
+            "value": 1.0
+          }
+        ],
+        "SUVmax_Lung_Infection": [
+          {
+            "date": "2025-06-10",
+            "value": 2.2
+          }
+        ],
+        "SUVmax_Liver_Surgical_Edge": [
+          {
+            "date": "2025-06-10",
+            "value": 4.0
+          }
+        ],
+        "SUVmax_Liver_Lesion": [
+          {
+            "date": "2025-06-10",
+            "value": 6.3
+          }
+        ],
+        "SUVmax_Abdominal_Wall": [
+          {
+            "date": "2025-06-10",
+            "value": 2.9
+          }
+        ],
+        "甲胎蛋白": [
+          {
+            "date": "2025-07-24",
+            "value": 4151.0
+          },
+          {
+            "date": "2025-08-05",
+            "value": 5134.0
+          },
+          {
+            "date": "2025-06-26",
+            "value": 569.2
+          }
+        ],
+        "糖类抗原19-9": [
+          {
+            "date": "2025-07-24",
+            "value": 26.46
+          }
+        ],
+        "癌胚抗原": [
+          {
+            "date": "2025-07-24",
+            "value": 1.15
+          }
+        ],
+        "异常凝血酶原": [
+          {
+            "date": "2025-07-23",
+            "value": 258.7
+          },
+          {
+            "date": "2025-06-03",
+            "value": 69.13
+          }
+        ],
+        "甲胎蛋白异质体比率": [
+          {
+            "date": "2025-07-23",
+            "value": 10.0
+          },
+          {
+            "date": "2025-06-26",
+            "value": 17.26
+          }
+        ],
+        "甲胎蛋白异质体": [
+          {
+            "date": "2025-07-23",
+            "value": 1004.0
+          },
+          {
+            "date": "2025-06-26",
+            "value": 98.24
+          }
+        ],
+        "甲胎蛋白测定": [
+          {
+            "date": "2025-07-23",
+            "value": 1200.0
+          },
+          {
+            "date": "2025-06-03",
+            "value": 115.9
+          }
+        ],
+        "乙型肝炎病毒表面抗原": [
+          {
+            "date": "2025-08-05",
+            "value": 1890.0
+          }
+        ],
+        "人免疫缺陷性病毒抗原": [
+          {
+            "date": "2025-08-05",
+            "value": 0.187
+          }
+        ],
+        "抗丙型肝炎病毒抗体": [
+          {
+            "date": "2025-08-05",
+            "value": 0.051
+          }
+        ],
+        "人免疫缺陷病毒抗原/抗体联合检测": [
+          {
+            "date": "2025-08-05",
+            "value": 0.204
+          }
+        ],
+        "人免疫缺陷病毒抗体": [
+          {
+            "date": "2025-08-05",
+            "value": 0.082
+          }
+        ],
+        "梅毒螺旋体特异性抗体": [
+          {
+            "date": "2025-08-05",
+            "value": 0.081
+          }
+        ],
+        "白细胞介素-6": [
+          {
+            "date": "2025-06-26",
+            "value": 3.44
+          }
+        ],
+        "AFP-L3%": [
+          {
+            "date": "2025-07-23",
+            "value": 10.0
+          }
+        ],
+        "AFP-L3": [
+          {
+            "date": "2025-07-23",
+            "value": 1004.0
+          }
+        ]
+      },
+      "basicInfo": {
+        "chiefComplaint": "",
+        "presentHistory": "",
+        "pastHistory": "",
+        "familyHistory": "",
+        "personalHistory": ""
+      }
+    }
+  },
+  "documents": [
+    {
+      "documentId": "doc-a125e81afa1a",
+      "fileName": "微信图片_2025-08-19_134812_410.md",
+      "classificationId": "cls-46a7bb7b-3431-4154-a9e7-06bfa1ff8e7d",
+      "primaryCategory": "admission_discharge"
+    },
+    {
+      "documentId": "doc-82a8ea1c1b27",
+      "fileName": "微信图片_2025-08-19_134821_875.md",
+      "classificationId": "cls-ea6df7fe-74f9-42dd-9e42-2a15434e7bd4",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-cf7a28e8f487",
+      "fileName": "微信图片_2025-08-19_134825_595.md",
+      "classificationId": "cls-1f9f4bc1-c932-47a2-9d7c-36178b38185b",
+      "primaryCategory": "identity_admin"
+    },
+    {
+      "documentId": "doc-d05150a8ed3b",
+      "fileName": "微信图片_2025-08-19_134830_003.md",
+      "classificationId": "cls-cfa5682d-8fbc-47e7-aad7-f33c568d0d39",
+      "primaryCategory": "admission_discharge"
+    },
+    {
+      "documentId": "doc-08aa0e41acd3",
+      "fileName": "微信图片_2025-08-19_134835_043.md",
+      "classificationId": "cls-8b3bc2da-ecb8-4d6b-99dc-ffbc808e7240",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-d43c0606ba68",
+      "fileName": "微信图片_2025-08-19_134838_859.md",
+      "classificationId": "cls-56134173-cfab-431f-bf46-9b97ea7f6518",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-cccee3c91419",
+      "fileName": "微信图片_2025-08-19_134842_299.md",
+      "classificationId": "cls-50340f61-b042-441a-a856-ca6059029a80",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-5c778071756b",
+      "fileName": "微信图片_2025-08-19_134845_786.md",
+      "classificationId": "cls-67a4d9f7-af79-4091-94eb-304005b9f157",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-b141d8eb87c5",
+      "fileName": "微信图片_2025-08-19_134849_050.md",
+      "classificationId": "cls-3cfe49dc-4eb8-495e-a1e2-88a71cccd3b5",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-ebb0afdb6f59",
+      "fileName": "微信图片_2025-08-19_134852_491.md",
+      "classificationId": "cls-1998192e-c438-4d7c-acc6-0bf820e66aba",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-8742ba1c1184",
+      "fileName": "微信图片_2025-08-19_134855_810.md",
+      "classificationId": "cls-a3610bf4-1e4e-4adf-8f57-1a54f27a7e71",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-530d2fbe74ca",
+      "fileName": "微信图片_2025-08-19_134859_011.md",
+      "classificationId": "cls-928c7e60-c9af-4d51-aab6-a3915ea43001",
+      "primaryCategory": "admission_discharge"
+    },
+    {
+      "documentId": "doc-a459e3a31cbf",
+      "fileName": "微信图片_2025-08-19_134904_987.md",
+      "classificationId": "cls-32cbae20-2b4b-4d89-be6f-59965fc199bf",
+      "primaryCategory": "followup_outcome"
+    },
+    {
+      "documentId": "doc-0584f80fc3d3",
+      "fileName": "微信图片_2025-08-19_134908_546.md",
+      "classificationId": "cls-66d8f949-5722-42ce-9169-c2b7f9568a9d",
+      "primaryCategory": "pathology_molecular"
+    },
+    {
+      "documentId": "doc-a1373a21eba2",
+      "fileName": "微信图片_2025-08-19_134912_235.md",
+      "classificationId": "cls-f7658a3f-2dfe-4421-8f81-4325f8ba1ef3",
+      "primaryCategory": "pathology_molecular"
+    },
+    {
+      "documentId": "doc-504c3907b7d7",
+      "fileName": "微信图片_2025-08-19_134920_522.md",
+      "classificationId": "cls-513664b5-90c1-4853-a476-257889269b9a",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-ca457dcae074",
+      "fileName": "微信图片_2025-08-19_134923_323.md",
+      "classificationId": "cls-2b6da508-2534-473b-b8e8-c9422a716d76",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-77ee74a5168b",
+      "fileName": "微信图片_2025-08-19_134926_075.md",
+      "classificationId": "cls-3586fe7e-4a1e-4bc6-b145-02da69db289d",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-71b62eadcd95",
+      "fileName": "微信图片_2025-08-19_134928_978.md",
+      "classificationId": "cls-2378660b-4362-4411-b287-dae15785226b",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-b9793dcb69e5",
+      "fileName": "微信图片_2025-08-19_134932_587.md",
+      "classificationId": "cls-e4301ab1-4b6e-477c-9c89-a2fae1735264",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-d82012b4c999",
+      "fileName": "微信图片_2025-08-19_134935_411.md",
+      "classificationId": "cls-eef611c1-0e01-49b8-b4e8-bc2e1c7cb55b",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-cdf7e70e638e",
+      "fileName": "微信图片_2025-08-19_134938_250.md",
+      "classificationId": "cls-4a8ffc7d-cf2e-4770-9fb1-060b55288ab8",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-7df16c55cf0e",
+      "fileName": "微信图片_2025-08-19_134942_682.md",
+      "classificationId": "cls-a045f942-b9c2-421b-8210-02d568ecf7af",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-8d6ceed8ee93",
+      "fileName": "微信图片_2025-08-19_134947_731.md",
+      "classificationId": "cls-897087cb-cbb2-47e6-922a-5b55d28a3dd8",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-c86a33133786",
+      "fileName": "微信图片_2025-08-19_134950_531.md",
+      "classificationId": "cls-2b51e0a2-5441-4029-a3cd-418c64b15a17",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-1f8a731ba7e7",
+      "fileName": "微信图片_2025-08-19_134953_194.md",
+      "classificationId": "cls-f2ebb287-d937-4eed-974e-2053bbb478a3",
+      "primaryCategory": "imaging_report"
+    },
+    {
+      "documentId": "doc-d664aba095a6",
+      "fileName": "微信图片_2025-08-19_134957_379.md",
+      "classificationId": "cls-ec516d46-115e-4f67-af27-f92781566ea3",
+      "primaryCategory": "laboratory_report"
+    },
+    {
+      "documentId": "doc-6bcdf7ba7cfb",
+      "fileName": "微信图片_2025-08-19_135001_155.md",
+      "classificationId": "cls-cee57d15-ae15-474a-858e-570bfe4d4a9b",
+      "primaryCategory": "laboratory_report"
+    },
+    {
+      "documentId": "doc-d3e0474fca87",
+      "fileName": "微信图片_2025-08-19_135004_273.md",
+      "classificationId": "cls-75ace999-5d86-4f9f-8a90-6917d80faaf0",
+      "primaryCategory": "laboratory_report"
+    },
+    {
+      "documentId": "doc-1c85300a84e5",
+      "fileName": "微信图片_2025-08-19_135007_074.md",
+      "classificationId": "cls-c996a617-c639-4a92-87a8-5f7ba7ca6621",
+      "primaryCategory": "laboratory_report"
+    },
+    {
+      "documentId": "doc-8d837cd0c40b",
+      "fileName": "微信图片_2025-08-19_135012_914.md",
+      "classificationId": "cls-a4172c66-12f4-44aa-bc9a-9428e426c020",
+      "primaryCategory": "laboratory_report"
+    },
+    {
+      "documentId": "doc-34dc4e16ad5d",
+      "fileName": "微信图片_2025-08-19_135015_882.md",
+      "classificationId": "cls-d4f4e492-e726-44fe-9eac-b378b4c54e38",
+      "primaryCategory": "laboratory_report"
+    },
+    {
+      "documentId": "doc-ec85a0a0d6be",
+      "fileName": "微信图片_2025-08-19_135020_131.md",
+      "classificationId": "cls-912406d0-dd8e-45f0-9802-9bda0199a68b",
+      "primaryCategory": "laboratory_report"
+    },
+    {
+      "documentId": "doc-8c0b584ae225",
+      "fileName": "微信图片_2025-08-19_135023_571.md",
+      "classificationId": "cls-03c28377-87be-4888-a2be-59c043db6511",
+      "primaryCategory": "laboratory_report"
+    }
+  ]
+}

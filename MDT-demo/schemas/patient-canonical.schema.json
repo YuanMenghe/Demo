@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zhihui-mdt.local/schemas/patient-canonical.schema.json",
+  "title": "Canonical Patient Record",
+  "description": "Normalized patient record. Fields limited to what the UI projection (data.js shape) requires.",
+  "type": "object",
+  "required": [
+    "patient",
+    "clinicalSummary",
+    "timeline",
+    "observations"
+  ],
+  "properties": {
+    "patient": {
+      "$ref": "#/$defs/Patient"
+    },
+    "clinicalSummary": {
+      "$ref": "#/$defs/ClinicalSummary"
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TimelineEvent"
+      },
+      "default": []
+    },
+    "observations": {
+      "type": "array",
+      "description": "Numeric observations used to build the indicators chart.",
+      "items": {
+        "$ref": "#/$defs/Observation"
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Patient": {
+      "type": "object",
+      "required": [
+        "name",
+        "sex"
+      ],
+      "properties": {
+        "patientId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sex": {
+          "type": "string",
+          "enum": [
+            "男",
+            "女",
+            "未知",
+            "其他"
+          ]
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 130
+        }
+      },
+      "additionalProperties": false
+    },
+    "ClinicalSummary": {
+      "type": "object",
+      "required": [
+        "primaryDiagnosis"
+      ],
+      "properties": {
+        "primaryDiagnosis": {
+          "$ref": "#/$defs/Diagnosis"
+        },
+        "stage": {
+          "$ref": "#/$defs/CancerStage"
+        },
+        "treatmentStatus": {
+          "type": "string",
+          "description": "患者卡片治疗状态，如 初治/复发/术后。"
+        },
+        "comorbidities": {
+          "type": "array",
+          "description": "Rendered as the complications list on the patient card.",
+          "items": {
+            "$ref": "#/$defs/Condition"
+          },
+          "default": []
+        },
+        "chiefComplaint": {
+          "type": "string"
+        },
+        "presentHistory": {
+          "type": "string"
+        },
+        "pastHistory": {
+          "type": "string"
+        },
+        "familyHistory": {
+          "type": "string"
+        },
+        "personalHistory": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Diagnosis": {
+      "type": "object",
+      "required": [
+        "display"
+      ],
+      "properties": {
+        "display": {
+          "type": "string",
+          "description": "Disease name shown in the UI card."
+        }
+      },
+      "additionalProperties": false
+    },
+    "CancerStage": {
+      "type": "object",
+      "properties": {
+        "stageGroup": {
+          "type": "string",
+          "description": "Stage label, e.g. II期, IIIB期."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Condition": {
+      "type": "object",
+      "required": [
+        "display"
+      ],
+      "properties": {
+        "display": {
+          "type": "string",
+          "description": "Complication name."
+        }
+      },
+      "additionalProperties": false
+    },
+    "TimelineEvent": {
+      "type": "object",
+      "required": [
+        "date",
+        "title",
+        "type"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "title": {
+          "type": "string"
+        },
+        "hospital": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "admission",
+            "imaging",
+            "diagnosis",
+            "treatment",
+            "surgery",
+            "followup",
+            "mdt",
+            "relapse",
+            "progression",
+            "evaluation",
+            "examination",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Observation": {
+      "type": "object",
+      "required": [
+        "code",
+        "effectiveDate",
+        "valueNumber"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Indicator key used as chart series name, e.g. AFP, CEA."
+        },
+        "display": {
+          "type": "string"
+        },
+        "effectiveDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "valueNumber": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

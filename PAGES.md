@@ -9,6 +9,7 @@
 | **项目聚合导航（Hub）** | **https://yuanmenghe.github.io/Demo/hub/Noah/** | 唯一入口，列出所有子站链接 |
 | 站点根路径 | https://yuanmenghe.github.io/Demo/ | 仅显示 404，**不再**展示项目列表 |
 | 各子站直链 | `https://yuanmenghe.github.io/Demo/<子项目目录>/` | 可单独分享，无需经过 Hub |
+| MDT-demo 直链 | https://yuanmenghe.github.io/Demo/MDT-demo/ | 智汇MDT 升级版（含离线数据流水线） |
 
 > Hub 路径由仓库 Secret `DEMO_HUB_SLUG`（当前为 `Noah`）决定。修改 Secret 后需重新部署，并同步更新本文档中的链接。
 

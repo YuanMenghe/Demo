@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zhihui-mdt.local/schemas/document-classification.schema.json",
+  "title": "Uploaded Document Classification",
+  "description": "Category classification and prompt routing contract used before targeted extraction.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "classificationId",
+    "classifiedAt",
+    "document",
+    "primaryCategory",
+    "categoryConfidence",
+    "routing"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "classificationId": {
+      "type": "string"
+    },
+    "classifiedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "language": {
+      "type": "string",
+      "description": "Detected document language, e.g. zh-CN."
+    },
+    "document": {
+      "$ref": "#/$defs/DocumentRef"
+    },
+    "primaryCategory": {
+      "$ref": "#/$defs/DocumentCategory"
+    },
+    "secondaryCategories": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/DocumentCategory"
+      },
+      "default": []
+    },
+    "categoryConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reasoning": {
+      "type": "string"
+    },
+    "routing": {
+      "$ref": "#/$defs/RoutingPlan"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "DocumentCategory": {
+      "type": "string",
+      "enum": [
+        "identity_admin",
+        "admission_discharge",
+        "history_physical",
+        "diagnosis_staging",
+        "pathology_molecular",
+        "imaging_report",
+        "laboratory_report",
+        "procedure_surgery",
+        "medication_therapy",
+        "mdt_record",
+        "followup_outcome",
+        "other_nonclinical"
+      ]
+    },
+    "DocumentRef": {
+      "type": "object",
+      "required": [
+        "documentId",
+        "fileName"
+      ],
+      "properties": {
+        "documentId": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "RoutingPlan": {
+      "type": "object",
+      "required": [
+        "promptTemplateId",
+        "extractionMode"
+      ],
+      "properties": {
+        "promptTemplateId": {
+          "type": "string",
+          "description": "Prompt template ID, e.g. cat.laboratory_report.1.0.0"
+        },
+        "extractionMode": {
+          "type": "string",
+          "enum": [
+            "extract",
+            "metadata_only",
+            "skip"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

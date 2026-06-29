@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "1.0.0",
+  "extractionId": "ext-20260319-0001",
+  "extractedAt": "2026-03-19T10:30:00Z",
+  "pipeline": {
+    "ocrEngine": "paddleocr",
+    "nlpModel": "medical-llm-v2",
+    "deidModel": "deid-cn-v1",
+    "parserVersion": "0.4.0",
+    "language": "zh-CN",
+    "runtimeMs": 4312
+  },
+  "sourceDocuments": [
+    {
+      "documentId": "doc-001",
+      "fileName": "patient_case_001.pdf",
+      "mimeType": "application/pdf",
+      "pageCount": 12,
+      "uploadedAt": "2026-03-19T10:20:00Z",
+      "sourceSystem": "upload-portal"
+    }
+  ],
+  "patientRecord": {
+    "patient": {
+      "patientId": "P1001",
+      "name": "王某某",
+      "sex": "男",
+      "age": 58
+    },
+    "clinicalSummary": {
+      "primaryDiagnosis": {
+        "display": "肝细胞癌"
+      },
+      "stage": {
+        "stageGroup": "III期"
+      },
+      "treatmentStatus": "初治",
+      "comorbidities": [
+        {
+          "display": "高血压",
+          "status": "active"
+        }
+      ],
+      "chiefComplaint": "右上腹隐痛2月余，发现肝占位1周",
+      "presentHistory": "患者2月前出现右上腹隐痛，后体检发现肝占位。",
+      "pastHistory": "乙肝病史20年。",
+      "familyHistory": "父亲因肝癌去世。",
+      "personalHistory": "吸烟史30年。"
+    },
+    "timeline": [
+      {
+        "eventId": "evt-001",
+        "date": "2026-03-01",
+        "title": "穿刺活检确诊",
+        "hospital": "山东省立医院",
+        "type": "diagnosis",
+        "description": "病理结果支持肝细胞癌。",
+        "linkedObservationIds": [
+          "obs-001"
+        ],
+        "linkedDocumentIds": [
+          "doc-001"
+        ]
+      }
+    ],
+    "observations": [
+      {
+        "observationId": "obs-001",
+        "category": "lab",
+        "code": "AFP",
+        "display": "甲胎蛋白",
+        "effectiveDate": "2026-03-01",
+        "valueNumber": 380,
+        "unit": "ng/mL",
+        "abnormalFlag": "H",
+        "sourceEventId": "evt-001"
+      }
+    ],
+    "procedures": [],
+    "medications": [],
+    "documents": [
+      {
+        "documentId": "doc-001",
+        "fileName": "patient_case_001.pdf",
+        "mimeType": "application/pdf",
+        "pageCount": 12,
+        "uploadedAt": "2026-03-19T10:20:00Z"
+      }
+    ]
+  },
+  "uiProjection": {
+    "id": "P1001",
+    "name": "王某某",
+    "gender": "男",
+    "age": 58,
+    "disease": "肝细胞癌",
+    "stage": "III期",
+    "complications": [
+      "高血压"
+    ],
+    "treatment": "初治",
+    "group": "liver",
+    "lastUpdate": "2026-03-19 10:30",
+    "timeline": [
+      {
+        "date": "2026-03-01",
+        "title": "穿刺活检确诊",
+        "hospital": "山东省立医院",
+        "type": "diagnosis",
+        "desc": "病理结果支持肝细胞癌。"
+      }
+    ],
+    "indicators": {
+      "AFP": [
+        {
+          "date": "2026-03-01",
+          "value": 380
+        }
+      ]
+    },
+    "basicInfo": {
+      "chiefComplaint": "右上腹隐痛2月余，发现肝占位1周",
+      "presentHistory": "患者2月前出现右上腹隐痛，后体检发现肝占位。",
+      "pastHistory": "乙肝病史20年。",
+      "familyHistory": "父亲因肝癌去世。",
+      "personalHistory": "吸烟史30年。"
+    }
+  },
+  "fieldProvenance": [
+    {
+      "jsonPath": "/patientRecord/clinicalSummary/primaryDiagnosis/display",
+      "confidence": 0.97,
+      "normalizationMethod": "ner+ontology",
+      "sourceSpans": [
+        {
+          "documentId": "doc-001",
+          "page": 2,
+          "lineStart": 18,
+          "lineEnd": 18,
+          "text": "病理诊断：肝细胞癌。"
+        }
+      ]
+    }
+  ],
+  "quality": {
+    "overallConfidence": 0.92,
+    "completenessScore": 0.89,
+    "validationStatus": "pass",
+    "missingCriticalFields": [],
+    "conflicts": []
+  },
+  "issues": []
+}
