@@ -18,6 +18,99 @@ let groups = [
 let draggedItem = null;
 let dragType = null; // 'patient' or 'group'
 
+// ── 打码后的原始报告图片清单 ─────────────────────────────────────────────
+// 36 张已脱敏（高斯模糊 + 上部黑条 + 红色"已脱敏 不可还原"水印）的微信图片，
+// 位于 redacted-images/ 目录。每个 examination/imaging_report/laboratory_report
+// 类事件会按 index 循环取 1 张作为"原始报告（已脱敏）"展示。
+const REDACTED_IMAGES = [
+    'redacted-images/微信图片_2025-08-19_134812_410.jpg',
+    'redacted-images/微信图片_2025-08-19_134821_875.jpg',
+    'redacted-images/微信图片_2025-08-19_134825_595.jpg',
+    'redacted-images/微信图片_2025-08-19_134830_003.jpg',
+    'redacted-images/微信图片_2025-08-19_134835_043.jpg',
+    'redacted-images/微信图片_2025-08-19_134838_859.jpg',
+    'redacted-images/微信图片_2025-08-19_134842_299.jpg',
+    'redacted-images/微信图片_2025-08-19_134845_786.jpg',
+    'redacted-images/微信图片_2025-08-19_134849_050.jpg',
+    'redacted-images/微信图片_2025-08-19_134852_491.jpg',
+    'redacted-images/微信图片_2025-08-19_134855_810.jpg',
+    'redacted-images/微信图片_2025-08-19_134859_011.jpg',
+    'redacted-images/微信图片_2025-08-19_134904_987.jpg',
+    'redacted-images/微信图片_2025-08-19_134908_546.jpg',
+    'redacted-images/微信图片_2025-08-19_134912_235.jpg',
+    'redacted-images/微信图片_2025-08-19_134917_554.jpg',
+    'redacted-images/微信图片_2025-08-19_134920_522.jpg',
+    'redacted-images/微信图片_2025-08-19_134923_323.jpg',
+    'redacted-images/微信图片_2025-08-19_134926_075.jpg',
+    'redacted-images/微信图片_2025-08-19_134928_978.jpg',
+    'redacted-images/微信图片_2025-08-19_134932_587.jpg',
+    'redacted-images/微信图片_2025-08-19_134935_411.jpg',
+    'redacted-images/微信图片_2025-08-19_134938_250.jpg',
+    'redacted-images/微信图片_2025-08-19_134942_682.jpg',
+    'redacted-images/微信图片_2025-08-19_134947_731.jpg',
+    'redacted-images/微信图片_2025-08-19_134950_531.jpg',
+    'redacted-images/微信图片_2025-08-19_134953_194.jpg',
+    'redacted-images/微信图片_2025-08-19_134957_379.jpg',
+    'redacted-images/微信图片_2025-08-19_135001_155.jpg',
+    'redacted-images/微信图片_2025-08-19_135004_273.jpg',
+    'redacted-images/微信图片_2025-08-19_135007_074.jpg',
+    'redacted-images/微信图片_2025-08-19_135010_002.jpg',
+    'redacted-images/微信图片_2025-08-19_135012_914.jpg',
+    'redacted-images/微信图片_2025-08-19_135015_882.jpg',
+    'redacted-images/微信图片_2025-08-19_135020_131.jpg',
+    'redacted-images/微信图片_2025-08-19_135023_571.jpg',
+];
+
+// 检查类事件的原始类型集合（用于判断是否需要显示"原始报告"区域）
+const EXAM_ORIGINAL_TYPES = new Set([
+    'examination',
+    'imaging',
+    'imaging_report',
+    'laboratory_report',
+    'pathology_report',
+]);
+
+// 对 originalType=default 的事件，按 title 关键词兜底识别是否为检查/报告类
+const EXAM_TITLE_PATTERNS = [
+    /CT/i, /MR\b/i, /MRI/i, /PET/, /超声/, /彩超/, /B超/i, /X[\-\s]?ray/i, /X光/,
+    /扫描/, /影像/, /检验/, /化验/, /检查/, /报告/, /心电/, /造影/,
+    /病理诊断/, /HRCT/i, /DWI/i,
+];
+
+// 即使命中 EXAM_TITLE_PATTERNS，若标题包含以下"操作类"关键词，依旧视为非检查事件
+const NON_EXAM_TITLE_PATTERNS = [
+    /手术/, /会诊/, /介入/, /消融/, /栓塞/, /TACE/i, /穿刺活检术/, /取样/,
+    /入院/, /出院/, /办理/, /停用/, /更换/, /换药/, /操作/, /签发/,
+    /MDT/i,
+];
+
+/**
+ * 判断 timeline 事件是否为检查类事件（需要展示原始报告图）
+ */
+function isExamEvent(event) {
+    if (!event) return false;
+    if (EXAM_ORIGINAL_TYPES.has(event.originalType || '')) return true;
+    // originalType=default 兜底：按 title 关键词判断
+    if (event.originalType === 'default' && event.title) {
+        const title = event.title;
+        if (NON_EXAM_TITLE_PATTERNS.some(re => re.test(title))) return false;
+        return EXAM_TITLE_PATTERNS.some(re => re.test(title));
+    }
+    return false;
+}
+
+/**
+ * 为指定事件获取关联的"已脱敏原始报告"图片路径列表。
+ * 当前 demo 策略：检查类事件按 index 循环映射 1 张图；如需多张可改为按 date 匹配。
+ */
+function getRedactedImagesForEvent(patient, eventIndex) {
+    if (!patient || !Array.isArray(patient.timeline)) return [];
+    const event = patient.timeline[eventIndex];
+    if (!isExamEvent(event)) return [];
+    if (!REDACTED_IMAGES.length) return [];
+    return [REDACTED_IMAGES[eventIndex % REDACTED_IMAGES.length]];
+}
+
 // ── 从 Gemini 提取 JSON 加载真实患者数据 ──────────────────────────────────────
 
 /**
@@ -69,6 +162,7 @@ async function loadPatientData() {
                 title:        e.title || '诊疗记录',
                 hospital:     e.hospital || '未知医院',
                 type:         mapEventType(e.type || ''),
+                originalType: e.type || '',  // 保留原始类型，用于判断是否为检查类事件
                 desc:         e.desc || e.description || '',
                 observations: Array.isArray(e.observations) ? e.observations : [],
             }))
@@ -1015,7 +1109,73 @@ function renderEventDetail(index) {
             </div>
         </div>
         `}
+
+        ${(() => {
+            const redactedImgs = getRedactedImagesForEvent(currentPatient, index);
+            if (!redactedImgs.length) return '';
+            return `
+        <div class="detail-section-card redacted-report-card">
+            <div class="section-card-header">
+                <i class="fas fa-file-image"></i> 原始报告（已脱敏）
+                <span class="redacted-badge"><i class="fas fa-shield-alt"></i> 不可还原</span>
+            </div>
+            <div class="section-card-body">
+                <div class="redacted-images-grid">
+                    ${redactedImgs.map((src, i) => `
+                        <figure class="redacted-image-figure" onclick="openRedactedImage('${src.replace(/'/g, "\\'")}', '${(event.title || '').replace(/'/g, "\\'")}')">
+                            <img src="${src}" alt="原始检查报告（已脱敏）${i + 1}" loading="lazy">
+                            <figcaption><i class="fas fa-search-plus"></i> 点击放大查看</figcaption>
+                        </figure>
+                    `).join('')}
+                </div>
+                <p class="redacted-note">
+                    <i class="fas fa-info-circle"></i>
+                    出于隐私保护，原始病历影像已经过整图高斯模糊 + 表头区域黑条遮挡 + 低质量重压缩处理，
+                    患者姓名、住院号、身份证号、医生签名等敏感信息<strong>不可还原</strong>。
+                </p>
+            </div>
+            <div class="section-card-footer">${event.date}</div>
+        </div>
+            `;
+        })()}
     `;
+}
+
+/**
+ * 打开打码图片的 lightbox 大图预览
+ */
+function openRedactedImage(src, title) {
+    let lb = document.getElementById('redactedImageLightbox');
+    if (!lb) {
+        lb = document.createElement('div');
+        lb.id = 'redactedImageLightbox';
+        lb.className = 'redacted-lightbox';
+        lb.innerHTML = `
+            <div class="redacted-lightbox-overlay" onclick="closeRedactedImage()"></div>
+            <div class="redacted-lightbox-content">
+                <div class="redacted-lightbox-header">
+                    <span class="redacted-lightbox-title"></span>
+                    <button class="redacted-lightbox-close" onclick="closeRedactedImage()" aria-label="关闭">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <img class="redacted-lightbox-img" alt="原始检查报告（已脱敏）">
+                <div class="redacted-lightbox-footer">
+                    <i class="fas fa-shield-alt"></i>
+                    本图已经过不可还原脱敏处理，姓名、住院号等隐私信息已永久遮挡。
+                </div>
+            </div>
+        `;
+        document.body.appendChild(lb);
+    }
+    lb.querySelector('.redacted-lightbox-img').src = src;
+    lb.querySelector('.redacted-lightbox-title').textContent = title || '原始检查报告（已脱敏）';
+    lb.classList.add('active');
+}
+
+function closeRedactedImage() {
+    const lb = document.getElementById('redactedImageLightbox');
+    if (lb) lb.classList.remove('active');
 }
 
 // 选择时间轴事件
