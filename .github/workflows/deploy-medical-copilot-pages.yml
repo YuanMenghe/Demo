@@ -330,7 +330,7 @@ jobs:
                   <span class="card-desc">指南问答 + PubMed 问答 + 综合诊疗建议</span>
                 </a>
                 <a class="card" href="/${REPO_NAME}/MDT-demo/">
-                  <span class="card-title">MDT-demo · 智汇MDT 升级版</span>
+                  <span class="card-title">MDT·BeOne</span>
                   <span class="card-desc">病例多模态抽取与 MDT 看板（含 Gemini 数据流水线）</span>
                 </a>
               </main>
