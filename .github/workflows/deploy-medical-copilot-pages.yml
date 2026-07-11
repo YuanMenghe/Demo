@@ -37,6 +37,7 @@ jobs:
             roche-noah-ai-demo/package-lock.json
             ZheEr_MiniProgram/package-lock.json
             mdt-beone/package-lock.json
+            medical-expert-collaboration-platform/package-lock.json
 
       - name: Install and build medical-copilot
         working-directory: medical-copilot
@@ -86,6 +87,14 @@ jobs:
           npm ci
           npm run build
 
+      - name: Install and build medical-expert-collaboration-platform (NOAH AI)
+        working-directory: medical-expert-collaboration-platform
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}/medical-expert-collaboration-platform/
+        run: |
+          npm ci
+          npm run build
+
       - name: Verify build output
         run: |
           echo "=== Built index.html ==="
@@ -116,6 +125,7 @@ jobs:
           mkdir -p site/green-garden-committee-review
           mkdir -p site/mdt-beone
           mkdir -p site/MDT-demo
+          mkdir -p site/medical-expert-collaboration-platform
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -146,6 +156,9 @@ jobs:
 
           # MDT-demo / 智汇MDT 升级版 (static HTML + 离线数据/脚本，仅前端发布)
           cp -r MDT-demo/* site/MDT-demo/
+
+          # medical-expert-collaboration-platform / NOAH AI 医学专家协作平台 (Vite + React)
+          cp -r medical-expert-collaboration-platform/dist/* site/medical-expert-collaboration-platform/
 
           # Root: innocuous 404 (no project links)
           cat > site/index.html << 'ROOT404'
@@ -332,6 +345,10 @@ jobs:
                 <a class="card" href="/${REPO_NAME}/MDT-demo/">
                   <span class="card-title">MDT·BeOne</span>
                   <span class="card-desc">病例多模态抽取与 MDT 看板（含 Gemini 数据流水线）</span>
+                </a>
+                <a class="card" href="/${REPO_NAME}/medical-expert-collaboration-platform/">
+                  <span class="card-title">医学专家协作平台</span>
+                  <span class="card-desc">专家任务领取、认证、计价与结算演示</span>
                 </a>
               </main>
               <footer>YuanMenghe / Demo · GitHub Pages</footer>
