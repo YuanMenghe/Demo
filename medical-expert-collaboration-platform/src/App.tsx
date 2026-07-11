@@ -15,12 +15,15 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('tasks');
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
 
-  const navItems = [
+  const coreNavItems = [
     { id: 'tasks', label: '任务大厅', icon: Briefcase },
     { id: 'my_tasks', label: '我的任务', icon: ClipboardList },
     { id: 'history', label: '结算记录', icon: Wallet },
     { id: 'cert', label: '资质认证', icon: UserCheck },
     { id: 'pricing', label: '计价规则', icon: Calculator },
+  ];
+
+  const previewNavItems = [
     { id: 'services', label: 'C端服务', icon: ShoppingBag },
   ];
 
@@ -64,9 +67,9 @@ export default function App() {
       <div className="flex flex-1 overflow-hidden">
         <aside className="w-60 bg-white border-r border-slate-200/80 p-4 hidden md:flex flex-col gap-1 shrink-0">
           <div className="px-3 py-2 text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
-            核心功能
+            专家工作台
           </div>
-          {navItems.map((item) => {
+          {coreNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
@@ -81,6 +84,31 @@ export default function App() {
               >
                 <Icon size={18} className={isActive ? 'text-noah-600' : ''} />
                 {item.label}
+              </button>
+            );
+          })}
+
+          <div className="px-3 pt-4 pb-1 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+            参考预览
+          </div>
+          {previewNavItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left text-sm border border-dashed ${
+                  isActive
+                    ? 'bg-amber-50/80 text-amber-900 font-semibold border-amber-200'
+                    : 'text-slate-500 hover:bg-slate-50 border-slate-200 hover:text-slate-700'
+                }`}
+              >
+                <Icon size={18} className={isActive ? 'text-amber-600' : ''} />
+                <span className="flex-1">{item.label}</span>
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 border border-amber-200/80">
+                  示意
+                </span>
               </button>
             );
           })}
@@ -110,28 +138,34 @@ export default function App() {
         </aside>
 
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-slate-200 flex overflow-x-auto no-scrollbar z-20 safe-area-pb">
-          {navItems.map((item) => {
+          {[...coreNavItems, ...previewNavItems].map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
+            const isPreview = item.id === 'services';
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`flex-1 flex flex-col items-center justify-center gap-0.5 min-w-[4.5rem] py-2.5 border-t-2 transition-colors ${
+                className={`flex-1 flex flex-col items-center justify-center gap-0.5 min-w-[4.5rem] py-2.5 border-t-2 transition-colors relative ${
                   isActive
-                    ? 'border-noah-500 text-noah-600 font-medium'
+                    ? isPreview
+                      ? 'border-amber-400 text-amber-700 font-medium'
+                      : 'border-noah-500 text-noah-600 font-medium'
                     : 'border-transparent text-slate-500'
                 }`}
               >
                 <Icon size={20} />
-                <span className="text-[10px]">{item.label}</span>
+                <span className="text-[10px]">{isPreview ? 'C端示意' : item.label}</span>
+                {isPreview && (
+                  <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-amber-400" />
+                )}
               </button>
             );
           })}
         </div>
 
-        <main className={`flex-1 overflow-y-auto pb-20 md:pb-6 ${activeTab === 'workspace' ? 'p-0' : 'p-4 md:p-8'}`}>
-          <div className={activeTab === 'workspace' ? 'h-full' : 'max-w-5xl mx-auto'}>
+        <main className={`flex-1 overflow-y-auto pb-20 md:pb-6 ${activeTab === 'workspace' ? 'p-0' : activeTab === 'services' ? 'p-4 md:p-6' : 'p-4 md:p-8'}`}>
+          <div className={activeTab === 'workspace' ? 'h-full' : activeTab === 'services' ? 'max-w-6xl mx-auto' : 'max-w-5xl mx-auto'}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
