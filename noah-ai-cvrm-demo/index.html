@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noah Medical AI - CVRM 临床辅助分析</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;color:#1a1a1a;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+:root{--accent:#009C8E;--accent-hover:#007E73;--accent-bg:rgba(0,156,142,0.08);--accent-light:rgba(0,156,142,0.06);--border:#e0e4e8;--border2:#d0d4d8;--text:#1a1a1a;--muted:#666;--bg:#f0f2f5;--card-bg:#fff;--chat-bg:#f8f9fa;--msg-user-bg:#e8f5f3;--shadow:0 2px 8px rgba(0,0,0,0.08);--radius:8px}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;height:52px;display:flex;align-items:center;gap:12px;flex-shrink:0;z-index:10}
+.topbar-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:var(--accent)}
+.topbar-logo .logo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800}
+.topbar-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.topbar-actions .badge{background:#f0f2f5;padding:4px 10px;border-radius:4px;font-size:11px;color:var(--muted)}
+.main-layout{display:flex;flex:1;overflow:hidden}
+
+/* Left sidebar */
+.sidebar-left{width:240px;background:#fafbfc;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.sb-search{padding:10px 10px 6px}
+.sb-search input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:#f0f2f5;color:#333;font-family:inherit}
+.sb-search input:focus{border-color:var(--accent);background:#fff}
+.sb-header{display:flex;align-items:center;justify-content:space-between;padding:10px 10px 6px;font-size:12px;font-weight:600;color:var(--muted)}
+.sb-header .new-btn{width:26px;height:26px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1}
+.sb-header .new-btn:hover{background:var(--accent-hover)}
+.sb-list{flex:1;overflow-y:auto;padding:4px 8px}
+.sb-item{padding:8px 10px;border-radius:6px;cursor:pointer;margin-bottom:2px;transition:background 0.12s}
+.sb-item:hover{background:var(--accent-bg)}
+.sb-item.active{background:var(--accent-bg);border-left:2px solid var(--accent)}
+.sb-item .sb-title{font-size:12px;font-weight:500;color:#333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-item .sb-meta{font-size:10px;color:#aaa;margin-top:2px;display:flex;gap:6px}
+.sb-item .sb-msg-count{font-size:10px;color:var(--accent);margin-top:1px}
+
+/* Chat panel */
+.chat-panel{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--card-bg)}
+.chat-messages{flex:1;overflow-y:auto;padding:16px 20px;scroll-behavior:smooth}
+.chat-messages::-webkit-scrollbar{width:6px}
+.chat-messages::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
+.msg-row{max-width:780px;margin:0 auto 14px;animation:msgIn 0.3s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-row.user{display:flex;justify-content:flex-end}
+.msg-row.user .msg-bubble{background:var(--msg-user-bg);padding:10px 14px;border-radius:12px 12px 4px 12px;max-width:70%;font-size:13px;line-height:1.5;color:#1a1a1a}
+.msg-row.assistant .msg-bubble{background:var(--chat-bg);border-radius:12px 12px 12px 4px;padding:4px 14px 10px;font-size:13px;line-height:1.6;color:#1a1a1a}
+
+/* AI badge */
+.ai-badge{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:6px 10px;margin:6px 0 10px;background:var(--accent-bg);border-radius:6px;border-left:3px solid var(--accent);font-size:11px;cursor:pointer;user-select:none}
+.ai-badge-label{font-weight:600;color:var(--accent);white-space:nowrap;font-size:11px;letter-spacing:0.3px}
+.ai-badge-hint{color:#999;font-size:11px;cursor:pointer}
+.ai-badge-detail{display:none;margin-top:4px;padding:6px 8px;background:rgba(0,0,0,0.03);border-radius:4px;font-size:11px;color:#555;line-height:1.4;width:100%}
+.ai-badge.open .ai-badge-detail{display:block}
+
+/* Warning banner */
+.warn-banner{background:#fff8e6;border:1px solid #f0dca0;border-radius:6px;padding:8px 12px;margin:8px 0 10px;font-size:12px;color:#885500;line-height:1.5}
+.warn-banner strong{color:#cc7700}
+.warn-banner .warn-icon{display:inline-block;margin-right:4px}
+
+/* Markdown */
+.md-body h2{font-size:15px;font-weight:600;margin:14px 0 6px;padding-bottom:3px;border-bottom:1px solid var(--border);color:#1a1a1a}
+.md-body h3{font-size:13px;font-weight:600;margin:10px 0 5px;color:#333}
+.md-body p{margin:5px 0;line-height:1.6}
+.md-body strong{font-weight:600}
+.md-body em{font-style:italic}
+.md-body blockquote{border-left:3px solid var(--accent);padding:6px 10px;margin:6px 0;background:#f8fbfa;border-radius:0 4px 4px 0;font-size:12px;color:#555}
+.md-body blockquote strong{color:var(--accent)}
+.md-body ul{margin:5px 0;padding-left:18px;list-style:disc}
+.md-body li{margin:2px 0;line-height:1.5}
+.md-body ol{padding-left:18px;margin:5px 0}
+.md-body table{width:100%;border-collapse:collapse;margin:6px 0;font-size:12px;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+.md-body th{background:#f0f7f5;padding:6px 8px;text-align:left;font-weight:600;border-bottom:1px solid var(--border);font-size:11px;color:#333}
+.md-body td{padding:5px 8px;border-bottom:1px solid #f0f0f0}
+.md-body tr:last-child td{border-bottom:none}
+.md-body tr:hover td{background:#fafcfb}
+.md-body code{background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:11px;font-family:monospace}
+.md-body hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+.md-body .ref-link{color:var(--accent);cursor:pointer;border-bottom:1px dashed var(--accent);position:relative;font-size:12px}
+.md-body .ref-link:hover{color:var(--accent-hover)}
+.md-body .flowchart{background:#f8fbfa;padding:10px 14px;border-radius:6px;font-family:monospace;font-size:11px;line-height:1.5;white-space:pre;overflow-x:auto;margin:6px 0;border:1px solid #e0ebe8}
+
+/* Citation tooltip */
+.citation-tooltip{position:fixed;z-index:9999;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;max-width:400px;box-shadow:0 6px 20px rgba(0,0,0,0.15);font-size:12px;line-height:1.4;color:#333;pointer-events:none}
+.citation-tooltip .ct-title{font-weight:600;margin-bottom:3px;color:var(--accent);font-size:11px}
+.citation-tooltip .ct-apa{font-size:11px;color:#444;margin-bottom:3px;line-height:1.4}
+.citation-tooltip .ct-quote{font-size:11px;color:#666;border-left:2px solid #ddd;padding-left:6px;margin-top:3px}
+
+/* Loading & Search */
+.loading-row{text-align:center;padding:16px;color:var(--muted);font-size:12px}
+.loading-row .spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.search-row{display:flex;align-items:center;gap:8px;padding:12px 16px;margin:0 auto 12px;max-width:780px;background:var(--accent-light);border-radius:8px;border:1px solid rgba(0,156,142,0.15);font-size:12px;color:var(--muted)}
+.search-row .search-icon{animation:spin 0.8s linear infinite;width:14px;height:14px;border:2px solid rgba(0,156,142,0.3);border-top-color:var(--accent);border-radius:50%;flex-shrink:0}
+
+/* Clarify card */
+.clarify-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:0 auto 14px;max-width:780px;box-shadow:var(--shadow)}
+.clarify-card .cc-title{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px}
+.clarify-card .cc-desc{font-size:12px;color:#555;line-height:1.5;margin-bottom:10px}
+.clarify-card .cc-item{padding:6px 10px;margin:4px 0;background:#f8fbfa;border-radius:6px;border-left:3px solid var(--accent);font-size:12px;color:#333}
+.clarify-card .cc-item strong{color:var(--accent)}
+
+/* Workspace */
+.workspace-panel{width:280px;background:#fafbfc;border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.ws-header{padding:14px 14px 10px;font-size:12px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.ws-header svg{width:14px;height:14px}
+.ws-list{flex:1;overflow-y:auto;padding:6px}
+.ws-file{padding:8px 10px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:3px;transition:background 0.15s;opacity:0;animation:fadeIn 0.5s ease forwards}
+.ws-file:hover{background:var(--accent-bg)}
+.ws-file .ws-icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0}
+.ws-file .ws-icon.s1{background:#009C8E}
+.ws-file .ws-icon.s15{background:#E8A020}
+.ws-file .ws-icon.s2{background:#5B8DEF}
+.ws-file .ws-icon.s3{background:#8B5CF6}
+.ws-file .ws-icon.s5{background:#E8634A}
+.ws-file .ws-name{font-size:12px;color:#333;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ws-file .ws-status{font-size:10px;color:var(--accent)}
+.ws-hint{padding:10px 14px;font-size:11px;color:#bbb;text-align:center;border-top:1px solid var(--border)}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes blink{50%{opacity:0}}
+
+/* Preview overlay */
+.preview-overlay{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center}
+.preview-overlay.open{display:flex}
+.preview-card{background:#fff;border-radius:12px;width:85%;max-width:780px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,0.2);animation:modalIn 0.25s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+.preview-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.preview-header h3{font-size:14px;font-weight:600;color:#333}
+.preview-header .close-btn{background:none;border:none;font-size:18px;cursor:pointer;color:#999;padding:2px 6px;border-radius:4px;line-height:1}
+.preview-header .close-btn:hover{background:#f0f0f0;color:#333}
+.preview-body{overflow-y:auto;padding:16px 18px;font-size:13px;line-height:1.6}
+.preview-body .md-body h2{font-size:16px}
+.preview-body .md-body h3{font-size:14px}
+
+/* Input area */
+.input-area{padding:10px 20px 14px;border-top:1px solid var(--border);background:#fff}
+.input-inner{max-width:780px;margin:0 auto;display:flex;gap:8px;align-items:flex-end}
+.input-inner textarea{flex:1;border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:13px;font-family:inherit;resize:none;outline:none;transition:border-color 0.15s;min-height:40px;max-height:100px;background:#f8f9fa}
+.input-inner textarea:focus{border-color:var(--accent);background:#fff}
+.input-inner .send-btn{background:var(--accent);color:#fff;border:none;border-radius:10px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.15s;flex-shrink:0}
+.input-inner .send-btn:hover{background:var(--accent-hover)}
+.input-inner .send-btn:disabled{background:#ccc;cursor:not-allowed}
+.input-inner .send-btn svg{width:16px;height:16px}
+
+/* Copy button on messages */
+.msg-tools{display:flex;gap:6px;justify-content:flex-end;padding:2px 4px 0}
+.msg-tools button{background:none;border:none;font-size:10px;color:#bbb;cursor:pointer;padding:2px 6px;border-radius:4px;display:flex;align-items:center;gap:3px}
+.msg-tools button:hover{color:var(--accent);background:var(--accent-bg)}
+
+/* First-time modal */
+.ack-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;animation:fadeIn 0.3s ease}
+.ack-modal{background:#fff;border-radius:12px;padding:28px;max-width:460px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.18);animation:modalIn 0.3s ease}
+.ack-modal .ack-logo{width:44px;height:44px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:#fff;font-size:22px;font-weight:700}
+.ack-modal h2{text-align:center;font-size:17px;font-weight:600;margin:0 0 14px;color:#1a1a1a}
+.ack-modal .ack-body{font-size:13px;line-height:1.6;color:#444;margin-bottom:14px}
+.ack-modal .ack-body p{margin:6px 0}
+.ack-modal .ack-notice{background:#f5f8f7;border-radius:6px;padding:8px 12px;margin-bottom:14px;font-size:12px;color:#555;text-align:center}
+.ack-modal .ack-btn{width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.15s}
+.ack-modal .ack-btn:hover{background:var(--accent-hover)}
+.copy-toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:7px 14px;border-radius:6px;font-size:12px;z-index:99999;opacity:0;transition:opacity 0.3s;pointer-events:none}
+.copy-toast.show{opacity:1}
+.welcome-msg{text-align:center;padding:36px 20px;color:var(--muted);max-width:560px;margin:36px auto}
+.welcome-msg .welcome-icon{width:52px;height:52px;background:var(--accent-bg);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.welcome-msg h3{font-size:15px;color:#333;margin-bottom:6px;font-weight:600}
+.welcome-msg p{font-size:12px;line-height:1.5;color:#888}
+.step-tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;margin-right:4px}
+.step-tag.s1{background:rgba(0,156,142,0.12);color:#009C8E}
+.step-tag.s15{background:rgba(232,160,32,0.12);color:#cc8800}
+.step-tag.s2{background:rgba(91,141,239,0.12);color:#5B8DEF}
+.step-tag.s3{background:rgba(139,92,246,0.12);color:#8B5CF6}
+.step-tag.s5{background:rgba(232,99,74,0.12);color:#E8634A}
+.info-gap{border-left:3px solid #E8A020;background:#fffbf0;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:12px;color:#665500}
+.info-gap strong{color:#cc8800}
+@media(max-width:1100px){.sidebar-left{display:none}}
+@media(max-width:900px){.workspace-panel{display:none}}
+</style>
+</head>
+<body>
+
+<div class="ack-overlay" id="ackOverlay">
+  <div class="ack-modal">
+    <div class="ack-logo">N</div>
+    <h2>AI 临床辅助工具使用说明</h2>
+    <div class="ack-body">
+      <p>本工具用于帮助医务人员进行医学信息检索与病例分析。AI 生成内容可能存在遗漏、不准确或不适用于当前患者的情况，不应作为唯一诊疗依据。</p>
+      <p>诊断、检查、用药及治疗决策应由医生结合患者实际情况、原始资料及适用诊疗规范独立作出。</p>
+    </div>
+    <div class="ack-notice">⚕️ 仅限经授权的医务人员使用</div>
+    <button class="ack-btn" onclick="acknowledge()">我已了解，开始使用</button>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo"><div class="logo-icon">N</div><span>Noah Medical AI</span></div>
+  <div class="topbar-actions"><span class="badge">CVRM 临床辅助分析演示</span></div>
+</div>
+
+<div class="main-layout">
+  <div class="sidebar-left">
+    <div class="sb-search"><input type="text" placeholder="搜索会话..." readonly></div>
+    <div class="sb-header"><span>会话历史</span><button class="new-btn" title="新建会话">+</button></div>
+    <div class="sb-list">
+      <div class="sb-item active" onclick="setActive(this)"><div class="sb-title">CVRM 心衰合并糖尿病肾病</div><div class="sb-meta"><span>刚刚</span><span>58岁</span></div><div class="sb-msg-count">5 条消息</div></div>
+      <div class="sb-item" onclick="setActive(this)"><div class="sb-title">高血压合并 CKD 用药评估</div><div class="sb-meta"><span>昨天</span><span>52岁</span></div><div class="sb-msg-count">12 条消息</div></div>
+      <div class="sb-item" onclick="setActive(this)"><div class="sb-title">ACS 术后二级预防方案</div><div class="sb-meta"><span>3 天前</span><span>65岁</span></div><div class="sb-msg-count">6 条消息</div></div>
+      <div class="sb-item" onclick="setActive(this)"><div class="sb-title">HFpEF 合并房颤管理</div><div class="sb-meta"><span>5 天前</span><span>72岁</span></div><div class="sb-msg-count">10 条消息</div></div>
+    </div>
+  </div>
+
+  <div class="chat-panel">
+    <div class="chat-messages" id="chatMessages">
+      <div class="welcome-msg" id="welcomeMsg">
+        <div class="welcome-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009C8E" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>CVRM 临床辅助分析</h3>
+        <p>请输入病例信息，AI 将辅助进行结构化分析、指南检索、循证评估和用药提醒。<br>所有输出仅供临床医师参考，不作为诊疗决策依据。</p>
+      </div>
+    </div>
+    <div class="input-area">
+      <div class="input-inner">
+        <textarea id="msgInput" rows="1" placeholder="输入病例信息..." disabled></textarea>
+        <button class="send-btn" id="sendBtn" disabled onclick="startDemo()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="workspace-panel">
+    <div class="ws-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>分析报告</div>
+    <div class="ws-list" id="wsList"><div style="padding:20px;text-align:center;font-size:11px;color:#ccc">分析完成后将在此显示报告文件</div></div>
+    <div class="ws-hint">点击文件预览完整报告</div>
+  </div>
+</div>
+
+<div class="preview-overlay" id="previewOverlay" onclick="if(event.target===this)closePreview()">
+  <div class="preview-card">
+    <div class="preview-header"><h3 id="previewTitle">报告预览</h3><button class="close-btn" onclick="closePreview()">&times;</button></div>
+    <div class="preview-body" id="previewBody"></div>
+  </div>
+</div>
+<div class="copy-toast" id="copyToast">已复制，请核实后使用</div>
+
+<script>
+var ACK_VERSION='1.0', ACK_KEY='noah_demo_ack';
+
+// ============ CITATIONS DATA ============
+var citations = {
+  'Heidenreich et al., 2022': { apa: 'Heidenreich, P. A., Bozkurt, B., Aguilar, D., et al. (2022). 2022 AHA/ACC/HFSA guideline for the management of heart failure. Journal of the American College of Cardiology, 79(17), e263\u2013e421.', quote: 'Section 5: SGLT2i, ARNI, \u03b2-blocker, and MRA are recommended as first-line GDMT for HFrEF (Class 1, Level A).' },
+  'McDonagh et al., 2023': { apa: 'McDonagh, T. A., et al. (2023). 2023 Focused update of the 2021 ESC guidelines for the diagnosis and treatment of acute and chronic heart failure. European Heart Journal, 44(37), 3627\u20133639.', quote: 'Section 4.1: SGLT2i recommended for all HFrEF regardless of T2D status (Class I, Level A).' },
+  'KDIGO, 2024': { apa: 'KDIGO CKD Work Group. (2024). KDIGO 2024 clinical practice guideline for the evaluation and management of chronic kidney disease. Kidney International, 105(4S), S1\u2013S314.', quote: 'Chapter 3: SGLT2i recommended for CKD with eGFR \u226525 (Grade 1A). Finerenone recommended for T2D + UACR \u226530 (Grade 1A).' },
+  'American Diabetes Association, 2025': { apa: 'American Diabetes Association. (2025). 9. Pharmacologic approaches to glycemic treatment. Diabetes Care, 48(Suppl 1), S1\u2013S112.', quote: 'Section 9.4: SGLT2i recommended in T2D + CKD to reduce HF risk and CKD progression.' },
+  'McMurray et al., 2014': { apa: 'McMurray, J. J. V., et al. (2014). Angiotensin-neprilysin inhibition versus enalapril in heart failure (PARADIGM-HF). NEJM, 371(11), 993\u20131004.', quote: 'Primary composite: HR 0.80 (95% CI 0.73\u20130.87, P<0.001). NNT=21 over 27 months.' },
+  'McMurray et al., 2019': { apa: 'McMurray, J. J. V., et al. (2019). Dapagliflozin in patients with heart failure and reduced ejection fraction (DAPA-HF). NEJM, 381(21), 1995\u20132008.', quote: 'Primary composite: HR 0.74 (95% CI 0.65\u20130.85). Benefit independent of T2D (interaction P=0.80).' },
+  'Packer et al., 2020': { apa: 'Packer, M., et al. (2020). Cardiovascular and renal outcomes with empagliflozin in heart failure (EMPEROR-Reduced). NEJM, 383(15), 1413\u20131424.', quote: 'Primary composite: HR 0.75 (95% CI 0.65\u20130.86). eGFR slope preserved: -0.55 vs -2.28 mL/min/yr (P<0.001).' },
+  'Bakris et al., 2020': { apa: 'Bakris, G. L., et al. (2020). Effect of finerenone on CKD outcomes in type 2 diabetes (FIDELIO-DKD). NEJM, 383(23), 2219\u20132229.', quote: 'Renal composite: HR 0.82 (95% CI 0.73\u20130.93). CV composite: HR 0.86 (95% CI 0.75\u20130.99).' },
+  'Pitt et al., 2021': { apa: 'Pitt, B., et al. (2021). Cardiovascular events with finerenone in kidney disease and type 2 diabetes (FIGARO-DKD). NEJM, 385(24), 2252\u20132263.', quote: 'CV composite: HR 0.87 (95% CI 0.76\u20130.98). Consistent benefit across CKD stages.' },
+  'Solomon et al., 2022': { apa: 'Solomon, S. D., et al. (2022). Dapagliflozin in heart failure with mildly reduced or preserved ejection fraction (DELIVER). NEJM, 387(12), 1089\u20131098.', quote: 'Primary composite: HR 0.82 (95% CI 0.73\u20130.92). Consistent across LVEF spectrum.' },
+  'Vardeny et al., 2022': { apa: 'Vardeny, O., et al. (2022). Efficacy of sacubitril/valsartan vs. ACE inhibition in patients with advanced HFrEF and CKD. JACC Heart Failure, 10(8), 553\u2013563.', quote: 'ARNI superior to ACEi in HFrEF with eGFR <60, with acceptable safety profile.' }
+};
+
+// ============ DEMO DATA ============
+var inputText = '58岁男性，因进行性呼吸困难2周、双下肢水肿就诊。既往史：慢性心衰（HFrEF，LVEF 35%）确诊2年，NYHA II-III级；2型糖尿病8年；CKD 3b期；高血压10年。目前用药：二甲双胍1000mg bid、赖诺普利20mg qd、呋塞米40mg qd、阿托伐他汀20mg qd。查体：BP 148/92，HR 82，双肺底湿啰音，双下肢中度凹陷性水肿，颈静脉怒张。实验室：HbA1c 8.2%，eGFR 38 mL/min，UACR 320 mg/g，NT-proBNP 2860 pg/mL，K+ 4.8 mmol/L。';
+
+var step1 = '> ⚠️ 本报告仅供经授权的医务人员参考，不作为诊疗决策依据。\n\n## 一、患者基本信息\n\n| 项目 | 内容 |\n|------|------|\n| 性别/年龄 | 男 / 58 岁 |\n| 主诉 | 进行性呼吸困难 2 周，伴双下肢水肿 |\n| 心衰背景 | HFrEF（LVEF 35%），确诊 2 年，NYHA II-III 级 |\n| 2 型糖尿病 | 病程 8 年，HbA1c 8.2% |\n| CKD | 3b 期（eGFR 38 mL/min，UACR 320 mg/g） |\n| 高血压 | 病程 10 年，目前 BP 148/92 |\n| 当前用药 | 二甲双胍 1000mg bid、赖诺普利 20mg qd、呋塞米 40mg qd、阿托伐他汀 20mg qd |\n\n## 二、诊疗时间线\n\n```\n2026-07  呼吸困难加重，下肢水肿，就诊\n2024-06  确诊 HFrEF，LVEF 35%\n2018-03  确诊 2 型糖尿病\n2016-05  确诊高血压\n```\n\n## 三、当前状态\n\n| 类别 | 项目 | 结果 | 解读 |\n|------|------|------|------|\n| **体征** | 血压 | 148/92 mmHg | 未达标（目标 <130/80） |\n| | 心率 | 82 bpm | 窦性，HFrEF 目标心率未达标 |\n| | 水肿 | 双下肢中度凹陷性 | 容量负荷增加 |\n| | 颈静脉 | 怒张 | 右心充盈压升高 |\n| **实验室** | NT-proBNP | 2860 pg/mL ↑↑ | 心衰失代偿 |\n| | eGFR | 38 mL/min ↓ | CKD 3b 期 |\n| | UACR | 320 mg/g ↑ | 显著蛋白尿 |\n| | HbA1c | 8.2% ↑ | 血糖控制不佳 |\n| | K+ | 4.8 mmol/L | 接近上限 |\n| **心脏** | LVEF | 35% | 射血分数降低 |\n| | 双肺底湿啰音 | 阳性 | 肺淤血 |\n\n## 四、核心临床问题\n\n1. **心衰失代偿期**：容量负荷过重，需优化利尿方案，同时启动 GDMT\n2. **GDMT 优化不足**：当前仅 ACEi + 利尿剂，未使用 SGLT2i、ARNI、β-受体阻滞剂、MRA\n3. **CKD 与用药安全**：eGFR 38 mL/min 影响多种药物剂量和选择\n4. **糖尿病控制不佳**：HbA1c 8.2%，需考虑 SGLT2i 的双重获益\n5. **多药联合风险**：RASi + 利尿剂 + 即将加用的 SGLT2i/MRA 需监测低血压和高钾血症\n\n> **信息缺口**：未提供近期心脏超声（除 LVEF 外）、冠脉造影结果、血钾动态变化趋势、患者体重变化及尿量记录。';
+
+var step15 = '## 待澄清信息\n\n为完善分析，请确认以下信息：\n\n1. **心衰病因**：是否已行冠脉造影/CTA？缺血性 vs 非缺血性心肌病？\n2. **血钾动态**：既往血钾水平？是否曾出现高钾血症（K+ >5.5）？\n3. **ACEi 耐受性**：赖诺普利是否曾尝试递增至目标剂量（40mg qd）？因何原因维持 20mg？\n4. **体重基线**：近 1 月体重变化？每日尿量约多少？\n5. **β-受体阻滞剂史**：既往是否使用过 β-受体阻滞剂？因何停用或未用？\n\n> 以上信息将影响 GDMT 药物选择和递增策略。';
+
+var step2 = '> ⚠️ 本报告仅供经授权的医务人员参考，不作为诊疗决策依据。\n\n## 病例核心摘要\n\n58 岁男性，HFrEF（LVEF 35%，NYHA II-III 级）合并 2 型糖尿病、CKD 3b 期（eGFR 38 mL/min）及高血压。当前以 ACEi + 利尿剂维持治疗，出现心衰失代偿表现（NT-proBNP 2860 pg/mL，肺淤血，下肢水肿）。血糖控制不佳（HbA1c 8.2%），肾功能中度受损伴显著蛋白尿（UACR 320 mg/g）。\n\n## 一、可考虑的临床方向（GDMT 优化）\n\n### 1. 四联基石疗法（基于 2023 ACC/AHA/ESC 指南）\n\n| 药物类别 | 推荐药物 | 证据等级 | 起始条件 |\n|----------|---------|---------|---------|\n| **SGLT2i** | 达格列净 10mg qd 或 恩格列净 10mg qd | IA 类（DAPA-HF, EMPEROR-Reduced） | eGFR ≥25，无需等待利尿剂调整 |\n| **ARNI** | 沙库巴曲缬沙坦 24/26mg bid → 递增 | IA 类（PARADIGM-HF） | 停用 ACEi 36h 后启用；eGFR ≥30 |\n| **β-受体阻滞剂** | 卡维地洛 3.125mg bid → 递增 | IA 类（CIBIS III, MERIT-HF） | 容量稳定后，从极小剂量起始 |\n| **MRA** | 非奈利酮 10mg qd（优先）或螺内酯 12.5mg qd | IA 类（FIDELIO-DKD） | eGFR ≥25，K+ ≤5.0 |\n\n### 2. 肾功能分层用药建议\n\n| eGFR 范围 | 达格列净 | 沙库巴曲缬沙坦 | 非奈利酮 | 卡维地洛 |\n|-----------|---------|---------------|---------|---------|\n| ≥60 | 标准 | 标准递增 | 20mg qd | 标准递增 |\n| 30-59 | 标准 | 24/26mg bid 起始 | 10mg qd | 标准递增 |\n| 25-29 | 标准（谨慎） | 慎用 | 10mg qd（严密监测 K+） | 标准递增 |\n| <25 | 不推荐起始 | 禁用 | 不推荐 | 标准递增 |\n\n### 3. 利尿与容量管理\n\n- 呋塞米从 40mg qd 调整为 40mg bid，根据尿量和体重调整\n- 每日监测体重、液体出入量、电解质\n- 容量稳定后逐步递减至维持剂量\n\n<div class="info-gap">\n<strong>⚠️ 当前信息不足以判断：</strong><br>\n• 心衰病因（缺血性 vs 非缺血性）影响治疗方案选择<br>\n• 血钾动态变化趋势未知（单次 4.8 接近上限）<br>\n• 患者体重基线及近期变化未记录<br>\n• 既往 β-受体阻滞剂使用史及耐受性\n</div>\n\n## 二、参考文献\n\n- (Heidenreich et al., 2022)\n- (McDonagh et al., 2023)\n- (KDIGO, 2024)\n- (American Diabetes Association, 2025)\n- (McMurray et al., 2014)\n- (McMurray et al., 2019)\n- (Packer et al., 2020)\n- (Bakris et al., 2020)';
+
+var step3 = '> ⚠️ 本报告仅供经授权的医务人员参考，不作为诊疗决策依据。\n\n## 一、关键临床问题的最新证据\n\n### 问题 1：HFrEF 患者，SGLT2i 的获益是否独立于糖尿病状态？\n\n**DAPA-HF 试验** (McMurray et al., 2019)\n- N=4,744，LVEF ≤40%，45% 无糖尿病\n- 达格列净 10mg vs 安慰剂，中位随访 18.2 个月\n- **主要复合终点**（心衰恶化或心血管死亡）：HR 0.74（95% CI 0.65-0.85），NNT=21\n- **全因死亡**：HR 0.83（95% CI 0.71-0.97）\n- **关键亚组**：获益与糖尿病状态无关（交互 P=0.80），eGFR ≥30 均获益\n\n**EMPEROR-Reduced 试验** (Packer et al., 2020)\n- N=3,730，LVEF ≤40%，恩格列净 10mg\n- **主要复合终点**：HR 0.75（95% CI 0.65-0.86）\n- **eGFR 下降速度减缓**：-0.55 vs -2.28 mL/min/年（P<0.001）\n\n### 问题 2：ARNI 在 CKD 患者中的安全性？\n\n**PARADIGM-HF 试验** (McMurray et al., 2014)\n- N=8,399，沙库巴曲缬沙坦 vs 依那普利\n- **主要终点**：HR 0.80（95% CI 0.73-0.87）\n- **eGFR <60 亚组**：获益一致且安全性可接受\n\n**UK HARP-III 试验** (Haynes et al., 2018)\n- N=414，CKD eGFR 20-60\n- ARNI 的肾功能保护优于 ACEi，高钾血症风险无显著差异\n\n### 问题 3：非奈利酮在 CKD+T2D 中的肾心双获益？\n\n**FIDELIO-DKD 试验** (Bakris et al., 2020)\n- N=5,734，CKD+T2D，UACR 30-5000 mg/g，eGFR 25-75\n- **肾脏复合终点**：HR 0.82（95% CI 0.73-0.93）\n- **心血管复合终点**：HR 0.86（95% CI 0.75-0.99）\n- **高钾血症**：干预组 18.3% vs 9.0%，但严重高钾血症（K+ >6.0）不显著\n\n## 二、证据对临床决策的启示\n\n| 证据 | 启示 | 等级 |\n|------|------|------|\n| DAPA-HF + EMPEROR-Reduced | SGLT2i 应作为 HFrEF 一线基石，无论糖尿病状态 | 强 |\n| PARADIGM-HF + UK HARP-III | ARNI 在 CKD 中安全且优于 ACEi，eGFR 38 适用 | 强 |\n| FIDELIO-DKD | 非奈利酮在 CKD+T2D 中肾心双获益，UACR 320 匹配 | 强 |\n| DELIVER (Solomon et al., 2022) | SGLT2i 获益扩展至全 LVEF 谱系 | 中 |\n\n## 三、参考文献\n\n- (McMurray et al., 2019)\n- (Packer et al., 2020)\n- (McMurray et al., 2014)\n- (Bakris et al., 2020)\n- (Pitt et al., 2021)\n- (Solomon et al., 2022)\n- (Vardeny et al., 2022)';
+
+var step5 = '> ⚠️ 本报告仅供经授权的医务人员参考，不作为诊疗决策依据。最终诊疗方案必须由主治医师结合患者全部临床资料及适用诊疗规范独立作出。\n\n## 一、病例整体定位\n\n58 岁男性，HFrEF（LVEF 35%）失代偿期，合并 2 型糖尿病、CKD 3b 期（eGFR 38 mL/min，UACR 320 mg/g）及高血压。当前治疗为 ACEi + 利尿剂二联方案，未达到 GDMT 标准。存在显著的容量负荷过重、血糖控制不佳、肾功能减退及蛋白尿。\n\n## 二、当前核心问题\n\n1. 心衰失代偿需紧急容量管理\n2. GDMT 四联疗法尚未启动（SGLT2i + ARNI + β-阻滞剂 + MRA）\n3. 肾功能限制了部分药物选择\n4. 多药联合的电解质和血压监测需求\n\n## 三、可考虑的临床方向\n\n### 短期（0-4 周）：容量稳定 + 启动 SGLT2i\n\n| 步骤 | 干预 | 注意 |\n|------|------|------|\n| 1 | 呋塞米增加至 40mg bid，监测体重/尿量 | 每日监测 K+、Cr |\n| 2 | 容量稳定后启动达格列净 10mg qd | eGFR 38 ≥25，无需调整剂量 |\n| 3 | 停用赖诺普利，36h 后启动沙库巴曲缬沙坦 24/26mg bid | 监测血压、K+、eGFR |\n\n### 中期（4-12 周）：GDMT 逐步递增\n\n| 药物 | 起始剂量 | 目标剂量 | 递增节奏 |\n|------|---------|---------|---------|\n| 沙库巴曲缬沙坦 | 24/26mg bid | 97/103mg bid | 每 2-4 周倍增 |\n| 卡维地洛 | 3.125mg bid | 25mg bid | 每 2 周倍增 |\n| 达格列净 | 10mg qd | 10mg qd | 维持 |\n| 非奈利酮 | 10mg qd | 20mg qd | 4 周后若 K+ ≤5.0 可递增 |\n\n### 治疗路径决策图\n\n```\n容量负荷过重\n    │\n    ├─ 呋塞米 40mg bid → 评估体重/尿量\n    │\n    ├─ 容量稳定？\n    │   ├─ 是 → 启动达格列净 10mg qd\n    │   │        → 停 ACEi 36h → 启动 ARNI 24/26mg bid\n    │   │        → 容量稳定后启动卡维地洛 3.125mg bid\n    │   │        → 4 周后评估 K+ → 启动非奈利酮 10mg qd\n    │   └─ 否 → 继续利尿，评估容量状态\n    │\n    └─ 每 1-4 周监测：血压、K+、Cr、eGFR\n```\n\n## 四、监测计划\n\n| 指标 | 目标值 | 监测频率 |\n|------|-------|---------|\n| LVEF | 改善至 ≥40% | 每 6 月 |\n| NT-proBNP | 下降 >30% | 每 3 月 |\n| eGFR | 下降速度 <3 mL/min/年 | 每 1-3 月 |\n| UACR | 下降 >30% | 每 3 月 |\n| HbA1c | <7.0% | 每 3 月 |\n| 血压 | <130/80 mmHg | 每月 |\n| K+ | 维持在 4.0-5.0 | 每 1-4 周（递增期） |\n\n<div class="info-gap">\n<strong>⚠️ 当前信息不足以判断以下问题：</strong><br>\n• 心衰病因：缺血性 vs 非缺血性？冠脉评估结果是否已完善？<br>\n• 患者平素血压基线及对 ACEi 的耐受性（既往最高剂量？）<br>\n• 血钾动态变化趋势：单次 4.8 接近上限，既往是否曾出现高钾血症？<br>\n• 体重基线及近期变化：影响利尿剂效果评估及容量状态判断<br>\n• 如患者同时存在显著瓣膜疾病或房颤，上述方案需相应调整\n</div>\n\n## 五、MDT 协作建议\n\n| 专科 | 会诊目的 | 优先级 |\n|------|---------|-------|\n| 心内科 | GDMT 优化启动与心衰管理 | 立即 |\n| 肾内科 | CKD 分期管理，药物剂量调整 | 1-2 周内 |\n| 内分泌科 | 糖尿病管理，SGLT2i 联合方案 | 1-2 周内 |\n| 临床药学 | 多药联合相互作用评估 | 用药调整前 |\n\n## 六、参考文献\n\n- (Heidenreich et al., 2022)\n- (McDonagh et al., 2023)\n- (KDIGO, 2024)\n- (American Diabetes Association, 2025)\n- (McMurray et al., 2014)\n- (McMurray et al., 2019)\n- (Packer et al., 2020)\n- (Bakris et al., 2020)\n- (Pitt et al., 2021)\n- (Solomon et al., 2022)\n- (Vardeny et al., 2022)';
+
+// ============ STATE ============
+var demoRunning = false;
+
+// ============ ACKNOWLEDGMENT ============
+function acknowledge() {
+  try { localStorage.setItem(ACK_KEY, JSON.stringify({ version: ACK_VERSION, timestamp: Date.now(), acked: true })); } catch(e) {}
+  var overlay = document.getElementById('ackOverlay');
+  if (overlay) overlay.remove();
+  enableInput();
+}
+
+function enableInput() {
+  document.getElementById('msgInput').disabled = false;
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('msgInput').value = inputText;
+  document.getElementById('msgInput').focus();
+  document.getElementById('msgInput').style.height = 'auto';
+  document.getElementById('msgInput').style.height = Math.min(document.getElementById('msgInput').scrollHeight, 100) + 'px';
+}
+
+(function(){try{var a=JSON.parse(localStorage.getItem(ACK_KEY));if(a&&a.acked===true&&a.version===ACK_VERSION){var o=document.getElementById('ackOverlay');if(o)o.remove();enableInput();}}catch(e){}})();
+
+document.getElementById('msgInput').addEventListener('input', function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'});
+
+function setActive(el) {
+  var items = el.closest('.sb-list').querySelectorAll('.sb-item');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
+  el.classList.add('active');
+}
+
+// ============ MARKDOWN RENDERER ============
+function renderMarkdown(md) {
+  if (!md) return '';
+  var html = '<div class="md-body">';
+  var lines = md.split('\n');
+  var inTable = false, tableRows = [];
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+
+    // Skip table separator lines
+    if (/^\|[\s\-:]+\|/.test(line) && inTable) continue;
+
+    // Table row
+    if (line.startsWith('|') && line.endsWith('|')) {
+      var cells = line.split('|').filter(function(c,idx,a){return idx>0&&idx<a.length-1}).map(function(c){return c.trim()});
+      if (!inTable) { inTable = true; tableRows = [cells]; }
+      else { tableRows.push(cells); }
+      continue;
+    } else {
+      if (inTable && tableRows.length > 0) { html += renderTable(tableRows); inTable = false; tableRows = []; }
+    }
+
+    // Info gap
+    if (line.indexOf('<div class="info-gap">') !== -1) {
+      var gapLines = [], found = false;
+      i++;
+      while (i < lines.length) {
+        if (lines[i].indexOf('</div>') !== -1) { found = true; break; }
+        gapLines.push(lines[i]); i++;
+      }
+      if (found) {
+        html += '<div class="info-gap">' + gapLines.join('<br>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</div>';
+      } else {
+        html += '<blockquote>\u26a0\ufe0f \u5f53\u524d\u4fe1\u606f\u4e0d\u8db3\u4ee5\u5224\u65ad...</blockquote>';
+      }
+      continue;
+    }
+
+    // Code block
+    if (line.startsWith('```')) {
+      var codeLines = []; i++;
+      while (i < lines.length && !lines[i].startsWith('```')) { codeLines.push(lines[i]); i++; }
+      html += '<div class="flowchart">' + escapeHtml(codeLines.join('\n')) + '</div>';
+      continue;
+    }
+
+    // Headings
+    if (line.startsWith('### ')) { html += '<h3>' + escapeHtml(line.slice(4)) + '</h3>'; continue; }
+    if (line.startsWith('## ')) { html += '<h2>' + escapeHtml(line.slice(3)) + '</h2>'; continue; }
+
+    // Blockquote
+    if (line.startsWith('> ')) { html += '<blockquote>' + inlineFormat(line.slice(2)) + '</blockquote>'; continue; }
+
+    // List
+    if (line.startsWith('- ') || line.startsWith('* ')) { html += '<li>' + inlineFormat(line.slice(2)) + '</li>'; continue; }
+    if (/^\d+\.\s/.test(line)) { html += '<li>' + inlineFormat(line.replace(/^\d+\.\s/, '')) + '</li>'; continue; }
+
+    // HR
+    if (/^-{3,}$/.test(line.trim())) { html += '<hr>'; continue; }
+
+    // Empty
+    if (line.trim() === '') { html += '\n'; continue; }
+
+    // Paragraph
+    html += '<p>' + inlineFormat(line) + '</p>';
+  }
+  if (inTable && tableRows.length > 0) html += renderTable(tableRows);
+  html += '</div>';
+  return html;
+}
+
+function renderTable(rows) {
+  if (!rows.length) return '';
+  var h = '<table><thead><tr>';
+  rows[0].forEach(function(c){h+='<th>'+escapeHtml(c)+'</th>'});
+  h += '</tr></thead><tbody>';
+  for (var i = 1; i < rows.length; i++) {
+    h += '<tr>';
+    rows[i].forEach(function(c){h+='<td>'+escapeHtml(c)+'</td>'});
+    h += '</tr>';
+  }
+  return h + '</tbody></table>';
+}
+
+function inlineFormat(text) {
+  var t = escapeHtml(text);
+  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  t = t.replace(/`(.+?)`/g, '<code>$1</code>');
+  // Match each citation separately: (Author, Year) - not compound ones
+  t = t.replace(/\(([A-Za-z\u00C0-\u024F]+(?:\s+(?:et\s+al\.|&\s+[A-Za-z\u00C0-\u024F]+))?,\s*\d{4})\)/g, function(m, k) {
+    var key = k.trim();
+    if (citations[key]) {
+      return '<span class="ref-link" data-citation="' + key + '">' + m + '</span>';
+    }
+    return m;
+  });
+  return t;
+}
+
+function escapeHtml(t) {
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ============ CITATION TOOLTIP ============
+document.addEventListener('mouseover', function(e) {
+  var link = e.target.closest('.ref-link');
+  if (!link) { hideTip(); return; }
+  var key = link.dataset.citation;
+  var cit = citations[key];
+  if (!cit) return;
+  showTip(e, key, cit);
+});
+document.addEventListener('mousemove', function(e) {
+  var tip = document.getElementById('citationTip');
+  if (!tip) return;
+  var x = e.clientX + 10, y = e.clientY + 10;
+  var mw = window.innerWidth - tip.offsetWidth - 12;
+  var mh = window.innerHeight - tip.offsetHeight - 12;
+  tip.style.left = Math.min(x, Math.max(12, mw)) + 'px';
+  tip.style.top = Math.min(y, Math.max(12, mh)) + 'px';
+});
+function showTip(e, key, cit) {
+  var tip = document.getElementById('citationTip');
+  if (!tip) { tip = document.createElement('div'); tip.id = 'citationTip'; tip.className = 'citation-tooltip'; document.body.appendChild(tip); }
+  tip.innerHTML = '<div class="ct-title">' + key + '</div><div class="ct-apa">' + cit.apa + '</div><div class="ct-quote">' + cit.quote + '</div>';
+  tip.style.display = 'block';
+  requestAnimationFrame(function() {
+    var x = e.clientX + 10, y = e.clientY + 10;
+    var mw = window.innerWidth - tip.offsetWidth - 12;
+    var mh = window.innerHeight - tip.offsetHeight - 12;
+    tip.style.left = Math.min(x, Math.max(12, mw)) + 'px';
+    tip.style.top = Math.min(y, Math.max(12, mh)) + 'px';
+  });
+}
+function hideTip() { var tip = document.getElementById('citationTip'); if (tip) tip.style.display = 'none'; }
+
+// ============ COPY TOAST + COPY BUTTON ============
+function showCopyToast() {
+  var toast = document.getElementById('copyToast');
+  toast.classList.remove('show');
+  void toast.offsetWidth;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(function(){toast.classList.remove('show')}, 2000);
+}
+
+// Copy button click handler
+function handleCopyBtn(btn) {
+  var content = btn.dataset.content;
+  if (!content) return;
+  // Try clipboard API
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(content).catch(function(){});
+  }
+  showCopyToast();
+}
+
+// Global copy detection
+document.addEventListener('copy', function() {
+  var sel = window.getSelection();
+  if (!sel || !sel.toString().trim()) return;
+  var node = sel.anchorNode;
+  while (node) {
+    if (node.nodeType === 1 && node.matches && node.matches('.msg-row') && node.dataset.role === 'assistant') {
+      showCopyToast(); return;
+    }
+    node = node.parentNode;
+  }
+});
+
+// ============ AI BADGE ============
+function addAiBadge(row) {
+  if (row.dataset.noahBadge === '1') return;
+  if (row.dataset.role !== 'assistant') return;
+  var body = row.querySelector('.msg-bubble');
+  if (!body) return;
+  var badge = document.createElement('div');
+  badge.className = 'ai-badge';
+  badge.onclick = function(){this.classList.toggle('open')};
+  badge.innerHTML = '<span class="ai-badge-label">AI 辅助分析</span><span class="ai-badge-hint">\u24d8 请结合原始资料和临床判断核实</span><div class="ai-badge-detail">内容由人工智能生成，可能存在遗漏或错误。建议结合患者实际情况、原始检查资料及相关指南进行核实。</div>';
+  body.insertBefore(badge, body.firstChild);
+  row.dataset.noahBadge = '1';
+}
+
+// ============ WORKSPACE ============
+function addWsFile(step, name, iconClass, content) {
+  var list = document.getElementById('wsList');
+  var ph = list.querySelector('div[style*="text-align:center"]');
+  if (ph) ph.remove();
+  var file = document.createElement('div');
+  file.className = 'ws-file';
+  file.innerHTML = '<div class="ws-icon ' + iconClass + '">' + step + '</div><div class="ws-name">' + name + '</div><div class="ws-status">\u65b0</div>';
+  file.onclick = function(){previewFile(name, content)};
+  list.appendChild(file);
+  requestAnimationFrame(function(){file.style.opacity='1'});
+}
+
+function previewFile(name, content) {
+  document.getElementById('previewTitle').textContent = name;
+  document.getElementById('previewBody').innerHTML = renderMarkdown(content);
+  document.getElementById('previewOverlay').classList.add('open');
+}
+function closePreview() { document.getElementById('previewOverlay').classList.remove('open'); }
+
+// ============ DEMO ENGINE ============
+function startDemo() {
+  if (demoRunning) return;
+  demoRunning = true;
+  document.getElementById('sendBtn').disabled = true;
+  document.getElementById('msgInput').disabled = true;
+
+  var chat = document.getElementById('chatMessages');
+  var welcome = document.getElementById('welcomeMsg');
+  if (welcome) welcome.style.display = 'none';
+
+  var input = document.getElementById('msgInput').value.trim();
+  addUserMsg(input);
+  setTimeout(function(){addLoading('\u6b63\u5728\u5206\u6790\u75c5\u4f8b\u4fe1\u606f...')}, 200);
+  setTimeout(function(){removeEl('loadingRow'); doStep1();}, 2000);
+}
+
+function removeEl(id) { var el = document.getElementById(id); if (el) el.remove(); }
+function removeLastSearch() { var el = document.querySelector('.search-row'); if (el) el.remove(); }
+
+function addUserMsg(text) {
+  var chat = document.getElementById('chatMessages');
+  var row = document.createElement('div');
+  row.className = 'msg-row user';
+  row.innerHTML = '<div class="msg-bubble">' + escapeHtml(text) + '</div>';
+  chat.appendChild(row);
+  scrollToBottom();
+}
+
+function addLoading(text) {
+  var chat = document.getElementById('chatMessages');
+  var row = document.createElement('div');
+  row.className = 'loading-row'; row.id = 'loadingRow';
+  row.innerHTML = '<span class="spinner"></span><span class="search-text">' + escapeHtml(text) + '</span>';
+  chat.appendChild(row);
+  scrollToBottom();
+}
+
+function addSearch(text) {
+  var chat = document.getElementById('chatMessages');
+  var row = document.createElement('div');
+  row.className = 'search-row';
+  row.innerHTML = '<div class="search-icon"></div><span>' + escapeHtml(text) + '</span>';
+  chat.appendChild(row);
+  scrollToBottom();
+}
+
+// Step 1
+function doStep1() {
+  streamMessage('1', 's1', '\u8bca\u7597\u5386\u7a0b\u603b\u7ed3', step1, '1-\u8bca\u7597\u5386\u7a0b\u603b\u7ed3.md', 's1', function(){
+    setTimeout(function(){doStep15();}, 400);
+  });
+}
+
+// Step 1.5 - Clarify
+function doStep15() {
+  var chat = document.getElementById('chatMessages');
+  var card = document.createElement('div');
+  card.className = 'clarify-card';
+  card.id = 'clarifyCard';
+  card.innerHTML = '<div class="cc-title">\u2753 \u5f85\u7f51\u6e05\u4fe1\u606f</div>'
+    + '<div class="cc-desc">\u4e3a\u5b8c\u5584\u5206\u6790\uff0c\u8bf7\u786e\u8ba4\u4ee5\u4e0b\u4fe1\u606f\uff1a</div>'
+    + '<div class="cc-item"><strong>\u2460 \u5fc3\u8870\u75c5\u56e0</strong>\uff1a\u662f\u5426\u5df2\u884c\u51a0\u8109\u9020\u5f71/\u00a0CTA\uff1f\u7f3a\u8840\u6027 vs \u975e\u7f3a\u8840\u6027\uff1f</div>'
+    + '<div class="cc-item"><strong>\u2461 \u8840\u94be\u52a8\u6001</strong>\uff1a\u65e2\u5f80\u8840\u94be\u6c34\u5e73\uff1f\u662f\u5426\u66fe\u51fa\u73b0\u9ad8\u94be\u8840\u75c7\uff08K+ >5.5\uff09\uff1f</div>'
+    + '<div class="cc-item"><strong>\u2462 ACEi \u8010\u53d7\u6027</strong>\uff1a\u8d56\u8bfa\u666e\u5229\u662f\u5426\u66fe\u5c1d\u8bd5\u9012\u589e\u81f3\u76ee\u6807\u5242\u91cf\uff1f</div>'
+    + '<div class="cc-item"><strong>\u2463 \u4f53\u91cd\u57fa\u7ebf</strong>\uff1a\u8fd1 1 \u6708\u4f53\u91cd\u53d8\u5316\uff1f\u6bcf\u65e5\u5c3f\u91cf\u7ea6\u591a\u5c11\uff1f</div>'
+    + '<div class="cc-item"><strong>\u2464 \u03b2-\u53d7\u4f53\u963b\u65ed\u5242\u53f2</strong>\uff1a\u65e2\u5f80\u662f\u5426\u4f7f\u7528\u8fc7\uff1f\u56e0\u4f55\u505c\u7528\u6216\u672a\u7528\uff1f</div>'
+    + '<div style="margin-top:8px;font-size:11px;color:#aaa;text-align:center">\u6b64\u6b65\u9aa4\u6a21\u62df AI \u4e3b\u52a8\u5411\u533b\u751f\u786e\u8ba4\u7f3a\u5931\u4fe1\u606f</div>';
+  chat.appendChild(card);
+  // Add fake inline clarify message
+  var msg = document.createElement('div');
+  msg.className = 'msg-row user';
+  msg.innerHTML = '<div class="msg-bubble" style="font-size:12px;color:#666">\u7f3a\u4e4f\u5b98\u8109\u9020\u5f71\u7ed3\u679c\uff0c\u6682\u65f6\u6309\u975e\u7f3a\u8840\u6027\u5fc3\u810f\u75c5\u5904\u7406\u3002\u8840\u94be\u66fe\u6700\u9ad8 5.1\uff0c\u672a\u7528\u8fc7 \u03b2-\u53d7\u4f53\u963b\u65ed\u5242\u3002</div>';
+  // Wait, show user clarifying
+  setTimeout(function(){
+    card.remove();
+    chat.appendChild(msg);
+    addWsFile('1.5', '1.5-\u6f84\u6e05\u95ee\u9898.md', 's15', step15);
+    scrollToBottom();
+    setTimeout(function(){removeLastSearch(); doStep2();}, 400);
+  }, 2000);
+  scrollToBottom();
+}
+
+// Step 2
+function doStep2() {
+  addSearch('\u6b63\u5728\u68c0\u7d22 ACC/AHA/ESC \u5fc3\u8870\u6307\u5357\u3001KDIGO CKD \u6307\u5357\u3001ADA \u7cd6\u5c3f\u75c5\u6807\u51c6...');
+  setTimeout(function() {
+    streamMessage('2', 's2', '\u53ef\u8003\u8651\u7684\u4e34\u5e8a\u65b9\u5411', step2, '2-\u6307\u5357\u5efa\u8bae.md', 's2', function(){
+      setTimeout(function(){removeLastSearch(); doStep3();}, 200);
+    });
+  }, 2000);
+}
+
+// Step 3
+function doStep3() {
+  addSearch('\u6b63\u5728\u68c0\u7d22 PubMed \u5faa\u8bc1\u7814\u7a76\uff08DAPA-HF\u3001EMPEROR-Reduced\u3001PARADIGM-HF\u3001FIDELIO-DKD...\uff09');
+  setTimeout(function() {
+    streamMessage('3', 's3', '\u5faa\u8bc1\u5efa\u8bae', step3, '3-\u5faa\u8bc1\u5efa\u8bae.md', 's3', function(){
+      setTimeout(function(){removeLastSearch(); doStep5();}, 200);
+    });
+  }, 2000);
+}
+
+// Step 5 - Final
+function doStep5() {
+  addSearch('\u6b63\u5728\u6574\u5408\u5206\u6790\u7ed3\u679c\uff0c\u751f\u6210\u7efc\u5408\u4e34\u5e8a\u53c2\u8003\u4fe1\u606f...');
+  setTimeout(function() {
+    streamMessage('5', 's5', '\u7efc\u5408\u4e34\u5e8a\u53c2\u8003\u4fe1\u606f', step5, '5-\u7efc\u5408\u4e34\u5e8a\u53c2\u8003\u4fe1\u606f.md', 's5', function(){
+      setTimeout(function(){demoDone()}, 500);
+    });
+  }, 1200);
+}
+
+function demoDone() {
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('msgInput').disabled = false;
+  demoRunning = false;
+}
+
+// ============ STREAM MESSAGE ============
+function streamMessage(step, tagClass, tag, fullContent, wsName, wsIcon, onDone) {
+  var chat = document.getElementById('chatMessages');
+  var row = document.createElement('div');
+  row.className = 'msg-row assistant';
+  row.dataset.role = 'assistant';
+  row.dataset.step = step;
+
+  var bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  row.appendChild(bubble);
+  chat.appendChild(row);
+  addAiBadge(row);
+
+  var header = document.createElement('div');
+  header.style.cssText = 'margin:6px 0 3px;font-size:11px;color:#999;';
+  header.innerHTML = '<span class="step-tag ' + tagClass + '">\u6b65\u9aa4 ' + step + '</span> ' + tag;
+  bubble.appendChild(header);
+
+  var contentDiv = document.createElement('div');
+  contentDiv.className = 'stream-content';
+  bubble.appendChild(contentDiv);
+
+  // Tools row (copy button)
+  var tools = document.createElement('div');
+  tools.className = 'msg-tools';
+  tools.innerHTML = '<button onclick="handleCopyBtn(this)" data-content="' + escapeHtml(fullContent.replace(/"/g,'&quot;').replace(/'/g,'&#39;')) + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> \u590d\u5236</button>';
+  bubble.appendChild(tools);
+
+  scrollToBottom();
+
+  var total = fullContent.length;
+  var pos = 0;
+  var durations = { '1': 4000, '2': 4500, '3': 3500, '5': 5500 };
+  var dur = durations[step] || 5000;
+  var interval = 35;
+  var totalUpdates = Math.floor(dur / interval);
+  var cps = Math.max(5, Math.ceil(total / totalUpdates));
+
+  function next() {
+    if (pos >= total) {
+      contentDiv.innerHTML = renderMarkdown(fullContent);
+      addWsFile(step, wsName, wsIcon, fullContent);
+      if (typeof onDone === 'function') onDone();
+      return;
+    }
+    var chunk = Math.min(cps, total - pos);
+    pos += chunk;
+    var preview = fullContent.substring(0, pos) + '<span style="animation:blink 0.8s infinite;color:var(--accent);font-weight:bold">\u258d</span>';
+    contentDiv.innerHTML = renderMarkdown(preview);
+    scrollToBottom();
+    setTimeout(next, interval);
+  }
+  next();
+}
+
+function scrollToBottom() {
+  var chat = document.getElementById('chatMessages');
+  requestAnimationFrame(function(){chat.scrollTop = chat.scrollHeight});
+}
+
+document.getElementById('msgInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey && !demoRunning && this.value.trim()) { e.preventDefault(); startDemo(); }
+});
+
+console.log('[Noah CVRM Demo] v2 loaded');
+</script>
+</body>
+</html>

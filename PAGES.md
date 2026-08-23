@@ -50,6 +50,22 @@
 
 若只修改某个子项目代码、**没有新增子目录**，通常只需改子项目源码并 push，**不必**改 Hub 卡片（除非要改标题或说明文案）。
 
+## 当前 Hub 子站一览（含静态页）
+
+| 目录 | Hub 标题 |
+|------|----------|
+| `medical-copilot` | Medical Copilot |
+| `fda-submission-gap-analyzer` | FDA Submission Gap Analyzer |
+| `zhihui-mdt` | 智汇MDT |
+| `plm` | PLM |
+| `ai伦理审查辅助系统` | Noah AI · AI伦理审查辅助系统 |
+| `roche-noah-ai-demo` | Roche NOAH AI · 若生科研平台 |
+| `ZheEr_MiniProgram` | 淋巴瘤指南查询小程序 |
+| `mdt-beone` | MDT_Beone CDSS |
+| `MDT-demo` | MDT·BeOne |
+| `medical-expert-collaboration-platform` | 医学专家协作平台 |
+| `noah-ai-cvrm-demo` | **病例问答**（静态 HTML，合规交互示意） |
+
 ## 相关文件
 
 - 部署 workflow：[`.github/workflows/deploy-medical-copilot-pages.yml`](./.github/workflows/deploy-medical-copilot-pages.yml)

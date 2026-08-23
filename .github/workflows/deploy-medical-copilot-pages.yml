@@ -126,6 +126,7 @@ jobs:
           mkdir -p site/mdt-beone
           mkdir -p site/MDT-demo
           mkdir -p site/medical-expert-collaboration-platform
+          mkdir -p site/noah-ai-cvrm-demo
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -159,6 +160,9 @@ jobs:
 
           # medical-expert-collaboration-platform / NOAH AI 医学专家协作平台 (Vite + React)
           cp -r medical-expert-collaboration-platform/dist/* site/medical-expert-collaboration-platform/
+
+          # noah-ai-cvrm-demo / 病例问答合规交互演示（静态 HTML）
+          cp -r noah-ai-cvrm-demo/* site/noah-ai-cvrm-demo/
 
           # Root: innocuous 404 (no project links)
           cat > site/index.html << 'ROOT404'
@@ -349,6 +353,10 @@ jobs:
                 <a class="card" href="/${REPO_NAME}/medical-expert-collaboration-platform/">
                   <span class="card-title">医学专家协作平台</span>
                   <span class="card-desc">专家任务领取、认证、计价与结算演示</span>
+                </a>
+                <a class="card" href="/${REPO_NAME}/noah-ai-cvrm-demo/">
+                  <span class="card-title">病例问答</span>
+                  <span class="card-desc">Noah AI · CVRM 临床辅助分析与合规交互示意</span>
                 </a>
               </main>
               <footer>YuanMenghe / Demo · GitHub Pages</footer>
