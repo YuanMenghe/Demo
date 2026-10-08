@@ -364,7 +364,7 @@
 
   /* ───────── 图片灯箱 ───────── */
   function enhance() {
-    content.querySelectorAll('.fig img').forEach(function (img) {
+    content.querySelectorAll('.fig img, .extra img').forEach(function (img) {
       img.addEventListener('click', function () {
         lbImg.src = img.currentSrc || img.src;
         lbImg.alt = img.alt || '';

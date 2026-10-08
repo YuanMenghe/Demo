@@ -571,6 +571,78 @@ html[data-indent="off"] .article p { text-indent: 0; }
 }
 .lb-close:hover { background: rgba(255, 255, 255, .22); }
 
+/* ══════════ 附录：非原作者补充内容 ══════════ */
+.appendix {
+  margin-top: 56px;
+  padding-top: 30px;
+  border-top: 2px dashed color-mix(in srgb, var(--accent) 45%, var(--border));
+  scroll-margin-top: calc(var(--topbar-h) + 18px);
+}
+@supports not (border-color: color-mix(in srgb, red 50%, blue)) {
+  .appendix { border-top-color: var(--border); }
+}
+
+.appendix-banner {
+  display: flex; flex-direction: column; gap: 7px;
+  padding: 15px 17px;
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--r-md);
+  font-family: var(--font-sans);
+}
+@supports not (border-color: color-mix(in srgb, red 50%, blue)) {
+  .appendix-banner { border-color: var(--border); border-left-color: var(--accent); }
+}
+.appendix-banner strong {
+  font-size: .8rem; font-weight: 700; letter-spacing: .06em; color: var(--accent);
+}
+.appendix-banner span { font-size: .78rem; line-height: 1.75; color: var(--text-2); }
+.appendix-banner span strong { font-size: inherit; color: var(--text); letter-spacing: 0; }
+
+.appendix-heading {
+  margin: 30px 0 8px;
+  font-size: clamp(1.15rem, 4.2vw, 1.3rem);
+  font-weight: 700; letter-spacing: .02em;
+  text-align: center;
+}
+.appendix-intro {
+  text-indent: 0 !important;
+  margin: 0 auto 26px !important;
+  max-width: 34rem;
+  font-family: var(--font-sans);
+  font-size: .76rem !important; line-height: 1.75 !important;
+  text-align: center;
+  color: var(--muted) !important;
+}
+
+.extra { margin: 0 0 34px; }
+.extra img {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  cursor: zoom-in;
+  transition: transform .22s var(--ease), box-shadow .22s var(--ease);
+}
+.extra img:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.extra figcaption {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  text-align: left;
+}
+.extra-title {
+  display: block;
+  margin-bottom: 7px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--border);
+  font-size: .84rem; font-weight: 700; letter-spacing: .02em;
+  color: var(--accent);
+}
+.extra-body { display: block; font-size: .8rem; line-height: 1.85; color: var(--text-2); }
+.extra-body strong { font-weight: 700; color: var(--text); background: none; padding: 0; }
+
 /* ══════════ 响应式 ══════════ */
 
 /* 窄屏收紧留白 */
