@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto" data-font="md">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="color-scheme" content="light dark" />
+<meta name="referrer" content="no-referrer" />
+<title>我的前任是逃犯</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4553a'/%3E%3Ctext x='16' y='23' font-size='19' font-family='Georgia,serif' fill='%23fff' text-anchor='middle'%3E逃%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/app.css" />
+<script>
+  /* 提前套用偏好，避免首屏闪烁 */
+  (function () {
+    try {
+      var r = document.documentElement;
+      var t = localStorage.getItem('xfz.theme');
+      if (t === 'light' || t === 'dark') r.dataset.theme = t;
+      var f = localStorage.getItem('xfz.font');
+      if (f) r.dataset.font = f;
+      var p = localStorage.getItem('xfz.indent');
+      if (p === 'off') r.dataset.indent = 'off';
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<!-- ══════════ 密码门 ══════════ -->
+<div class="gate" id="gate">
+  <div class="gate-bg" aria-hidden="true"></div>
+  <form class="gate-card" id="gateForm" autocomplete="off" novalidate>
+    <div class="gate-mark" aria-hidden="true">逃</div>
+    <h1 class="gate-title">我的前任是逃犯</h1>
+    <p class="gate-sub">受保护的私人阅读 · 请输入访问密码</p>
+    <div class="gate-field">
+      <input id="pw" type="password" class="gate-input" placeholder="访问密码" aria-label="访问密码"
+             autocomplete="current-password" spellcheck="false" inputmode="text" />
+      <button type="button" class="gate-eye" id="eye" aria-label="显示密码" title="显示 / 隐藏">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/>
+          <circle cx="12" cy="12" r="2.6"/>
+        </svg>
+      </button>
+    </div>
+    <button class="gate-btn" type="submit" id="gateBtn">进入阅读</button>
+    <label class="gate-remember">
+      <input type="checkbox" id="remember" />
+      <span>在此设备上记住密码</span>
+    </label>
+    <p class="gate-msg" id="gateMsg" role="alert" aria-live="polite"></p>
+  </form>
+</div>
+
+<!-- ══════════ 阅读器 ══════════ -->
+<div class="progress" id="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<div class="app" id="app" hidden>
+  <header class="topbar" id="topbar">
+    <button class="icon-btn" id="tocBtn" aria-label="目录" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+        <path d="M4 6h16M4 12h16M4 18h10"/>
+      </svg>
+    </button>
+    <div class="topbar-title" id="topTitle">我的前任是逃犯</div>
+    <div class="topbar-tools">
+      <button class="icon-btn" id="fontBtn" aria-label="字号" title="字号">
+        <span class="aa">Aa</span>
+      </button>
+      <button class="icon-btn" id="themeBtn" aria-label="切换深浅色" title="切换深浅色">
+        <svg class="ico-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+        </svg>
+        <svg class="ico-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="scrim" id="scrim" hidden></div>
+
+  <nav class="toc" id="toc" aria-label="章节目录" hidden>
+    <div class="toc-head">
+      <span>目录</span>
+      <button class="icon-btn sm" id="tocClose" aria-label="关闭目录">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <ol class="toc-list" id="tocList"></ol>
+    <div class="toc-foot">
+      <button class="linkish" id="lockBtn">锁定并退出</button>
+    </div>
+  </nav>
+
+  <main class="main" id="main">
+    <div class="loading" id="loading"><span class="spinner"></span>正在解密内容…</div>
+    <div id="content"></div>
+    <footer class="pagefoot">全文完 · 仅供个人阅读</footer>
+  </main>
+
+  <button class="to-top" id="toTop" aria-label="回到顶部" hidden>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M6 12l6-6 6 6"/></svg>
+  </button>
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <img id="lbImg" alt="" />
+  <button class="lb-close" id="lbClose" aria-label="关闭">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
+
+<script src="assets/app.js" defer></script>
+</body>
+</html>

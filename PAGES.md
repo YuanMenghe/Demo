@@ -65,6 +65,10 @@
 | `MDT-demo` | MDT·BeOne |
 | `medical-expert-collaboration-platform` | 医学专家协作平台 |
 | `noah-ai-cvrm-demo` | **病例问答**（静态 HTML，合规交互示意） |
+| `ex-partner-fugitive` | **未列入 Hub**（按站主要求不公开导航，仅直链：`/Demo/ex-partner-fugitive/`，密码保护） |
+
+> `ex-partner-fugitive` 是唯一有意不加入 Hub 的子站：站主要求不将其展示在主页导航上，
+> 因此 workflow 中只做静态拷贝、**不**追加 Hub 卡片。维护方式见该目录下的 `README.md`。
 
 ## 相关文件
 
