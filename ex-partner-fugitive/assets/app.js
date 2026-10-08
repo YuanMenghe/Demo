@@ -322,8 +322,22 @@
   });
 
   /* ───────── 滚动进度 / 高亮 ───────── */
-  var ticking = false;
-  function measure() { ticking = false; updateScroll(); }
+  var pending = null;
+  function measure() { pending = null; updateScroll(); }
+
+  /* rAF 在后台标签页 / 无合成环境下会被暂停，因此同时挂一个定时器兜底，
+     保证进度条与目录高亮不会“卡住不动”。 */
+  function scheduleScroll() {
+    if (pending) return;
+    pending = setTimeout(function () { pending = null; updateScroll(); }, 100);
+    requestAnimationFrame(function () {
+      if (pending) { clearTimeout(pending); pending = null; updateScroll(); }
+    });
+  }
+  window.addEventListener('scroll', scheduleScroll, { passive: true });
+  window.addEventListener('resize', function () { scheduleScroll(); });
+  window.addEventListener('orientationchange', function () { scheduleScroll(); });
+
   function updateScroll() {
     var y = window.pageYOffset;
     var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -345,10 +359,6 @@
       tocButtons[j].classList.toggle('read', j < idx);
     }
   }
-  window.addEventListener('scroll', function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(measure); }
-  }, { passive: true });
-  window.addEventListener('resize', function () { if (!ticking) { ticking = true; requestAnimationFrame(measure); } });
 
   toTop.addEventListener('click', function () { scrollToY(0); });
 
