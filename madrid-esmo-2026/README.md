@@ -10,6 +10,10 @@ https://yuanmenghe.github.io/Demo/madrid-esmo-2026/
 
 https://yuanmenghe.github.io/Demo/madrid-esmo-2026/guide.html
 
-`index.html`、`app.js`、`guide.html`、`guide.js` 会发布到 Pages。本 README 只留在仓库里，不会拷进站点。
+画家和画作从攻略里点开，不从行程页进入：
+
+https://yuanmenghe.github.io/Demo/madrid-esmo-2026/read.html
+
+`index.html`、`app.js`、`guide.html`、`guide.js`、`read.html`、`read.js` 会发布到 Pages。本 README 只留在仓库里，不会拷进站点。
 
 内容来自 `临时工作/20261014_马德里ESMO行程` 的三份确认稿，以及《普拉多、王宫与丽池艺术史游览指南》。勾选和备注只存在每人自己的浏览器里。

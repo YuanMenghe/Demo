@@ -15,6 +15,7 @@
   };
   const NAV = [
     { id: "line", label: "一天", children: [
+      { id: "line-thread", label: "一条历史线" },
       { id: "line-order", label: "时间取舍" }
     ]},
     { id: "palace", label: "王宫", children: [
@@ -46,12 +47,12 @@
     ]}
   ];
   const WORKS = [
-    { id: "greco", name: "埃尔·格列柯《手按胸口的贵族》", room: "Room 008B", mins: "10–12 分钟", must: false, look: "先看黑衣和灰背景，再看白手、金剑柄和直视观众的眼神。身份仍有不同解释，不必当成已经确定的肖像。", history: "约 1580 年。他从克里特来到西班牙，在托莱多形成个人画风。姿态、衣料和佩剑在表达贵族身份。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-nobleman-with-his-hand-on-his-chest/9cb73bdf-66e8-4826-a79c-5de2b15a1da6" },
-    { id: "bosch", name: "博斯《人间乐园》", room: "Room 056A", mins: "15–20 分钟", must: true, look: "先看闭合画板外侧，再从左翼伊甸园走到中央，最后看右翼地狱。不要只放大找怪物。", history: "腓力二世 1591 年购入，后送往埃斯科里亚尔。北方绘画就这样进入西班牙王室和宗教收藏。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-garden-of-earthly-delights-triptych/02388242-6d6a-4e9e-a992-e1311eab3609" },
-    { id: "meninas", name: "委拉斯开兹《宫娥》", room: "Room 012", mins: "20–25 分钟", must: true, look: "先找镜中的腓力四世和王后，再找画家本人、后方门口的人，以及画布背面。问的是：谁在看谁？", history: "1656 年，为宫廷空间而作。它把观看本身变成主题，也把画家放进宫廷。", href: "https://www.museodelprado.es/en/the-collection/art-work/las-meninas/9fdc7800-9ade-48b0-ab8b-edee94ea877f", img: IMG.meninas, alt: "普拉多宫娥展厅" },
-    { id: "family", name: "戈雅《卡洛斯四世一家》", room: "Room 032", mins: "12–15 分钟", must: false, look: "看每个人的脸、站位、衣饰和勋章。不要只套用「戈雅在讽刺王室」这种网传说法。", history: "1800 年，戈雅任第一宫廷画师后绘制。和《宫娥》对照：一幅制造谜题，一幅让各人的性格浮出来。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-family-of-carlos-iv/f47898fc-aa1c-48f6-a779-71759e417e74" },
-    { id: "may3", name: "戈雅《1808年5月3日》", room: "Room 064", mins: "15–20 分钟", must: true, look: "灯光把受刑者和枪队分成两组。枪手几乎没有脸，白衣和手势让个人命运站到画面中央。", history: "1814 年完成，回看 1808 年马德里起义。可以和《1808年5月2日》一起看。这不是当时的新闻插画。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-3rd-of-may-1808-in-madrid-or-the-executions/5e177409-2993-4240-97fb-847a02c6496c" },
-    { id: "saturn", name: "戈雅《农神吞噬其子》", room: "Room 067", mins: "10–12 分钟", must: false, look: "从明亮的历史画转到近乎封闭的黑。看身体怎样被背景吞没。", history: "约 1820–1823 年的黑色绘画，原在私人住宅墙上，后来转移到画布。用它收束戈雅从宫廷画师到晚年的转变。", href: "https://www.museodelprado.es/en/the-collection/art-work/saturn/18110a75-b0e7-430c-bc73-2a4d55893bd6" }
+    { id: "greco", artist: "artist-greco", artistName: "埃尔·格列柯", name: "埃尔·格列柯《手按胸口的贵族》", room: "Room 008B", mins: "10–12 分钟", must: false, look: "先看黑衣和灰背景，再看白手、金剑柄和直视观众的眼神。身份仍有不同解释，不必当成已经确定的肖像。", history: "约 1580 年。他从克里特来到西班牙，在托莱多形成个人画风。姿态、衣料和佩剑在表达贵族身份。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-nobleman-with-his-hand-on-his-chest/9cb73bdf-66e8-4826-a79c-5de2b15a1da6" },
+    { id: "bosch", artist: "artist-bosch", artistName: "博斯", name: "博斯《人间乐园》", room: "Room 056A", mins: "15–20 分钟", must: true, look: "先看闭合画板外侧，再从左翼伊甸园走到中央，最后看右翼地狱。不要只放大找怪物。", history: "腓力二世 1591 年购入，1593 年送往埃斯科里亚尔。北方绘画就这样进入西班牙王室收藏。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-garden-of-earthly-delights-triptych/02388242-6d6a-4e9e-a992-e1311eab3609" },
+    { id: "meninas", artist: "artist-velazquez", artistName: "委拉斯开兹", name: "委拉斯开兹《宫娥》", room: "Room 012", mins: "20–25 分钟", must: true, look: "先找镜中的腓力四世和王后，再找画家本人、后方门口的人，以及画布背面。问的是：谁在看谁？", history: "1656 年，为宫廷空间而作。它把观看本身变成主题，也把画家放进宫廷。胸口的红十字是后来加上的。", href: "https://www.museodelprado.es/en/the-collection/art-work/las-meninas/9fdc7800-9ade-48b0-ab8b-edee94ea877f", img: IMG.meninas, alt: "普拉多宫娥展厅" },
+    { id: "family", artist: "artist-goya", artistName: "戈雅", name: "戈雅《卡洛斯四世一家》", room: "Room 032", mins: "12–15 分钟", must: false, look: "看每个人的脸、站位、衣饰和勋章。不要只套用「戈雅在讽刺王室」这种网传说法。", history: "1800 年，戈雅任第一宫廷画师后绘制。和《宫娥》对照：一幅制造谜题，一幅让各人的性格浮出来。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-family-of-carlos-iv/f47898fc-aa1c-48f6-a779-71759e417e74" },
+    { id: "may3", artist: "artist-goya", artistName: "戈雅", name: "戈雅《1808年5月3日》", room: "Room 064", mins: "15–20 分钟", must: true, look: "灯光把受刑者和枪队分成两组。枪手几乎没有脸，白衣和手势让个人命运站到画面中央。", history: "1814 年完成，回看 1808 年马德里起义。可以和《1808年5月2日》一起看。这不是当时的新闻插画。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-3rd-of-may-1808-in-madrid-or-the-executions/5e177409-2993-4240-97fb-847a02c6496c" },
+    { id: "saturn", artist: "artist-goya", artistName: "戈雅", name: "戈雅《农神吞噬其子》", room: "Room 067", mins: "10–12 分钟", must: false, look: "从明亮的历史画转到近乎封闭的黑。看身体怎样被背景吞没。", history: "约 1820–1823 年的黑色绘画，原在私人住宅墙上，后来转移到画布。用它收束戈雅从宫廷画师到晚年的转变。", href: "https://www.museodelprado.es/en/the-collection/art-work/saturn/18110a75-b0e7-430c-bc73-2a4d55893bd6" }
   ];
   const PACK = [
     { id: "g-palace", t: "王宫票：10月26日 10:00。再看一次游客入口和有没有临时关闭。" },
@@ -160,15 +161,34 @@
   }
 
   function renderLine() {
+    const thread = [
+      ["王宫", "权力先有一座舞台", "同一块高地叠着三层：9 世纪的堡垒、哈布斯堡的旧宫、1734 年火灾之后的波旁新宫。宫里看礼仪，不看家具清单。", "#palace"],
+      ["老城", "舞台旁边长出城市", "先看宫殿、教堂和歌剧院的轴线，再看市政核心 Plaza de la Villa，然后看公共仪式广场 Plaza Mayor。午饭前走完。", "#oldtown"],
+      ["丽池", "王家园林变成公共景观", "只走 Felipe IV 门、法式花坛、古柏和 Casón 外观。这是宫廷花园变成城市公园的一小段。", "#retiro"],
+      ["普拉多", "收藏变成可以走进去的绘画史", "1819 年王室收藏对公众开放。四位画家按今天的问题往下排：格列柯看贵族肖像，博斯看北方绘画怎样进入王室，委拉斯开兹看宫廷里的观看，戈雅从宫廷走到战争和晚年。", "#prado"]
+    ];
     const s = el("section", { id: "line" });
     s.append(
       el("p", { class: "kicker" }, "10月26日 · 周一 · 3 人 · 马德里时间"),
       el("h1", null, "一天怎么串起来"),
-      el("p", null, "主线是：", el("mark", null, "王权怎样塑造城市，王室收藏怎样进入博物馆。")),
-      el("p", null, "王宫高地接着伊斯兰时期的堡垒和后来的哈布斯堡宫殿。普拉多的核心来自王室收藏。丽池和普拉多大道同属 UNESCO 的「艺术与科学景观」。展陈会变，出发前再核对房间和临时闭馆。"),
-      el("p", null, "下面把官方文件和访客经验分开写。", el("strong", null, "票价、开放、寄存、拍照、网络以馆方为准。"), "知乎只用来补「现场会遇到什么」，和官方冲突时不改行程。"),
-      ext("https://whc.unesco.org/en/list/1618", "UNESCO 说明"),
+      el("p", null, el("mark", null, "先看权力怎样占住一座城，再看这座城怎样把收藏变成博物馆。")),
+      el("p", null, "四处不是四个景点。旧王宫在 ", el("strong", null, "1734 年"), " 烧掉，所以上午看到的是新宫；同一场火里被救出来的《宫娥》，下午在普拉多里。中间的老城和丽池，是这座权力中心怎样长出广场和公共园林。"),
+      el("h2", { id: "line-thread" }, "一条历史线")
+    );
+    thread.forEach(function (row, i) {
+      s.append(el("article", { class: "stop" },
+        el("p", { class: "when" }, (i + 1) + " · " + row[0]),
+        el("h2", null, row[1]),
+        el("p", null, row[2]),
+        el("a", { class: "go", href: row[3] }, "进入这一段")
+      ));
+    });
+    s.append(
+      el("p", null, "画和画家不在这段里展开。六幅锚点和四位作者各自有阅读页，游览时只记怎么看，想弄清再点开。"),
+      el("a", { class: "go", href: "read.html#how" }, "先读画家和画作"),
       el("h2", { id: "line-order" }, "时间只记取舍"),
+      el("p", null, "票价、开放、寄存、拍照和网络以馆方为准。知乎只补现场会遇到什么，和官方或上面这条线冲突时，不改行程。展陈会变，出发前再核对房间。"),
+      ext("https://whc.unesco.org/en/list/1618", "UNESCO：艺术与科学景观"),
       el("div", { class: "card" },
         el("p", { class: "when" }, "10:00 和 16:00 先保住"),
         el("p", null, "王宫和普拉多都买带时间的官方票。丽池只走 Parterre，大约 30 分钟。Plaza Mayor 放在午饭前，午后不折回老城。")
@@ -185,7 +205,7 @@
   function renderPalace() {
     const rooms = [
       ["主楼梯", "5 分钟", "来访者进入宫廷秩序的第一幕。官方介绍称楼梯由 Sabatini 设计，有 70 余级。"],
-      ["王座厅", "8–10 分钟", "先看 Tiepolo 天顶，再看红色织物、镜子和金饰。稍后用它对照《宫娥》：这里是正式的王权图像。"],
+      ["王座厅", "8–10 分钟", "先看提埃波罗的天顶，再看红色织物、镜子和金饰。这是正式的王权图像，下午用《宫娥》对照。"],
       ["Gasparini 厅", "8–10 分钟", "植物纹样是 18 世纪宫廷趣味。卡洛斯三世办公室则是处理政务的地方，2025 年纳入参观线路，当天是否开放以现场为准。"],
       ["礼拜堂 / 圣器室", "5–8 分钟", "宫廷也靠宗教和王朝礼仪。留意礼仪用品和 Stradivari 弦乐器。圣器室近年才增加进入，以当天为准。"],
       ["皇家药房", "5 分钟", "药柜、陶罐和处方把宫廷拉回身体和供应。对医疗同行会比较具体。"],
@@ -214,6 +234,7 @@
       ));
     });
     s.append(
+      el("p", null, "王座厅天顶可以展开读 ", el("a", { href: "read.html#tiepolo" }, "提埃波罗"), "。宫里只抬头看一眼，故事留到阅读页。"),
       figure(IMG.gasparini, "Gasparini 厅内部", "Gasparini 厅。图片来源：马德里旅游局。"),
       el("p", null, "超过 3000 个房间，旅游线路只开放一部分。优先楼梯、王座厅、Gasparini、礼拜堂和药房；动线允许再加军械馆。"),
       el("h2", { id: "palace-axis" }, "出宫后的轴线"),
@@ -347,7 +368,11 @@
     box.append(
       el("p", null, el("strong", null, "当场看："), w.look),
       el("details", null, el("summary", null, "它在历史上的位置"), el("p", null, w.history)),
-      ext(w.href, "普拉多作品页")
+      el("div", { class: "links" },
+        el("a", { class: "go", href: "read.html#" + w.artist }, w.artistName),
+        el("a", { class: "go", href: "read.html#work-" + w.id }, "展开这幅画"),
+        ext(w.href, "普拉多作品页")
+      )
     );
     const nav = el("div", { class: "hscroll", id: "works", "aria-label": "六幅作品" });
     WORKS.forEach(function (item) {
@@ -369,7 +394,8 @@
       el("p", { class: "kicker" }, "16:00–19:30 · 不求看遍"),
       el("h1", null, "普拉多"),
       el("p", null, el("mark", null, "把它看成权力怎样挑选艺术，不是找几幅名作拍照。")),
-      el("p", null, "1819 年以皇家绘画博物馆对公众开放。建筑最初由 Juan de Villanueva 设计为科学用途，后来才成为博物馆。西班牙绘画是世界上收得最全的一批，委拉斯开兹和戈雅的作品多数在这里。六幅锚点不是一条保证相连的路线，入馆后以官方数字地图和墙面为准。"),
+      el("p", null, "1819 年以皇家绘画博物馆对公众开放。建筑最初由 Juan de Villanueva 设计为科学用途，后来才成为博物馆。西班牙绘画是世界上收得最全的一批，委拉斯开兹和戈雅的作品多数在这里。"),
+      el("p", null, "六幅不是一条保证相连的路线，入馆后以官方地图为准。每幅下面可以展开作者和这幅画；四位画家按今天的问题排列，不是按出生年。"),
       el("h2", { id: "prado-works" }, "六幅锚点")
     );
     s.append(renderWork());
