@@ -24,6 +24,9 @@
           t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
         document.documentElement.setAttribute("data-theme", t);
+        var f = localStorage.getItem("madrid-esmo-2026-font");
+        if (f !== "sm" && f !== "md" && f !== "lg" && f !== "xl") f = "md";
+        document.documentElement.setAttribute("data-font", f);
         var meta = document.querySelector('meta[name="theme-color"]');
         if (meta) meta.setAttribute("content", t === "dark" ? "#14110e" : "#efe6d6");
       } catch (e) {}
@@ -69,12 +72,16 @@
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    html[data-font="sm"] { font-size: 16px; }
+    html[data-font="md"] { font-size: 18px; }
+    html[data-font="lg"] { font-size: 20px; }
+    html[data-font="xl"] { font-size: 23px; }
     body {
       margin: 0;
       min-height: 100vh;
       font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.55;
+      font-size: 1rem;
+      line-height: 1.65;
       color: var(--ink);
       background: var(--bg);
       background-image:
@@ -189,7 +196,22 @@
       border-radius: 999px;
     }
     .primary { background: var(--accent) !important; color: var(--on-accent) !important; border-color: transparent !important; }
-    .tl-item { display: grid; grid-template-columns: 18px 1fr; gap: 10px; }
+    .tl-item { display: grid; grid-template-columns: 18px 1fr; gap: 10px; scroll-margin-top: calc(var(--top-h) + 12px); }
+    .guide-card {
+      display: flex; gap: 10px; align-items: center;
+      margin-top: 10px; padding: 8px; min-height: 44px;
+      border-radius: 14px; background: var(--accent-soft);
+      color: var(--ink); text-decoration: none;
+    }
+    .guide-card.solo { margin: 0 0 12px; }
+    .guide-card img {
+      width: 72px; height: 72px; object-fit: cover; border-radius: 10px;
+      flex: none; background: var(--card);
+    }
+    .guide-card span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .guide-card em { font-style: normal; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
+    .guide-card b { font-size: 1rem; }
+    .guide-card small { color: var(--muted); font-size: 0.88rem; }
     .rail { position: relative; }
     .rail::before { content: ""; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--line); }
     .rail i {
