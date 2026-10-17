@@ -6,7 +6,7 @@
 
 https://yuanmenghe.github.io/Demo/madrid-esmo-2026/
 
-26 日游览攻略是另一页，从当天行程卡片进入：
+26 日艺术史游览是独立页面，行程页里没有入口：
 
 https://yuanmenghe.github.io/Demo/madrid-esmo-2026/guide.html
 

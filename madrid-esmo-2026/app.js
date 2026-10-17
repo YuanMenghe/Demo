@@ -5,11 +5,6 @@
   const CHECK_KEY = "madrid-esmo-2026-checks-v1";
   const FONTS = ["sm", "md", "lg", "xl"];
   const FONT_LABEL = { sm: "小", md: "标准", lg: "大", xl: "特大" };
-  const IMG = {
-    palace: "https://estaticos.esmadrid.com/cdn/farfuture/6qo9FyNjZUzNCzjxl3zUATiGX6nXbIzj5Y4h4CFPp-Y/mtime%3A1646729445/sites/default/files/styles/content_type_full/public/recursosturisticos/infoturistica/palacio_real.jpg?itok=dWNT8u0V",
-    gate: "https://estaticos.esmadrid.com/cdn/farfuture/7faksRMsjG19Ae6cMJnc0lFuBb8HOgD_X7oG02vxEMk/mtime%3A1646735070/sites/default/files/styles/content_type_full/public/recursosturisticos/infoturistica/puerta_de_felipe_iv_0.jpg?itok=xy2rRI2a",
-    meninas: "https://estaticos.esmadrid.com/cdn/farfuture/qyYAavC2V2_rP00MwgDPGfHHF6OOmvdS6w4u3yUyd-Y/mtime%3A1646729415/sites/default/files/styles/content_type_full/public/recursosturisticos/infoturistica/LASMENINAS663x335_1406286167.91.jpg?itok=qNfXECRG"
-  };
   const PRESET = ["poster-done", "dinner-done", "booth-done"];
 
   const LINK = {
@@ -225,11 +220,6 @@
       weekday: "周一",
       kicker: "王宫、老城、丽池、普拉多",
       dateLabel: "10月26日",
-      guide: {
-        href: "guide.html#line",
-        title: "26日艺术史攻略",
-        text: "单独一页。从王宫看到普拉多，看完可以回到这一天。"
-      },
       notes: [
         { kind: "ok", text: "这一天建议不去展台，商务兜底。上午王宫和老城，午饭在 Posada，下午只走丽池历史园林短线，然后把 3.5 小时留给普拉多。王室收藏馆大约还要 2 小时，今天不硬塞。" },
         { kind: "warn", text: "王宫周一 10:00–18:00，17:00 停止入场。普拉多周一 10:00–20:00，官方普通票 €15，入馆时段以预约为准。预算里王宫按 €18 估算，出发前再核对票价。约不到原时段时，先保住王宫和老城，普拉多换同一天的其他时段，不要挪到 27 日。丽池若下雨、封园或午饭超时，直接去普拉多。" }
@@ -244,13 +234,13 @@
       ],
       blocks: [
         { id: "b26-bf", time: "07:45", title: "公寓早餐", short: "公寓早餐", text: "简单吃完。08:45 出门。到王宫预留 45–55 分钟公共交通；想少走路，当天再比价打车。", at: at(2026, 10, 26, 7, 45, MAD) },
-        { id: "b26-palace", time: "10:00–11:30", title: "王宫", short: "参观王宫", text: "看西班牙王室、宫廷礼仪和国家历史。提前预约 10:00 的入场。游客入口在阿穆德纳教堂广场。留出安检和找入口的时间。", at: at(2026, 10, 26, 10, 0, MAD), guide: { href: "guide.html#palace", title: "宫里先看哪几处", text: "大约 90 分钟。楼梯、王座厅、Gasparini 优先。", img: IMG.palace, alt: "马德里王宫外观" } },
-        { id: "b26-town", time: "11:30–12:30", title: "老城", short: "王宫周边老城", text: "阿穆德纳教堂外观、东方广场、Plaza de la Villa、Plaza Mayor。不进教堂。广场放在午餐前，午后不再折回。想尝鱿鱼三明治，只在这里分食一份，队伍不能耽误 12:45 的订位。", at: at(2026, 10, 26, 11, 30, MAD), guide: { href: "guide.html#oldtown", title: "老城按什么顺序走", text: "权力高地、市政核心，再到哈布斯堡广场。" } },
-        { id: "b26-lunch", time: "12:45–14:15", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "1642 年旅店旧址，现在是木炉烤肉。订 3–4 人、12:45。点菜按实际人数，订位时确认羊肉份量、是否预留和当天价格。手册里可以按 3 人或 4 人切换点法。", at: at(2026, 10, 26, 12, 45, MAD), guide: { href: "guide.html#posada", title: "这顿饭接在哪段历史上", text: "Cava Baja 的旅店传统。点菜仍以手册为准。" } },
-        { id: "b26-gate", time: "14:15–14:45", title: "去丽池 Felipe IV 门", short: "步行去丽池", text: "约 2.0 公里、28 分钟。累了就三人打车，不要赶路。午餐超时或下雨，跳过丽池，直接去普拉多。", at: at(2026, 10, 26, 14, 15, MAD), guide: { href: "guide.html#retiro", title: "丽池只走 30 分钟", text: "石门、法式花坛、古柏。不环湖，水晶宫不入内。", img: IMG.gate, alt: "丽池 Felipe IV 门" } },
+        { id: "b26-palace", time: "10:00–11:30", title: "王宫", short: "参观王宫", text: "看西班牙王室、宫廷礼仪和国家历史。提前预约 10:00 的入场。游客入口在阿穆德纳教堂广场。留出安检和找入口的时间。", at: at(2026, 10, 26, 10, 0, MAD) },
+        { id: "b26-town", time: "11:30–12:30", title: "老城", short: "王宫周边老城", text: "阿穆德纳教堂外观、东方广场、Plaza de la Villa、Plaza Mayor。不进教堂。广场放在午餐前，午后不再折回。想尝鱿鱼三明治，只在这里分食一份，队伍不能耽误 12:45 的订位。", at: at(2026, 10, 26, 11, 30, MAD) },
+        { id: "b26-lunch", time: "12:45–14:15", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "1642 年旅店旧址，现在是木炉烤肉。订 3–4 人、12:45。点菜按实际人数，订位时确认羊肉份量、是否预留和当天价格。手册里可以按 3 人或 4 人切换点法。", at: at(2026, 10, 26, 12, 45, MAD) },
+        { id: "b26-gate", time: "14:15–14:45", title: "去丽池 Felipe IV 门", short: "步行去丽池", text: "约 2.0 公里、28 分钟。累了就三人打车，不要赶路。午餐超时或下雨，跳过丽池，直接去普拉多。", at: at(2026, 10, 26, 14, 15, MAD) },
         { id: "b26-retiro", time: "14:45–15:15", title: "丽池 Parterre", short: "丽池历史短线", text: "Felipe IV 门、法式花坛和古柏。这是历史园林停留，不是全园环游。精神很好再考虑大湖，但必须保证普拉多 16:00。", at: at(2026, 10, 26, 14, 45, MAD) },
         { id: "b26-buffer", time: "15:15–16:00", title: "进普拉多", short: "入馆缓冲", text: "Felipe IV 门到馆大约 0.4 公里、5 分钟。所示路线有台阶，按现场无障碍指引走。留下存包、洗手间和找展厅的时间。", at: at(2026, 10, 26, 15, 15, MAD) },
-        { id: "b26-prado", time: "16:00–19:30", title: "普拉多", short: "参观普拉多", text: "预约时段入馆。按西班牙绘画史看埃尔·格列柯、博斯、委拉斯开兹、戈雅。时间紧也尽量看《宫娥》、博斯《人间乐园》和戈雅《1808年5月3日》。厅内不拍照。结束时可在馆内商店买轻便纪念品。", at: at(2026, 10, 26, 16, 0, MAD), guide: { href: "guide.html#prado", title: "3.5 小时看哪六幅", text: "展厅以当天官方地图为准。先下载地图。", img: IMG.meninas, alt: "普拉多宫娥展厅" } },
+        { id: "b26-prado", time: "16:00–19:30", title: "普拉多", short: "参观普拉多", text: "预约时段入馆。按西班牙绘画史看埃尔·格列柯、博斯、委拉斯开兹、戈雅。时间紧也尽量看《宫娥》、博斯《人间乐园》和戈雅《1808年5月3日》。厅内不拍照。结束时可在馆内商店买轻便纪念品。", at: at(2026, 10, 26, 16, 0, MAD) },
         { id: "b26-back", time: "19:30 后", title: "回公寓", short: "回公寓收拾", text: "住处附近简餐或超市补给，不再安排正式晚饭。收拾明天要退房的行李。", at: at(2026, 10, 26, 19, 30, MAD) }
       ]
     },
@@ -557,21 +547,6 @@
     if (location.hash !== "#" + h) history.replaceState(null, "", "#" + h);
   }
 
-  function guideLink(g, solo) {
-    const link = el("a", { class: "guide-card" + (solo ? " solo" : ""), href: g.href });
-    if (g.img) {
-      const img = el("img", { src: g.img, alt: g.alt || "" });
-      img.addEventListener("error", function () { img.remove(); });
-      link.append(img);
-    }
-    link.append(el("span", null,
-      el("em", null, "游览攻略"),
-      el("b", null, g.title),
-      el("small", null, g.text)
-    ));
-    return link;
-  }
-
   function renderAll() {
     renderHeader();
     renderMain();
@@ -680,7 +655,7 @@
       syncPicks();
       applyQuery();
     }
-    main.append(el("p", { class: "foot" }, "日程依据 2026-10-16 确认稿。26 日下午已按游览指南改为丽池短线。时刻是当地时间；值机若写了北京时间，以标注为准。地图只作规划，当天看导航。"));
+    main.append(el("p", { class: "foot" }, "日程依据 2026-10-16 确认稿。26 日下午是丽池短线。时刻是当地时间；值机若写了北京时间，以标注为准。地图只作规划，当天看导航。"));
   }
 
   function renderPlan() {
@@ -721,8 +696,6 @@
       const cls = n.kind === "warn" ? "note" : n.kind === "ok" ? "note ok" : "skip";
       wrap.append(el("div", { class: cls }, el("p", null, n.text)));
     });
-    if (day.guide) wrap.append(guideLink(day.guide, true));
-
     const actions = el("div", { class: "actions" },
       el("button", { type: "button", class: "primary", "data-action": "copy-day", "data-day": day.id }, "复制这一天")
     );
@@ -740,7 +713,6 @@
       const when = el("p", { class: "when" }, b.time);
       if (cur && cur.id === b.id) when.append(el("span", { class: "now-pill" }, "现在"));
       card.append(when, el("h3", null, b.title), el("p", null, b.text));
-      if (b.guide) card.append(guideLink(b.guide));
       item.append(card);
       wrap.append(item);
     });
@@ -879,7 +851,7 @@
       "</div>" +
       '<div class="pick" data-move-panel="fair"><p>默认地铁。公寓步行到 Nuevos Ministerios，上 8 号线往 Aeropuerto T4 方向，到 Feria de Madrid，再按 ESMO 标识进馆。三段各留 15–20 分钟，门到门 55–60 分钟。不经过机场闸机，不用机场附加票。注意是地铁 8 号线，不是近郊铁路。回程坐往 Nuevos Ministerios 方向。</p><p><a href="' + LINK.aptToIfema + '" target="_blank" rel="noopener">公寓 → 会场</a> · <a href="' + LINK.ifemaBack + '" target="_blank" rel="noopener">会场 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="party"><p>24 日从会场直接去，不绕回公寓。地铁 8 号线到 Nuevos Ministerios，再换公交到 Rosewood Villa Magna。地图大约 45 分钟，所以 16:15 左右离场。公寓到酒店公交大约 24 分钟、驾车大约 9 分钟。结束后重新导航。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="old"><p>26 日老城内部步行，Plaza Mayor 放在午饭前。公寓到王宫预留 45–55 分钟公共交通。午饭后从 Posada 到丽池 Felipe IV 门约 2.0 公里、28 分钟；门到普拉多约 0.4 公里、5 分钟。累了、下雨或午饭超时，就跳过丽池，直接去普拉多。</p><p><a href="' + LINK.palaceMap + '" target="_blank" rel="noopener">公寓 → 王宫</a> · <a href="' + LINK.posadaToGate + '" target="_blank" rel="noopener">Posada → 丽池</a> · <a href="' + LINK.gateToPrado + '" target="_blank" rel="noopener">丽池 → 普拉多</a> · <a href="guide.html#line">游览攻略</a></p></div>' +
+      '<div class="pick" data-move-panel="old"><p>26 日老城内部步行，Plaza Mayor 放在午饭前。公寓到王宫预留 45–55 分钟公共交通。午饭后从 Posada 到丽池 Felipe IV 门约 2.0 公里、28 分钟；门到普拉多约 0.4 公里、5 分钟。累了、下雨或午饭超时，就跳过丽池，直接去普拉多。</p><p><a href="' + LINK.palaceMap + '" target="_blank" rel="noopener">公寓 → 王宫</a> · <a href="' + LINK.posadaToGate + '" target="_blank" rel="noopener">Posada → 丽池</a> · <a href="' + LINK.gateToPrado + '" target="_blank" rel="noopener">丽池 → 普拉多</a></p></div>' +
       '<div class="pick" data-move-panel="air"><p>22 日晚和 27 日都用正规出租车。M-30 以内和机场之间的固定价是 €33/车，适用条件当天再确认。27 日 17:45 从取行李的地方出发。Uber / Cabify 的浮动价不是这个固定价。箱子多，先确认装得下，并要收据。</p><p>出租目的地：Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再按登机牌去 T4S。</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
     );
   }

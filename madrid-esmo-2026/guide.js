@@ -14,32 +14,32 @@
     meninas: "https://estaticos.esmadrid.com/cdn/farfuture/qyYAavC2V2_rP00MwgDPGfHHF6OOmvdS6w4u3yUyd-Y/mtime%3A1646729415/sites/default/files/styles/content_type_full/public/recursosturisticos/infoturistica/LASMENINAS663x335_1406286167.91.jpg?itok=qNfXECRG"
   };
   const NAV = [
-    { id: "line", label: "一天", back: "d26", backLabel: "回到 10月26日", children: [
+    { id: "line", label: "一天", children: [
       { id: "line-order", label: "时间取舍" }
     ]},
-    { id: "palace", label: "王宫", back: "b26-palace", backLabel: "回到王宫这段", children: [
+    { id: "palace", label: "王宫", children: [
       { id: "palace-story", label: "三层历史" },
       { id: "palace-rooms", label: "90 分钟厅室" },
       { id: "palace-axis", label: "出宫轴线" },
       { id: "palace-rules", label: "寄存、拍照、厕所" }
     ]},
-    { id: "oldtown", label: "老城", back: "b26-town", backLabel: "回到老城这段", children: [
+    { id: "oldtown", label: "老城", children: [
       { id: "oldtown-order", label: "不走回头路" }
     ]},
-    { id: "posada", label: "午饭", back: "b26-lunch", backLabel: "回到午饭这段", children: [
+    { id: "posada", label: "午饭", children: [
       { id: "posada-time", label: "14:15 必须起身" }
     ]},
-    { id: "retiro", label: "丽池", back: "b26-gate", backLabel: "回到丽池这段", children: [
+    { id: "retiro", label: "丽池", children: [
       { id: "retiro-line", label: "30 分钟四步" },
       { id: "retiro-skip", label: "什么时候跳过" }
     ]},
-    { id: "prado", label: "普拉多", back: "b26-prado", backLabel: "回到普拉多这段", children: [
+    { id: "prado", label: "普拉多", children: [
       { id: "prado-works", label: "六幅锚点" },
       { id: "prado-more", label: "有余力再加" },
       { id: "prado-pace", label: "3.5 小时" },
       { id: "prado-rules", label: "包、拍照、网络" }
     ]},
-    { id: "backup", label: "备选", back: "d26", backLabel: "回到 10月26日", children: [
+    { id: "backup", label: "备选", children: [
       { id: "backup-plan", label: "四种走法" },
       { id: "backup-wifi", label: "Wi-Fi" },
       { id: "backup-pack", label: "出发前核对" }
@@ -156,7 +156,6 @@
     const box = el("div", { class: "rowbtns" });
     if (i > 0) box.append(el("a", { class: "go", href: "#" + NAV[i - 1].id }, "上一段"));
     if (i < NAV.length - 1) box.append(el("a", { class: "go", href: "#" + NAV[i + 1].id }, "下一段 · " + NAV[i + 1].label));
-    box.append(el("a", { class: "go", href: "index.html#" + NAV[i].back }, "返回这段行程"));
     return box;
   }
 
@@ -294,7 +293,6 @@
       el("p", null, "这顿饭接在老城商路的尽头，点菜仍以行程手册为准。", el("strong", null, "14:15"), " 要离开：走到 Felipe IV 门大约 28 分钟。坐过点就取消丽池，把缓冲留给普拉多 16:00，不要两边都赶。"),
       el("div", { class: "links" },
         ext("https://www.esmadrid.com/en/illustrated-map-centuries-old-restaurants-and-tabernas", "百年酒馆介绍"),
-        el("a", { class: "go", href: "index.html#book" }, "回手册看点菜"),
         ext("https://www.google.com/maps/dir/?api=1&origin=Posada+de+la+Villa%2C+Cava+Baja+9%2C+Madrid&destination=Puerta+de+Felipe+IV%2C+Calle+de+Alfonso+XII+3%2C+Madrid&travelmode=walking", "饭后步行去丽池")
       ),
       pager("posada")
@@ -521,9 +519,6 @@
       markCurrent(nav);
       markCurrent(document.getElementById("sheet-nav"));
     }
-    const meta = NAV.filter(function (n) { return n.id === sectionId(); })[0];
-    document.getElementById("back").setAttribute("href", "index.html#" + meta.back);
-    document.getElementById("back").textContent = meta.backLabel;
   }
 
   function scrollToHash() {
