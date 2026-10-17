@@ -77,12 +77,29 @@
     .back { padding: 0 14px; font-weight: 650; flex: 1; justify-content: flex-start; }
     .icon-btn { padding: 0 12px; flex: none; }
     .shell { max-width: 760px; margin: 0 auto; padding: 0 16px calc(24px + env(safe-area-inset-bottom)); }
+    h1, h2, section { scroll-margin-top: 108px; }
     .chips {
       position: sticky; top: 60px; z-index: 15;
       display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
       padding: 8px 0; background: var(--bg);
     }
     .chips::-webkit-scrollbar { display: none; }
+    .chips .sub, .find { display: none; }
+    .find { min-height: 44px; border: 1px solid var(--line); background: var(--card); border-radius: 12px; padding: 8px 12px; }
+    .sheet[hidden] { display: none; }
+    .sheet {
+      position: fixed; inset: 0; z-index: 40; background: rgb(28 23 18 / 0.45);
+      display: flex; align-items: flex-end;
+    }
+    .sheet-card {
+      width: 100%; max-height: 80vh; overflow: auto;
+      background: var(--card); border-radius: 16px 16px 0 0;
+      padding: 12px 12px calc(16px + env(safe-area-inset-bottom));
+    }
+    .sheet-card .find { display: block; width: 100%; margin: 0 0 10px; }
+    .sheet-card nav { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+    .sheet-card .chip { justify-content: flex-start; }
+    .sheet-card .sub { margin-left: 12px; }
     .hscroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 8px 0; }
     .hscroll::-webkit-scrollbar { display: none; }
     section[hidden] { display: none !important; }
@@ -124,9 +141,17 @@
     .foot { color: var(--muted); font-size: 0.85rem; }
     .local { font-size: 0.85rem; color: var(--muted); }
     @media (min-width: 900px) {
-      .shell { max-width: 1080px; display: grid; grid-template-columns: 200px minmax(0, 68ch); gap: 28px; align-items: start; }
-      .chips { position: sticky; top: 76px; flex-direction: column; overflow: visible; grid-column: 1; }
+      .shell { max-width: 1080px; display: grid; grid-template-columns: 220px minmax(0, 68ch); gap: 28px; align-items: start; }
+      .chips {
+        position: sticky; top: 76px; flex-direction: column; overflow: auto;
+        max-height: calc(100vh - 96px); grid-column: 1; scrollbar-width: thin;
+      }
+      .chips .sub, .chips .find { display: flex; }
+      .chips .find { width: 100%; border-radius: 12px; }
+      .sub { justify-content: flex-start; padding-left: 16px; font-size: 0.92rem; }
+      #toc-btn, .sheet { display: none !important; }
       #stage { grid-column: 2; }
+      h1, h2, section { scroll-margin-top: 24px; }
       .seg { grid-template-columns: 1fr 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -134,7 +159,7 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
     @media print {
-      .top, .chips, .rowbtns, .seg, .icon-btn, .local, textarea, .check { display: none !important; }
+      .top, .chips, .rowbtns, .seg, .icon-btn, .local, textarea, .check, .sheet, .find { display: none !important; }
       .shell { display: block; max-width: none; }
       section, section[hidden] { display: block !important; break-inside: avoid; }
     }
@@ -144,6 +169,7 @@
   <a class="skip" href="#stage">跳到正文</a>
   <header class="top">
     <a class="back" id="back" href="index.html#d26">回到 10月26日</a>
+    <button type="button" class="icon-btn" id="toc-btn" aria-expanded="false" aria-controls="sheet">目录</button>
     <button type="button" class="icon-btn" id="font-btn">标准</button>
     <button type="button" class="icon-btn" id="theme-btn">深色</button>
   </header>
@@ -151,6 +177,13 @@
     <nav class="chips" id="nav" aria-label="攻略章节"></nav>
     <div id="stage"></div>
   </div>
-  <script src="guide.js" defer></script>
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-card" role="dialog" aria-modal="true" aria-label="章节目录">
+      <input class="find" id="find-mobile" type="search" enterkeyhint="search" placeholder="在本页查找" aria-label="在本页查找">
+      <nav id="sheet-nav" aria-label="全部章节"></nav>
+      <button type="button" class="go" id="sheet-close">关闭目录</button>
+    </div>
+  </div>
+  <script src="guide.js?v=20261017" defer></script>
 </body>
 </html>

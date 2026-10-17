@@ -14,13 +14,36 @@
     meninas: "https://estaticos.esmadrid.com/cdn/farfuture/qyYAavC2V2_rP00MwgDPGfHHF6OOmvdS6w4u3yUyd-Y/mtime%3A1646729415/sites/default/files/styles/content_type_full/public/recursosturisticos/infoturistica/LASMENINAS663x335_1406286167.91.jpg?itok=qNfXECRG"
   };
   const NAV = [
-    { id: "line", label: "一天", back: "d26", backLabel: "回到 10月26日" },
-    { id: "palace", label: "王宫", back: "b26-palace", backLabel: "回到王宫这段" },
-    { id: "oldtown", label: "老城", back: "b26-town", backLabel: "回到老城这段" },
-    { id: "posada", label: "午饭", back: "b26-lunch", backLabel: "回到午饭这段" },
-    { id: "retiro", label: "丽池", back: "b26-gate", backLabel: "回到丽池这段" },
-    { id: "prado", label: "普拉多", back: "b26-prado", backLabel: "回到普拉多这段" },
-    { id: "backup", label: "备选", back: "d26", backLabel: "回到 10月26日" }
+    { id: "line", label: "一天", back: "d26", backLabel: "回到 10月26日", children: [
+      { id: "line-order", label: "时间取舍" }
+    ]},
+    { id: "palace", label: "王宫", back: "b26-palace", backLabel: "回到王宫这段", children: [
+      { id: "palace-story", label: "三层历史" },
+      { id: "palace-rooms", label: "90 分钟厅室" },
+      { id: "palace-axis", label: "出宫轴线" },
+      { id: "palace-rules", label: "寄存、拍照、厕所" }
+    ]},
+    { id: "oldtown", label: "老城", back: "b26-town", backLabel: "回到老城这段", children: [
+      { id: "oldtown-order", label: "不走回头路" }
+    ]},
+    { id: "posada", label: "午饭", back: "b26-lunch", backLabel: "回到午饭这段", children: [
+      { id: "posada-time", label: "14:15 必须起身" }
+    ]},
+    { id: "retiro", label: "丽池", back: "b26-gate", backLabel: "回到丽池这段", children: [
+      { id: "retiro-line", label: "30 分钟四步" },
+      { id: "retiro-skip", label: "什么时候跳过" }
+    ]},
+    { id: "prado", label: "普拉多", back: "b26-prado", backLabel: "回到普拉多这段", children: [
+      { id: "prado-works", label: "六幅锚点" },
+      { id: "prado-more", label: "有余力再加" },
+      { id: "prado-pace", label: "3.5 小时" },
+      { id: "prado-rules", label: "包、拍照、网络" }
+    ]},
+    { id: "backup", label: "备选", back: "d26", backLabel: "回到 10月26日", children: [
+      { id: "backup-plan", label: "四种走法" },
+      { id: "backup-wifi", label: "Wi-Fi" },
+      { id: "backup-pack", label: "出发前核对" }
+    ]}
   ];
   const WORKS = [
     { id: "greco", name: "埃尔·格列柯《手按胸口的贵族》", room: "Room 008B", mins: "10–12 分钟", must: false, look: "先看黑衣和灰背景，再看白手、金剑柄和直视观众的眼神。身份仍有不同解释，不必当成已经确定的肖像。", history: "约 1580 年。他从克里特来到西班牙，在托莱多形成个人画风。姿态、衣料和佩剑在表达贵族身份。", href: "https://www.museodelprado.es/en/the-collection/art-work/the-nobleman-with-his-hand-on-his-chest/9cb73bdf-66e8-4826-a79c-5de2b15a1da6" },
@@ -96,12 +119,19 @@
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", dark ? "#14110e" : "#efe6d6");
   }
-  function sectionId() {
-    const h = (location.hash || "#line").replace("#", "");
+  function parentOf(hash) {
+    const h = hash == null ? (location.hash || "#line").replace("#", "") : hash;
+    if (h.indexOf("prado-") === 0) return "prado";
+    let found = "";
+    NAV.forEach(function (n) {
+      if (n.id === h) found = n.id;
+      (n.children || []).forEach(function (c) { if (c.id === h) found = n.id; });
+    });
+    if (found) return found;
     if (h.indexOf("prado") === 0) return "prado";
-    if (NAV.some(function (n) { return n.id === h; })) return h;
     return "line";
   }
+  function sectionId() { return parentOf(); }
   function loadLocal() {
     try {
       const raw = localStorage.getItem(CHECK_KEY);
@@ -126,7 +156,7 @@
     const box = el("div", { class: "rowbtns" });
     if (i > 0) box.append(el("a", { class: "go", href: "#" + NAV[i - 1].id }, "上一段"));
     if (i < NAV.length - 1) box.append(el("a", { class: "go", href: "#" + NAV[i + 1].id }, "下一段 · " + NAV[i + 1].label));
-    box.append(el("a", { class: "go", href: document.getElementById("back").getAttribute("href") }, "返回日程"));
+    box.append(el("a", { class: "go", href: "index.html#" + NAV[i].back }, "返回这段行程"));
     return box;
   }
 
@@ -137,8 +167,9 @@
       el("h1", null, "一天怎么串起来"),
       el("p", null, "主线是：", el("mark", null, "王权怎样塑造城市，王室收藏怎样进入博物馆。")),
       el("p", null, "王宫高地接着伊斯兰时期的堡垒和后来的哈布斯堡宫殿。普拉多的核心来自王室收藏。丽池和普拉多大道同属 UNESCO 的「艺术与科学景观」。展陈会变，出发前再核对房间和临时闭馆。"),
+      el("p", null, "下面把官方文件和访客经验分开写。", el("strong", null, "票价、开放、寄存、拍照、网络以馆方为准。"), "知乎只用来补「现场会遇到什么」，和官方冲突时不改行程。"),
       ext("https://whc.unesco.org/en/list/1618", "UNESCO 说明"),
-      el("h2", null, "时间只记取舍"),
+      el("h2", { id: "line-order" }, "时间只记取舍"),
       el("div", { class: "card" },
         el("p", { class: "when" }, "10:00 和 16:00 先保住"),
         el("p", null, "王宫和普拉多都买带时间的官方票。丽池只走 Parterre，大约 30 分钟。Plaza Mayor 放在午饭前，午后不折回老城。")
@@ -167,12 +198,14 @@
       el("h1", null, "王宫"),
       figure(IMG.palace, "马德里王宫外观", "王宫外观。图片来源：马德里旅游局。"),
       el("p", null, el("mark", null, "现在看到的波旁王宫，不是这座城最早的一层。")),
+      el("h2", { id: "palace-story" }, "三层历史"),
       el("ul", null,
         el("li", null, el("strong", null, "9 世纪 Magerit。"), "穆罕默德一世在此建防御据点，保护当时的托莱多。"),
         el("li", null, el("strong", null, "哈布斯堡旧 Alcázar。"), "卡洛斯一世、腓力二世把它变成常住宫殿。腓力二世时期马德里成为王都。"),
         el("li", null, el("strong", null, "1734 年火灾之后。"), "腓力五世下令建新宫。方案从 Filippo Juvarra 开始，学生 Juan Bautista Sachetti 完成。卡洛斯三世是第一位住进来的君主。")
       ),
-      ext("https://www.esmadrid.com/en/tourist-information/royal-palace", "王宫历史")
+      ext("https://www.esmadrid.com/en/tourist-information/royal-palace", "王宫历史"),
+      el("h2", { id: "palace-rooms" }, "90 分钟先看这些")
     );
     rooms.forEach(function (r) {
       s.append(el("article", { class: "stop" },
@@ -184,18 +217,25 @@
     s.append(
       figure(IMG.gasparini, "Gasparini 厅内部", "Gasparini 厅。图片来源：马德里旅游局。"),
       el("p", null, "超过 3000 个房间，旅游线路只开放一部分。优先楼梯、王座厅、Gasparini、礼拜堂和药房；动线允许再加军械馆。"),
-      el("h2", null, "出宫后的轴线"),
+      el("h2", { id: "palace-axis" }, "出宫后的轴线"),
       el("div", { class: "card" },
         el("p", null, el("strong", null, "Plaza de la Armería："), "回看主立面，再向城里走。入口按官方指示从这里进，不要按旧攻略排别的门。"),
         el("p", null, el("strong", null, "Plaza de Oriente："), "王宫和 Teatro Real 之间，看宫殿、歌剧院和广场怎样被组织成首都展示。"),
         el("p", null, el("strong", null, "Mirador de la Cornisa："), "免费看 Campo del Moro。开门、不排队再停几分钟，不为观景排长队。")
       ),
-      el("h2", null, "进门前"),
-      el("p", null, el("span", { class: "flag" }, "没有可靠室内 Wi-Fi"), "官方参观页没有承诺游客能用宫内 Wi-Fi。票、地图和翻译提前下好。"),
-      el("p", null, "个人用途、不用闪光灯可以拍照，但有明确禁止区域。自拍杆和三脚架不能带。手机里留门票二维码，背包尽量小，入馆前先上洗手间。"),
+      el("h2", { id: "palace-rules" }, "寄存、拍照、厕所"),
+      el("p", null, el("span", { class: "flag" }, "官方"), "2025 年 12 月的参观办法写明：王宫寄存", el("strong", null, "免费"), "。大背包、边长达到 ", el("strong", null, "40×40 厘米"), " 的箱子和不能折叠的伞不能带进去。票务页还建议改善工程期间尽量别带大包。冬季（10 月至 3 月）周一至周六 ", el("strong", null, "10:00–18:00"), "，售票和入场在闭馆前 1 小时停止，所以周一最晚大约 ", el("strong", null, "17:00"), " 进门。当前基础票页面标价 ", el("strong", null, "€18"), "，另有每张手续费，以订单为准。官方导览另加约 €8。多媒体讲解有 16 种语言，也可以用他们的 App。"),
+      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "一位常在王宫带团的导游说，参观通常 1 到 1.5 小时，大包要寄存，还建议带 1 欧元硬币。", el("mark", null, "1 欧元投币对不上王宫现行规定。"), "国家遗产写的是王宫寄存免费。投 1 欧元退币的，是旁边皇家收藏馆的自助柜，今天不进那里。同一篇还说多数厅不让拍照、宫内没有厕所、路线是单线。无障碍说明里写了游客厕所。两边一致的只有一句：进门前先上厕所，中途折返会吃掉这 90 分钟。拍照仍按房间标识，不开闪光灯，不带自拍杆和三脚架，不触摸展品。"),
+      el("p", null, "这次用知乎搜索又对过几篇，票价互相打架，不改已经买的票。游子吟写全票 ", el("strong", null, "€18"), "、冬季周一至周六 10:00–18:00、闭馆前 1 小时停止入场、讲解约 €8、语音约 €5，和现行票务页一致。小斑的旅行手账写成人票 €14，并说周一至周四 17:00–19:00 可以碰免费资格。舒 lin 也写过 14 欧和 9:30 开始排队。", el("strong", null, "€14 和「碰碰运气」都不采用。"), "10:00 的预约仍提前到门口，不为此改 08:45 出门。"),
+      el("p", null, "大懒熊 W 记下兵器广场夹在王宫和阿穆德纳之间，并说屋顶两面旗都挂着表示国王在宫里。当天若看到两面旗，以现场是否停开为准。Aires 行记写现在可以拍照、票价 20 欧、周三和周六有换岗。拍照仍按每厅标识，票价以订单为准，换岗不插进 26 日。"),
+      el("p", null, el("span", { class: "flag" }, "没有可靠室内 Wi-Fi"), "票、地图和翻译提前下好。手机里留门票二维码。"),
       el("div", { class: "links" },
-        ext("https://tickets.patrimonionacional.es/en/tickets/palacio-real-de-madrid?city=ZMM", "官方票务和拍照规则"),
-        ext("https://www.patrimonionacional.es/en/visita/royal-palace-madrid", "开放信息")
+        ext("https://www.patrimonionacional.es/sites/default/files/documents/20251216_resolucion_regimen_visita_firmada_0_26.pdf", "2025 年参观办法"),
+        ext("https://tickets.patrimonionacional.es/en/tickets/palacio-real-de-madrid?city=ZMM", "官方票务"),
+        ext("https://www.zhihu.com/answer/820968481", "知乎：董微微，王宫带团"),
+        ext("https://zhuanlan.zhihu.com/p/1996866963973091521", "知乎：游子吟，票价与开放"),
+        ext("https://www.zhihu.com/question/1938902054006399764/answer/1939628721070913451", "知乎：小斑的旅行手账"),
+        ext("https://zhuanlan.zhihu.com/p/1888744490287756244", "知乎：大懒熊 W，兵器广场")
       ),
       pager("palace")
     );
@@ -214,7 +254,13 @@
       el("p", { class: "kicker" }, "11:30–12:30"),
       el("h1", null, "老城"),
       el("p", null, el("mark", null, "王宫高地是权力中心，Villa 是市政核心，Mayor 是公共仪式剧场。")),
-      el("p", null, "这一小时是户外的城市史，不是路过拍照。午饭后不再折回。")
+      el("p", null, "这一小时是户外的城市史，不是路过拍照。午饭后不再折回。"),
+      el("h2", { id: "oldtown-order" }, "不走回头路"),
+      el("div", { class: "card" },
+        el("p", null, "出宫就在 ", el("strong", null, "Plaza de la Armería"), " 回看正立面，接着 ", el("strong", null, "东方广场"), "。再往城内走到 ", el("strong", null, "Plaza de la Villa"), "，然后 ", el("strong", null, "Plaza Mayor"), "，最后沿 Cava Baja 去 Posada。这四段都在午饭前完成。"),
+        el("p", null, "阿穆德纳大教堂主体晚至 19–20 世纪，旁边的旧城墙才更接近早期城市。Plaza Mayor 中央骑马像是 ", el("strong", null, "腓力三世"), "，不是腓力四世。想尝鱿鱼三明治只在这里分食一份，队伍不能耽误 ", el("strong", null, "12:45"), "。")
+      ),
+      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "世界客和游子吟都把太阳门写成西班牙公路 ", el("strong", null, "0 公里"), "，广场上有熊抱草莓树。它在 Plaza Mayor 东边，今天不绕去。游子吟写广场大约长 129 米、宽 94 米，面包房之家外墙有壁画，九个拱门；抬头看即可，不进咨询处。无忧行还把圣米格尔市场、San Ginés 油条和赤足修道院排进同一上午。市场只在队伍很短时看一眼，油条和修道院今天不去。")
     );
     stops.forEach(function (st, i) {
       s.append(el("article", { class: "stop" },
@@ -227,7 +273,10 @@
       el("div", { class: "links" },
         ext("https://www.esmadrid.com/informacion-turistica/plaza-de-la-villa", "Plaza de la Villa"),
         ext("https://www.esmadrid.com/en/madrid-neighbourhoods/austrias", "哈布斯堡街区"),
-        ext("https://www.esmadrid.com/en/48-hours-madrid", "Plaza Mayor 建造史")
+        ext("https://www.esmadrid.com/en/48-hours-madrid", "Plaza Mayor 建造史"),
+        ext("https://zhuanlan.zhihu.com/p/1945461347274958821", "知乎：世界客，太阳门与市徽"),
+        ext("https://zhuanlan.zhihu.com/p/2022264518743532736", "知乎：游子吟，马约尔广场"),
+        ext("https://www.zhihu.com/question/266819821/answer/3220793797", "知乎：无忧行，老城加站")
       ),
       pager("oldtown")
     );
@@ -241,7 +290,8 @@
       el("h1", null, "Posada de la Villa"),
       el("p", null, el("mark", null, "1642 年的旅店，接在老城商路的尽头，不是单独找的一家名店。")),
       el("p", null, "点菜、人数和预算仍以行程手册为准。订的是 ", el("strong", null, "12:45"), "，3 或 4 人，并确认当天烤乳羊。"),
-      el("p", null, "时间紧就不要在 Plaza Mayor 再排队买小吃。如果想尝鱿鱼三明治，只在午餐前分食一份，而且队伍不能影响订位。"),
+      el("h2", { id: "posada-time" }, "14:15 必须起身"),
+      el("p", null, "这顿饭接在老城商路的尽头，点菜仍以行程手册为准。", el("strong", null, "14:15"), " 要离开：走到 Felipe IV 门大约 28 分钟。坐过点就取消丽池，把缓冲留给普拉多 16:00，不要两边都赶。"),
       el("div", { class: "links" },
         ext("https://www.esmadrid.com/en/illustrated-map-centuries-old-restaurants-and-tabernas", "百年酒馆介绍"),
         el("a", { class: "go", href: "index.html#book" }, "回手册看点菜"),
@@ -266,18 +316,23 @@
       figure(IMG.gate, "丽池 Felipe IV 门", "Felipe IV 门。图片来源：马德里旅游局。"),
       el("p", null, el("mark", null, "看的是王家园林怎样变成公共文化景观，不是环湖拍照。")),
       figure(IMG.crystal, "丽池水晶宫外观", "水晶宫外观。2026 年 10 月预计仍在修缮，只能看外部装置，不能列入入内。图片来源：马德里旅游局。"),
-      el("p", null, el("span", { class: "flag" }, "水晶宫闭馆至 2027"), "1887 年由 Ricardo Velázquez Bosco 为菲律宾群岛植物展览设计，曾是铁与玻璃的温室。")
+      el("p", null, el("span", { class: "flag" }, "水晶宫闭馆至 2027"), "1887 年由 Ricardo Velázquez Bosco 为菲律宾群岛植物展览设计，曾是铁与玻璃的温室。2026 年 10 月只看外面的覆盖装置，不把入内写进行程。"),
+      el("h2", { id: "retiro-line" }, "30 分钟只走这四步")
     );
     rows.forEach(function (r) {
       s.append(el("article", { class: "stop" }, el("h2", null, r[0]), el("p", null, r[1])));
     });
     s.append(
-      el("div", { class: "note" }, el("p", null, "精神很好可以继续去大湖和阿方索十二世纪念碑，但必须在普拉多 16:00 前离园。更想看画，就不要为湖景挤时间。")),
+      el("h2", { id: "retiro-skip" }, "什么时候不要进园"),
+      el("div", { class: "note" }, el("p", null, "精神很好可以继续去大湖和阿方索十二世纪念碑，但必须在普拉多 16:00 前离园。更想看画，就不要为湖景挤时间。下雨、大风、封园，或 14:15 还没离开 Posada，直接去普拉多。")),
       el("p", null, "公园 10 月至次年 3 月官方开放 ", el("strong", null, "06:00–22:00"), "。暴雨、强风可能封闭。免费 Wi-Fi 在 Cecilio Rodríguez Gardens，不在这条短线上，也不能覆盖全园。进园前截好出口和普拉多入口。"),
+      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "游子吟写水晶宫从 2023 年起大修、预计 2027 年再开放，和市政府说明一致。同一篇把阿尔卡拉门、阿方索十二世、水晶宫、玫瑰园排成 1 到 2 小时，还写湖上划船大约 €6、45 分钟。", el("strong", null, "今天不划船，也不绕大湖。"), "舒 lin 遇过风雨封园，所以 14:15 还没离开 Posada，或园门关着，就直接去普拉多。"),
       el("div", { class: "links" },
         ext("https://www.esmadrid.com/informacion-turistica/parque-del-retiro", "公园官方页"),
         ext("https://www.esmadrid.com/en/tourist-information/felipe-iv-gate", "Felipe IV 门"),
         ext("https://www.esmadrid.com/informacion-turistica/palacio-de-cristal", "水晶宫维修说明"),
+        ext("https://zhuanlan.zhihu.com/p/1996866963973091521", "知乎：游子吟，丽池长路线"),
+        ext("https://zhuanlan.zhihu.com/p/28306698096", "知乎：舒 lin，风雨封园"),
         ext("https://www.google.com/maps/dir/?api=1&origin=Puerta+de+Felipe+IV%2C+Calle+de+Alfonso+XII+3%2C+Madrid&destination=Museo+del+Prado%2C+Madrid&travelmode=walking", "步行去普拉多")
       ),
       pager("retiro")
@@ -316,24 +371,39 @@
       el("p", { class: "kicker" }, "16:00–19:30 · 不求看遍"),
       el("h1", null, "普拉多"),
       el("p", null, el("mark", null, "把它看成权力怎样挑选艺术，不是找几幅名作拍照。")),
-      el("p", null, "1819 年以皇家绘画博物馆对公众开放。建筑最初由 Juan de Villanueva 设计为科学用途，后来才成为博物馆。下表是主题锚点，不是保证一路相连的导航。入馆后以官方数字地图和墙面为准。"),
-      el("p", null, el("span", { class: "flag" }, "厅内禁止摄影和录像"), "免费 Wi-Fi 只确认在 ", el("strong", null, "Café Prado"), "，不要假设展厅有网。中文语音导览当场再确认，自带耳机并充好电。")
+      el("p", null, "1819 年以皇家绘画博物馆对公众开放。建筑最初由 Juan de Villanueva 设计为科学用途，后来才成为博物馆。西班牙绘画是世界上收得最全的一批，委拉斯开兹和戈雅的作品多数在这里。六幅锚点不是一条保证相连的路线，入馆后以官方数字地图和墙面为准。"),
+      el("h2", { id: "prado-works" }, "六幅锚点")
     );
     s.append(renderWork());
     s.append(
-      el("h2", null, "3.5 小时怎么切"),
+      el("h2", { id: "prado-more" }, "有余力再加，不列入今天的必看"),
+      el("p", null, "知乎一篇藏品介绍还提到：范德魏登《下十字架》、安吉利科《圣母领报》、丢勒《亚当与夏娃》、老彼得·勃鲁盖尔《死亡的胜利》、委拉斯开兹《布雷达的投降》，以及戈雅的玛哈。这些能说明普拉多不止西班牙绘画，但和六幅主线不在同一条直线上。", el("strong", null, "18:45 之后如果还有力气，只加一幅"), "，优先《布雷达的投降》或玛哈，因为还连着委拉斯开兹和戈雅。其余留给下次。"),
+      el("p", null, "《1808年5月3日》有一种常见读法：前排是祈祷的僧侣、抬头的农民，和举起双手的市民，刑场在马德里郊外。普拉多官方更谨慎，说它不是当时的街头新闻。看的时候先相信画面上的光和两组人，不必背这个故事。"),
+      ext("https://www.zhihu.com/tardis/bd/ans/2556884594", "知乎：馆藏里还被提到的作品"),
+      ext("https://zhuanlan.zhihu.com/p/30780368", "知乎：《5月3日》的一种读法"),
+      el("h2", { id: "prado-pace" }, "3.5 小时怎么切"),
       el("div", { class: "card" },
         el("p", null, el("strong", null, "16:00–16:15"), " 存包，打开地图，先确认《宫娥》、博斯和戈雅当天在不在展。"),
         el("p", null, el("strong", null, "16:15–17:05"), " 先看最想看的。拥挤就先看《宫娥》和博斯。"),
         el("p", null, el("strong", null, "17:05–17:15"), " 坐下喝水。"),
         el("p", null, el("strong", null, "17:15–18:45"), " 戈雅一组。动线不顺就跟地图，不要为了年代顺序来回折返。"),
         el("p", null, el("strong", null, "18:45–19:15"), " 补埃尔·格列柯，或一位更喜欢的意大利 / 弗拉芒画家。不再追加十几件。"),
-        el("p", null, el("strong", null, "19:15–19:30"), " 洗手间、商店、离馆。")
+        el("p", null, el("strong", null, "19:15–19:30"), " 洗手间、商店、离馆。周一至周六闭馆 20:00，离厅建议提前约 10 分钟。")
       ),
+      el("h2", { id: "prado-rules" }, "包、拍照、网络"),
+      el("p", null, el("span", { class: "flag" }, "官方 2024 年 FAQ"), "边长达到 ", el("strong", null, "40×40 厘米"), " 的行李不能带进展厅，可放寄存，贵重物品自己拿着。展厅", el("strong", null, "不能拍照、不能录像"), "。允许拍照的是 Jerónimos 门厅、缪斯厅和回廊。"),
+      el("p", null, "Wi-Fi 以较新的说明为准：", el("mark", null, "不是整座馆，也不是只在 Café Prado。"), "2022 年 FAQ 写过 Café Prado；2024 年 9 月 FAQ 改成只在临时展厅和 Jerónimos 门厅。展厅里用提前下好的地图。Café Prado 在 Jerónimos 楼层，周一至周六大约开到 ", el("strong", null, "18:30"), "，你们 19:30 离馆，喝水不要留到最后。"),
+      el("p", null, "语音导览可以加在门票上，馆方标价大约 ", el("strong", null, "€5"), "，也能用自己的手机，自带耳机。西班牙语或英语的 90 分钟导览另加约 €10。长椅在爱奥尼亚画廊和 Jerónimos 门厅。14 岁以下要有成人同行。你们已经约了 ", el("strong", null, "16:00"), "，不必改去闭馆前两小时的免费时段，那段人往往更多。"),
+      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "wstcbh 在馆里走了大约 15 小时，写正门委拉斯开兹门平时不开，免费夜场才从那里排队；常用入口是北侧 0 层圣赫罗尼莫门，进门左手问询处可领中文地图。他遇到的是背包都要存、挎包可以带、水可以带但不能在展厅喝。官方界限仍是 ", el("strong", null, "40×40"), "，以当天安检为准。展厅号不按顺序连通，3.5 小时不要跟着他的三十集走完。"),
+      el("p", null, "komorebi 从《宫娥》起步，不按年代从祭坛画走起，和上面的切分一致。爱琴海的珍珠写前台有 1 小时、2 小时、3 小时手册，并说下午 3 点旅行团离开后人少。你们 16:00 进，仍按六幅走，不换手册。她写的 15 欧票价以你们已购票为准。wstcbh 把戈雅《阳伞》放在 2 层一带：18:45 后六幅已经看完，才按当天地图找它，找不到就停。"),
       el("div", { class: "links" },
         ext("https://www.museodelprado.es/en/visit-the-museum", "官方参观和地图"),
-        ext("https://www.museodelprado.es/en/visit/opening-times-and-prices", "开放时间与票价"),
-        ext("https://content3.cdnprado.net/doclinks/pdf/visita/preguntas-frecuentes-07julio2022.pdf", "FAQ：中文讲解与 Wi-Fi")
+        ext("https://www.museodelprado.es/en/visit/regulations", "参观规则"),
+        ext("https://content3.cdnprado.net/doclinks/pdf/visita/preguntas-frecuentes-sep2024_v2.pdf?v=2", "2024 年 FAQ"),
+        ext("https://zhuanlan.zhihu.com/p/702661672", "知乎：wstcbh，入口和地图"),
+        ext("https://zhuanlan.zhihu.com/p/2061136701569888431", "知乎：komorebi，从《宫娥》看起"),
+        ext("https://www.zhihu.com/question/637744025/answer/2071269025863226265", "知乎：爱琴海的珍珠，时长路线"),
+        ext("https://zhuanlan.zhihu.com/p/19377361790", "知乎：wstcbh，《阳伞》在哪一层")
       ),
       pager("prado")
     );
@@ -344,6 +414,7 @@
     const s = el("section", { id: "backup" });
     s.append(
       el("h1", null, "走不动时"),
+      el("h2", { id: "backup-plan" }, "按状态改路线"),
       el("p", { class: "local" }, "选中的方案只留在这台设备上。"),
       el("div", { class: "seg", id: "plans", role: "group", "aria-label": "当天状态" })
     );
@@ -353,18 +424,18 @@
       seg.append(b);
     });
     s.append(el("div", { class: "card", id: "plan-text" }, el("p", null, PLANS[planId])));
-    s.append(el("h2", null, "Wi-Fi"));
+    s.append(el("h2", { id: "backup-wifi" }, "Wi-Fi"));
     const table = el("table", null,
       el("tr", null, el("th", null, "地点"), el("th", null, "怎么准备")),
-      el("tr", null, el("td", null, "王宫"), el("td", null, "官方页没确认游客 Wi-Fi。票和入口离线保存。")),
+      el("tr", null, el("td", null, "王宫"), el("td", null, "没有可依赖的室内 Wi-Fi。票和入口离线保存。寄存免费，大包不要带进去。")),
       el("tr", null, el("td", null, "老城"), el("td", null, "个别旅游点有免费 Wi-Fi，不能靠它导航。")),
       el("tr", null, el("td", null, "丽池"), el("td", null, "短线范围内不要指望 Wi-Fi。截图出口。")),
-      el("tr", null, el("td", null, "普拉多"), el("td", null, "只确认 Café Prado。展厅用离线地图。"))
+      el("tr", null, el("td", null, "普拉多"), el("td", null, "2024 年 FAQ：只在临时展厅和 Jerónimos 门厅。展厅用离线地图。"))
     );
     s.append(table);
     s.append(
       el("p", null, "出门前三人各自把四个地点存进地图，下载马德里离线地图，截好王宫票、普拉多票、住址和 Posada 预约。自动时区打开。带充电宝。"),
-      el("h2", null, "出发前再核一次"),
+      el("h2", { id: "backup-pack" }, "出发前再核一次"),
       el("p", { class: "local" }, "勾选只在这个浏览器里，不会同步给别人。")
     );
     PACK.forEach(function (item) {
@@ -405,31 +476,111 @@
     backup: renderBackup
   };
 
-  function renderNav() {
-    const nav = document.getElementById("nav");
-    const cur = sectionId();
-    nav.replaceChildren();
+  let findAt = 0;
+  let sectionObserver = null;
+  let navLockUntil = 0;
+
+  function fillNav(container, nested) {
+    const cur = (location.hash || "#line").replace("#", "");
+    const parent = parentOf(cur);
+    container.replaceChildren();
+    if (nested && container.id === "nav") {
+      const box = el("input", { class: "find", id: "find-desk", type: "search", enterkeyhint: "search", placeholder: "在本页查找", "aria-label": "在本页查找" });
+      container.append(box);
+    }
     NAV.forEach(function (n) {
       const a = el("a", { class: "chip", href: "#" + n.id }, n.label);
-      if (n.id === cur) a.setAttribute("aria-current", "true");
-      nav.append(a);
+      if (n.id === parent || n.id === cur) a.setAttribute("aria-current", "true");
+      container.append(a);
+      if (!nested) return;
+      (n.children || []).forEach(function (c) {
+        const s = el("a", { class: "chip sub", href: "#" + c.id }, c.label);
+        if (c.id === cur) s.setAttribute("aria-current", "true");
+        container.append(s);
+      });
     });
-    const meta = NAV.filter(function (n) { return n.id === cur; })[0];
+  }
+
+  function markCurrent(container) {
+    const cur = (location.hash || "#line").replace("#", "");
+    const parent = parentOf(cur);
+    container.querySelectorAll("a").forEach(function (a) {
+      const id = (a.getAttribute("href") || "").replace("#", "");
+      const on = id === cur || (!a.classList.contains("sub") && id === parent);
+      if (on) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }
+
+  function renderNav() {
+    const nav = document.getElementById("nav");
+    if (!nav.querySelector("a")) {
+      fillNav(nav, true);
+      fillNav(document.getElementById("sheet-nav"), true);
+    } else {
+      markCurrent(nav);
+      markCurrent(document.getElementById("sheet-nav"));
+    }
+    const meta = NAV.filter(function (n) { return n.id === sectionId(); })[0];
     document.getElementById("back").setAttribute("href", "index.html#" + meta.back);
     document.getElementById("back").textContent = meta.backLabel;
   }
 
+  function scrollToHash() {
+    navLockUntil = Date.now() + 900;
+    const id = (location.hash || "#line").replace("#", "");
+    const node = document.getElementById(id) || document.getElementById(parentOf(id));
+    if (node) node.scrollIntoView({ block: "start" });
+  }
+
+  function closeSheet() {
+    const sheet = document.getElementById("sheet");
+    sheet.hidden = true;
+    document.getElementById("toc-btn").setAttribute("aria-expanded", "false");
+  }
+
+  function watchSections() {
+    if (!("IntersectionObserver" in window)) return;
+    if (sectionObserver) sectionObserver.disconnect();
+    sectionObserver = new IntersectionObserver(function (entries) {
+      const hit = entries.filter(function (e) { return e.isIntersecting; })
+        .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; })[0];
+      if (Date.now() < navLockUntil) return;
+      if (!hit || !hit.target.id) return;
+      const id = hit.target.id;
+      const cur = (location.hash || "").replace("#", "");
+      if (cur.indexOf("prado-") === 0 && parentOf(id) === "prado") return;
+      if (cur === id) return;
+      history.replaceState(null, "", "#" + id);
+      renderNav();
+    }, { rootMargin: "-15% 0px -65% 0px", threshold: [0.2, 0.6] });
+    document.querySelectorAll("section[id], h2[id]").forEach(function (n) { sectionObserver.observe(n); });
+  }
+
+  function findNext(raw) {
+    const q = (raw || "").trim().toLowerCase();
+    if (q.length < 1) return;
+    const hits = [];
+    const walker = document.createTreeWalker(document.getElementById("stage"), NodeFilter.SHOW_TEXT);
+    let node = walker.nextNode();
+    while (node) {
+      if (node.nodeValue.toLowerCase().indexOf(q) >= 0 && node.parentElement) hits.push(node.parentElement);
+      node = walker.nextNode();
+    }
+    if (!hits.length) return;
+    findAt = findAt % hits.length;
+    hits[findAt].scrollIntoView({ block: "center" });
+    findAt += 1;
+  }
+
   function render() {
-    renderNav();
-    const id = sectionId();
     const stage = document.getElementById("stage");
-    const nodes = NAV.map(function (n) {
-      const node = BUILD[n.id]();
-      node.hidden = n.id !== id;
-      return node;
-    });
+    const nodes = NAV.map(function (n) { return BUILD[n.id](); });
     stage.replaceChildren.apply(stage, nodes);
+    renderNav();
     paintChrome();
+    if (location.hash) scrollToHash();
+    watchSections();
   }
 
   function stepWork(dir) {
@@ -440,10 +591,12 @@
     if (!viewer) return;
     const fresh = renderWork();
     viewer.replaceWith(fresh);
+    renderNav();
   }
 
   document.body.addEventListener("click", function (e) {
-    const t = e.target.closest("[data-work], [data-step], [data-plan], [data-check], #font-btn, #theme-btn, #clear-local");
+    if (e.target.id === "sheet") { closeSheet(); return; }
+    const t = e.target.closest("[data-work], [data-step], [data-plan], [data-check], #font-btn, #theme-btn, #clear-local, #toc-btn, #sheet-close, #sheet a");
     if (!t) return;
     if (t.id === "font-btn") {
       const i = FONTS.indexOf(fontNow());
@@ -488,6 +641,18 @@
       t.setAttribute("aria-pressed", checks.has(id) ? "true" : "false");
       return;
     }
+    if (t.id === "toc-btn") {
+      const sheet = document.getElementById("sheet");
+      const open = sheet.hidden;
+      sheet.hidden = !open;
+      t.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) document.getElementById("find-mobile").focus();
+      return;
+    }
+    if (t.id === "sheet-close" || t.closest("#sheet a")) {
+      closeSheet();
+      if (t.id === "sheet-close") return;
+    }
     if (t.id === "clear-local") {
       localStorage.removeItem(CHECK_KEY);
       localStorage.removeItem(PLAN_KEY);
@@ -502,7 +667,16 @@
     }
   });
 
+  document.body.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeSheet();
+    if (e.key !== "Enter") return;
+    if (e.target.id !== "find-desk" && e.target.id !== "find-mobile") return;
+    e.preventDefault();
+    findNext(e.target.value);
+  });
+
   document.body.addEventListener("input", function (e) {
+    if (e.target.id === "find-desk" || e.target.id === "find-mobile") findAt = 0;
     if (e.target.id !== "note") return;
     let all = {};
     try { all = JSON.parse(localStorage.getItem(NOTE_KEY) || "{}"); } catch (err) {}
@@ -516,10 +690,15 @@
     const h = (location.hash || "").replace("#", "");
     if (h.indexOf("prado-") === 0) {
       const id = h.slice(6);
-      if (WORKS.some(function (w) { return w.id === id; })) workId = id;
+      if (WORKS.some(function (w) { return w.id === id; })) {
+        workId = id;
+        const viewer = document.getElementById("viewer");
+        if (viewer) viewer.replaceWith(renderWork());
+      }
     }
-    render();
-    window.scrollTo(0, 0);
+    renderNav();
+    scrollToHash();
+    closeSheet();
   });
 
   if (!localStorage.getItem(THEME_KEY)) {
