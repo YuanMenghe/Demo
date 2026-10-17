@@ -1,0 +1,9 @@
+{
+  "name": "马德里 ESMO 行程",
+  "short_name": "ESMO行程",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#efe6d6",
+  "theme_color": "#9a3412",
+  "lang": "zh-CN"
+}
