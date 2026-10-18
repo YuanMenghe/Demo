@@ -114,6 +114,7 @@
       id: "d22",
       num: "22",
       weekday: "周四",
+      wx: "晴 18°/8°",
       kicker: "北京出发 / 晚间入住",
       dateLabel: "10月22日",
       notes: [
@@ -130,7 +131,7 @@
         { id: "b22-fly", time: "北京 07:25", title: "PEK T3 起飞", short: "北京起飞，飞往迪拜", text: "EK309。11:35 到迪拜 T3。行李直挂、航站楼以正式电子客票为准。", at: at(2026, 10, 22, 7, 25, BJ) },
         { id: "b22-dxb", time: "迪拜 11:35", title: "迪拜转机", short: "迪拜转机", text: "转机约 2 小时 55 分。机场简餐，确认下一程登机口。西班牙卡的流量不能用在迪拜，用机场 Wi-Fi 或含阿联酋的套餐。", at: at(2026, 10, 22, 11, 35, DXB) },
         { id: "b22-conn", time: "迪拜 14:30", title: "转飞马德里", short: "转飞马德里", text: "EK143，飞往马德里。", at: at(2026, 10, 22, 14, 30, DXB) },
-        { id: "b22-land", time: "马德里 20:20", title: "落地 T4S", short: "落地马德里 T4S", text: "入境、取行李后转到 T4 出机场。预计 21:30–22:15 能离开，排队就顺延。", at: at(2026, 10, 22, 20, 20, MAD) },
+        { id: "b22-land", time: "马德里 20:20", title: "落地 T4S", short: "落地马德里 T4S", text: "入境、取行李后转到 T4 出机场。预计 21:30–22:15 能离开，排队就顺延。航站楼可连 AIRPORT FREE Wifi AENA，用法在手册。", at: at(2026, 10, 22, 20, 20, MAD) },
         { id: "b22-in", time: "马德里 22:00", title: "出租车去公寓", short: "入住公寓", text: "走正规出租车队列。按 22:00–23:00 入住准备。机上先吃好，随身留一点小食；不累且超市还开着，再补水和早餐。", at: at(2026, 10, 22, 22, 0, MAD) }
       ]
     },
@@ -138,6 +139,7 @@
       id: "d23",
       num: "23",
       weekday: "周五",
+      wx: "晴 19°/8°",
       kicker: "领证、展台、20:00 商务晚餐",
       dateLabel: "10月23日",
       notes: [
@@ -164,6 +166,7 @@
       id: "d24",
       num: "24",
       weekday: "周六",
+      wx: "多云 17°/7°",
       kicker: "展台、可选 AI、TigerMed 酒会",
       dateLabel: "10月24日",
       notes: [
@@ -190,6 +193,7 @@
       id: "d25",
       num: "25",
       weekday: "周日",
+      wx: "晴 19°/9°",
       kicker: "全天留给 Poster 193P",
       dateLabel: "10月25日",
       notes: [
@@ -218,6 +222,7 @@
       id: "d26",
       num: "26",
       weekday: "周一",
+      wx: "晴 20°/10°",
       kicker: "王宫、老城、丽池、普拉多",
       dateLabel: "10月26日",
       notes: [
@@ -234,7 +239,7 @@
       ],
       blocks: [
         { id: "b26-bf", time: "07:45", title: "公寓早餐", short: "公寓早餐", text: "简单吃完。08:45 出门。到王宫预留 45–55 分钟公共交通；想少走路，当天再比价打车。", at: at(2026, 10, 26, 7, 45, MAD) },
-        { id: "b26-palace", time: "10:00–11:30", title: "王宫", short: "参观王宫", text: "看西班牙王室、宫廷礼仪和国家历史。提前预约 10:00 的入场。游客入口在阿穆德纳教堂广场。留出安检和找入口的时间。", at: at(2026, 10, 26, 10, 0, MAD) },
+        { id: "b26-palace", time: "10:00–11:30", title: "王宫", short: "参观王宫", text: "看西班牙王室、宫廷礼仪和国家历史。提前预约 10:00 的入场。游客入口在阿穆德纳教堂广场。留出安检和找入口的时间。入口附近有免费厕所，见手册。", at: at(2026, 10, 26, 10, 0, MAD) },
         { id: "b26-town", time: "11:30–12:30", title: "老城", short: "王宫周边老城", text: "阿穆德纳教堂外观、东方广场、Plaza de la Villa、Plaza Mayor。不进教堂。广场放在午餐前，午后不再折回。想尝鱿鱼三明治，只在这里分食一份，队伍不能耽误 12:45 的订位。", at: at(2026, 10, 26, 11, 30, MAD) },
         { id: "b26-lunch", time: "12:45–14:15", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "1642 年旅店旧址，现在是木炉烤肉。订 3–4 人、12:45。点菜按实际人数，订位时确认羊肉份量、是否预留和当天价格。手册里可以按 3 人或 4 人切换点法。", at: at(2026, 10, 26, 12, 45, MAD) },
         { id: "b26-gate", time: "14:15–14:45", title: "去丽池 Felipe IV 门", short: "步行去丽池", text: "约 2.0 公里、28 分钟。累了就三人打车，不要赶路。午餐超时或下雨，跳过丽池，直接去普拉多。", at: at(2026, 10, 26, 14, 15, MAD) },
@@ -248,6 +253,7 @@
       id: "d27",
       num: "27",
       weekday: "周二",
+      wx: "晴 20°/10°",
       kicker: "退房、收尾、晚间返程",
       dateLabel: "10月27日",
       notes: [
@@ -274,6 +280,7 @@
       id: "d28",
       num: "28",
       weekday: "周三",
+      wx: "晴 20°/10°",
       kicker: "迪拜转机 / 回到北京",
       dateLabel: "10月28日",
       notes: [
@@ -528,7 +535,7 @@
   }
 
   function dayPlain(day) {
-    const lines = [day.dateLabel + " " + day.weekday + "｜" + day.kicker, ""];
+    const lines = [day.dateLabel + " " + day.weekday + (day.wx ? " " + day.wx : "") + "｜" + day.kicker, ""];
     day.blocks.forEach(function (b) {
       lines.push(b.time + " " + b.title + (b.text ? "：" + b.text : ""));
     });
@@ -670,14 +677,14 @@
         class: "chip" + (d.id === active ? " is-today" : ""),
         "data-day": d.id,
         "aria-pressed": d.id === day.id ? "true" : "false"
-      }, el("b", null, d.num), el("span", null, d.weekday));
+      }, el("b", null, d.num), el("span", null, d.weekday), el("small", null, d.wx || ""));
       chips.append(b);
     });
     wrap.append(el("div", { class: "sticky-bar" }, chips));
 
     const hero = el("div", { class: "hero" },
       el("div", null,
-        el("p", { class: "kicker" }, day.dateLabel + " · " + day.weekday),
+        el("p", { class: "kicker" }, day.dateLabel + " · " + day.weekday + (day.wx ? " · " + day.wx : "")),
         el("h2", null, day.kicker)
       ),
       el("p", { class: "day-num" }, day.num)
@@ -935,6 +942,31 @@
         "<p>点单前确认面包、小食、饮料和税。需要公司抬头发票，结账前说，并留下明细和刷卡凭证。</p>"
     },
     {
+      id: "toilet",
+      title: "找厕所",
+      html:
+        "<p><b>西班牙文 H 是男、M 是女</b>，和英语相反。看不清就看小人。密码印在小票最下面，用完再扔。很多厕所没有纸，包里带纸巾。餐厅密码一两周就可能换，下面的数字只作参考。</p>" +
+        "<p>位置用谷歌地图在 2026-10-18 核对，距离是直线，走路会更远一点。只把顺路的放在前面。</p>" +
+        "<h3>就在路线上</h3>" +
+        '<div class="place"><b>王宫入口</b><span>26 日 10:00</span><small>免费。人就在游客入口。进宫前用，宫里不要中途折返。</small></div>' +
+        '<div class="place"><b>普拉多对面汉堡王</b><span>直线约 210 米</span><small>Paseo del Prado 26。密码 1954。16:00 进馆前如果来得及，可以在这里。密码是访客经验。</small></div>' +
+        '<div class="place"><b>公寓附近 KFC</b><span>直线约 740 米</span><small>Calle de Bravo Murillo 168，靠近四路地铁。密码 1234。另一条笔记把四路地铁口写成 1304，不要和这家店混用。</small></div>' +
+        "<h3>老城边缘，不专程去</h3>" +
+        '<div class="place"><b>Jollibee 二楼</b><span>离 Posada 约 520 米</span><small>Calle del Arenal 4，密码 2821。在王宫和太阳门之间。26 日的路线不绕太阳门，路过再看。</small></div>' +
+        '<div class="place"><b>太阳门 KFC</b><span>离 Posada 约 500 米</span><small>Calle Mayor 1，密码 9620。在广场往太阳门的方向，今天不绕去。</small></div>' +
+        "<h3>不顺路，不写进行程</h3>" +
+        "<ul>" +
+        "<li>Goya 地铁麦当劳，Calle de Goya 70，密码 0000A。离 23 日晚餐直线约 680 米，离酒会酒店约 1.2 公里。</li>" +
+        "<li>议会大厦旁 Faborit，Plaza de las Cortes 4，密码 1793。离普拉多直线约 380 米，在馆的北侧，不在 Felipe IV 门进馆的那条路上。</li>" +
+        "<li>丽池大湖边的免费厕所，离 Felipe IV 门直线约 450 米。30 分钟短线不去大湖。</li>" +
+        "<li>Atocha 二楼咖啡厅旁的免费厕所，离普拉多直线约 820 米。这几天不经过车站。</li>" +
+        "<li>托莱多市区汉堡王在另一座城，直线约 67 公里。塞维利亚不去。</li>" +
+        "<li>Gran Vía 公厕大约 €1 还要排队。24 日酒会后不去那里。</li>" +
+        "</ul>" +
+        "<p>找不到就进酒吧点一杯咖啡，大约 €1–2，这是当地常用的办法。密码以当场小票为准。</p>" +
+        '<p><a href="https://www.google.com/maps/search/?api=1&query=Burger+King+Paseo+del+Prado+26+Madrid" target="_blank" rel="noopener">普拉多对面汉堡王</a> · <a href="https://www.google.com/maps/search/?api=1&query=KFC+Calle+de+Bravo+Murillo+168+Madrid" target="_blank" rel="noopener">公寓附近 KFC</a></p>'
+    },
+    {
       id: "phone",
       title: "上网、App、支付和随身",
       html:
@@ -949,8 +981,9 @@
         "<p>备用门店：Vodafone，Bravo Murillo 212，离公寓步行大约 18 分钟。周一至周六 10:00–21:00，周日休息。Orense 7 那家旧店已永久关闭。</p>" +
         '<p><a href="' + LINK.vodafone + '" target="_blank" rel="noopener">预付费说明</a> · <a href="' + LINK.vodaStore + '" target="_blank" rel="noopener">门店页</a></p>' +
         "<p><b>会场 Wi-Fi</b> 资料上有免费网络 IFEMA FREE，连上以后可能要在浏览器里登录。ESMO 自己的账号密码还没核实，以现场为准。有网不等于展台速度快。</p>" +
-        "<p><b>机场 Wi-Fi</b> 名称是 Airport Free Wifi Aena，按页面提示用邮箱验证。</p>" +
-        '<p><a href="' + LINK.ifemaWifi + '" target="_blank" rel="noopener">IFEMA 服务</a> · <a href="' + LINK.aenaWifi + '" target="_blank" rel="noopener">机场 Wi-Fi</a></p>' +
+        "<p><b>机场 Wi-Fi</b> 22 日落地和 27 日离开都会经过 T4。官方网络名是 Airport Free Wifi Aena。小红书「少年」写的用法：连 <b>AIRPORT FREE Wifi AENA</b>，选访客，邮箱填两次，大约能用 1 小时；点开机场发来的验证信后，可以在机场里接着用。不要连 wifi-aena。这是访客经验，现场以 AENA 页面为准。</p>" +
+        "<p>市区免费 Wi-Fi 这次在小红书上没有搜到落在老城、会场或公寓旁边的新分享。王宫和普拉多展厅不要指望室内网络。会场仍用上面的 IFEMA FREE。</p>" +
+        '<p><a href="' + LINK.ifemaWifi + '" target="_blank" rel="noopener">IFEMA 服务</a> · <a href="' + LINK.aenaWifi + '" target="_blank" rel="noopener">机场 Wi-Fi</a> · <a href="https://www.xiaohongshu.com/explore/6ad2e206000000001802f87b" target="_blank" rel="noopener">小红书：少年，机场 Wi-Fi</a></p>' +
         "<h3>出发前每个 App 都登录一次</h3>" +
         "<ul>" +
         "<li><b>Google Maps</b> 保存公寓、会场、餐厅、寄存点、T4。下载离线地图，并给关键路线截图。离线地图没有公共交通的实时导航，不能代替流量。</li>" +
@@ -965,7 +998,7 @@
         "<h3>钱、衣服、充电</h3>" +
         "<ul>" +
         "<li>支付优先带能在境外用的 Visa/Mastercard 实体主卡和备卡，出发前打开境外交易。三人准备 €50–100 小面额欧元。支付宝和微信只是补充。终端如果问用人民币还是欧元结算，选 EUR，并看清费用。</li>" +
-        "<li>衣服：薄长袖、薄毛衣、挡风防雨外套、舒适步行鞋，加一套商务服装。保暖层看出发前的预报。</li>" +
+        "<li>衣服：白天大约 17–20°C，早晚 7–10°C。薄长袖加一件能套在外面的外套，会场和普拉多都偏凉，外套别留在酒店。22 日夜里到机场大约 8°C。26 日穿防滑步行鞋。不必带厚羽绒服。另备一套商务服装。预报截至 2026-10-18：22–24 日用西班牙气象局，25–28 日用 BBC。28 日有一份机场预报写成有雨，当天再看 AEMET。</li>" +
         "<li>充电：西班牙插座是 C/F。电脑三脚插头确认能接上。充电器看输入电压。充电宝要符合航司规定。</li>" +
         "<li>每天随身：胸牌、必要证件、手机、充电宝、卡、少量现金、水、纸巾、后备小食。25 日加上海报筒和备份 PDF。</li>" +
         "</ul>" +
