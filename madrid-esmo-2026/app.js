@@ -706,7 +706,6 @@
       syncPicks();
       applyQuery();
     }
-    main.append(el("p", { class: "foot" }, "日程依据 2026-10-16 确认稿。26 日下午是丽池短线。时刻是当地时间；值机若写了北京时间，以标注为准。地图只作规划，当天看导航。"));
   }
 
   function renderPlan() {
