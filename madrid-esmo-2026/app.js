@@ -210,7 +210,10 @@
       actions: [
         { label: "复制 193P", clip: "poster" },
         { label: "复制论坛地址", clip: "gc" },
-        { label: "论坛报名", href: LINK.gc },
+        { label: "袁的票", href: "ticket.html#yuan", same: true },
+        { label: "婷的票", href: "ticket.html#ting", same: true },
+        { label: "明的票", href: "ticket.html#ming", same: true },
+        { label: "活动页", href: LINK.gc },
         { label: "会场 → 论坛", href: LINK.ifemaToGc },
         { label: "论坛 → 公寓", href: LINK.gcToApt },
         { label: "官方海报说明", href: LINK.poster },
@@ -226,7 +229,11 @@
         { id: "b25-meet", time: "13:30–17:00", title: "展台和海报交流", short: "看同类别 AI 海报", text: "优先聊 AI 临床研究、药物开发、临床工作流、诊断分型。不挤占自己的讲解。", at: at(2026, 10, 25, 13, 30, MAD) },
         { id: "b25-take", time: "17:00", title: "取回海报", short: "取回海报", text: "官方取回窗口到 18:30。取下就带着海报筒走，不先回公寓。", at: at(2026, 10, 25, 17, 0, MAD) },
         { id: "b25-leave", time: "17:05", title: "离开 IFEMA", short: "去胃癌论坛", text: "三人合乘出租车去 Hotel Puerta América。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另留时间，目标 17:45 前到。地铁要换乘，赶 18:00 开饭不用。当天再看导航。", at: at(2026, 10, 25, 17, 5, MAD) },
-        { id: "b25-dinner", time: "18:00–19:00", title: "Networking Dinner", short: "胃癌论坛晚餐", text: "Hotel Puerta América，Avenida de América 41，房间 John Pawson 1。免费。主办方把这一小时写成晚餐，没有写菜品。带好报名凭证和海报筒。", at: at(2026, 10, 25, 18, 0, MAD) },
+        { id: "b25-dinner", time: "18:00–19:00", title: "Networking Dinner", short: "胃癌论坛晚餐", text: "Hotel Puerta América，Avenida de América 41，房间 John Pawson 1。免费。主办方把这一小时写成晚餐，没有写菜品。入场点下面自己的名字，屏幕调亮。海报筒带着。", links: [
+          { href: "ticket.html#yuan", label: "袁", same: true },
+          { href: "ticket.html#ting", label: "婷", same: true },
+          { href: "ticket.html#ming", label: "明", same: true }
+        ], at: at(2026, 10, 25, 18, 0, MAD) },
         { id: "b25-gc", time: "19:00–20:00", title: "胃癌论坛", short: "CLDN18.2 讨论", text: "徐瑞华主持开场，随后 Kohei Shitara 讲 CLARITY-GASTRIC 01。主题是 CLDN18.2 阳性胃癌。20:00 结束。", at: at(2026, 10, 25, 19, 0, MAD) },
         { id: "b25-back", time: "20:00", title: "回公寓", short: "回公寓", text: "出租车回 Calle de Orense 22。路网大约 3.7 公里，不含堵车大约 8 分钟。到家放下海报筒，再办回程值机。", at: at(2026, 10, 25, 20, 0, MAD) },
         { id: "b25-ci", time: "21:45", title: "回程网上值机开放", short: "办理回程值机", checkId: "checkin-back", text: "人已经在公寓。对应北京时间 10月26日 04:45。EK144＋EK308。用 PNR 和姓氏，尽早选相邻座位，保存登机牌。同一联程订单通常可以接着办后面的航段，以系统显示为准。", at: at(2026, 10, 25, 21, 45, MAD) }
@@ -335,8 +342,12 @@
     { id: "talk", group: "before20", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
     { id: "gear", group: "before20", title: "证件、转换头、支付和衣服", detail: "境外可用的 Visa/Mastercard 主卡和备卡，€50–100 小面额现金，西班牙 C/F 转换头，线，充电宝，步行鞋，防风外套，一套展台和商务晚餐的衣服。临走看天气预报再决定加不加薄毛衣。" },
     { id: "pass", group: "before20", title: "保存 24 日酒会入场凭证", detail: "同时记一句：还不确定酒会算不算完整晚餐。" },
-    { id: "gc-pass", group: "now", title: "保存 25 日胃癌论坛报名", detail: "10月25日 18:00–20:00，Hotel Puerta América。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。免费，但要提前注册。凭证和地址离线保存。", links: [{ href: LINK.gc, label: "报名页" }] },
-    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日晚餐地址、24 日酒会凭证、25 日论坛地址和报名凭证、寄存订单。" },
+    { id: "gc-pass", group: "now", title: "打开 25 日胃癌论坛入场码", detail: "10月25日 18:00–20:00，Hotel Puerta América。袁、婷、明各一张，点名字打开。明的码来自手机屏幕，中间有活动标志，扫的时候把亮度调高。", links: [
+      { href: "ticket.html#yuan", label: "袁", same: true },
+      { href: "ticket.html#ting", label: "婷", same: true },
+      { href: "ticket.html#ming", label: "明", same: true }
+    ] },
+    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日晚餐地址、24 日酒会凭证、25 日三张入场码、寄存订单。入场码在行程页里，点袁、婷、明。" },
     { id: "remind", group: "day21", title: "设好回程值机提醒", detail: "10月26日 04:45 北京时间，也就是马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
     { id: "to-pek", group: "day21", title: "确认 22 日怎么去首都机场", detail: "目标 04:25 到 T3。" },
     { id: "weather", group: "day21", title: "看马德里天气，打开自动时区", detail: "按预报改衣服。不要用月平均气温代替出发那天。" },
@@ -405,9 +416,9 @@
     n.append(typeof kid === "string" ? document.createTextNode(kid) : kid);
   }
 
-  function ext(href, label, tel) {
+  function ext(href, label, tel, same) {
     const a = el("a", { href: href, class: "go" }, label);
-    if (!tel) {
+    if (!tel && !same) {
       a.target = "_blank";
       a.rel = "noopener noreferrer";
     }
@@ -723,7 +734,7 @@
     );
     (day.actions || []).forEach(function (a) {
       if (a.clip) actions.append(el("button", { type: "button", "data-clip": a.clip }, a.label));
-      else actions.append(ext(a.href, a.label, a.tel));
+      else actions.append(ext(a.href, a.label, a.tel, a.same));
     });
     wrap.append(actions);
 
@@ -735,6 +746,11 @@
       const when = el("p", { class: "when" }, b.time);
       if (cur && cur.id === b.id) when.append(el("span", { class: "now-pill" }, "现在"));
       card.append(when, el("h3", null, b.title), el("p", null, b.text));
+      if (b.links && b.links.length) {
+        const links = el("div", { class: "actions" });
+        b.links.forEach(function (l) { links.append(ext(l.href, l.label, l.tel, l.same)); });
+        card.append(links);
+      }
       item.append(card);
       wrap.append(item);
     });
@@ -784,7 +800,7 @@
         const item = el("div", { class: "item", id: "item-" + c.id }, row);
         if (c.links && c.links.length) {
           const links = el("div", { class: "links" });
-          c.links.forEach(function (l) { links.append(ext(l.href, l.label, l.tel)); });
+          c.links.forEach(function (l) { links.append(ext(l.href, l.label, l.tel, l.same)); });
           item.append(links);
         }
         box.append(item);
@@ -895,7 +911,7 @@
         "<li><b>晚餐</b> 23 日 20:00，La Maruca Velázquez，Calle Velázquez 54。餐厅不变，只改了时间。</li>" +
         "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。已按你们所述注册。</li>" +
         "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
-        "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。免费，要提前注册。</li>" +
+        "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>返程底线</b> 27 日 17:15 取行李，17:45 出发，18:15–18:30 到 T4。</li>" +
         "</ul>" +
         "<p>已经完成的：纸质海报已打印，电子海报已上传，晚餐地点和时间已确定。现在优先的是 27 日行李寄存、26 日景点和餐厅预约、每个人自己的联网。展台号还未知。</p>" +
