@@ -198,7 +198,7 @@
         { id: "b24-lunch", time: "12:15–13:00", title: "会场午餐", short: "会场午餐", text: "下午可继续展台，或去核对过的 AI 会。", at: at(2026, 10, 24, 12, 15, MAD) },
         { id: "b24-ai", time: "14:45–16:15", title: "可选：LBA20", short: "可选 AI 会（先核实）", text: "“AI Driven Digital Pathology for the 70 Gene Recurrence Signature”。听完直接去酒会，展台交给商务。没权限或时间对不上，就留在展台。", at: at(2026, 10, 24, 14, 45, MAD) },
         { id: "b24-leave", time: "16:15", title: "离开 IFEMA", short: "离开展台去酒会", text: "地图公共交通大约 45 分钟，其中走到 Feria de Madrid 站约 1 公里。驾车大约 21 分钟，不含散场堵车。来不及、下雨或太累，再比三人合乘出租车。", at: at(2026, 10, 24, 16, 15, MAD) },
-        { id: "b24-party", time: "17:30–21:00", title: "TigerMed 酒会", short: "TigerMed 酒会", text: "Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。约 17:00 到。袁用第 1 张，婷用第 2 张。明是单独一张。一人用一张。结束后回公寓，回程时间不要假设和来时一样，重新导航。", links: [
+        { id: "b24-party", time: "17:30–21:00", title: "TigerMed 酒会", short: "TigerMed 酒会", text: "Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。约 17:00 到。结束后回公寓，回程时间不要假设和来时一样，重新导航。", links: [
           { href: "tiger.html#yuan", label: "袁", same: true },
           { href: "tiger.html#ting", label: "婷", same: true },
           { href: "tiger.html#ming", label: "明", same: true }
@@ -355,7 +355,7 @@
     { id: "poster-pack", group: "before20", title: "海报筒和运输方式", detail: "按实际包装确认手提还是托运。手机留下 PDF 和上传成功的记录。", links: [{ href: LINK.poster, label: "海报说明" }] },
     { id: "talk", group: "before20", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
     { id: "gear", group: "before20", title: "证件、转换头、支付和衣服", detail: "境外可用的 Visa/Mastercard 主卡和备卡，€50–100 小面额现金，西班牙 C/F 转换头，线，充电宝，步行鞋，防风外套，一套展台和商务晚餐的衣服。临走看天气预报再决定加不加薄毛衣。" },
-    { id: "pass", group: "before20", title: "打开 24 日酒会入场码", detail: "Rosewood Villa Magna，17:30–21:00。袁用第 1 张，婷用第 2 张。明是单独一张。还不确定酒会算不算完整晚餐。", links: [
+    { id: "pass", group: "before20", title: "打开 24 日酒会入场码", detail: "Rosewood Villa Magna，17:30–21:00。点袁、婷、明。还不确定酒会算不算完整晚餐。", links: [
       { href: "tiger.html#yuan", label: "袁", same: true },
       { href: "tiger.html#ting", label: "婷", same: true },
       { href: "tiger.html#ming", label: "明", same: true }
@@ -494,7 +494,7 @@
     return rh ? "还有 " + d + " 天 " + rh + " 小时" : "还有 " + d + " 天";
   }
 
-  function fmtClock(tz) {
+  function clockParts(tz) {
     const parts = {};
     new Intl.DateTimeFormat("zh-CN", {
       timeZone: tz,
@@ -508,7 +508,24 @@
     });
     let hour = parts.hour;
     if (hour === "24") hour = "00";
-    return parts.month + "/" + parts.day + " " + hour + ":" + parts.minute;
+    return { date: parts.month + "/" + parts.day, time: hour + ":" + parts.minute };
+  }
+
+  function fmtClock(tz) {
+    const c = clockParts(tz);
+    return c.date + " " + c.time;
+  }
+
+  function headerRemain(ms) {
+    if (ms < 0) return "到点";
+    const min = Math.round(ms / 60000);
+    if (min < 1) return "1分";
+    if (min < 60) return min + "分";
+    const h = Math.floor(min / 60);
+    if (h < 48) return h + "小时";
+    const d = Math.floor(h / 24);
+    const rh = h % 24;
+    return rh ? d + "天" + rh + "时" : d + "天";
   }
 
   function themeNow() {
@@ -633,13 +650,16 @@
       el("button", { type: "button", class: "icon-btn", id: "place-btn", "data-action": "sheet" }, "地点"),
       el("button", { type: "button", class: "icon-btn", id: "theme-btn", "data-action": "theme" }, themeNow() === "dark" ? "浅色" : "深色")
     );
+    const madNow = clockParts(MAD);
+    const bjNow = clockParts(BJ);
+    const sameDay = madNow.date === bjNow.date;
     const clocks = el("div", { class: "clockline" },
-      el("div", { class: "clock" }, el("span", null, "马德里"), el("b", { id: "clk-mad" }, fmtClock(MAD))),
-      el("div", { class: "clock" }, el("span", null, "北京"), el("b", { id: "clk-bj" }, fmtClock(BJ)))
+      el("div", { class: "clock" }, el("span", null, "马德里"), el("b", { id: "clk-mad" }, madNow.date + " " + madNow.time)),
+      el("div", { class: "clock" }, el("span", null, "北京"), el("b", { id: "clk-bj" }, sameDay ? bjNow.time : bjNow.date + " " + bjNow.time))
     );
     let nextBtn;
     if (!next) {
-      nextBtn = el("button", { type: "button", class: "next", "data-action": "noop" }, el("small", null, "行程"), el("b", null, "已经回到北京"));
+      nextBtn = el("button", { type: "button", class: "next", "data-action": "noop" }, el("b", null, "已经回到北京"));
     } else {
       nextBtn = el("button", {
         type: "button",
@@ -648,9 +668,9 @@
         "data-tab": next.tab,
         "data-day": next.day || "",
         "data-anchor": next.anchor || ""
-      }, el("small", null, "接下来 · " + remain(next.at - now)), el("b", null, next.label));
+      }, el("small", { class: "k" }, "接下来"), el("b", null, next.label), el("small", { id: "clk-remain" }, headerRemain(next.at - now)));
     }
-    top.append(row, clocks, nextBtn);
+    top.append(row, el("div", { class: "statusline" }, clocks, nextBtn));
     applyFont(fontNow(), false);
     const themeBtn = document.getElementById("theme-btn");
     themeBtn.setAttribute("aria-label", themeNow() === "dark" ? "切换到浅色" : "切换到深色");
@@ -929,7 +949,7 @@
         "<li><b>回程</b> 27 日 MAD 21:45 → 28 日 DXB 07:40；11:00 → PEK T3 22:30。</li>" +
         "<li><b>值机</b> 去程 10月20日 07:25 北京时间开放（EK309＋EK143）。回程 10月26日 04:45 北京时间开放，即马德里 10月25日 21:45（EK144＋EK308）。</li>" +
         "<li><b>晚餐</b> 23 日 20:00，La Maruca Velázquez，Calle Velázquez 54。餐厅不变，只改了时间。</li>" +
-        "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。袁用第 1 张，婷用第 2 张，明是单独一张。</li>" +
+        "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。入场码在酒会那一栏，点袁、婷、明。</li>" +
         "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>返程底线</b> 27 日 17:15 取行李，17:45 出发，18:15–18:30 到 T4。</li>" +
@@ -1272,9 +1292,13 @@
 
   function tick() {
     const mad = document.getElementById("clk-mad");
-    const bj = document.getElementById("clk-bj");
-    if (mad) mad.textContent = fmtClock(MAD);
-    if (bj) bj.textContent = fmtClock(BJ);
+    const bjEl = document.getElementById("clk-bj");
+    if (mad && bjEl) {
+      const c = clockParts(MAD);
+      const bj = clockParts(BJ);
+      mad.textContent = c.date + " " + c.time;
+      bjEl.textContent = c.date === bj.date ? bj.time : bj.date + " " + bj.time;
+    }
     const nextBtn = document.querySelector("#top .next");
     if (!nextBtn) return;
     const now = Date.now();
@@ -1283,8 +1307,8 @@
     const cur = nextBtn.querySelector("b");
     if (cur && cur.textContent !== label) renderHeader();
     else if (next) {
-      const small = nextBtn.querySelector("small");
-      if (small) small.textContent = "接下来 · " + remain(next.at - now);
+      const remainEl = document.getElementById("clk-remain");
+      if (remainEl) remainEl.textContent = headerRemain(next.at - now);
     }
     measure();
     if (state.tab === "plan") {
