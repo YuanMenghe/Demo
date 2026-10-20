@@ -423,6 +423,19 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
+  <script>
+    try {
+      if (localStorage.getItem("madrid-esmo-2026-gate") !== "ok") {
+        document.documentElement.setAttribute("data-locked", "");
+      }
+    } catch (e) {
+      document.documentElement.setAttribute("data-locked", "");
+    }
+  </script>
+  <style>
+    html[data-locked] body > :not(#gate) { display: none !important; }
+  </style>
+  <script src="gate.js?v=20261020n"></script>
 </head>
 <body>
   <div class="app">

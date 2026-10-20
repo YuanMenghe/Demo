@@ -107,6 +107,19 @@
     .pass figcaption { font-weight: 700; margin-top: 0.4rem; }
     .note { font-size: 0.92rem; }
   </style>
+  <script>
+    try {
+      if (localStorage.getItem("madrid-esmo-2026-gate") !== "ok") {
+        document.documentElement.setAttribute("data-locked", "");
+      }
+    } catch (e) {
+      document.documentElement.setAttribute("data-locked", "");
+    }
+  </script>
+  <style>
+    html[data-locked] body > :not(#gate) { display: none !important; }
+  </style>
+  <script src="gate.js?v=20261020n"></script>
 </head>
 <body>
   <main>
