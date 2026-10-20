@@ -184,8 +184,8 @@
         { kind: "skip", text: "酒会后直接回公寓，不去 Gran Vía。" }
       ],
       actions: [
-        { label: "第 1 张", href: "tiger.html#1", same: true },
-        { label: "第 2 张", href: "tiger.html#2", same: true },
+        { label: "袁的票", href: "tiger.html#yuan", same: true },
+        { label: "婷的票", href: "tiger.html#ting", same: true },
         { label: "明的票", href: "tiger.html#ming", same: true },
         { label: "会场 → Rosewood", href: LINK.ifemaToRose },
         { label: "酒会 → 公寓", href: LINK.roseToApt },
@@ -198,9 +198,9 @@
         { id: "b24-lunch", time: "12:15–13:00", title: "会场午餐", short: "会场午餐", text: "下午可继续展台，或去核对过的 AI 会。", at: at(2026, 10, 24, 12, 15, MAD) },
         { id: "b24-ai", time: "14:45–16:15", title: "可选：LBA20", short: "可选 AI 会（先核实）", text: "“AI Driven Digital Pathology for the 70 Gene Recurrence Signature”。听完直接去酒会，展台交给商务。没权限或时间对不上，就留在展台。", at: at(2026, 10, 24, 14, 45, MAD) },
         { id: "b24-leave", time: "16:15", title: "离开 IFEMA", short: "离开展台去酒会", text: "地图公共交通大约 45 分钟，其中走到 Feria de Madrid 站约 1 公里。驾车大约 21 分钟，不含散场堵车。来不及、下雨或太累，再比三人合乘出租车。", at: at(2026, 10, 24, 16, 15, MAD) },
-        { id: "b24-party", time: "17:30–21:00", title: "TigerMed 酒会", short: "TigerMed 酒会", text: "Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。约 17:00 到。第 1 张和第 2 张是同一订单的两张通用票。明是单独一张。一人用一张。结束后回公寓，回程时间不要假设和来时一样，重新导航。", links: [
-          { href: "tiger.html#1", label: "第 1 张", same: true },
-          { href: "tiger.html#2", label: "第 2 张", same: true },
+        { id: "b24-party", time: "17:30–21:00", title: "TigerMed 酒会", short: "TigerMed 酒会", text: "Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。约 17:00 到。袁用第 1 张，婷用第 2 张。明是单独一张。一人用一张。结束后回公寓，回程时间不要假设和来时一样，重新导航。", links: [
+          { href: "tiger.html#yuan", label: "袁", same: true },
+          { href: "tiger.html#ting", label: "婷", same: true },
           { href: "tiger.html#ming", label: "明", same: true }
         ], at: at(2026, 10, 24, 17, 30, MAD) }
       ]
@@ -355,9 +355,9 @@
     { id: "poster-pack", group: "before20", title: "海报筒和运输方式", detail: "按实际包装确认手提还是托运。手机留下 PDF 和上传成功的记录。", links: [{ href: LINK.poster, label: "海报说明" }] },
     { id: "talk", group: "before20", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
     { id: "gear", group: "before20", title: "证件、转换头、支付和衣服", detail: "境外可用的 Visa/Mastercard 主卡和备卡，€50–100 小面额现金，西班牙 C/F 转换头，线，充电宝，步行鞋，防风外套，一套展台和商务晚餐的衣服。临走看天气预报再决定加不加薄毛衣。" },
-    { id: "pass", group: "before20", title: "打开 24 日酒会入场码", detail: "Rosewood Villa Magna，17:30–21:00。第 1 张和第 2 张是同一订单的两张通用票。明是单独一张。还不确定酒会算不算完整晚餐。", links: [
-      { href: "tiger.html#1", label: "第 1 张", same: true },
-      { href: "tiger.html#2", label: "第 2 张", same: true },
+    { id: "pass", group: "before20", title: "打开 24 日酒会入场码", detail: "Rosewood Villa Magna，17:30–21:00。袁用第 1 张，婷用第 2 张。明是单独一张。还不确定酒会算不算完整晚餐。", links: [
+      { href: "tiger.html#yuan", label: "袁", same: true },
+      { href: "tiger.html#ting", label: "婷", same: true },
       { href: "tiger.html#ming", label: "明", same: true }
     ] },
     { id: "gc-pass", group: "now", title: "打开 25 日胃癌论坛入场码", detail: "10月25日 18:00–20:00，Hotel Puerta América。袁、婷、明各一张，点名字打开。", links: [
@@ -930,7 +930,7 @@
         "<li><b>回程</b> 27 日 MAD 21:45 → 28 日 DXB 07:40；11:00 → PEK T3 22:30。</li>" +
         "<li><b>值机</b> 去程 10月20日 07:25 北京时间开放（EK309＋EK143）。回程 10月26日 04:45 北京时间开放，即马德里 10月25日 21:45（EK144＋EK308）。</li>" +
         "<li><b>晚餐</b> 23 日 20:00，La Maruca Velázquez，Calle Velázquez 54。餐厅不变，只改了时间。</li>" +
-        "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。入场码在酒会那一栏：第 1 张、第 2 张，以及明的单独一张。</li>" +
+        "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。袁用第 1 张，婷用第 2 张，明是单独一张。</li>" +
         "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>返程底线</b> 27 日 17:15 取行李，17:45 出发，18:15–18:30 到 T4。</li>" +
