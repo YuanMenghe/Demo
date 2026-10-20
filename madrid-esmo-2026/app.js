@@ -152,6 +152,7 @@
         { kind: "skip", text: "原拟的伯纳乌夜间散步取消。第一天晚上回公寓。" }
       ],
       actions: [
+        { label: "袁的参会码", href: "badge.html", same: true },
         { label: "会场 → 餐厅", href: LINK.ifemaToDinner },
         { label: "复制餐厅地址", clip: "dinner" },
         { label: "公寓 → 会场", href: LINK.aptToIfema }
@@ -159,7 +160,9 @@
       blocks: [
         { id: "b23-bf", time: "06:30–07:00", title: "公寓早餐", short: "公寓早餐", text: "在公寓吃。", at: at(2026, 10, 23, 6, 30, MAD) },
         { id: "b23-out", time: "07:20", title: "出门", short: "出门去领证", text: "目标 08:20 领到胸牌，约 09:00 到展台。第一次排队较长的话，到展台可以放到 09:10 左右。", at: at(2026, 10, 23, 7, 20, MAD) },
-        { id: "b23-badge", time: "08:20", title: "领证", short: "领胸牌和交通票", text: "确认胸牌。完整注册的人核对附带交通票能用哪些天；两个展商证按自费买票。", at: at(2026, 10, 23, 8, 20, MAD) },
+        { id: "b23-badge", time: "08:20", title: "领证", short: "领胸牌和交通票", text: "袁到 Scan & Go 出示参会码。两封确认邮件是同一张码。领到后核对胸牌和附带交通票能用哪些天；两个展商证按自费买票。", links: [
+          { href: "badge.html", label: "袁的参会码", same: true }
+        ], at: at(2026, 10, 23, 8, 20, MAD) },
         { id: "b23-booth", time: "约 09:00", title: "到展台", short: "到展台", text: "熟悉展台和 Hall 5。展台号还不知道，馆内找路要留时间。", at: at(2026, 10, 23, 9, 0, MAD) },
         { id: "b23-lunch", time: "12:30–13:15", title: "会场午餐", short: "会场午餐", text: "不要中午回公寓，往返将近两小时。", at: at(2026, 10, 23, 12, 30, MAD) },
         { id: "b23-work", time: "13:15–18:00", title: "展台商务", short: "展台和客户交流", text: "下午以展台和客户交流为主。展台由商务兜底，你们协助。", at: at(2026, 10, 23, 13, 15, MAD) },
@@ -347,7 +350,7 @@
       { href: "ticket.html#ting", label: "婷", same: true },
       { href: "ticket.html#ming", label: "明", same: true }
     ] },
-    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日晚餐地址、24 日酒会凭证、25 日三张入场码、寄存订单。入场码在行程页里，点袁、婷、明。" },
+    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日酒会凭证、25 日三张入场码、寄存订单。参会码在 23 日领证那一栏。" },
     { id: "remind", group: "day21", title: "设好回程值机提醒", detail: "10月26日 04:45 北京时间，也就是马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
     { id: "to-pek", group: "day21", title: "确认 22 日怎么去首都机场", detail: "目标 04:25 到 T3。" },
     { id: "weather", group: "day21", title: "看马德里天气，打开自动时区", detail: "按预报改衣服。不要用月平均气温代替出发那天。" },
@@ -902,7 +905,7 @@
       title: "先记住这几件事",
       open: true,
       html:
-        "<p>同行 3 人：2 个展商证，1 个完整会议注册。展台由商务兜底，你们协助。除 25 日 193P 海报讲解外，参展时段可以灵活安排。</p>" +
+        "<p>同行 3 人：2 个展商证，1 个完整会议注册。袁的参会码在 23 日领证那一栏。展台由商务兜底，你们协助。除 25 日 193P 海报讲解外，参展时段可以灵活安排。</p>" +
         "<ul>" +
         "<li><b>住宿</b> Calle de Orense 22, 28020 Madrid。22 日 15:00 后可入住，实际是当晚到达；27 日 11:00 前退房，实际早上退房并寄存行李。</li>" +
         "<li><b>去程</b> 22 日 PEK T3 07:25 → DXB T3 11:35；14:30 → MAD T4S 20:20。</li>" +
