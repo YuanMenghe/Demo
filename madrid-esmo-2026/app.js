@@ -40,7 +40,8 @@
     aptToIfema: "https://www.google.com/maps/dir/?api=1&origin=Calle+de+Orense+22+Madrid&destination=IFEMA+MADRID&travelmode=transit",
     ifemaToDinner: "https://www.google.com/maps/dir/?api=1&origin=IFEMA+MADRID&destination=La+Maruca+Velazquez+Calle+Velazquez+54+Madrid&travelmode=transit",
     ifemaToRose: "https://www.google.com/maps/dir/?api=1&origin=IFEMA+MADRID&destination=Rosewood+Villa+Magna+Paseo+de+la+Castellana+22+Madrid&travelmode=transit",
-    roseToApt: "https://www.google.com/maps/dir/?api=1&origin=Rosewood+Villa+Magna+Madrid&destination=Calle+de+Orense+22+Madrid&travelmode=transit"
+    roseToApt: "https://www.google.com/maps/dir/?api=1&origin=Rosewood+Villa+Magna+Madrid&destination=Calle+de+Orense+22+Madrid&travelmode=transit",
+    gc: "https://www.eventbrite.com/e/2026-madrid-gastric-cancer-forum-and-networking-dinner-tickets-2003121095118"
   };
 
   function gdir(origin, dest, mode) {
@@ -65,6 +66,9 @@
   LINK.posadaMap = gsearch("Posada de la Villa Madrid");
   LINK.posadaToGate = "https://www.google.com/maps/dir/?api=1&origin=Posada+de+la+Villa%2C+Cava+Baja+9%2C+Madrid&destination=Puerta+de+Felipe+IV%2C+Calle+de+Alfonso+XII+3%2C+Madrid&travelmode=walking";
   LINK.gateToPrado = "https://www.google.com/maps/dir/?api=1&origin=Puerta+de+Felipe+IV%2C+Calle+de+Alfonso+XII+3%2C+Madrid&destination=Museo+del+Prado%2C+Madrid&travelmode=walking";
+  LINK.ifemaToGc = gdir("IFEMA MADRID", "Hotel Puerta America, Avenida de America 41, Madrid", "driving");
+  LINK.gcToApt = gdir("Hotel Puerta America, Avenida de America 41, Madrid", "Calle de Orense 22, Madrid", "driving");
+  LINK.gcMap = gsearch("Hotel Puerta America Avenida de America 41 Madrid");
   LINK.t4 = gsearch("Madrid-Barajas Terminal 4 Salidas");
   LINK.campana = gsearch("La Campana Calle Botoneras 6 Madrid");
 
@@ -72,6 +76,7 @@
     apt: "Calle de Orense 22, 28020 Madrid",
     dinner: "La Maruca Velázquez, Calle Velázquez 54, Madrid",
     rose: "Rosewood Villa Magna, Villa 22, Paseo de la Castellana 22, Madrid",
+    gc: "Hotel Puerta América, Avenida de América 41, Room John Pawson 1, 28002 Madrid",
     t4: "Madrid-Barajas Terminal 4, Salidas, Emirates",
     poster: "193P, Hall 5, 25 October 2026, 12:00–12:45",
     phone: "+34 91 366 18 60",
@@ -194,15 +199,20 @@
       num: "25",
       weekday: "周日",
       wx: "晴 19°/9°",
-      kicker: "全天留给 Poster 193P",
+      kicker: "Poster 193P，晚间胃癌论坛",
       dateLabel: "10月25日",
       notes: [
         { kind: "warn", text: "凌晨 03:00 拨回 02:00。此后马德里比北京晚 7 小时（拨慢之前是晚 6 小时）。12:00 讲解对应北京时间 19:00。手机自动时区保持开着，日历用 Europe/Madrid。" },
         { kind: "ok", text: "纸质海报已打印，电子海报已上传。现场找板用 193P，早期摘要编号是 #2234。带海报筒和手机里的 PDF。" },
-        { kind: "skip", text: "今天不排 El Rastro，也不出城。Las Jarritas 周日 11:00 才开门，早餐必须前一晚在公寓备好。" }
+        { kind: "warn", text: "18:00–19:00 主办方写成 Networking Dinner，没有菜单，不要当成已确认的多道正餐。19:00 后是学术讨论。这是 eChinaHealth 的独立活动，不是 ESMO 主办。" },
+        { kind: "skip", text: "今天不排 El Rastro，也不出城。Las Jarritas 周日 11:00 才开门，早餐必须前一晚在公寓备好。取海报后直接去论坛，不先回公寓。" }
       ],
       actions: [
         { label: "复制 193P", clip: "poster" },
+        { label: "复制论坛地址", clip: "gc" },
+        { label: "论坛报名", href: LINK.gc },
+        { label: "会场 → 论坛", href: LINK.ifemaToGc },
+        { label: "论坛 → 公寓", href: LINK.gcToApt },
         { label: "官方海报说明", href: LINK.poster },
         { label: "时区说明", href: LINK.tz },
         { label: "回程值机", href: LINK.checkin }
@@ -214,8 +224,12 @@
         { id: "b25-ready", time: "11:40", title: "到 193P 板前", short: "到海报板前", text: "准备 12:00 开始的讲解。", at: at(2026, 10, 25, 11, 40, MAD) },
         { id: "b25-talk", time: "12:00–12:45", title: "海报讲解", short: "讲解 193P", text: "北京时间 19:00。讲完 12:45–13:30 在会场吃午饭。", at: at(2026, 10, 25, 12, 0, MAD) },
         { id: "b25-meet", time: "13:30–17:00", title: "展台和海报交流", short: "看同类别 AI 海报", text: "优先聊 AI 临床研究、药物开发、临床工作流、诊断分型。不挤占自己的讲解。", at: at(2026, 10, 25, 13, 30, MAD) },
-        { id: "b25-take", time: "17:00", title: "取回海报", short: "取回海报", text: "官方取回窗口到 18:30。带回公寓，附近简餐，休息。", at: at(2026, 10, 25, 17, 0, MAD) },
-        { id: "b25-ci", time: "21:45", title: "回程网上值机开放", short: "办理回程值机", checkId: "checkin-back", text: "对应北京时间 10月26日 04:45。EK144＋EK308。用 PNR 和姓氏，尽早选相邻座位，保存登机牌。同一联程订单通常可以接着办后面的航段，以系统显示为准。", at: at(2026, 10, 25, 21, 45, MAD) }
+        { id: "b25-take", time: "17:00", title: "取回海报", short: "取回海报", text: "官方取回窗口到 18:30。取下就带着海报筒走，不先回公寓。", at: at(2026, 10, 25, 17, 0, MAD) },
+        { id: "b25-leave", time: "17:05", title: "离开 IFEMA", short: "去胃癌论坛", text: "三人合乘出租车去 Hotel Puerta América。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另留时间，目标 17:45 前到。地铁要换乘，赶 18:00 开饭不用。当天再看导航。", at: at(2026, 10, 25, 17, 5, MAD) },
+        { id: "b25-dinner", time: "18:00–19:00", title: "Networking Dinner", short: "胃癌论坛晚餐", text: "Hotel Puerta América，Avenida de América 41，房间 John Pawson 1。免费。主办方把这一小时写成晚餐，没有写菜品。带好报名凭证和海报筒。", at: at(2026, 10, 25, 18, 0, MAD) },
+        { id: "b25-gc", time: "19:00–20:00", title: "胃癌论坛", short: "CLDN18.2 讨论", text: "徐瑞华主持开场，随后 Kohei Shitara 讲 CLARITY-GASTRIC 01。主题是 CLDN18.2 阳性胃癌。20:00 结束。", at: at(2026, 10, 25, 19, 0, MAD) },
+        { id: "b25-back", time: "20:00", title: "回公寓", short: "回公寓", text: "出租车回 Calle de Orense 22。路网大约 3.7 公里，不含堵车大约 8 分钟。到家放下海报筒，再办回程值机。", at: at(2026, 10, 25, 20, 0, MAD) },
+        { id: "b25-ci", time: "21:45", title: "回程网上值机开放", short: "办理回程值机", checkId: "checkin-back", text: "人已经在公寓。对应北京时间 10月26日 04:45。EK144＋EK308。用 PNR 和姓氏，尽早选相邻座位，保存登机牌。同一联程订单通常可以接着办后面的航段，以系统显示为准。", at: at(2026, 10, 25, 21, 45, MAD) }
       ]
     },
     {
@@ -321,7 +335,8 @@
     { id: "talk", group: "before20", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
     { id: "gear", group: "before20", title: "证件、转换头、支付和衣服", detail: "境外可用的 Visa/Mastercard 主卡和备卡，€50–100 小面额现金，西班牙 C/F 转换头，线，充电宝，步行鞋，防风外套，一套展台和商务晚餐的衣服。临走看天气预报再决定加不加薄毛衣。" },
     { id: "pass", group: "before20", title: "保存 24 日酒会入场凭证", detail: "同时记一句：还不确定酒会算不算完整晚餐。" },
-    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日晚餐地址、24 日酒会凭证、寄存订单。" },
+    { id: "gc-pass", group: "now", title: "保存 25 日胃癌论坛报名", detail: "10月25日 18:00–20:00，Hotel Puerta América。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。免费，但要提前注册。凭证和地址离线保存。", links: [{ href: LINK.gc, label: "报名页" }] },
+    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日晚餐地址、24 日酒会凭证、25 日论坛地址和报名凭证、寄存订单。" },
     { id: "remind", group: "day21", title: "设好回程值机提醒", detail: "10月26日 04:45 北京时间，也就是马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
     { id: "to-pek", group: "day21", title: "确认 22 日怎么去首都机场", detail: "目标 04:25 到 T3。" },
     { id: "weather", group: "day21", title: "看马德里天气，打开自动时区", detail: "按预报改衣服。不要用月平均气温代替出发那天。" },
@@ -853,11 +868,13 @@
       '<div class="seg" role="group" aria-label="现在要去哪">' +
       '<button type="button" data-move="fair">去会场</button>' +
       '<button type="button" data-move="party">去酒会</button>' +
+      '<button type="button" data-move="gc">胃癌论坛</button>' +
       '<button type="button" data-move="old">老城</button>' +
       '<button type="button" data-move="air">去机场</button>' +
       "</div>" +
       '<div class="pick" data-move-panel="fair"><p>默认地铁。公寓步行到 Nuevos Ministerios，上 8 号线往 Aeropuerto T4 方向，到 Feria de Madrid，再按 ESMO 标识进馆。三段各留 15–20 分钟，门到门 55–60 分钟。不经过机场闸机，不用机场附加票。注意是地铁 8 号线，不是近郊铁路。回程坐往 Nuevos Ministerios 方向。</p><p><a href="' + LINK.aptToIfema + '" target="_blank" rel="noopener">公寓 → 会场</a> · <a href="' + LINK.ifemaBack + '" target="_blank" rel="noopener">会场 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="party"><p>24 日从会场直接去，不绕回公寓。地铁 8 号线到 Nuevos Ministerios，再换公交到 Rosewood Villa Magna。地图大约 45 分钟，所以 16:15 左右离场。公寓到酒店公交大约 24 分钟、驾车大约 9 分钟。结束后重新导航。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="gc"><p>25 日 17:05 从会场直接去，带着海报筒，不绕回公寓。Hotel Puerta América，Avenida de América 41。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另算，目标 17:45 前到。三人合乘出租车。20:00 结束再回公寓，这段路网大约 3.7 公里、不含堵车大约 8 分钟。</p><p><a href="' + LINK.ifemaToGc + '" target="_blank" rel="noopener">会场 → 论坛</a> · <a href="' + LINK.gcToApt + '" target="_blank" rel="noopener">论坛 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="old"><p>26 日老城内部步行，Plaza Mayor 放在午饭前。公寓到王宫预留 45–55 分钟公共交通。午饭后从 Posada 到丽池 Felipe IV 门约 2.0 公里、28 分钟；门到普拉多约 0.4 公里、5 分钟。累了、下雨或午饭超时，就跳过丽池，直接去普拉多。</p><p><a href="' + LINK.palaceMap + '" target="_blank" rel="noopener">公寓 → 王宫</a> · <a href="' + LINK.posadaToGate + '" target="_blank" rel="noopener">Posada → 丽池</a> · <a href="' + LINK.gateToPrado + '" target="_blank" rel="noopener">丽池 → 普拉多</a></p></div>' +
       '<div class="pick" data-move-panel="air"><p>22 日晚和 27 日都用正规出租车。M-30 以内和机场之间的固定价是 €33/车，适用条件当天再确认。27 日 17:45 从取行李的地方出发。Uber / Cabify 的浮动价不是这个固定价。箱子多，先确认装得下，并要收据。</p><p>出租目的地：Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再按登机牌去 T4S。</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
     );
@@ -877,7 +894,8 @@
         "<li><b>值机</b> 去程 10月20日 07:25 北京时间开放（EK309＋EK143）。回程 10月26日 04:45 北京时间开放，即马德里 10月25日 21:45（EK144＋EK308）。</li>" +
         "<li><b>晚餐</b> 23 日 20:00，La Maruca Velázquez，Calle Velázquez 54。餐厅不变，只改了时间。</li>" +
         "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。已按你们所述注册。</li>" +
-        "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 后取回。</li>" +
+        "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
+        "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。免费，要提前注册。</li>" +
         "<li><b>返程底线</b> 27 日 17:15 取行李，17:45 出发，18:15–18:30 到 T4。</li>" +
         "</ul>" +
         "<p>已经完成的：纸质海报已打印，电子海报已上传，晚餐地点和时间已确定。现在优先的是 27 日行李寄存、26 日景点和餐厅预约、每个人自己的联网。展台号还未知。</p>" +
@@ -896,7 +914,7 @@
         "<h3>什么时候改打车</h3>" +
         "<ul>" +
         "<li>每天去会场：地铁，55–60 分钟。</li>" +
-        "<li>带海报、下雨、很累或赶时间：三人合乘。公寓和 IFEMA 之间按大约 €20–35/车留预算，不是实时报价。叫车、排队、进馆另外留时间。</li>" +
+        "<li>带海报、下雨、很累或赶时间：三人合乘。公寓和 IFEMA 之间按大约 €20–35/车留预算，不是实时报价。叫车、排队、进馆另外留时间。25 日 17:05 带海报筒去 Puerta América，也用这一档。</li>" +
         "<li>老城里面步行。</li>" +
         "<li>机场用正规出租车。固定价 €33/车的条件要当天确认。</li>" +
         "</ul>" +
@@ -926,7 +944,7 @@
         "<p>优先买面包、酸奶或牛奶、水果、坚果、水。做热食之前先确认公寓厨房能用。</p>" +
         '<p><a href="' + LINK.carrefour + '" target="_blank" rel="noopener">Carrefour 门店页</a> · <button type="button" data-clip="apt">复制公寓地址</button></p>' +
         "<h3>26 日烤乳羊怎么点</h3>" +
-        "<p>这顿接在王宫和老城后面，吃的就是卡斯蒂利亚木炉烤肉。23 日已经有商务晚餐，24 日有酒会，所以不再加 Botín 或另一顿正式大餐。</p>" +
+        "<p>这顿接在王宫和老城后面，吃的就是卡斯蒂利亚木炉烤肉。23 日已经有商务晚餐，24 日有酒会，25 日晚上有胃癌论坛的晚餐，所以不再加 Botín 或另一顿正式大餐。</p>" +
         "<p>马德里旅游局记载，这个地点 1642 年成为马德里第一家宫廷驿站，后来衰落，一度濒临废弃，1980 年修复后变成现在的烤肉餐厅。Botín 则以 1725 年创立、连续经营，被称为世界最古老的餐厅。两件事不是同一件事。</p>" +
         "<p>转载菜单写着四分之一烤乳羊 €46、标注 2 人份。订位时向餐厅核实供应、份量和价格。人均如果按旅游局的馆子档次，参考 €45–60。下面按人数切换，避免点多。</p>" +
         partyHTML() +
@@ -1008,7 +1026,7 @@
       id: "night",
       title: "晚上有空时，以及礼物",
       html:
-        "<p>23 日晚餐和 24 日酒会已经占了晚上。25 日讲完海报以休息为主。26 日晚饭后要收拾行李。轻量夜游只在还有精力时加上，不再单排一张夜间表。</p>" +
+        "<p>23 日晚餐、24 日酒会和 25 日胃癌论坛已经占了晚上。26 日晚饭后要收拾行李。轻量夜游只在还有精力时加上，不再单排一张夜间表。</p>" +
         "<ul>" +
         "<li><b>伯纳乌外观和附近吃饭</b> 离公寓近，步行大约留 10–15 分钟。可以替换某个空出来的晚上。有比赛或大活动、人很多，就跳过。进球场要另外预约。</li>" +
         "<li><b>Gran Vía</b> 只在商务活动取消或提前结束、而且第二天不用早起的时候考虑。不要排在 24 日酒会之后。</li>" +
@@ -1048,6 +1066,7 @@
       ["会场", "IFEMA · 地铁 Feria de Madrid", LINK.aptToIfema, null],
       ["23 日晚餐", CLIP.dinner, LINK.ifemaToDinner, "dinner"],
       ["24 日酒会", CLIP.rose, LINK.ifemaToRose, "rose"],
+      ["25 日论坛", CLIP.gc, LINK.ifemaToGc, "gc"],
       ["机场 T4", CLIP.t4, LINK.t4, "t4"],
       ["海报", CLIP.poster, null, "poster"],
       ["Posada", "+34 91 366 18 60", LINK.posadaMap, "phone"]
@@ -1074,6 +1093,8 @@
       ["会场 → 晚餐", "23 日", LINK.ifemaToDinner],
       ["会场 → 酒会", "24 日约 45 分钟", LINK.ifemaToRose],
       ["酒会 → 公寓", "结束后重开导航", LINK.roseToApt],
+      ["会场 → 论坛", "25 日约 10 分钟车程", LINK.ifemaToGc],
+      ["论坛 → 公寓", "20:00 后", LINK.gcToApt],
       ["公寓 → 王宫", "45–55 分钟", LINK.palaceMap],
       ["Posada → 丽池", "约 2.0 公里", LINK.posadaToGate],
       ["丽池 → 普拉多", "约 0.4 公里", LINK.gateToPrado]
