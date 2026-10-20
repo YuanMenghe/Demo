@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="袁的马德里王宫 10月26日 15:00 西班牙语讲解票。">
+  <meta name="description" content="2026年10月26日马德里王宫西班牙语讲解票。">
   <meta name="theme-color" content="#efe6d6">
   <meta name="color-scheme" content="light dark">
-  <title>袁的王宫票</title>
+  <title>王宫票</title>
   <script>
     (function () {
       try {
@@ -79,16 +79,23 @@
     }
     .meta, .note, .hint { color: var(--muted); margin: 0.35rem 0; }
     .tools { display: flex; gap: 0.5rem; margin: 0.8rem 0; }
-    .tools button {
+    .tools button, .names a {
       appearance: none;
       border: 1px solid var(--line);
       background: var(--card);
       color: var(--ink);
       border-radius: 999px;
-      min-height: 44px;
       padding: 0.45rem 0.9rem;
       font: inherit;
       font-weight: 700;
+      text-decoration: none;
+    }
+    .names { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 0.8rem 0; }
+    .names a { text-align: center; font-size: 1.15rem; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    .names a[aria-current="true"] {
+      background: var(--accent);
+      color: var(--on-accent);
+      border-color: var(--accent);
     }
     .pass {
       width: 100%;
@@ -112,18 +119,23 @@
 <body>
   <main>
     <a class="back" href="index.html#b26-palace">回到 26 日王宫</a>
-    <h1>袁的王宫票</h1>
+    <h1>王宫票</h1>
     <p class="meta">10月26日 15:00 · 西班牙语讲解 · 只含王宫</p>
     <div class="tools">
       <button type="button" id="theme-btn">深色</button>
       <button type="button" id="font-btn">字号</button>
     </div>
+    <nav class="names" aria-label="选择入场码">
+      <a href="#yuan" data-who="yuan">袁</a>
+      <a href="#ting" data-who="ting">婷</a>
+      <a href="#ming" data-who="ming">明</a>
+    </nav>
     <figure class="pass">
-      <img src="tickets/palace-yuan.png" alt="袁的王宫入场二维码" width="580" height="580">
-      <figcaption>袁</figcaption>
+      <img id="qr" alt="" width="580" height="580">
+      <figcaption id="cap"></figcaption>
     </figure>
-    <p class="hint">14:45 到优先入口，14:55 到入口门厅集合点。屏幕调亮，正对扫码口。</p>
-    <p class="note">这页和行程用同一个链接。拿到链接的人能打开这张码。婷和明不在这张票上。</p>
+    <p class="hint" id="hint"></p>
+    <p class="note">这页和行程用同一个链接。拿到链接的人能打开这三张码。</p>
   </main>
   <script>
     (function () {
@@ -131,6 +143,11 @@
       var FONT_KEY = "madrid-esmo-2026-font";
       var FONTS = ["sm", "md", "lg", "xl"];
       var FONT_LABEL = { sm: "小", md: "中", lg: "大", xl: "特大" };
+      var PEOPLE = {
+        yuan: { name: "袁", file: "tickets/palace-yuan.png", hint: "14:45 到优先入口，14:55 到入口门厅集合点。屏幕调亮，正对扫码口。" },
+        ting: { name: "婷", file: "tickets/palace-ting.png", hint: "14:45 到优先入口，14:55 到入口门厅集合点。屏幕调亮，正对扫码口。" },
+        ming: { name: "明", file: "tickets/palace-ming.png", hint: "14:45 到优先入口，14:55 到入口门厅集合点。屏幕调亮，正对扫码口。" }
+      };
       function themeNow() {
         return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
       }
@@ -155,14 +172,35 @@
         btn.textContent = "字号" + FONT_LABEL[f];
         btn.setAttribute("aria-label", "字号" + FONT_LABEL[f] + "，点按切换");
       }
+      function who() {
+        var id = (location.hash || "#yuan").slice(1);
+        return PEOPLE[id] ? id : "yuan";
+      }
+      function show() {
+        var id = who();
+        var p = PEOPLE[id];
+        if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
+        var img = document.getElementById("qr");
+        img.src = p.file;
+        img.alt = p.name + "的入场二维码";
+        document.getElementById("cap").textContent = p.name;
+        document.getElementById("hint").textContent = p.hint;
+        document.title = p.name + "的王宫票";
+        Array.prototype.forEach.call(document.querySelectorAll(".names a"), function (a) {
+          if (a.getAttribute("data-who") === id) a.setAttribute("aria-current", "true");
+          else a.removeAttribute("aria-current");
+        });
+      }
       document.getElementById("theme-btn").addEventListener("click", function () {
         paintTheme(themeNow() === "dark" ? "light" : "dark", true);
       });
       document.getElementById("font-btn").addEventListener("click", function () {
         paintFont(FONTS[(FONTS.indexOf(fontNow()) + 1) % FONTS.length], true);
       });
+      window.addEventListener("hashchange", show);
       paintTheme(themeNow(), false);
       paintFont(fontNow(), false);
+      show();
     })();
   </script>
 </body>

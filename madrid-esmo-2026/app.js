@@ -262,10 +262,10 @@
       dateLabel: "10月26日",
       notes: [
         { kind: "ok", text: "这一天不去展台。上午 10:00 普拉多，12:45 Posada，15:00 王宫西班牙语讲解。丽池今天不插在午饭和王宫之间。" },
-        { kind: "warn", text: "袁的王宫票是 15:00 讲解，14:45 到优先入口。周一开到 18:00，17:00 停止入场。这张票只有袁，婷和明不在上面。普拉多周一 10:00–20:00。" }
+        { kind: "warn", text: "15:00 西班牙语讲解，14:45 到优先入口。周一开到 18:00，17:00 停止入场。普拉多周一 10:00–20:00。" }
       ],
       actions: [
-        { label: "袁的王宫票", href: "palace.html", same: true },
+        { label: "王宫票", href: "palace.html", same: true },
         { label: "公寓 → 普拉多", href: LINK.aptToPrado },
         { label: "普拉多 → Posada", href: LINK.pradoToPosada },
         { label: "Posada → 王宫", href: LINK.posadaToPalace },
@@ -279,8 +279,10 @@
         { id: "b26-lunch", time: "12:45–14:25", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "已订 10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。点菜按 3 人，先问当天烤乳羊份量和价格。14:25 离开，步行约 1.4 公里、18 分钟，14:45 到王宫优先入口。临时改人数要先联系餐厅。", links: [
           { label: "复制订位姓名", clip: "posadaName" }
         ], at: at(2026, 10, 26, 12, 45, MAD) },
-        { id: "b26-palace", time: "15:00", title: "王宫", short: "王宫讲解", text: "袁的票是 15:00 西班牙语讲解，只含王宫厅室。14:45 到优先入口，14:55 到入口门厅集合点。婷和明不在这张票上。进门前用入口厕所。", links: [
-          { href: "palace.html", label: "袁", same: true }
+        { id: "b26-palace", time: "15:00", title: "王宫", short: "王宫讲解", text: "15:00 西班牙语讲解，只含王宫厅室。14:45 到优先入口，14:55 到入口门厅集合点。进门前用入口厕所。", links: [
+          { href: "palace.html#yuan", label: "袁", same: true },
+          { href: "palace.html#ting", label: "婷", same: true },
+          { href: "palace.html#ming", label: "明", same: true }
         ], at: at(2026, 10, 26, 15, 0, MAD) },
         { id: "b26-town", time: "讲解后", title: "宫外", short: "阿穆德纳外观", text: "讲解结束如果还有精神，看阿穆德纳教堂外观和东方广场。不进教堂，不折回 Plaza Mayor。", at: at(2026, 10, 26, 16, 0, MAD) },
         { id: "b26-back", time: "17:30 后", title: "回公寓", short: "回公寓收拾", text: "住处附近简餐或超市补给，不再安排正式晚饭。收拾明天要退房的行李。", at: at(2026, 10, 26, 17, 30, MAD) }
@@ -347,7 +349,11 @@
 
   const CHECKS = [
     { id: "landlord", group: "now", title: "联系房东：晚到入住，以及 27 日行李寄存", detail: "问清 22 日大约 22:00–23:00、延误了怎么进门。27 日早上退房后能否存到 17:15，谁收行李，下午怎么再进去，钥匙何时交还。不能存，就改商业寄存，并核对早上几点开门。", links: [{ href: LINK.luggage, label: "寄存备选" }] },
-    { id: "palace", group: "now", title: "打开 26 日袁的王宫票", detail: "10月26日 15:00 西班牙语讲解，只含王宫。14:45 到优先入口，14:55 到入口门厅集合点。这张是袁的。婷和明不在这张票上。", links: [{ href: "palace.html", label: "袁", same: true }] },
+    { id: "palace", group: "now", title: "打开 26 日王宫票", detail: "10月26日 15:00 西班牙语讲解，只含王宫。14:45 到优先入口，14:55 到入口门厅集合点。", links: [
+      { href: "palace.html#yuan", label: "袁", same: true },
+      { href: "palace.html#ting", label: "婷", same: true },
+      { href: "palace.html#ming", label: "明", same: true }
+    ] },
     { id: "prado", group: "now", title: "订普拉多 3 人票：10月26日 10:00", detail: "上午 10:00 入馆，大约留到 12:20，然后去 Posada。官方要选入馆时段。", links: [{ href: LINK.prado, label: "官方票务" }] },
     { id: "posada", group: "now", title: "26 日 Posada 已订，报这个名字", detail: "10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。改人数或取消先打 +34 91 366 18 60，或写 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
     { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。北京出门时间按住址倒推。" },
@@ -367,14 +373,14 @@
       { href: "ticket.html#ting", label: "婷", same: true },
       { href: "ticket.html#ming", label: "明", same: true }
     ] },
-    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日三张酒会码、25 日三张入场码、26 日袁的王宫票、寄存订单。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏。" },
+    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日三张酒会码、25 日三张入场码、26 日三张王宫票、寄存订单。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏。" },
     { id: "remind", group: "day21", title: "设好回程值机提醒", detail: "10月26日 04:45 北京时间，也就是马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
     { id: "to-pek", group: "day21", title: "确认 22 日怎么去首都机场", detail: "目标 04:25 到 T3。" },
     { id: "weather", group: "day21", title: "看马德里天气，打开自动时区", detail: "按预报改衣服。不要用月平均气温代替出发那天。" },
     { id: "packed", group: "day21", title: "随身文件、卡和海报包装收好", detail: "电子海报不用再做、也不用再传一次。" },
     { id: "checkin-back", group: "during", title: "10月25日 21:45（马德里）办理回程值机", detail: "EK144＋EK308。尽早选座，保存登机牌。这是人已经在马德里之后的事。", links: [{ href: LINK.checkin, label: "在线值机" }] },
     { id: "store-final", group: "eve26", title: "27 日寄存已经说死", detail: "地址、早上开门时间、17:15 取得出行李、钥匙怎么还，都有着落。" },
-    { id: "tickets-fit", group: "eve26", title: "景点票和 Posada 跟工作不冲突", detail: "袁的王宫票是 26 日 15:00 讲解。普拉多按上午 10:00。需要取消的，按条款处理。不要把景点挪到 27 日。" },
+    { id: "tickets-fit", group: "eve26", title: "景点票和 Posada 跟工作不冲突", detail: "王宫是 26 日 15:00 讲解。普拉多按上午 10:00。需要取消的，按条款处理。不要把景点挪到 27 日。" },
     { id: "bags", group: "eve26", title: "行李、海报筒、机场证件整理好", detail: "取行李的地方到 T4 的路线已经存进手机。", links: [{ href: LINK.t4, label: "T4 地图" }] },
     { id: "poster-done", group: "done", title: "纸质海报已打印，电子海报已上传", detail: "现场只用 193P 找板。" },
     { id: "dinner-done", group: "done", title: "23 日 20:00 商务晚餐已确定", detail: "餐厅仍是 La Maruca Velázquez，Calle Velázquez 54。" },
