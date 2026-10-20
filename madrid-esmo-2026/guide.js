@@ -55,18 +55,18 @@
     { id: "saturn", artist: "artist-goya", artistName: "戈雅", name: "戈雅《农神吞噬其子》", room: "Room 067", mins: "10–12 分钟", must: false, look: "从明亮的历史画转到近乎封闭的黑。看身体怎样被背景吞没。", history: "约 1820–1823 年的黑色绘画，原在私人住宅墙上，后来转移到画布。用它收束戈雅从宫廷画师到晚年的转变。", href: "https://www.museodelprado.es/en/the-collection/art-work/saturn/18110a75-b0e7-430c-bc73-2a4d55893bd6" }
   ];
   const PACK = [
-    { id: "g-palace", t: "王宫票：10月26日 10:00。再看一次游客入口和有没有临时关闭。" },
-    { id: "g-prado", t: "普拉多票：10月26日 16:00。保存二维码，预先下载官方地图。" },
-    { id: "g-posada", t: "Posada：12:45，最终人数 3 或 4。再确认烤乳羊和菜量。" },
+    { id: "g-palace", t: "袁的王宫票：10月26日 15:00 西班牙语讲解。14:45 到优先入口。" },
+    { id: "g-prado", t: "普拉多票：10月26日 10:00。保存二维码，预先下载官方地图。" },
+    { id: "g-posada", t: "Posada：12:45，3 人。14:25 离开，步行去王宫。" },
     { id: "g-rooms", t: "核对《宫娥》、博斯《人间乐园》、戈雅是否在展、在哪一厅。" },
-    { id: "g-weather", t: "看丽池会不会因天气封园。天气差或不想走，就跳过园林。" },
+    { id: "g-weather", t: "丽池今天不走。雨只影响讲解后要不要看宫外。" },
     { id: "g-offline", t: "离线保存票、路线和住址。普拉多厅内不拍照，王宫按每厅标识。" }
   ];
   const PLANS = {
-    good: "照主表走。中午老城步行，午饭后约 2 公里走到丽池，Parterre 停留约 30 分钟，然后去普拉多。",
-    tired: "王宫后只留阿穆德纳外观、Plaza de la Villa 和 Plaza Mayor。午饭后从 Posada 打车直接去普拉多。丽池留到下次。",
-    rain: "跳过丽池，直接去普拉多。丽池可能因暴雨、强风封园或局部围挡，以市政府当天通知为准。王宫和普拉多仍要留预约缓冲。",
-    ride: "不想走约 2 公里：从 Posada 打车到 Felipe IV 门，只走 Parterre，再到普拉多约 0.4 公里。行动不便就直接送到普拉多适合进馆的入口。"
+    good: "照主表走。09:30 打车去普拉多，10:00–12:20。12:45 Posada，14:25 离开，14:45 到王宫，15:00 讲解。丽池今天不走。",
+    tired: "讲解结束后直接回公寓，不看阿穆德纳外观。",
+    rain: "普拉多和王宫都在室内。雨大就跳过讲解后的宫外停留。",
+    ride: "从 Posada 打车到王宫。步行大约 18 分钟，车程大约 14 分钟。走不动或下雨，14:30 前上车。"
   };
 
   let workId = "meninas";
@@ -163,8 +163,8 @@
   function renderLine() {
     const thread = [
       ["王宫", "权力先有一座舞台", "同一块高地叠着三层：9 世纪的堡垒、哈布斯堡的旧宫、1734 年火灾之后的波旁新宫。宫里看礼仪，不看家具清单。", "#palace"],
-      ["老城", "舞台旁边长出城市", "先看宫殿、教堂和歌剧院的轴线，再看市政核心 Plaza de la Villa，然后看公共仪式广场 Plaza Mayor。午饭前走完。", "#oldtown"],
-      ["丽池", "王家园林变成公共景观", "只走 Felipe IV 门、法式花坛、古柏和 Casón 外观。这是宫廷花园变成城市公园的一小段。", "#retiro"],
+      ["老城", "舞台旁边长出城市", "今天讲解后只看阿穆德纳外观和东方广场。不进教堂，不折回 Plaza Mayor。", "#oldtown"],
+      ["丽池", "王家园林变成公共景观", "今天不走。Felipe IV 门、法式花坛和古柏仍是宫廷花园变成城市公园的那一段，留到下次。", "#retiro"],
       ["普拉多", "收藏变成可以走进去的绘画史", "1819 年王室收藏对公众开放。四位画家按今天的问题往下排：格列柯看贵族肖像，博斯看北方绘画怎样进入王室，委拉斯开兹看宫廷里的观看，戈雅从宫廷走到战争和晚年。", "#prado"]
     ];
     const s = el("section", { id: "line" });
@@ -172,7 +172,7 @@
       el("p", { class: "kicker" }, "10月26日 · 周一 · 3 人 · 马德里时间"),
       el("h1", null, "一天怎么串起来"),
       el("p", null, el("mark", null, "先看权力怎样占住一座城，再看这座城怎样把收藏变成博物馆。")),
-      el("p", null, "四处不是四个景点。旧王宫在 ", el("strong", null, "1734 年"), " 烧掉，所以上午看到的是新宫；同一场火里被救出来的《宫娥》，下午在普拉多里。中间的老城和丽池，是这座权力中心怎样长出广场和公共园林。"),
+      el("p", null, "四处不是四个景点。旧王宫在 ", el("strong", null, "1734 年"), " 烧掉。今天上午先在普拉多看那场火里救出来的《宫娥》，下午进火灾之后的新宫。丽池今天不走。"),
       el("h2", { id: "line-thread" }, "一条历史线")
     );
     thread.forEach(function (row, i) {
@@ -190,12 +190,12 @@
       el("p", null, "票价、开放、寄存、拍照和网络以馆方为准。知乎只补现场会遇到什么，和官方或上面这条线冲突时，不改行程。展陈会变，出发前再核对房间。"),
       ext("https://whc.unesco.org/en/list/1618", "UNESCO：艺术与科学景观"),
       el("div", { class: "card" },
-        el("p", { class: "when" }, "10:00 和 16:00 先保住"),
-        el("p", null, "王宫和普拉多都买带时间的官方票。丽池只走 Parterre，大约 30 分钟。Plaza Mayor 放在午饭前，午后不折回老城。")
+        el("p", { class: "when" }, "10:00 普拉多，15:00 王宫"),
+        el("p", null, "上午普拉多，12:45 Posada，15:00 王宫西班牙语讲解。丽池今天不走。讲解后只看阿穆德纳外观，不折回 Plaza Mayor。")
       ),
       el("div", { class: "card" },
-        el("p", null, el("strong", null, "08:45"), " 出门。", el("strong", null, "10:00–11:30"), " 王宫。", el("strong", null, "11:30–12:30"), " 老城。", el("strong", null, "12:45"), " Posada。"),
-        el("p", null, el("strong", null, "14:15"), " 去 Felipe IV 门。", el("strong", null, "14:45–15:15"), " 园林短线。", el("strong", null, "16:00–19:30"), " 普拉多。晚上不再加景点。")
+        el("p", null, el("strong", null, "09:30"), " 打车出门。", el("strong", null, "10:00–12:20"), " 普拉多。", el("strong", null, "12:45"), " Posada。"),
+        el("p", null, el("strong", null, "14:45"), " 到王宫优先入口。", el("strong", null, "15:00"), " 西班牙语讲解。晚上不再加景点。")
       ),
       pager("line")
     );
@@ -213,7 +213,7 @@
     ];
     const s = el("section", { id: "palace" });
     s.append(
-      el("p", { class: "kicker" }, "10:00–11:30 · 约 90 分钟"),
+      el("p", { class: "kicker" }, "15:00 讲解 · 14:45 到优先入口"),
       el("h1", null, "王宫"),
       figure(IMG.palace, "马德里王宫外观", "王宫外观。图片来源：马德里旅游局。"),
       el("p", null, el("mark", null, "现在看到的波旁王宫，不是这座城最早的一层。")),
@@ -246,7 +246,7 @@
       el("h2", { id: "palace-rules" }, "寄存、拍照、厕所"),
       el("p", null, el("span", { class: "flag" }, "官方"), "2025 年 12 月的参观办法写明：王宫寄存", el("strong", null, "免费"), "。大背包、边长达到 ", el("strong", null, "40×40 厘米"), " 的箱子和不能折叠的伞不能带进去。票务页还建议改善工程期间尽量别带大包。冬季（10 月至 3 月）周一至周六 ", el("strong", null, "10:00–18:00"), "，售票和入场在闭馆前 1 小时停止，所以周一最晚大约 ", el("strong", null, "17:00"), " 进门。当前基础票页面标价 ", el("strong", null, "€18"), "，另有每张手续费，以订单为准。官方导览另加约 €8。多媒体讲解有 16 种语言，也可以用他们的 App。"),
       el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "一位常在王宫带团的导游说，参观通常 1 到 1.5 小时，大包要寄存，还建议带 1 欧元硬币。", el("mark", null, "1 欧元投币对不上王宫现行规定。"), "国家遗产写的是王宫寄存免费。投 1 欧元退币的，是旁边皇家收藏馆的自助柜，今天不进那里。同一篇还说多数厅不让拍照、宫内没有厕所、路线是单线。无障碍说明里写了游客厕所。两边一致的只有一句：进门前先上厕所，中途折返会吃掉这 90 分钟。拍照仍按房间标识，不开闪光灯，不带自拍杆和三脚架，不触摸展品。"),
-      el("p", null, "这次用知乎搜索又对过几篇，票价互相打架，不改已经买的票。游子吟写全票 ", el("strong", null, "€18"), "、冬季周一至周六 10:00–18:00、闭馆前 1 小时停止入场、讲解约 €8、语音约 €5，和现行票务页一致。小斑的旅行手账写成人票 €14，并说周一至周四 17:00–19:00 可以碰免费资格。舒 lin 也写过 14 欧和 9:30 开始排队。", el("strong", null, "€14 和「碰碰运气」都不采用。"), "10:00 的预约仍提前到门口，不为此改 08:45 出门。"),
+      el("p", null, "这次用知乎搜索又对过几篇，票价互相打架，不改已经买的票。游子吟写全票 ", el("strong", null, "€18"), "、冬季周一至周六 10:00–18:00、闭馆前 1 小时停止入场、讲解约 €8、语音约 €5，和现行票务页一致。小斑的旅行手账写成人票 €14，并说周一至周四 17:00–19:00 可以碰免费资格。舒 lin 也写过 14 欧和 9:30 开始排队。", el("strong", null, "€14 和「碰碰运气」都不采用。"), "袁的票是 15:00 西班牙语讲解，14:45 到优先入口。"),
       el("p", null, "大懒熊 W 记下兵器广场夹在王宫和阿穆德纳之间，并说屋顶两面旗都挂着表示国王在宫里。当天若看到两面旗，以现场是否停开为准。Aires 行记写现在可以拍照、票价 20 欧、周三和周六有换岗。拍照仍按每厅标识，票价以订单为准，换岗不插进 26 日。"),
       el("p", null, el("span", { class: "flag" }, "没有可靠室内 Wi-Fi"), "票、地图和翻译提前下好。手机里留门票二维码。"),
       el("div", { class: "links" },
@@ -306,15 +306,15 @@
   function renderPosada() {
     const s = el("section", { id: "posada" });
     s.append(
-      el("p", { class: "kicker" }, "12:45–14:15"),
+      el("p", { class: "kicker" }, "12:45–14:25"),
       el("h1", null, "Posada de la Villa"),
-      el("p", null, el("mark", null, "1642 年的旅店，接在老城商路的尽头，不是单独找的一家名店。")),
-      el("p", null, "点菜、人数和预算仍以行程手册为准。订的是 ", el("strong", null, "12:45"), "，3 或 4 人，并确认当天烤乳羊。"),
-      el("h2", { id: "posada-time" }, "14:15 必须起身"),
-      el("p", null, "这顿饭接在老城商路的尽头，点菜仍以行程手册为准。", el("strong", null, "14:15"), " 要离开：走到 Felipe IV 门大约 28 分钟。坐过点就取消丽池，把缓冲留给普拉多 16:00，不要两边都赶。"),
+      el("p", null, el("mark", null, "1642 年的旅店，夹在普拉多和 15:00 王宫讲解中间。")),
+      el("p", null, "点菜、人数和预算仍以行程手册为准。订的是 ", el("strong", null, "12:45"), "，3 人，并确认当天烤乳羊。"),
+      el("h2", { id: "posada-time" }, "14:25 必须起身"),
+      el("p", null, el("strong", null, "14:25"), " 离开。步行到王宫大约 1.4 公里、18 分钟，14:45 到优先入口。坐过点就改打车，不要耽误 15:00 的讲解。"),
       el("div", { class: "links" },
         ext("https://www.esmadrid.com/en/illustrated-map-centuries-old-restaurants-and-tabernas", "百年酒馆介绍"),
-        ext("https://www.google.com/maps/dir/?api=1&origin=Posada+de+la+Villa%2C+Cava+Baja+9%2C+Madrid&destination=Puerta+de+Felipe+IV%2C+Calle+de+Alfonso+XII+3%2C+Madrid&travelmode=walking", "饭后步行去丽池")
+        ext("https://www.google.com/maps/dir/?api=1&origin=Posada+de+la+Villa%2C+Cava+Baja+9%2C+Madrid&destination=Palacio+Real+de+Madrid&travelmode=walking", "饭后步行去王宫")
       ),
       pager("posada")
     );
@@ -391,7 +391,7 @@
   function renderPrado() {
     const s = el("section", { id: "prado" });
     s.append(
-      el("p", { class: "kicker" }, "16:00–19:30 · 不求看遍"),
+      el("p", { class: "kicker" }, "10:00–12:20 · 不求看遍"),
       el("h1", null, "普拉多"),
       el("p", null, el("mark", null, "把它看成权力怎样挑选艺术，不是找几幅名作拍照。")),
       el("p", null, "1819 年以皇家绘画博物馆对公众开放。建筑最初由 Juan de Villanueva 设计为科学用途，后来才成为博物馆。西班牙绘画是世界上收得最全的一批，委拉斯开兹和戈雅的作品多数在这里。"),

@@ -62,6 +62,9 @@
   LINK.apt = gsearch("Calle de Orense 22, 28020 Madrid");
   LINK.ifemaBack = gdir("IFEMA MADRID", "Calle de Orense 22, Madrid");
   LINK.palaceMap = gdir("Calle de Orense 22, Madrid", "Palacio Real de Madrid");
+  LINK.aptToPrado = gdir("Calle de Orense 22, Madrid", "Museo del Prado, Madrid", "driving");
+  LINK.pradoToPosada = gdir("Museo del Prado, Madrid", "Posada de la Villa, Cava Baja 9, Madrid", "walking");
+  LINK.posadaToPalace = gdir("Posada de la Villa, Cava Baja 9, Madrid", "Palacio Real de Madrid", "walking");
   LINK.pradoMap = gdir("Plaza Mayor, Madrid", "Museo del Prado, Madrid");
   LINK.posadaMap = gsearch("Posada de la Villa Madrid");
   LINK.posadaToGate = "https://www.google.com/maps/dir/?api=1&origin=Posada+de+la+Villa%2C+Cava+Baja+9%2C+Madrid&destination=Puerta+de+Felipe+IV%2C+Calle+de+Alfonso+XII+3%2C+Madrid&travelmode=walking";
@@ -255,33 +258,32 @@
       num: "26",
       weekday: "周一",
       wx: "晴 20°/10°",
-      kicker: "王宫、老城、丽池、普拉多",
+      kicker: "普拉多、Posada、王宫",
       dateLabel: "10月26日",
       notes: [
-        { kind: "ok", text: "这一天建议不去展台，商务兜底。上午王宫和老城，午饭在 Posada，下午只走丽池历史园林短线，然后把 3.5 小时留给普拉多。王室收藏馆大约还要 2 小时，今天不硬塞。" },
-        { kind: "warn", text: "王宫周一 10:00–18:00，17:00 停止入场。普拉多周一 10:00–20:00，官方普通票 €15，入馆时段以预约为准。预算里王宫按 €18 估算，出发前再核对票价。约不到原时段时，先保住王宫和老城，普拉多换同一天的其他时段，不要挪到 27 日。丽池若下雨、封园或午饭超时，直接去普拉多。" }
+        { kind: "ok", text: "这一天不去展台。上午 10:00 普拉多，12:45 Posada，15:00 王宫西班牙语讲解。丽池今天不插在午饭和王宫之间。" },
+        { kind: "warn", text: "袁的王宫票是 15:00 讲解，14:45 到优先入口。周一开到 18:00，17:00 停止入场。这张票只有袁，婷和明不在上面。普拉多周一 10:00–20:00。" }
       ],
       actions: [
-        { label: "公寓 → 王宫", href: LINK.palaceMap },
-        { label: "订王宫", href: LINK.palace },
+        { label: "袁的王宫票", href: "palace.html", same: true },
+        { label: "公寓 → 普拉多", href: LINK.aptToPrado },
+        { label: "普拉多 → Posada", href: LINK.pradoToPosada },
+        { label: "Posada → 王宫", href: LINK.posadaToPalace },
         { label: "订普拉多", href: LINK.prado },
-        { label: "Posada → 丽池", href: LINK.posadaToGate },
-        { label: "丽池 → 普拉多", href: LINK.gateToPrado },
         { label: "复制订位姓名", clip: "posadaName" },
         { label: "餐厅电话", href: "tel:+34913661860", tel: true }
       ],
       blocks: [
-        { id: "b26-bf", time: "07:45", title: "公寓早餐", short: "公寓早餐", text: "简单吃完。08:45 出门。到王宫预留 45–55 分钟公共交通；想少走路，当天再比价打车。", at: at(2026, 10, 26, 7, 45, MAD) },
-        { id: "b26-palace", time: "10:00–11:30", title: "王宫", short: "参观王宫", text: "看西班牙王室、宫廷礼仪和国家历史。提前预约 10:00 的入场。游客入口在阿穆德纳教堂广场。留出安检和找入口的时间。入口附近有免费厕所，见手册。", at: at(2026, 10, 26, 10, 0, MAD) },
-        { id: "b26-town", time: "11:30–12:30", title: "老城", short: "王宫周边老城", text: "阿穆德纳教堂外观、东方广场、Plaza de la Villa、Plaza Mayor。不进教堂。广场放在午餐前，午后不再折回。想尝鱿鱼三明治，只在这里分食一份，队伍不能耽误 12:45 的订位。", at: at(2026, 10, 26, 11, 30, MAD) },
-        { id: "b26-lunch", time: "12:45–14:15", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "已订 10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。1642 年旅店旧址，现在是木炉烤肉。点菜按 3 人，先问当天烤乳羊份量和价格。临时改人数要先联系餐厅。", links: [
+        { id: "b26-bf", time: "07:45", title: "公寓早餐", short: "公寓早餐", text: "简单吃完。09:30 打车去普拉多，大约 5.1 公里、16 分钟。", at: at(2026, 10, 26, 7, 45, MAD) },
+        { id: "b26-prado", time: "10:00–12:20", title: "普拉多", short: "参观普拉多", text: "预约 10:00 入馆。按西班牙绘画史看埃尔·格列柯、博斯、委拉斯开兹、戈雅，优先《宫娥》、博斯《人间乐园》和戈雅《1808年5月3日》。厅内不拍照。12:20 离开，步行到 Posada 约 1.7 公里、24 分钟。", at: at(2026, 10, 26, 10, 0, MAD) },
+        { id: "b26-lunch", time: "12:45–14:25", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "已订 10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。点菜按 3 人，先问当天烤乳羊份量和价格。14:25 离开，步行约 1.4 公里、18 分钟，14:45 到王宫优先入口。临时改人数要先联系餐厅。", links: [
           { label: "复制订位姓名", clip: "posadaName" }
         ], at: at(2026, 10, 26, 12, 45, MAD) },
-        { id: "b26-gate", time: "14:15–14:45", title: "去丽池 Felipe IV 门", short: "步行去丽池", text: "约 2.0 公里、28 分钟。累了就三人打车，不要赶路。午餐超时或下雨，跳过丽池，直接去普拉多。", at: at(2026, 10, 26, 14, 15, MAD) },
-        { id: "b26-retiro", time: "14:45–15:15", title: "丽池 Parterre", short: "丽池历史短线", text: "Felipe IV 门、法式花坛和古柏。这是历史园林停留，不是全园环游。精神很好再考虑大湖，但必须保证普拉多 16:00。", at: at(2026, 10, 26, 14, 45, MAD) },
-        { id: "b26-buffer", time: "15:15–16:00", title: "进普拉多", short: "入馆缓冲", text: "Felipe IV 门到馆大约 0.4 公里、5 分钟。所示路线有台阶，按现场无障碍指引走。留下存包、洗手间和找展厅的时间。", at: at(2026, 10, 26, 15, 15, MAD) },
-        { id: "b26-prado", time: "16:00–19:30", title: "普拉多", short: "参观普拉多", text: "预约时段入馆。按西班牙绘画史看埃尔·格列柯、博斯、委拉斯开兹、戈雅。时间紧也尽量看《宫娥》、博斯《人间乐园》和戈雅《1808年5月3日》。厅内不拍照。结束时可在馆内商店买轻便纪念品。", at: at(2026, 10, 26, 16, 0, MAD) },
-        { id: "b26-back", time: "19:30 后", title: "回公寓", short: "回公寓收拾", text: "住处附近简餐或超市补给，不再安排正式晚饭。收拾明天要退房的行李。", at: at(2026, 10, 26, 19, 30, MAD) }
+        { id: "b26-palace", time: "15:00", title: "王宫", short: "王宫讲解", text: "袁的票是 15:00 西班牙语讲解，只含王宫厅室。14:45 到优先入口，14:55 到入口门厅集合点。婷和明不在这张票上。进门前用入口厕所。", links: [
+          { href: "palace.html", label: "袁", same: true }
+        ], at: at(2026, 10, 26, 15, 0, MAD) },
+        { id: "b26-town", time: "讲解后", title: "宫外", short: "阿穆德纳外观", text: "讲解结束如果还有精神，看阿穆德纳教堂外观和东方广场。不进教堂，不折回 Plaza Mayor。", at: at(2026, 10, 26, 16, 0, MAD) },
+        { id: "b26-back", time: "17:30 后", title: "回公寓", short: "回公寓收拾", text: "住处附近简餐或超市补给，不再安排正式晚饭。收拾明天要退房的行李。", at: at(2026, 10, 26, 17, 30, MAD) }
       ]
     },
     {
@@ -345,8 +347,8 @@
 
   const CHECKS = [
     { id: "landlord", group: "now", title: "联系房东：晚到入住，以及 27 日行李寄存", detail: "问清 22 日大约 22:00–23:00、延误了怎么进门。27 日早上退房后能否存到 17:15，谁收行李，下午怎么再进去，钥匙何时交还。不能存，就改商业寄存，并核对早上几点开门。", links: [{ href: LINK.luggage, label: "寄存备选" }] },
-    { id: "palace", group: "now", title: "订王宫 3 人票：10月26日 10:00", detail: "周一 10:00 开门，预留约 1.5 小时。这是历史主线的第一站。", links: [{ href: LINK.palace, label: "官方购票" }] },
-    { id: "prado", group: "now", title: "订普拉多 3 人票：10月26日 16:00", detail: "预留约 3.5 小时，重点看西班牙绘画。官方要选入馆时段。", links: [{ href: LINK.prado, label: "官方票务" }] },
+    { id: "palace", group: "now", title: "打开 26 日袁的王宫票", detail: "10月26日 15:00 西班牙语讲解，只含王宫。14:45 到优先入口，14:55 到入口门厅集合点。这张是袁的。婷和明不在这张票上。", links: [{ href: "palace.html", label: "袁", same: true }] },
+    { id: "prado", group: "now", title: "订普拉多 3 人票：10月26日 10:00", detail: "上午 10:00 入馆，大约留到 12:20，然后去 Posada。官方要选入馆时段。", links: [{ href: LINK.prado, label: "官方票务" }] },
     { id: "posada", group: "now", title: "26 日 Posada 已订，报这个名字", detail: "10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。改人数或取消先打 +34 91 366 18 60，或写 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
     { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。北京出门时间按住址倒推。" },
     { id: "checkin-out", group: "before20", title: "10月20日 07:25（北京时间）去程值机", detail: "EK309＋EK143。用 PNR 和姓氏登录，尽早选相邻座位，保存两段登机牌。同一联程能否一次拿到两段，以系统显示为准。", links: [{ href: LINK.checkin, label: "在线值机" }] },
@@ -365,14 +367,14 @@
       { href: "ticket.html#ting", label: "婷", same: true },
       { href: "ticket.html#ming", label: "明", same: true }
     ] },
-    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日三张酒会码、25 日三张入场码、寄存订单。酒会码在 24 日酒会那一栏。" },
+    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日三张酒会码、25 日三张入场码、26 日袁的王宫票、寄存订单。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏。" },
     { id: "remind", group: "day21", title: "设好回程值机提醒", detail: "10月26日 04:45 北京时间，也就是马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
     { id: "to-pek", group: "day21", title: "确认 22 日怎么去首都机场", detail: "目标 04:25 到 T3。" },
     { id: "weather", group: "day21", title: "看马德里天气，打开自动时区", detail: "按预报改衣服。不要用月平均气温代替出发那天。" },
     { id: "packed", group: "day21", title: "随身文件、卡和海报包装收好", detail: "电子海报不用再做、也不用再传一次。" },
     { id: "checkin-back", group: "during", title: "10月25日 21:45（马德里）办理回程值机", detail: "EK144＋EK308。尽早选座，保存登机牌。这是人已经在马德里之后的事。", links: [{ href: LINK.checkin, label: "在线值机" }] },
     { id: "store-final", group: "eve26", title: "27 日寄存已经说死", detail: "地址、早上开门时间、17:15 取得出行李、钥匙怎么还，都有着落。" },
-    { id: "tickets-fit", group: "eve26", title: "景点票和 Posada 跟工作不冲突", detail: "需要取消的，按条款处理。约不到原时段：先保王宫和老城，普拉多换 26 日的其他时段。" },
+    { id: "tickets-fit", group: "eve26", title: "景点票和 Posada 跟工作不冲突", detail: "袁的王宫票是 26 日 15:00 讲解。普拉多按上午 10:00。需要取消的，按条款处理。不要把景点挪到 27 日。" },
     { id: "bags", group: "eve26", title: "行李、海报筒、机场证件整理好", detail: "取行李的地方到 T4 的路线已经存进手机。", links: [{ href: LINK.t4, label: "T4 地图" }] },
     { id: "poster-done", group: "done", title: "纸质海报已打印，电子海报已上传", detail: "现场只用 193P 找板。" },
     { id: "dinner-done", group: "done", title: "23 日 20:00 商务晚餐已确定", detail: "餐厅仍是 La Maruca Velázquez，Calle Velázquez 54。" },
@@ -850,7 +852,7 @@
     if (!any) {
       wrap.append(el("p", { class: "empty" }, state.filter === "open" ? "未完成的事项都勾完了。可以切到「全部」复核。" : "这一栏是空的。"));
     }
-    wrap.append(el("div", { class: "note" }, el("p", null, "如果王宫或普拉多的原时段买不到：先保住王宫和老城，普拉多换成 26 日另一个能订的时段。不要把景点挪到 27 日去赶飞机。")));
+      wrap.append(el("div", { class: "note" }, el("p", null, "26 日是上午普拉多、15:00 王宫讲解。不要把这两个景点挪到 27 日去赶飞机。")));
     return wrap;
   }
 
@@ -931,7 +933,7 @@
       '<div class="pick" data-move-panel="fair"><p>默认地铁。公寓步行到 Nuevos Ministerios，上 8 号线往 Aeropuerto T4 方向，到 Feria de Madrid，再按 ESMO 标识进馆。三段各留 15–20 分钟，门到门 55–60 分钟。不经过机场闸机，不用机场附加票。注意是地铁 8 号线，不是近郊铁路。回程坐往 Nuevos Ministerios 方向。</p><p><a href="' + LINK.aptToIfema + '" target="_blank" rel="noopener">公寓 → 会场</a> · <a href="' + LINK.ifemaBack + '" target="_blank" rel="noopener">会场 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="party"><p>24 日从会场直接去，不绕回公寓。地铁 8 号线到 Nuevos Ministerios，再换公交到 Rosewood Villa Magna。地图大约 45 分钟，所以 16:15 左右离场。公寓到酒店公交大约 24 分钟、驾车大约 9 分钟。结束后重新导航。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="gc"><p>25 日 17:05 从会场直接去，带着海报筒，不绕回公寓。Hotel Puerta América，Avenida de América 41。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另算，目标 17:45 前到。三人合乘出租车。20:00 结束再回公寓，这段路网大约 3.7 公里、不含堵车大约 8 分钟。</p><p><a href="' + LINK.ifemaToGc + '" target="_blank" rel="noopener">会场 → 论坛</a> · <a href="' + LINK.gcToApt + '" target="_blank" rel="noopener">论坛 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="old"><p>26 日老城内部步行，Plaza Mayor 放在午饭前。公寓到王宫预留 45–55 分钟公共交通。午饭后从 Posada 到丽池 Felipe IV 门约 2.0 公里、28 分钟；门到普拉多约 0.4 公里、5 分钟。累了、下雨或午饭超时，就跳过丽池，直接去普拉多。</p><p><a href="' + LINK.palaceMap + '" target="_blank" rel="noopener">公寓 → 王宫</a> · <a href="' + LINK.posadaToGate + '" target="_blank" rel="noopener">Posada → 丽池</a> · <a href="' + LINK.gateToPrado + '" target="_blank" rel="noopener">丽池 → 普拉多</a></p></div>' +
+      '<div class="pick" data-move-panel="old"><p>26 日上午去普拉多，午饭后去王宫。09:30 从公寓打车到普拉多约 5.1 公里、16 分钟。12:20 步行到 Posada 约 1.7 公里、24 分钟。14:25 步行到王宫约 1.4 公里、18 分钟。丽池今天不走。</p><p><a href="' + LINK.aptToPrado + '" target="_blank" rel="noopener">公寓 → 普拉多</a> · <a href="' + LINK.pradoToPosada + '" target="_blank" rel="noopener">普拉多 → Posada</a> · <a href="' + LINK.posadaToPalace + '" target="_blank" rel="noopener">Posada → 王宫</a></p></div>' +
       '<div class="pick" data-move-panel="air"><p>22 日晚和 27 日都用正规出租车。M-30 以内和机场之间的固定价是 €33/车，适用条件当天再确认。27 日 17:45 从取行李的地方出发。Uber / Cabify 的浮动价不是这个固定价。箱子多，先确认装得下，并要收据。</p><p>出租目的地：Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再按登机牌去 T4S。</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
     );
   }
@@ -1000,7 +1002,7 @@
         "<p>优先买面包、酸奶或牛奶、水果、坚果、水。做热食之前先确认公寓厨房能用。</p>" +
         '<p><a href="' + LINK.carrefour + '" target="_blank" rel="noopener">Carrefour 门店页</a> · <button type="button" data-clip="apt">复制公寓地址</button></p>' +
         "<h3>26 日烤乳羊怎么点</h3>" +
-        "<p>这顿接在王宫和老城后面，吃的就是卡斯蒂利亚木炉烤肉。23 日已经有商务晚餐，24 日有酒会，25 日晚上有胃癌论坛的晚餐，所以不再加 Botín 或另一顿正式大餐。</p>" +
+        "<p>这顿夹在上午普拉多和 15:00 王宫讲解中间。14:25 离开，步行去王宫。23 日已经有商务晚餐，24 日有酒会，25 日晚上有胃癌论坛的晚餐，所以不再加 Botín 或另一顿正式大餐。</p>" +
         "<p>马德里旅游局记载，这个地点 1642 年成为马德里第一家宫廷驿站，后来衰落，一度濒临废弃，1980 年修复后变成现在的烤肉餐厅。Botín 则以 1725 年创立、连续经营，被称为世界最古老的餐厅。两件事不是同一件事。</p>" +
         "<p>转载菜单写着四分之一烤乳羊 €46、标注 2 人份。订位时向餐厅核实供应、份量和价格。人均如果按旅游局的馆子档次，参考 €45–60。下面按人数切换，避免点多。</p>" +
         partyHTML() +
@@ -1022,8 +1024,8 @@
         "<p><b>西班牙文 H 是男、M 是女</b>，和英语相反。看不清就看小人。密码印在小票最下面，用完再扔。很多厕所没有纸，包里带纸巾。餐厅密码一两周就可能换，下面的数字只作参考。</p>" +
         "<p>位置用谷歌地图在 2026-10-18 核对，距离是直线，走路会更远一点。只把顺路的放在前面。</p>" +
         "<h3>就在路线上</h3>" +
-        '<div class="place"><b>王宫入口</b><span>26 日 10:00</span><small>免费。人就在游客入口。进宫前用，宫里不要中途折返。</small></div>' +
-        '<div class="place"><b>普拉多对面汉堡王</b><span>直线约 210 米</span><small>Paseo del Prado 26。密码 1954。16:00 进馆前如果来得及，可以在这里。密码是访客经验。</small></div>' +
+        '<div class="place"><b>王宫入口</b><span>26 日 14:45</span><small>免费。讲解票 14:45 到优先入口，进门前用，宫里不要中途折返。</small></div>' +
+        '<div class="place"><b>普拉多对面汉堡王</b><span>直线约 210 米</span><small>Paseo del Prado 26。密码 1954。10:00 进馆前如果来得及，可以在这里。密码是访客经验。</small></div>' +
         '<div class="place"><b>公寓附近 KFC</b><span>直线约 740 米</span><small>Calle de Bravo Murillo 168，靠近四路地铁。密码 1234。另一条笔记把四路地铁口写成 1304，不要和这家店混用。</small></div>' +
         "<h3>老城边缘，不专程去</h3>" +
         '<div class="place"><b>Jollibee 二楼</b><span>离 Posada 约 520 米</span><small>Calle del Arenal 4，密码 2821。在王宫和太阳门之间。26 日的路线不绕太阳门，路过再看。</small></div>' +
@@ -1151,9 +1153,9 @@
       ["酒会 → 公寓", "结束后重开导航", LINK.roseToApt],
       ["会场 → 论坛", "25 日约 10 分钟车程", LINK.ifemaToGc],
       ["论坛 → 公寓", "20:00 后", LINK.gcToApt],
-      ["公寓 → 王宫", "45–55 分钟", LINK.palaceMap],
-      ["Posada → 丽池", "约 2.0 公里", LINK.posadaToGate],
-      ["丽池 → 普拉多", "约 0.4 公里", LINK.gateToPrado]
+      ["公寓 → 普拉多", "26 日约 16 分钟车程", LINK.aptToPrado],
+      ["普拉多 → Posada", "约 1.7 公里", LINK.pradoToPosada],
+      ["Posada → 王宫", "约 1.4 公里", LINK.posadaToPalace]
     ].forEach(function (r) {
       panel.append(el("div", { class: "sheet-row" },
         el("div", { class: "meta" }, el("b", null, r[0]), el("span", null, r[1])),
