@@ -80,6 +80,7 @@
     t4: "Madrid-Barajas Terminal 4, Salidas, Emirates",
     poster: "193P, Hall 5, 25 October 2026, 12:00–12:45",
     phone: "+34 91 366 18 60",
+    posadaName: "MENGHE YUAN YUAN",
     email: "reservas@posadadelavilla.com",
     card: "住宿 Calle de Orense 22, 28020 Madrid；会场 IFEMA MADRID；地铁站 Feria de Madrid；海报 193P, Hall 5, 25 October, 12:00–12:45；机场 Terminal 4, Salidas, Emirates。紧急情况拨 112。"
   };
@@ -264,13 +265,16 @@
         { label: "订普拉多", href: LINK.prado },
         { label: "Posada → 丽池", href: LINK.posadaToGate },
         { label: "丽池 → 普拉多", href: LINK.gateToPrado },
-        { label: "打电话订位", href: "tel:+34913661860", tel: true }
+        { label: "复制订位姓名", clip: "posadaName" },
+        { label: "餐厅电话", href: "tel:+34913661860", tel: true }
       ],
       blocks: [
         { id: "b26-bf", time: "07:45", title: "公寓早餐", short: "公寓早餐", text: "简单吃完。08:45 出门。到王宫预留 45–55 分钟公共交通；想少走路，当天再比价打车。", at: at(2026, 10, 26, 7, 45, MAD) },
         { id: "b26-palace", time: "10:00–11:30", title: "王宫", short: "参观王宫", text: "看西班牙王室、宫廷礼仪和国家历史。提前预约 10:00 的入场。游客入口在阿穆德纳教堂广场。留出安检和找入口的时间。入口附近有免费厕所，见手册。", at: at(2026, 10, 26, 10, 0, MAD) },
         { id: "b26-town", time: "11:30–12:30", title: "老城", short: "王宫周边老城", text: "阿穆德纳教堂外观、东方广场、Plaza de la Villa、Plaza Mayor。不进教堂。广场放在午餐前，午后不再折回。想尝鱿鱼三明治，只在这里分食一份，队伍不能耽误 12:45 的订位。", at: at(2026, 10, 26, 11, 30, MAD) },
-        { id: "b26-lunch", time: "12:45–14:15", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "1642 年旅店旧址，现在是木炉烤肉。订 3–4 人、12:45。点菜按实际人数，订位时确认羊肉份量、是否预留和当天价格。手册里可以按 3 人或 4 人切换点法。", at: at(2026, 10, 26, 12, 45, MAD) },
+        { id: "b26-lunch", time: "12:45–14:15", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "已订 10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。1642 年旅店旧址，现在是木炉烤肉。点菜按 3 人，先问当天烤乳羊份量和价格。临时改人数要先联系餐厅。", links: [
+          { label: "复制订位姓名", clip: "posadaName" }
+        ], at: at(2026, 10, 26, 12, 45, MAD) },
         { id: "b26-gate", time: "14:15–14:45", title: "去丽池 Felipe IV 门", short: "步行去丽池", text: "约 2.0 公里、28 分钟。累了就三人打车，不要赶路。午餐超时或下雨，跳过丽池，直接去普拉多。", at: at(2026, 10, 26, 14, 15, MAD) },
         { id: "b26-retiro", time: "14:45–15:15", title: "丽池 Parterre", short: "丽池历史短线", text: "Felipe IV 门、法式花坛和古柏。这是历史园林停留，不是全园环游。精神很好再考虑大湖，但必须保证普拉多 16:00。", at: at(2026, 10, 26, 14, 45, MAD) },
         { id: "b26-buffer", time: "15:15–16:00", title: "进普拉多", short: "入馆缓冲", text: "Felipe IV 门到馆大约 0.4 公里、5 分钟。所示路线有台阶，按现场无障碍指引走。留下存包、洗手间和找展厅的时间。", at: at(2026, 10, 26, 15, 15, MAD) },
@@ -341,7 +345,7 @@
     { id: "landlord", group: "now", title: "联系房东：晚到入住，以及 27 日行李寄存", detail: "问清 22 日大约 22:00–23:00、延误了怎么进门。27 日早上退房后能否存到 17:15，谁收行李，下午怎么再进去，钥匙何时交还。不能存，就改商业寄存，并核对早上几点开门。", links: [{ href: LINK.luggage, label: "寄存备选" }] },
     { id: "palace", group: "now", title: "订王宫 3 人票：10月26日 10:00", detail: "周一 10:00 开门，预留约 1.5 小时。这是历史主线的第一站。", links: [{ href: LINK.palace, label: "官方购票" }] },
     { id: "prado", group: "now", title: "订普拉多 3 人票：10月26日 16:00", detail: "预留约 3.5 小时，重点看西班牙绘画。官方要选入馆时段。", links: [{ href: LINK.prado, label: "官方票务" }] },
-    { id: "posada", group: "now", title: "订 Posada de la Villa：10月26日 12:45", detail: "按最终人数订 3–4 人，说明人数可能变。问当天烤乳羊是否供应、四分之一份够几人、要不要提前预留、最新价格。电话 +34 91 366 18 60，邮箱 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
+    { id: "posada", group: "now", title: "26 日 Posada 已订，报这个名字", detail: "10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。改人数或取消先打 +34 91 366 18 60，或写 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
     { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。北京出门时间按住址倒推。" },
     { id: "checkin-out", group: "before20", title: "10月20日 07:25（北京时间）去程值机", detail: "EK309＋EK143。用 PNR 和姓氏登录，尽早选相邻座位，保存两段登机牌。同一联程能否一次拿到两段，以系统显示为准。", links: [{ href: LINK.checkin, label: "在线值机" }] },
     { id: "data", group: "before20", title: "三人的手机上网", detail: "先保证马德里第一晚能用。如果到当地买 SIM，要覆盖买卡之前的衔接。迪拜用机场 Wi-Fi，或买含阿联酋的套餐。中国卡开通收验证码需要的漫游。" },
@@ -759,7 +763,10 @@
       card.append(when, el("h3", null, b.title), el("p", null, b.text));
       if (b.links && b.links.length) {
         const links = el("div", { class: "actions" });
-        b.links.forEach(function (l) { links.append(ext(l.href, l.label, l.tel, l.same)); });
+        b.links.forEach(function (l) {
+          if (l.clip) links.append(el("button", { type: "button", class: "go", "data-clip": l.clip }, l.label));
+          else links.append(ext(l.href, l.label, l.tel, l.same));
+        });
         card.append(links);
       }
       item.append(card);
@@ -975,7 +982,7 @@
         "<p>马德里旅游局记载，这个地点 1642 年成为马德里第一家宫廷驿站，后来衰落，一度濒临废弃，1980 年修复后变成现在的烤肉餐厅。Botín 则以 1725 年创立、连续经营，被称为世界最古老的餐厅。两件事不是同一件事。</p>" +
         "<p>转载菜单写着四分之一烤乳羊 €46、标注 2 人份。订位时向餐厅核实供应、份量和价格。人均如果按旅游局的馆子档次，参考 €45–60。下面按人数切换，避免点多。</p>" +
         partyHTML() +
-        "<p>不建议照搬某篇笔记去点烤蘑菇，那篇笔记写明性价比不好。甜品看完主菜再决定。订位写 3 人或最多 4 人、12:45，并写明人数可能变化。</p>" +
+        "<p>不建议照搬某篇笔记去点烤蘑菇，那篇笔记写明性价比不好。甜品看完主菜再决定。已经订好 10月26日 12:45、3 人，姓名 MENGHE YUAN YUAN。到店报这个名字，没有二维码。临时改人数要先联系餐厅。</p>" +
         '<p><a href="' + LINK.posada + '" target="_blank" rel="noopener">餐厅官网</a> · <a href="' + LINK.posadaInfo + '" target="_blank" rel="noopener">旅游局页面</a> · <a href="' + LINK.posadaMenu + '" target="_blank" rel="noopener">菜单转载</a> · <a href="tel:+34913661860">+34 91 366 18 60</a></p>' +
         '<p><button type="button" data-clip="phone">复制电话</button> <button type="button" data-clip="email">复制邮箱</button></p>' +
         "<h3>这次不排、但可以记住的</h3>" +
