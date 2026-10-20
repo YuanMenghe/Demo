@@ -90,7 +90,7 @@
       font-weight: 700;
       text-decoration: none;
     }
-    .names { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.8rem 0; }
+    .names { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 0.8rem 0; }
     .names a { text-align: center; font-size: 1.15rem; }
     .names a[aria-current="true"] {
       background: var(--accent);
@@ -128,13 +128,14 @@
     <nav class="names" aria-label="选择入场码">
       <a href="#1" data-who="1">第 1 张</a>
       <a href="#2" data-who="2">第 2 张</a>
+      <a href="#ming" data-who="ming">明</a>
     </nav>
     <figure class="pass">
       <img id="qr" alt="" width="580" height="580">
       <figcaption id="cap"></figcaption>
     </figure>
-    <p class="hint">同一订单里的两张通用票，码不一样。屏幕调亮，正对扫码口。一人用一张。</p>
-    <p class="note">这页和行程用同一个链接。拿到链接的人能打开这两张码。</p>
+    <p class="hint">第 1 张和第 2 张是同一订单里的两张通用票，码不一样。明是单独一张。屏幕调亮，正对扫码口。一人用一张。</p>
+    <p class="note">这页和行程用同一个链接。拿到链接的人能打开这三张码。</p>
   </main>
   <script>
     (function () {
@@ -144,7 +145,8 @@
       var FONT_LABEL = { sm: "小", md: "中", lg: "大", xl: "特大" };
       var TICKETS = {
         "1": { name: "第 1 张", file: "tickets/tiger-1.png" },
-        "2": { name: "第 2 张", file: "tickets/tiger-2.png" }
+        "2": { name: "第 2 张", file: "tickets/tiger-2.png" },
+        ming: { name: "明", file: "tickets/tiger-ming.png" }
       };
       function themeNow() {
         return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
