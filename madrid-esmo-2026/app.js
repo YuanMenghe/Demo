@@ -269,13 +269,16 @@
         { label: "公寓 → 普拉多", href: LINK.aptToPrado },
         { label: "普拉多 → Posada", href: LINK.pradoToPosada },
         { label: "Posada → 王宫", href: LINK.posadaToPalace },
-        { label: "订普拉多", href: LINK.prado },
+        { label: "普拉多票", href: "prado.html", same: true },
         { label: "复制订位姓名", clip: "posadaName" },
         { label: "餐厅电话", href: "tel:+34913661860", tel: true }
       ],
       blocks: [
         { id: "b26-bf", time: "07:45", title: "公寓早餐", short: "公寓早餐", text: "简单吃完。09:30 打车去普拉多，大约 5.1 公里、16 分钟。", at: at(2026, 10, 26, 7, 45, MAD) },
-        { id: "b26-prado", time: "10:00–12:20", title: "普拉多", short: "参观普拉多", text: "预约 10:00 入馆。按西班牙绘画史看埃尔·格列柯、博斯、委拉斯开兹、戈雅，优先《宫娥》、博斯《人间乐园》和戈雅《1808年5月3日》。厅内不拍照。12:20 离开，步行到 Posada 约 1.7 公里、24 分钟。", at: at(2026, 10, 26, 10, 0, MAD) },
+        { id: "b26-prado", time: "10:00–12:20", title: "普拉多", short: "参观普拉多", text: "10:00 入馆，直接走入口。按西班牙绘画史看埃尔·格列柯、博斯、委拉斯开兹、戈雅，优先《宫娥》、博斯《人间乐园》和戈雅《1808年5月3日》。厅内不拍照。12:20 离开，步行到 Posada 约 1.7 公里、24 分钟。", links: [
+          { href: "prado.html#yuan", label: "袁", same: true },
+          { href: "prado.html#ting", label: "婷", same: true }
+        ], at: at(2026, 10, 26, 10, 0, MAD) },
         { id: "b26-lunch", time: "12:45–14:25", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "已订 10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。点菜按 3 人，先问当天烤乳羊份量和价格。14:25 离开，步行约 1.4 公里、18 分钟，14:45 到王宫优先入口。临时改人数要先联系餐厅。", links: [
           { label: "复制订位姓名", clip: "posadaName" }
         ], at: at(2026, 10, 26, 12, 45, MAD) },
@@ -354,7 +357,10 @@
       { href: "palace.html#ting", label: "婷", same: true },
       { href: "palace.html#ming", label: "明", same: true }
     ] },
-    { id: "prado", group: "now", title: "订普拉多 3 人票：10月26日 10:00", detail: "上午 10:00 入馆，大约留到 12:20，然后去 Posada。官方要选入馆时段。", links: [{ href: LINK.prado, label: "官方票务" }] },
+    { id: "prado", group: "now", title: "打开 26 日普拉多票", detail: "10月26日 10:00 入馆，直接走入口。大约留到 12:20，然后去 Posada。厅内不拍照。", links: [
+      { href: "prado.html#yuan", label: "袁", same: true },
+      { href: "prado.html#ting", label: "婷", same: true }
+    ] },
     { id: "posada", group: "now", title: "26 日 Posada 已订，报这个名字", detail: "10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。改人数或取消先打 +34 91 366 18 60，或写 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
     { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。北京出门时间按住址倒推。" },
     { id: "checkin-out", group: "before20", title: "10月20日 07:25（北京时间）去程值机", detail: "EK309＋EK143。用 PNR 和姓氏登录，尽早选相邻座位，保存两段登机牌。同一联程能否一次拿到两段，以系统显示为准。", links: [{ href: LINK.checkin, label: "在线值机" }] },
@@ -373,7 +379,7 @@
       { href: "ticket.html#ting", label: "婷", same: true },
       { href: "ticket.html#ming", label: "明", same: true }
     ] },
-    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日三张酒会码、25 日三张入场码、26 日三张王宫票、寄存订单。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏。" },
+    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日三张酒会码、25 日三张入场码、26 日三张王宫票、26 日普拉多票、寄存订单。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏，普拉多票在 26 日普拉多那一栏。" },
     { id: "remind", group: "day21", title: "设好回程值机提醒", detail: "10月26日 04:45 北京时间，也就是马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
     { id: "to-pek", group: "day21", title: "确认 22 日怎么去首都机场", detail: "目标 04:25 到 T3。" },
     { id: "weather", group: "day21", title: "看马德里天气，打开自动时区", detail: "按预报改衣服。不要用月平均气温代替出发那天。" },
