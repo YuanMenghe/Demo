@@ -138,7 +138,7 @@
       blocks: [
         { id: "b22-t3", time: "北京 04:25", title: "到首都机场 T3", short: "到首都机场 T3", text: "07:25 起飞。从住处出门的时间按地址和路况倒推。", at: at(2026, 10, 22, 4, 25, BJ) },
         { id: "b22-fly", time: "北京 07:25", title: "PEK T3 起飞", short: "北京起飞，飞往迪拜", text: "EK309。11:35 到迪拜 T3。行李直挂、航站楼以正式电子客票为准。", at: at(2026, 10, 22, 7, 25, BJ) },
-        { id: "b22-dxb", time: "迪拜 11:35", title: "迪拜转机", short: "迪拜转机", text: "转机约 2 小时 55 分。机场简餐，确认下一程登机口。西班牙卡的流量不能用在迪拜，用机场 Wi-Fi 或含阿联酋的套餐。", at: at(2026, 10, 22, 11, 35, DXB) },
+        { id: "b22-dxb", time: "迪拜 11:35", title: "迪拜转机", short: "迪拜转机", text: "T3 转机约 2 小时 55 分，不出机场。先看 EK143 登机牌上的指廊，用已办好的选休息室二维码进同一指廊的 Ahlan。指廊之间大约 30 分钟，不要为了换休息室跨区。上网用 DXB Free Wi-Fi，西班牙卡在这里没有流量。", at: at(2026, 10, 22, 11, 35, DXB) },
         { id: "b22-conn", time: "迪拜 14:30", title: "转飞马德里", short: "转飞马德里", text: "EK143，飞往马德里。", at: at(2026, 10, 22, 14, 30, DXB) },
         { id: "b22-land", time: "马德里 20:20", title: "落地 T4S", short: "落地马德里 T4S", text: "入境、取行李后转到 T4 出机场。预计 21:30–22:15 能离开，排队就顺延。航站楼可连 AIRPORT FREE Wifi AENA，用法在手册。", at: at(2026, 10, 22, 20, 20, MAD) },
         { id: "b22-in", time: "马德里 22:00", title: "出租车去公寓", short: "入住公寓", text: "走正规出租车队列。按 22:00–23:00 入住准备。机上先吃好，随身留一点小食；不累且超市还开着，再补水和早餐。", at: at(2026, 10, 22, 22, 0, MAD) }
@@ -333,7 +333,7 @@
         { label: "在线值机", href: LINK.checkin }
       ],
       blocks: [
-        { id: "b28-dxb", time: "迪拜 07:40", title: "到迪拜", short: "迪拜转机", text: "转机 3 小时 20 分。早餐后确认登机口。", at: at(2026, 10, 28, 7, 40, DXB) },
+        { id: "b28-dxb", time: "迪拜 07:40", title: "到迪拜", short: "迪拜转机", text: "T3 转机 3 小时 20 分，不出机场。这顿是早餐。看 EK308 登机牌上的指廊，用同一张选休息室二维码进同一指廊的 Ahlan。想洗澡再改同一指廊的 Marhaba，不要跨指廊。", at: at(2026, 10, 28, 7, 40, DXB) },
         { id: "b28-fly", time: "迪拜 11:00", title: "起飞回北京", short: "迪拜起飞", text: "EK308。", at: at(2026, 10, 28, 11, 0, DXB) },
         { id: "b28-home", time: "北京 22:30", title: "到首都机场 T3", short: "抵达北京", text: "入境取行李后回家。", at: at(2026, 10, 28, 22, 30, BJ) }
       ]
@@ -963,6 +963,7 @@
         "<li><b>住宿</b> Calle de Orense 22, 28020 Madrid。22 日 15:00 后可入住，实际是当晚到达；27 日 11:00 前退房，实际早上退房并寄存行李。</li>" +
         "<li><b>去程</b> 22 日 PEK T3 07:25 → DXB T3 11:35；14:30 → MAD T4S 20:20。</li>" +
         "<li><b>回程</b> 27 日 MAD 21:45 → 28 日 DXB 07:40；11:00 → PEK T3 22:30。</li>" +
+        "<li><b>迪拜休息室</b> 两段都在 T3，都不出机场。去程 11:35–14:30 是午饭，回程 07:40–11:00 是早餐。付费休息室要吃好，选和下一程登机口同一指廊的 Ahlan。阿联酋航空写指廊之间大约 30 分钟。</li>" +
         "<li><b>值机</b> 去程 10月20日 07:25 北京时间开放（EK309＋EK143）。回程 10月26日 04:45 北京时间开放，即马德里 10月25日 21:45（EK144＋EK308）。</li>" +
         "<li><b>晚餐</b> 23 日 20:00，La Maruca Velázquez，Calle Velázquez 54。餐厅不变，只改了时间。</li>" +
         "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。入场码在酒会那一栏，点袁、婷、明。</li>" +
@@ -1073,7 +1074,13 @@
         "<p><b>会场 Wi-Fi</b> 资料上有免费网络 IFEMA FREE，连上以后可能要在浏览器里登录。ESMO 自己的账号密码还没核实，以现场为准。有网不等于展台速度快。</p>" +
         "<p><b>机场 Wi-Fi</b> 22 日落地和 27 日离开都会经过 T4。官方网络名是 Airport Free Wifi Aena。小红书「少年」写的用法：连 <b>AIRPORT FREE Wifi AENA</b>，选访客，邮箱填两次，大约能用 1 小时；点开机场发来的验证信后，可以在机场里接着用。不要连 wifi-aena。这是访客经验，现场以 AENA 页面为准。</p>" +
         "<p>市区免费 Wi-Fi 这次在小红书上没有搜到落在老城、会场或公寓旁边的新分享。王宫和普拉多展厅不要指望室内网络。会场仍用上面的 IFEMA FREE。</p>" +
-        '<p><a href="' + LINK.ifemaWifi + '" target="_blank" rel="noopener">IFEMA 服务</a> · <a href="' + LINK.aenaWifi + '" target="_blank" rel="noopener">机场 Wi-Fi</a> · <a href="https://www.xiaohongshu.com/explore/6ad2e206000000001802f87b" target="_blank" rel="noopener">小红书：少年，机场 Wi-Fi</a></p>' +
+        "<p><b>迪拜 T3 上网</b> 去程和回程都不出机场，西班牙卡没有阿联酋流量。连 <b>DXB Free Wi-Fi</b>。迪拜机场 2016 年说全场免费、不限时、打开页面点一下即可。2025 年 Khaleej Times 写要填姓名、电话和邮箱，大约 60 分钟。以落地弹出的页面为准。</p>" +
+        "<p><span class=\"flag\">访客经验</span> 小红书「富士山下」写 du 游客卡在入境海关领取，10GB 加 3 分钟通话，24 小时，必须在柜台录入护照；作者回复不过海关就不能领，机场有 Wi-Fi，不领也行。你们两段都走 Connections，不要为了这张卡出机场。</p>" +
+        "<h3>迪拜 T3 付费休息室</h3>" +
+        "<p>已有选休息室的二维码。经济舱付费能进的是 Ahlan 和 Marhaba，不是阿联酋航空公务舱休息室。A、B、C 三个指廊都有。阿联酋航空写 Ahlan 在 A1（A 指廊 6 层）、B26（B 指廊，麦当劳楼上）、C13（C 指廊）。龙腾写 Marhaba 的 B 区在 4 层、靠近 B21。两家都是 24 小时，含冷热餐和 Wi-Fi。</p>" +
+        "<p><mark>要吃好，用二维码选和下一程登机口同一指廊的 Ahlan。</mark> 去程 11:35 到、14:30 飞马德里，吃午饭；回程 07:40 到、11:00 飞北京，吃早餐。小红书 Orange一靓在 T3 B 区对比过：Ahlan 热食、冷盘、水果更全，适合吃饭；Marhaba 沙发多一些，笔记里看到淋浴。阿联酋航空写 Ahlan 的淋浴要走大约 10 分钟到别处。回程如果更想洗澡，再改同一指廊的 Marhaba。笔记作者说单次费用只能进一间。</p>" +
+        "<p>有一次公开航班记录 EK143 从 A13 走，不代表 10 月 22 日仍是 A 指廊。EK308 只确认 T3，指廊看当天登机牌。指廊之间大约 30 分钟，2 小时 55 分和 3 小时 20 分都不够来回换区。</p>" +
+        '<p><a href="' + LINK.ifemaWifi + '" target="_blank" rel="noopener">IFEMA 服务</a> · <a href="' + LINK.aenaWifi + '" target="_blank" rel="noopener">马德里机场 Wi-Fi</a> · <a href="https://www.xiaohongshu.com/explore/6ad2e206000000001802f87b" target="_blank" rel="noopener">小红书：少年，马德里机场 Wi-Fi</a> · <a href="https://media.dubaiairports.ae/passengers-enjoy-unlimited-free-high-speed-wi-fi-at-dxb-and-dwc/" target="_blank" rel="noopener">迪拜机场 Wi-Fi</a> · <a href="https://www.xiaohongshu.com/explore/6a3773040000000021008e99" target="_blank" rel="noopener">小红书：富士山下，免费电话卡</a> · <a href="https://www.emirates.com/english/before-you-fly/dubai-international-airport/transferring-between-terminals/" target="_blank" rel="noopener">阿联酋航空转机</a> · <a href="https://www.xiaohongshu.com/explore/699d8e1d000000002801c756" target="_blank" rel="noopener">小红书：Orange一靓，Ahlan 和 Marhaba</a></p>' +
         "<h3>出发前每个 App 都登录一次</h3>" +
         "<ul>" +
         "<li><b>Google Maps</b> 保存公寓、会场、餐厅、寄存点、T4。下载离线地图，并给关键路线截图。离线地图没有公共交通的实时导航，不能代替流量。</li>" +
