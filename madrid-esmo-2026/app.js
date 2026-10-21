@@ -369,7 +369,7 @@
     { id: "posada", group: "now", title: "26 日 Posada 已订，报这个名字", detail: "10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。改人数或取消先打 +34 91 366 18 60，或写 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
     { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。北京出门时间按住址倒推。" },
     { id: "checkin-out", group: "before20", title: "10月20日 07:25（北京时间）去程值机", detail: "EK309＋EK143。用 PNR 和姓氏登录，尽早选相邻座位，保存两段登机牌。同一联程能否一次拿到两段，以系统显示为准。", links: [{ href: LINK.checkin, label: "在线值机" }] },
-    { id: "data", group: "before20", title: "三人的手机上网", detail: "先保证马德里第一晚能用。如果到当地买 SIM，要覆盖买卡之前的衔接。迪拜用机场 Wi-Fi，或买含阿联酋的套餐。中国卡开通收验证码需要的漫游。" },
+    { id: "data", group: "done", title: "三人的网络漫游已开通", detail: "马德里用各自的卡。迪拜不出机场，用机场 Wi-Fi。不必再买当地 SIM。" },
     { id: "apps", group: "before20", title: "把 App 和支付真正打开用一次", detail: "Google Maps、翻译、ESMO Events、Emirates、至少一个叫车软件已登录。叫车要完成 +86 短信验证并绑卡。至少一台手机能实时导航。国行安卓先确认 Google 服务能用。" },
     { id: "poster-pack", group: "before20", title: "海报筒和运输方式", detail: "按实际包装确认手提还是托运。手机留下 PDF 和上传成功的记录。", links: [{ href: LINK.poster, label: "海报说明" }] },
     { id: "talk", group: "before20", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
@@ -391,7 +391,7 @@
     { id: "packed", group: "day21", title: "随身文件、卡和海报包装收好", detail: "电子海报不用再做、也不用再传一次。" },
     { id: "checkin-back", group: "during", title: "10月25日 21:45（马德里）办理回程值机", detail: "EK144＋EK308。尽早选座，保存登机牌。这是人已经在马德里之后的事。", links: [{ href: LINK.checkin, label: "在线值机" }] },
     { id: "store-final", group: "eve26", title: "27 日寄存已经说死", detail: "地址、早上开门时间、17:15 取得出行李、钥匙怎么还，都有着落。" },
-    { id: "tickets-fit", group: "eve26", title: "景点票和 Posada 跟工作不冲突", detail: "王宫是 26 日 15:00 讲解。普拉多按上午 10:00。需要取消的，按条款处理。不要把景点挪到 27 日。" },
+    { id: "tickets-fit", group: "done", title: "26 日普拉多、王宫和 Posada 已订好", detail: "普拉多 10:00，Posada 12:45，王宫 15:00 讲解。不挪到 27 日。" },
     { id: "bags", group: "eve26", title: "行李、海报筒、机场证件整理好", detail: "取行李的地方到 T4 的路线已经存进手机。", links: [{ href: LINK.t4, label: "T4 地图" }] },
     { id: "poster-done", group: "done", title: "纸质海报已打印，电子海报已上传", detail: "现场只用 193P 找板。" },
     { id: "dinner-done", group: "done", title: "23 日 20:00 商务晚餐已确定", detail: "餐厅仍是 La Maruca Velázquez，Calle Velázquez 54。" },
@@ -974,9 +974,11 @@
         "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。入场码在酒会那一栏，点袁、婷、明。</li>" +
         "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
+        "<li><b>26 日</b> 03:30–04:00 周会。10:00 普拉多，12:45 Posada，15:00 王宫讲解。不去展台，不走丽池。</li>" +
         "<li><b>返程底线</b> 27 日 17:15 取行李，17:45 出发，18:15–18:30 到 T4。</li>" +
+        "<li><b>28 日</b> 西班牙时间 04:00–05:00 RFP会，08:00 百济的会。人在回程。</li>" +
         "</ul>" +
-        "<p>已经完成的：纸质海报已打印，电子海报已上传，晚餐地点和时间已确定。现在优先的是 27 日行李寄存、26 日景点和餐厅预约、每个人自己的联网。展台号还未知。</p>" +
+        "<p>已经完成的：纸质海报已打印，电子海报已上传，23 日晚餐已定，26 日普拉多、王宫和 Posada 已订，三人网络漫游已开通。现在优先的是 27 日行李寄存。展台号还未知。</p>" +
         '<p><button type="button" data-clip="card">复制随身联系卡</button></p>'
     },
     {
@@ -1059,7 +1061,7 @@
         "<ul>" +
         "<li>Goya 地铁麦当劳，Calle de Goya 70，密码 0000A。离 23 日晚餐直线约 680 米，离酒会酒店约 1.2 公里。</li>" +
         "<li>议会大厦旁 Faborit，Plaza de las Cortes 4，密码 1793。离普拉多直线约 380 米，在馆的北侧，不在 Felipe IV 门进馆的那条路上。</li>" +
-        "<li>丽池大湖边的免费厕所，离 Felipe IV 门直线约 450 米。30 分钟短线不去大湖。</li>" +
+        "<li>丽池大湖边的免费厕所，离 Felipe IV 门直线约 450 米。丽池不走。</li>" +
         "<li>Atocha 二楼咖啡厅旁的免费厕所，离普拉多直线约 820 米。这几天不经过车站。</li>" +
         "<li>托莱多市区汉堡王在另一座城，直线约 67 公里。塞维利亚不去。</li>" +
         "<li>Gran Vía 公厕大约 €1 还要排队。24 日酒会后不去那里。</li>" +
@@ -1071,20 +1073,13 @@
       id: "phone",
       title: "上网、App、支付和随身",
       html:
-        "<p>用的是安卓。展台网络由商务负责。每个人有自己的数据，分开行动更方便。不必专门买大流量热点。</p>" +
-        "<p>主方案：出发前先准备能覆盖第一晚和前几天的衔接流量；需要当地卡时再买低价实体 SIM。Vodafone Prepago S 官方价 €10/28 天，3 人基础大约 €30。本地卡的购买和激活不要硬塞进 23 日赴宴之前。</p>" +
-        "<ul>" +
-        "<li>出国前：中国卡开好收验证码用的漫游，另买数据包，核对是否同时覆盖阿联酋和西班牙。</li>" +
-        "<li>实体 SIM：带护照和取卡针。店里激活后，当场试地图和微信，确认实付价格。</li>" +
-        "<li>双卡：数据用西班牙卡，中国卡关掉数据漫游，短信还留着。</li>" +
-        "<li>eSIM：先核对这台安卓的型号和设置，不要因为是安卓就当成一定能用。</li>" +
-        "</ul>" +
-        "<p>备用门店：Vodafone，Bravo Murillo 212，离公寓步行大约 18 分钟。周一至周六 10:00–21:00，周日休息。Orense 7 那家旧店已永久关闭。</p>" +
+        "<p>三人各自的网络漫游已经开通。马德里这几天用自己的卡，数据漫游保持开着，短信也留着。不必再买当地 SIM，也不要关掉数据漫游。</p>" +
+        "<p>漫游现场不能用时，再去 Vodafone，Bravo Murillo 212，离公寓步行大约 18 分钟。周一至周六 10:00–21:00，周日休息。带护照和取卡针，激活后试地图和微信。Orense 7 那家旧店已永久关闭。Vodafone Prepago S 官方价 €10/28 天。</p>" +
         '<p><a href="' + LINK.vodafone + '" target="_blank" rel="noopener">预付费说明</a> · <a href="' + LINK.vodaStore + '" target="_blank" rel="noopener">门店页</a></p>' +
         "<p><b>会场 Wi-Fi</b> 资料上有免费网络 IFEMA FREE，连上以后可能要在浏览器里登录。ESMO 自己的账号密码还没核实，以现场为准。有网不等于展台速度快。</p>" +
         "<p><b>机场 Wi-Fi</b> 22 日落地和 27 日离开都会经过 T4。官方网络名是 Airport Free Wifi Aena。小红书「少年」写的用法：连 <b>AIRPORT FREE Wifi AENA</b>，选访客，邮箱填两次，大约能用 1 小时；点开机场发来的验证信后，可以在机场里接着用。不要连 wifi-aena。这是访客经验，现场以 AENA 页面为准。</p>" +
         "<p>市区免费 Wi-Fi 这次在小红书上没有搜到落在老城、会场或公寓旁边的新分享。王宫和普拉多展厅不要指望室内网络。会场仍用上面的 IFEMA FREE。</p>" +
-        "<p><b>迪拜 T3 上网</b> 去程和回程都不出机场，西班牙卡没有阿联酋流量。连 <b>DXB Free Wi-Fi</b>。迪拜机场 2016 年说全场免费、不限时、打开页面点一下即可。2025 年 Khaleej Times 写要填姓名、电话和邮箱，大约 60 分钟。以落地弹出的页面为准。</p>" +
+        "<p><b>迪拜 T3 上网</b> 去程和回程都不出机场。连 <b>DXB Free Wi-Fi</b>，不要默认漫游有阿联酋流量。迪拜机场 2016 年说全场免费、不限时、打开页面点一下即可。2025 年 Khaleej Times 写要填姓名、电话和邮箱，大约 60 分钟。以落地弹出的页面为准。</p>" +
         "<p><span class=\"flag\">访客经验</span> 小红书「富士山下」写 du 游客卡在入境海关领取，10GB 加 3 分钟通话，24 小时，必须在柜台录入护照；作者回复不过海关就不能领，机场有 Wi-Fi，不领也行。你们两段都走 Connections，不要为了这张卡出机场。</p>" +
         "<h3>迪拜 T3 付费休息室</h3>" +
         "<p>已有选休息室的二维码。经济舱付费能进的是 Ahlan 和 Marhaba，不是阿联酋航空公务舱休息室。A、B、C 三个指廊都有。阿联酋航空写 Ahlan 在 A1（A 指廊 6 层）、B26（B 指廊，麦当劳楼上）、C13（C 指廊）。龙腾写 Marhaba 的 B 区在 4 层、靠近 B21。两家都是 24 小时，含冷热餐和 Wi-Fi。</p>" +
@@ -1113,7 +1108,7 @@
     },
     {
       id: "night",
-      title: "晚上、礼物和安全",
+      title: "晚上和礼物",
       html:
         "<p>23 日晚餐、24 日酒会和 25 日胃癌论坛已经占了晚上。26 日晚饭后要收拾行李。轻量夜游只在还有精力时加上，不再单排一张夜间表。</p>" +
         "<ul>" +
@@ -1131,8 +1126,12 @@
         "</ul>" +
         "<p>不顺路、不为它们改路线：最近的 Mercadona 在 Calle del Pintor Juan Gris 3，离公寓大约 760 米，出租车去普拉多不经过。英国宫（El Corte Inglés）和 La Chinata 专柜也不在 26 日这条线上。只有晚上改去伯纳乌外观时，官方商店在 Calle del Padre Damián 3，离公寓大约 680 米，围巾和帽子；小红书有人在球场买围巾。</p>" +
         '<p><a href="' + gsearch("Tienda Prado Calle de Ruiz de Alarcon Madrid") + '" target="_blank" rel="noopener">普拉多商店</a> · <a href="' + gsearch("Madrid Souvenirs Calle de Carlos III 1 Madrid") + '" target="_blank" rel="noopener">王宫东侧纪念品</a> · <a href="' + gsearch("Curiosity shop Calle de Latoneros 1 Madrid") + '" target="_blank" rel="noopener">Posada 旁礼品店</a> · <a href="' + gsearch("Casa Elias Calle de Orense 18 Madrid") + '" target="_blank" rel="noopener">Casa Elias</a></p>' +
-        '<p><a href="https://www.xiaohongshu.com/explore/6905a7280000000007003b1f" target="_blank" rel="noopener">小红书：aprilila，马德里伴手礼</a> · <a href="' + LINK.gifts + '" target="_blank" rel="noopener">马德里旅游局礼物指南</a> · <a href="' + LINK.customs + '" target="_blank" rel="noopener">海关进境物品</a></p>' +
-        "<h3>安全</h3>" +
+        '<p><a href="https://www.xiaohongshu.com/explore/6905a7280000000007003b1f" target="_blank" rel="noopener">小红书：aprilila，马德里伴手礼</a> · <a href="' + LINK.gifts + '" target="_blank" rel="noopener">马德里旅游局礼物指南</a> · <a href="' + LINK.customs + '" target="_blank" rel="noopener">海关进境物品</a></p>'
+    },
+    {
+      id: "safe",
+      title: "安全",
+      html:
         "<ul>" +
         "<li><b>西班牙紧急电话 112</b> 警察、急救、火警。护照或手机被抢，先打这个报案。</li>" +
         "<li><b>中国驻西班牙大使馆领事保护 +34 91 543 88 77</b> 人身或财产紧急时打。证件咨询不要占这条线。使馆 2024-09-04 通知：工作日非办公时间和周末，这个电话转到外交部 12308。</li>" +
@@ -1149,12 +1148,12 @@
         "<p>不含机票、住宿和注册费。商务招待如果请客，自费会更低。基础合计不含 26 日 Posada。</p>" +
         '<div class="money"><span>两位展商交通票和卡</span><b>€34.20</b><small>每人大约 20 次。完整注册者如果领到有效会议交通票，就不必给那个人再买。</small></div>' +
         '<div class="money"><span>机场往返正规出租车</span><b>€66</b><small>每程 €33。前提是一辆车装得下三个人和行李。</small></div>' +
-        '<div class="money"><span>三张当地 SIM</span><b>€30</b><small>€10/张。衔接用的漫游包另计。</small></div>' +
-        '<div class="money"><span>普拉多和王宫</span><b>€99</b><small>按（€15＋€18）×3 估算。不进馆就可以拿掉。普拉多 €15 是官方普通票，王宫 €18 是预算数，出发前再核对。</small></div>' +
+        '<div class="money"><span>当地 SIM</span><b>不买</b><small>三人漫游已开通。</small></div>' +
+        '<div class="money"><span>普拉多和王宫</span><b>€99</b><small>票已买。按（€15＋€18）×3 估算，实付以订单为准。</small></div>' +
         '<div class="money"><span>普通餐饮和超市</span><b>€450–630</b><small>还没扣除商务请客，也不含 Posada 这顿。</small></div>' +
         '<div class="money"><span>行李寄存</span><b>€0–24</b><small>房东免费，或 3 件商业寄存的估算。</small></div>' +
         '<div class="money"><span>额外市内出租车</span><b>€50–90</b><small>按需要才用。</small></div>' +
-        '<div class="total"><b>基础合计大约 €730–975</b><p>第一次领会议票之前的单程票、衔接流量和购物另计。</p></div>' +
+        '<div class="total"><b>基础合计大约 €700–945</b><p>第一次领会议票之前的单程票和购物另计。</p></div>' +
         '<div class="money"><span>26 日 Posada 烤乳羊</span><b>另计</b><small>3 人大约 €135–180，4 人大约 €180–240。这是按 €45–60/人做的保守总预算。只按公开菜单把菜加起来，可能更低。饮料、面包、甜品按实际点的算。</small></div>' +
         '<p><a href="' + LINK.practical + '" target="_blank" rel="noopener">马德里实用信息</a>。紧急电话 112。</p>'
     }
