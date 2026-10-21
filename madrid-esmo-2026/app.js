@@ -939,16 +939,18 @@
     return (
       '<div class="seg" role="group" aria-label="现在要去哪">' +
       '<button type="button" data-move="fair">去会场</button>' +
-      '<button type="button" data-move="party">去酒会</button>' +
-      '<button type="button" data-move="gc">胃癌论坛</button>' +
-      '<button type="button" data-move="old">老城</button>' +
-      '<button type="button" data-move="air">去机场</button>' +
+      '<button type="button" data-move="dinner">23 日晚餐</button>' +
+      '<button type="button" data-move="party">24 日酒会</button>' +
+      '<button type="button" data-move="gc">25 日论坛</button>' +
+      '<button type="button" data-move="old">26 日</button>' +
+      '<button type="button" data-move="air">机场</button>' +
       "</div>" +
-      '<div class="pick" data-move-panel="fair"><p>默认地铁。公寓步行到 Nuevos Ministerios，上 8 号线往 Aeropuerto T4 方向，到 Feria de Madrid，再按 ESMO 标识进馆。三段各留 15–20 分钟，门到门 55–60 分钟。不经过机场闸机，不用机场附加票。注意是地铁 8 号线，不是近郊铁路。回程坐往 Nuevos Ministerios 方向。</p><p><a href="' + LINK.aptToIfema + '" target="_blank" rel="noopener">公寓 → 会场</a> · <a href="' + LINK.ifemaBack + '" target="_blank" rel="noopener">会场 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="party"><p>24 日从会场直接去，不绕回公寓。地铁 8 号线到 Nuevos Ministerios，再换公交到 Rosewood Villa Magna。地图大约 45 分钟，所以 16:15 左右离场。公寓到酒店公交大约 24 分钟、驾车大约 9 分钟。结束后重新导航。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="gc"><p>25 日 17:05 从会场直接去，带着海报筒，不绕回公寓。Hotel Puerta América，Avenida de América 41。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另算，目标 17:45 前到。三人合乘出租车。20:00 结束再回公寓，这段路网大约 3.7 公里、不含堵车大约 8 分钟。</p><p><a href="' + LINK.ifemaToGc + '" target="_blank" rel="noopener">会场 → 论坛</a> · <a href="' + LINK.gcToApt + '" target="_blank" rel="noopener">论坛 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="old"><p>26 日上午去普拉多，午饭后去王宫。09:30 从公寓打车到普拉多约 5.1 公里、16 分钟。12:20 步行到 Posada 约 1.7 公里、24 分钟。14:25 步行到王宫约 1.4 公里、18 分钟。丽池今天不走。</p><p><a href="' + LINK.aptToPrado + '" target="_blank" rel="noopener">公寓 → 普拉多</a> · <a href="' + LINK.pradoToPosada + '" target="_blank" rel="noopener">普拉多 → Posada</a> · <a href="' + LINK.posadaToPalace + '" target="_blank" rel="noopener">Posada → 王宫</a></p></div>' +
-      '<div class="pick" data-move-panel="air"><p>22 日晚和 27 日都用正规出租车。M-30 以内和机场之间的固定价是 €33/车，适用条件当天再确认。27 日 17:45 从取行李的地方出发。Uber / Cabify 的浮动价不是这个固定价。箱子多，先确认装得下，并要收据。</p><p>出租目的地：Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再按登机牌去 T4S。</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
+      '<div class="pick" data-move-panel="fair"><p>23、24、25、27 日上午去 IFEMA，默认地铁。公寓步行到 Nuevos Ministerios，上 8 号线往 Aeropuerto T4 方向，到 Feria de Madrid，再按 ESMO 标识进馆。三段各留 15–20 分钟，门到门 55–60 分钟。不经过机场闸机，不用机场附加票。注意是地铁 8 号线，不是近郊铁路。回程坐往 Nuevos Ministerios 方向。25 日下午不走这条，17:05 带海报筒打车去论坛。</p><p><a href="' + LINK.aptToIfema + '" target="_blank" rel="noopener">公寓 → 会场</a> · <a href="' + LINK.ifemaBack + '" target="_blank" rel="noopener">会场 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="dinner"><p>23 日 18:45 从会场直接去 La Maruca Velázquez，Calle Velázquez 54，不绕回公寓。目标 20:00 到。走公共交通还是三人合乘，看当天导航。晚餐后回 Calle de Orense 22，重新导航。</p><p><a href="' + LINK.ifemaToDinner + '" target="_blank" rel="noopener">会场 → 晚餐</a> · <a href="' + gdir("La Maruca Velazquez, Calle Velazquez 54, Madrid", "Calle de Orense 22, Madrid") + '" target="_blank" rel="noopener">晚餐 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="party"><p>24 日从会场直接去，不绕回公寓。地铁 8 号线到 Nuevos Ministerios，再换公交到 Rosewood Villa Magna。地图大约 45 分钟，所以 16:15 左右离场。公寓到酒店公交大约 24 分钟、驾车大约 9 分钟。结束后重新导航回公寓。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="gc"><p>25 日 17:05 从会场直接去，带着海报筒，不绕回公寓。Hotel Puerta América，Avenida de América 41。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另算，目标 17:45 前到。三人合乘出租车。20:00 结束再回公寓，这段路网大约 3.7 公里、不含堵车大约 8 分钟。海报筒带回公寓，不要留在会场。</p><p><a href="' + LINK.ifemaToGc + '" target="_blank" rel="noopener">会场 → 论坛</a> · <a href="' + LINK.gcToApt + '" target="_blank" rel="noopener">论坛 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="old"><p>26 日不走丽池，也不去 Plaza Mayor。09:30 从公寓打车到普拉多约 5.1 公里、16 分钟。12:20 步行到 Posada 约 1.7 公里、24 分钟。14:25 步行到王宫约 1.4 公里、18 分钟，14:45 到优先入口。讲解后从王宫一带回公寓，三人合乘出租车，当天看导航。这一天不用地铁。</p><p><a href="' + LINK.aptToPrado + '" target="_blank" rel="noopener">公寓 → 普拉多</a> · <a href="' + LINK.pradoToPosada + '" target="_blank" rel="noopener">普拉多 → Posada</a> · <a href="' + LINK.posadaToPalace + '" target="_blank" rel="noopener">Posada → 王宫</a> · <a href="' + gdir("Palacio Real de Madrid", "Calle de Orense 22, Madrid", "driving") + '" target="_blank" rel="noopener">王宫 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="air"><p>22 日晚落地后，和 27 日去机场，都用正规出租车。M-30 以内和机场之间的固定价是 €33/车，适用条件当天再确认。27 日 17:45 从取行李的地方出发。Uber / Cabify 的浮动价不是这个固定价。箱子多，先确认装得下，并要收据。</p><p>去程行李在北京托运，直挂马德里，迪拜 T3 不取。回程在 T4 托运，直挂北京，迪拜也不取。出租目的地：Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再按登机牌去 T4S。</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
     );
   }
 
@@ -981,23 +983,28 @@
         "<p>先选你现在要去的地方。</p>" +
         moveHTML() +
         "<h3>交通票怎么买</h3>" +
-        "<p>完整会议注册的人，领证时确认附带交通票的有效日期和范围。两个展商证自费：各买一张 Tarjeta Multi（€2.50），先充十次票 Metrobús（€7.30），不够再充。每人 20 次加卡大约 €17.10，两人 €34.20。完整注册者在领到会议票之前，另付单程大约 €1.50–2。</p>" +
-        "<p>十次票不含近郊铁路。换乘 EMT 公交通常再扣一次。各自拿卡，方便分开走。售票机选 English，刷卡，收据留下。5 日 A 区旅游票是 €33.40/人，这次优先十次票。</p>" +
+        "<p>地铁和公交主要用在去会场，以及 23 日晚餐、24 日酒会如果走公共交通。26 日打车加步行，不扣次。25 日下午和 27 日去机场是出租车。</p>" +
+        "<p>完整会议注册的人，23 日领证时确认附带交通票能用哪些天、包不包括公交。两个展商证自费：各买一张 Tarjeta Multi（€2.50），先充十次票 Metrobús（€7.30），不够再充。每人 20 次加卡大约 €17.10，两人 €34.20。完整注册者在领到会议票之前，另付单程大约 €1.50–2。</p>" +
+        "<p>十次票不含近郊铁路。换乘 EMT 公交通常再扣一次，24 日酒会如果地铁换公交就会扣两次。各自拿卡。售票机选 English，刷卡，收据留下。5 日 A 区旅游票是 €33.40/人，这次仍优先十次票，不为 26 日单独买日票。</p>" +
         '<p><a href="' + LINK.crtm + '" target="_blank" rel="noopener">CRTM 票价</a> · <a href="' + LINK.esmoReg + '" target="_blank" rel="noopener">ESMO 注册权益</a> · <a href="' + LINK.ifemaHow + '" target="_blank" rel="noopener">IFEMA 怎么去</a></p>' +
-        "<h3>什么时候改打车</h3>" +
+        "<h3>哪一段用什么</h3>" +
         "<ul>" +
-        "<li>每天去会场：地铁，55–60 分钟。</li>" +
-        "<li>带海报、下雨、很累或赶时间：三人合乘。公寓和 IFEMA 之间按大约 €20–35/车留预算，不是实时报价。叫车、排队、进馆另外留时间。25 日 17:05 带海报筒去 Puerta América，也用这一档。</li>" +
-        "<li>老城里面步行。</li>" +
-        "<li>机场用正规出租车。固定价 €33/车的条件要当天确认。</li>" +
+        "<li><b>23、24、25、27 日上午去会场</b> 地铁，55–60 分钟。</li>" +
+        "<li><b>23 日 18:45 去晚餐、24 日 16:15 去酒会</b> 从会场直接走，不回公寓。赶不上或下雨，三人合乘。</li>" +
+        "<li><b>25 日 17:05</b> 带海报筒打车去 Puerta América，20:00 再打车回公寓。公寓和 IFEMA 之间如果临时改打车，按大约 €20–35/车留预算，不是实时报价。</li>" +
+        "<li><b>26 日</b> 09:30 打车去普拉多。普拉多到 Posada、Posada 到王宫步行。结束从王宫回公寓再打车。这一天不用地铁。</li>" +
+        "<li><b>机场</b> 22 日落地和 27 日出发用正规出租车。固定价 €33/车的条件要当天确认。</li>" +
         "</ul>" +
-        "<h3>27 日行李，按这个顺序</h3>" +
+        "<h3>行李按天</h3>" +
         "<ol>" +
-        "<li>首选房东。确认能否存到 17:15、谁收、下午怎么再进、钥匙何时还。</li>" +
-        "<li>备用：Nuevos Ministerios 附近的商业寄存。要早上就开门，至少覆盖到 17:30。预算 €5–8/件，3 件大约 €15–24，以订单为准。</li>" +
-        "<li>会场寄存只有在会务书面确认接受大箱子、并且取得出的时间合适之后才用。</li>" +
+        "<li><b>22 日</b> 在北京托运，直挂马德里。迪拜 T3 只转机，不取行李。落地 T4S 取完，出租车去公寓。</li>" +
+        "<li><b>23–24 日</b> 大箱子留在公寓。只带当天要用的包。</li>" +
+        "<li><b>25 日</b> 海报筒带到 Hall 5，17:00 取下后带去胃癌论坛，20:00 带回公寓。不要留在会场过夜。</li>" +
+        "<li><b>26 日</b> 大箱子和海报筒留在公寓。出门只带当天的小包。</li>" +
+        "<li><b>27 日</b> 07:00 退房。大箱子和海报筒交给寄存，17:15 取，17:45 去 T4 托运。回程直挂北京，迪拜不取。海报筒塞不进手提限额就一起托运。</li>" +
         "</ol>" +
-        "<p>不要默认地铁站有柜子，也不要默认公寓有前台。寄存开门太晚，早上去会场的时间就要提前。没有任何寄存，27 日就不要再加景点。</p>" +
+        "<p>寄存首选房东：能否存到 17:15、谁收、下午怎么再进、钥匙何时还。备用是 Nuevos Ministerios 附近的商业寄存，要早上就开门，至少覆盖到 17:30。预算 €5–8/件，3 件大约 €15–24，以订单为准。会场寄存只有会务书面确认接受大箱子、并且取得出的时间合适之后才用。</p>" +
+        "<p>不要默认地铁站有柜子，也不要默认公寓有前台。寄存开门太晚，27 日早上去会场就要提前。没有任何寄存，27 日就不要再加景点。</p>" +
         '<p><a href="' + LINK.luggage + '" target="_blank" rel="noopener">周边寄存</a> · <a href="' + LINK.aenaEk + '" target="_blank" rel="noopener">T4 的阿联酋柜台说明</a></p>'
     },
     {
