@@ -1096,7 +1096,7 @@
     },
     {
       id: "night",
-      title: "晚上有空时，以及礼物",
+      title: "晚上、礼物和安全",
       html:
         "<p>23 日晚餐、24 日酒会和 25 日胃癌论坛已经占了晚上。26 日晚饭后要收拾行李。轻量夜游只在还有精力时加上，不再单排一张夜间表。</p>" +
         "<ul>" +
@@ -1105,13 +1105,25 @@
         "<li>这次不去托莱多、塞哥维亚。有限的半天留给马德里市内。</li>" +
         "</ul>" +
         "<h3>礼物顺路买</h3>" +
+        "<p>按现在的 26 日：上午普拉多，午饭 Posada，下午王宫。Plaza Mayor 今天不走。位置用谷歌地图在 2026-10-21 核对，距离是坐标之间的直线。</p>" +
         "<ul>" +
-        "<li>喜欢艺术的人：画作书签、明信片、小册子。26 日普拉多商店，看完顺手。</li>" +
-        "<li>同事：磁贴、插画、当地设计小物。27 日如果路过 Plaza Mayor 的旅游信息中心手作店可以看，但不能耽误取行李。</li>" +
-        "<li>球迷：围巾、帽子。伯纳乌官方商店，营业和比赛日动线另核。</li>" +
+        "<li><b>普拉多馆内商店 Tienda Prado</b> 在博物馆里，Calle de Ruiz de Alarcón。看完、12:20 离开前买书签、明信片、冰箱贴。<span class=\"flag\">访客经验</span> 小红书 aprilila 把博物馆冰箱贴写进买到的东西里。</li>" +
+        "<li><b>王宫东侧 Madrid Souvenirs</b> Calle de Carlos III 1，在王宫坐标东边大约 310 米，是从 Posada 走进王宫的一侧。磁贴可以看一眼。<mark>14:45 必须到优先入口，不要在这里耗。</mark></li>" +
+        "<li><b>Posada 旁边 Curiosity shop</b> Calle de Latoneros 1，离餐厅大约 110 米。午饭门口的礼品店，小红书没有专门推荐这家。</li>" +
+        "<li><b>公寓楼下 Casa Elias</b> Orense 18。小食、巧克力。小红书写市区超市比机场便宜。火腿、肉肠、奶酪这次仍不列入带回，食品先对海关目录。</li>" +
         "</ul>" +
-        "<p>只买轻的、好收的。火腿、肉肠、奶酪这次不列入带回清单，食品先核对入境目录。</p>" +
-        '<p><a href="' + LINK.gifts + '" target="_blank" rel="noopener">礼物指南</a> · <a href="' + LINK.customs + '" target="_blank" rel="noopener">海关进境物品</a></p>'
+        "<p>不顺路、不为它们改路线：最近的 Mercadona 在 Calle del Pintor Juan Gris 3，离公寓大约 760 米，出租车去普拉多不经过。英国宫（El Corte Inglés）和 La Chinata 专柜也不在 26 日这条线上。只有晚上改去伯纳乌外观时，官方商店在 Calle del Padre Damián 3，离公寓大约 680 米，围巾和帽子；小红书有人在球场买围巾。</p>" +
+        '<p><a href="' + gsearch("Tienda Prado Calle de Ruiz de Alarcon Madrid") + '" target="_blank" rel="noopener">普拉多商店</a> · <a href="' + gsearch("Madrid Souvenirs Calle de Carlos III 1 Madrid") + '" target="_blank" rel="noopener">王宫东侧纪念品</a> · <a href="' + gsearch("Curiosity shop Calle de Latoneros 1 Madrid") + '" target="_blank" rel="noopener">Posada 旁礼品店</a> · <a href="' + gsearch("Casa Elias Calle de Orense 18 Madrid") + '" target="_blank" rel="noopener">Casa Elias</a></p>' +
+        '<p><a href="https://www.xiaohongshu.com/explore/6905a7280000000007003b1f" target="_blank" rel="noopener">小红书：aprilila，马德里伴手礼</a> · <a href="' + LINK.gifts + '" target="_blank" rel="noopener">马德里旅游局礼物指南</a> · <a href="' + LINK.customs + '" target="_blank" rel="noopener">海关进境物品</a></p>' +
+        "<h3>安全</h3>" +
+        "<ul>" +
+        "<li><b>西班牙紧急电话 112</b> 警察、急救、火警。护照或手机被抢，先打这个报案。</li>" +
+        "<li><b>中国驻西班牙大使馆领事保护 +34 91 543 88 77</b> 人身或财产紧急时打。证件咨询不要占这条线。使馆 2024-09-04 通知：工作日非办公时间和周末，这个电话转到外交部 12308。</li>" +
+        "<li><b>领侨处</b> C/Josefa Valcárcel 40, 1ª planta, 28027 Madrid。对外办公周一至周五 09:30–13:00。护照、旅行证专线 +34 91 320 61 81（工作日 09:30–11:30）。公证等 +34 91 741 47 28（工作日 15:30–17:30）。</li>" +
+        "<li><b>使馆馆址</b> C/Arturo Soria 113, 28043 Madrid。总机 +34 91 519 42 42。馆址和领侨处都不在 26 日普拉多—Posada—王宫的步行路线上。</li>" +
+        "</ul>" +
+        "<p>邮箱：领事保护 madrid_lb@csm.mfa.gov.cn；护照 madrid_hz@csm.mfa.gov.cn。微信公众号搜「中国驻西班牙使馆」。以上电话和地址来自使馆 2026-03-17 的领事服务页，以及外交部驻外机构名录。</p>" +
+        '<p><a href="tel:112">112</a> · <a href="tel:+34915438877">领事保护</a> · <a href="tel:+34915194242">使馆总机</a> · <a href="https://es.china-embassy.gov.cn/lqsw/lingshi13/" target="_blank" rel="noopener">使馆领事联系方式</a> · <a href="https://es.china-embassy.gov.cn/lqsw/lsbhhxz/202409/t20240904_11485270.htm" target="_blank" rel="noopener">领保电话转 12308</a> · <a href="https://www.112.es/" target="_blank" rel="noopener">西班牙 112</a></p>'
     },
     {
       id: "money",
