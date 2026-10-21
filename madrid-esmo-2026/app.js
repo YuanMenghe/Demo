@@ -123,7 +123,7 @@
       id: "d22",
       num: "22",
       weekday: "周四",
-      wx: "北京晴 17°/6° · 马德里少云 18°/7°",
+      wx: "少云 18°/7°",
       kicker: "北京出发 / 晚间入住",
       dateLabel: "10月22日",
       notes: [
@@ -1048,25 +1048,21 @@
       id: "toilet",
       title: "找厕所",
       html:
-        "<p><b>西班牙文 H 是男、M 是女</b>，和英语相反。看不清就看小人。密码印在小票最下面，用完再扔。很多厕所没有纸，包里带纸巾。餐厅密码一两周就可能换，下面的数字只作参考。</p>" +
-        "<p>位置用谷歌地图在 2026-10-18 核对，距离是直线，走路会更远一点。只把顺路的放在前面。</p>" +
-        "<h3>就在路线上</h3>" +
-        '<div class="place"><b>王宫入口</b><span>26 日 14:45</span><small>免费。讲解票 14:45 到优先入口，进门前用，宫里不要中途折返。</small></div>' +
-        '<div class="place"><b>普拉多对面汉堡王</b><span>直线约 210 米</span><small>Paseo del Prado 26。密码 1954。10:00 进馆前如果来得及，可以在这里。密码是访客经验。</small></div>' +
-        '<div class="place"><b>公寓附近 KFC</b><span>直线约 740 米</span><small>Calle de Bravo Murillo 168，靠近四路地铁。密码 1234。另一条笔记把四路地铁口写成 1304，不要和这家店混用。</small></div>' +
-        "<h3>老城边缘，不专程去</h3>" +
-        '<div class="place"><b>Jollibee 二楼</b><span>离 Posada 约 520 米</span><small>Calle del Arenal 4，密码 2821。在王宫和太阳门之间。26 日的路线不绕太阳门，路过再看。</small></div>' +
-        '<div class="place"><b>太阳门 KFC</b><span>离 Posada 约 500 米</span><small>Calle Mayor 1，密码 9620。在广场往太阳门的方向，今天不绕去。</small></div>' +
-        "<h3>不顺路，不写进行程</h3>" +
-        "<ul>" +
-        "<li>Goya 地铁麦当劳，Calle de Goya 70，密码 0000A。离 23 日晚餐直线约 680 米，离酒会酒店约 1.2 公里。</li>" +
-        "<li>议会大厦旁 Faborit，Plaza de las Cortes 4，密码 1793。离普拉多直线约 380 米，在馆的北侧，不在 Felipe IV 门进馆的那条路上。</li>" +
-        "<li>丽池大湖边的免费厕所，离 Felipe IV 门直线约 450 米。丽池不走。</li>" +
-        "<li>Atocha 二楼咖啡厅旁的免费厕所，离普拉多直线约 820 米。这几天不经过车站。</li>" +
-        "<li>托莱多市区汉堡王在另一座城，直线约 67 公里。塞维利亚不去。</li>" +
-        "<li>Gran Vía 公厕大约 €1 还要排队。24 日酒会后不去那里。</li>" +
-        "</ul>" +
-        "<p>找不到就进酒吧点一杯咖啡，大约 €1–2，这是当地常用的办法。密码以当场小票为准。</p>" +
+        "<p><b>西班牙文 H 是男、M 是女</b>，和英语相反。看不清就看小人。很多厕所没有纸，包里带纸巾。密码印在小票最下面，一两周就可能换，下面的数字只作参考。</p>" +
+        "<p>先用脚下这个地方的厕所。机场、会场、餐厅、酒店、博物馆都有，不为找厕所改路线。</p>" +
+        "<h3>机场</h3>" +
+        '<div class="place"><b>马德里 T4 / T4S</b><span>22 日、27 日</span><small>落地取行李、办票安检，都用航站楼里的。不出大厅。</small></div>' +
+        '<div class="place"><b>迪拜 T3</b><span>22 日、28 日</span><small>转机和 Ahlan 里都有。不出机场。</small></div>' +
+        "<h3>会场和晚上的三处</h3>" +
+        '<div class="place"><b>IFEMA</b><span>23、24、25、27 日</span><small>用馆内的。白天不出去找。</small></div>' +
+        '<div class="place"><b>La Maruca、Rosewood、Puerta América</b><span>23–25 日晚上</span><small>用餐厅或酒店自己的。</small></div>' +
+        "<h3>26 日</h3>" +
+        '<div class="place"><b>普拉多</b><span>10:00 进馆后</span><small>用馆内的。进馆前若来得及，对面汉堡王 Paseo del Prado 26，直线约 210 米，密码 1954。</small></div>' +
+        '<div class="place"><b>Posada</b><span>12:45</span><small>用餐厅的。不绕太阳门。</small></div>' +
+        '<div class="place"><b>王宫入口</b><span>14:45</span><small>免费。进门前用，宫里不要中途折返。</small></div>' +
+        "<h3>公寓</h3>" +
+        '<div class="place"><b>附近 KFC</b><span>直线约 740 米</span><small>Calle de Bravo Murillo 168，密码 1234。去会场的地铁不经过这里。四路地铁口笔记里的 1304 不是这家。</small></div>' +
+        "<p>太阳门、丽池、Atocha、Gran Vía 这几天不走。找不到就进酒吧点一杯咖啡，大约 €1–2。密码以当场小票为准。</p>" +
         '<p><a href="https://www.google.com/maps/search/?api=1&query=Burger+King+Paseo+del+Prado+26+Madrid" target="_blank" rel="noopener">普拉多对面汉堡王</a> · <a href="https://www.google.com/maps/search/?api=1&query=KFC+Calle+de+Bravo+Murillo+168+Madrid" target="_blank" rel="noopener">公寓附近 KFC</a></p>'
     },
     {
@@ -1100,7 +1096,7 @@
         "<h3>钱、衣服、充电</h3>" +
         "<ul>" +
         "<li>支付优先带能在境外用的 Visa/Mastercard 实体主卡和备卡，出发前打开境外交易。三人准备 €50–100 小面额欧元。支付宝和微信只是补充。终端如果问用人民币还是欧元结算，选 EUR，并看清费用。</li>" +
-        "<li>衣服：22 日北京晴，最高 17°C、最低 6°C，降水概率 0%。去机场时 04:00 为 5°C、体感 5°C，07:00 为 4°C、体感 4°C，穿薄长袖加一件外套。22 日马德里少云，最高 18°C、最低 7°C，降水概率 0%。西班牙气象局逐小时只发布到 19:00，当时 15°C、体感 15°C、高云；20:20 落地没有更晚的小时气温。外套穿在身上，不必带厚羽绒服。另备一套商务服装。预报截至 2026-10-21：22 日北京用 BBC，22 日马德里用西班牙气象局。</li>" +
+        "<li>衣服：22 日马德里少云，18°/7°。外套穿在身上，另备一套商务服装。</li>" +
         "<li>充电：西班牙插座是 C/F。电脑三脚插头确认能接上。充电器看输入电压。充电宝要符合航司规定。</li>" +
         "<li>每天随身：胸牌、必要证件、手机、充电宝、卡、少量现金、水、纸巾、后备小食。25 日加上海报筒和备份 PDF。</li>" +
         "</ul>" +
