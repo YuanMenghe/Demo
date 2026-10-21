@@ -90,7 +90,7 @@
       font-weight: 700;
       text-decoration: none;
     }
-    .names { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin: 0.8rem 0; }
+    .names { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 0.8rem 0; }
     .names a { text-align: center; font-size: 1.15rem; min-height: 44px; display: flex; align-items: center; justify-content: center; }
     .names a[aria-current="true"] {
       background: var(--accent);
@@ -141,13 +141,14 @@
     <nav class="names" aria-label="选择入场码">
       <a href="#yuan" data-who="yuan">袁</a>
       <a href="#ting" data-who="ting">婷</a>
+      <a href="#ming" data-who="ming">明</a>
     </nav>
     <figure class="pass">
       <img id="qr" alt="" width="444" height="444">
       <figcaption id="cap"></figcaption>
     </figure>
     <p class="hint" id="hint"></p>
-    <p class="note">这页和行程用同一个链接。拿到链接的人能打开这两张码。</p>
+    <p class="note">这页和行程用同一个链接。拿到链接的人能打开这三张码。</p>
   </main>
   <script>
     (function () {
@@ -157,7 +158,8 @@
       var FONT_LABEL = { sm: "小", md: "中", lg: "大", xl: "特大" };
       var PEOPLE = {
         yuan: { name: "袁", file: "tickets/prado-yuan.png", hint: "10:00 直接走入口。厅内不能拍照。屏幕调亮，正对扫码口。" },
-        ting: { name: "婷", file: "tickets/prado-ting.png", hint: "10:00 直接走入口。厅内不能拍照。屏幕调亮，正对扫码口。" }
+        ting: { name: "婷", file: "tickets/prado-ting.png", hint: "10:00 直接走入口。厅内不能拍照。屏幕调亮，正对扫码口。" },
+        ming: { name: "明", file: "tickets/prado-ming.png", hint: "10:00 直接走入口。厅内不能拍照。屏幕调亮，正对扫码口。" }
       };
       function themeNow() {
         return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";

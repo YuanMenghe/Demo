@@ -277,7 +277,8 @@
         { id: "b26-bf", time: "07:45", title: "公寓早餐", short: "公寓早餐", text: "简单吃完。09:30 打车去普拉多，大约 5.1 公里、16 分钟。", at: at(2026, 10, 26, 7, 45, MAD) },
         { id: "b26-prado", time: "10:00–12:20", title: "普拉多", short: "参观普拉多", text: "10:00 入馆，直接走入口。按西班牙绘画史看埃尔·格列柯、博斯、委拉斯开兹、戈雅，优先《宫娥》、博斯《人间乐园》和戈雅《1808年5月3日》。厅内不拍照。12:20 离开，步行到 Posada 约 1.7 公里、24 分钟。", links: [
           { href: "prado.html#yuan", label: "袁", same: true },
-          { href: "prado.html#ting", label: "婷", same: true }
+          { href: "prado.html#ting", label: "婷", same: true },
+          { href: "prado.html#ming", label: "明", same: true }
         ], at: at(2026, 10, 26, 10, 0, MAD) },
         { id: "b26-lunch", time: "12:45–14:25", title: "Posada de la Villa", short: "Posada 烤乳羊", text: "已订 10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。点菜按 3 人，先问当天烤乳羊份量和价格。14:25 离开，步行约 1.4 公里、18 分钟，14:45 到王宫优先入口。临时改人数要先联系餐厅。", links: [
           { label: "复制订位姓名", clip: "posadaName" }
@@ -359,7 +360,8 @@
     ] },
     { id: "prado", group: "now", title: "打开 26 日普拉多票", detail: "10月26日 10:00 入馆，直接走入口。大约留到 12:20，然后去 Posada。厅内不拍照。", links: [
       { href: "prado.html#yuan", label: "袁", same: true },
-      { href: "prado.html#ting", label: "婷", same: true }
+      { href: "prado.html#ting", label: "婷", same: true },
+      { href: "prado.html#ming", label: "明", same: true }
     ] },
     { id: "posada", group: "now", title: "26 日 Posada 已订，报这个名字", detail: "10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。改人数或取消先打 +34 91 366 18 60，或写 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
     { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。北京出门时间按住址倒推。" },
