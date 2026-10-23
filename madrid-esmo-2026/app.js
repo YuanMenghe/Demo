@@ -182,7 +182,8 @@
       kicker: "展台、可选 AI、TigerMed 酒会",
       dateLabel: "10月24日",
       notes: [
-        { kind: "warn", text: "酒会是 Seminar & Reception，邀请函写的是科学交流、行业分享和鸡尾酒。还不能确认够不够一顿晚饭。带一点零食；没吃饱，结束后补简餐。次日 07:00 要出门。" },
+        { kind: "ok", text: "有去酒店的免费 Uber。17:00–17:30 到 Hall 10、TigerMed 展台 1108，找他们的人。要 17:30 前到，就 17:00 到展台。这是 TigerMed 的展台，不是你们白天协助的那个。回程邮件没写免费车。" },
+        { kind: "warn", text: "酒会是 Seminar & Reception。这封邮件写的是分享、交谈和社交，没有菜单。还不能确认够不够一顿晚饭。带一点零食；没吃饱，结束后补简餐。次日 07:00 要出门。" },
         { kind: "warn", text: "LBA20 的 14:45–16:15、Hall 3 Bilbao Auditorium 来自第三方活动页，可能是整场时段，形式也有歧义。完整注册的人先用 ESMO Events 核对报告时间和权限。两位展商证不默认能进科学会议。" },
         { kind: "skip", text: "酒会后直接回公寓，不去 Gran Vía。" }
       ],
@@ -199,9 +200,9 @@
         { id: "b24-bf", time: "06:45–07:15", title: "公寓早餐", short: "公寓早餐", text: "然后 07:50 出门。", at: at(2026, 10, 24, 6, 45, MAD) },
         { id: "b24-in", time: "约 08:50", title: "到馆", short: "到展馆", text: "09:00 起协助展台。", at: at(2026, 10, 24, 8, 50, MAD) },
         { id: "b24-lunch", time: "12:15–13:00", title: "会场午餐", short: "会场午餐", text: "下午可继续展台，或去核对过的 AI 会。", at: at(2026, 10, 24, 12, 15, MAD) },
-        { id: "b24-ai", time: "14:45–16:15", title: "可选：LBA20", short: "可选 AI 会（先核实）", text: "“AI Driven Digital Pathology for the 70 Gene Recurrence Signature”。听完直接去酒会，展台交给商务。没权限或时间对不上，就留在展台。", at: at(2026, 10, 24, 14, 45, MAD) },
-        { id: "b24-leave", time: "16:15", title: "离开 IFEMA", short: "离开展台去酒会", text: "地图公共交通大约 45 分钟，其中走到 Feria de Madrid 站约 1 公里。驾车大约 21 分钟，不含散场堵车。来不及、下雨或太累，再比三人合乘出租车。", at: at(2026, 10, 24, 16, 15, MAD) },
-        { id: "b24-party", time: "17:30–21:00", title: "TigerMed 酒会", short: "TigerMed 酒会", text: "Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。约 17:00 到。结束后回公寓，回程时间不要假设和来时一样，重新导航。", links: [
+        { id: "b24-ai", time: "14:45–16:15", title: "可选：LBA20", short: "可选 AI 会（先核实）", text: "“AI Driven Digital Pathology for the 70 Gene Recurrence Signature”。听完去 Hall 10 展台 1108，不要直接出馆。没权限或时间对不上，就留在自己的展台，17:00 再去 1108。", at: at(2026, 10, 24, 14, 45, MAD) },
+        { id: "b24-leave", time: "17:00", title: "Hall 10 展台 1108", short: "坐免费 Uber 去酒会", text: "TigerMed 的人 17:00–17:30 在这里安排免费 Uber，只送到 Rosewood。地图驾车大约 21 分钟，不含堵车。邮件要求 17:30 前到，所以 17:00 到展台，不要卡到 17:30 才出发。不坐这班车，改公共交通要 16:15 离开，大约 45 分钟。", at: at(2026, 10, 24, 17, 0, MAD) },
+        { id: "b24-party", time: "17:30–21:00", title: "TigerMed 酒会", short: "TigerMed 酒会", text: "Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。17:30 前到。结束后回公寓，回程自己走，重新导航。", links: [
           { href: "tiger.html#yuan", label: "袁", same: true },
           { href: "tiger.html#ting", label: "婷", same: true },
           { href: "tiger.html#ming", label: "明", same: true }
@@ -374,7 +375,7 @@
     { id: "poster-pack", group: "before20", title: "海报筒和运输方式", detail: "按实际包装确认手提还是托运。手机留下 PDF 和上传成功的记录。", links: [{ href: LINK.poster, label: "海报说明" }] },
     { id: "talk", group: "before20", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
     { id: "gear", group: "before20", title: "证件、转换头、支付和衣服", detail: "境外可用的 Visa/Mastercard 主卡和备卡，€50–100 小面额现金，西班牙 C/F 转换头，线，充电宝，步行鞋，防风外套，一套展台和商务晚餐的衣服。临走看天气预报再决定加不加薄毛衣。" },
-    { id: "pass", group: "before20", title: "打开 24 日酒会入场码", detail: "Rosewood Villa Magna，17:30–21:00。点袁、婷、明。还不确定酒会算不算完整晚餐。", links: [
+    { id: "pass", group: "before20", title: "打开 24 日酒会入场码", detail: "Rosewood Villa Magna，17:30–21:00，17:30 前到。免费 Uber 在 Hall 10、展台 1108，17:00 去找 TigerMed 的人。还不确定酒会算不算完整晚餐。", links: [
       { href: "tiger.html#yuan", label: "袁", same: true },
       { href: "tiger.html#ting", label: "婷", same: true },
       { href: "tiger.html#ming", label: "明", same: true }
@@ -950,7 +951,7 @@
       "</div>" +
       '<div class="pick" data-move-panel="fair"><p>23、24、25、27 日上午去 IFEMA，默认地铁。公寓步行到 Nuevos Ministerios，上 8 号线往 Aeropuerto T4 方向，到 Feria de Madrid，再按 ESMO 标识进馆。三段各留 15–20 分钟，门到门 55–60 分钟。不经过机场闸机，不用机场附加票。注意是地铁 8 号线，不是近郊铁路。回程坐往 Nuevos Ministerios 方向。25 日下午不走这条，17:05 带海报筒打车去论坛。</p><p><a href="' + LINK.aptToIfema + '" target="_blank" rel="noopener">公寓 → 会场</a> · <a href="' + LINK.ifemaBack + '" target="_blank" rel="noopener">会场 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="dinner"><p>23 日 18:45 从会场直接去 La Maruca Velázquez，Calle Velázquez 54，不绕回公寓。目标 20:00 到。走公共交通还是三人合乘，看当天导航。晚餐后回 Calle de Orense 22，重新导航。</p><p><a href="' + LINK.ifemaToDinner + '" target="_blank" rel="noopener">会场 → 晚餐</a> · <a href="' + gdir("La Maruca Velazquez, Calle Velazquez 54, Madrid", "Calle de Orense 22, Madrid") + '" target="_blank" rel="noopener">晚餐 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="party"><p>24 日从会场直接去，不绕回公寓。地铁 8 号线到 Nuevos Ministerios，再换公交到 Rosewood Villa Magna。地图大约 45 分钟，所以 16:15 左右离场。公寓到酒店公交大约 24 分钟、驾车大约 9 分钟。结束后重新导航回公寓。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="party"><p>24 日优先坐 TigerMed 的免费 Uber。17:00 到 Hall 10、展台 1108，他们 17:00–17:30 在那里安排车，只送到 Rosewood。驾车大约 21 分钟，要 17:30 前到就不要晚出发。不坐这班车，再走地铁 8 号线到 Nuevos Ministerios 换公交，大约 45 分钟，那就得 16:15 离开。回公寓没有免费车，结束后重新导航。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="gc"><p>25 日 17:05 从会场直接去，带着海报筒，不绕回公寓。Hotel Puerta América，Avenida de América 41。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另算，目标 17:45 前到。三人合乘出租车。20:00 结束再回公寓，这段路网大约 3.7 公里、不含堵车大约 8 分钟。海报筒带回公寓，不要留在会场。</p><p><a href="' + LINK.ifemaToGc + '" target="_blank" rel="noopener">会场 → 论坛</a> · <a href="' + LINK.gcToApt + '" target="_blank" rel="noopener">论坛 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="old"><p>26 日不走丽池，也不去 Plaza Mayor。09:30 从公寓打车到普拉多约 5.1 公里、16 分钟。12:20 步行到 Posada 约 1.7 公里、24 分钟。14:25 步行到王宫约 1.4 公里、18 分钟，14:45 到优先入口。讲解后从王宫一带回公寓，三人合乘出租车，当天看导航。这一天不用地铁。</p><p><a href="' + LINK.aptToPrado + '" target="_blank" rel="noopener">公寓 → 普拉多</a> · <a href="' + LINK.pradoToPosada + '" target="_blank" rel="noopener">普拉多 → Posada</a> · <a href="' + LINK.posadaToPalace + '" target="_blank" rel="noopener">Posada → 王宫</a> · <a href="' + gdir("Palacio Real de Madrid", "Calle de Orense 22, Madrid", "driving") + '" target="_blank" rel="noopener">王宫 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="air"><p>22 日晚落地后，和 27 日去机场，都用正规出租车。M-30 以内和机场之间的固定价是 €33/车，适用条件当天再确认。27 日 17:45 从取行李的地方出发。Uber / Cabify 的浮动价不是这个固定价。箱子多，先确认装得下，并要收据。</p><p>去程行李在北京托运，直挂马德里，迪拜 T3 不取。回程在 T4 托运，直挂北京，迪拜也不取。出租目的地：Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再按登机牌去 T4S。</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
@@ -971,14 +972,14 @@
         "<li><b>迪拜休息室</b> 两段都在 T3，都不出机场。去程 11:35–14:30 是午饭，回程 07:40–11:00 是早餐。付费休息室要吃好，选和下一程登机口同一指廊的 Ahlan。阿联酋航空写指廊之间大约 30 分钟。</li>" +
         "<li><b>值机</b> 去程 10月20日 07:25 北京时间开放（EK309＋EK143）。回程 10月26日 04:45 北京时间开放，即马德里 10月25日 21:45（EK144＋EK308）。</li>" +
         "<li><b>晚餐</b> 23 日 20:00，La Maruca Velázquez，Calle Velázquez 54。餐厅不变，只改了时间。</li>" +
-        "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。入场码在酒会那一栏，点袁、婷、明。</li>" +
+        "<li><b>酒会</b> 24 日 17:30–21:00，Rosewood Villa Magna，Villa 22。17:00 到 Hall 10、展台 1108 坐免费 Uber，17:30 前到。入场码在酒会那一栏，点袁、婷、明。</li>" +
         "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>26 日</b> 03:30–04:00 周会。10:00 普拉多，12:45 Posada，15:00 王宫讲解。不去展台，不走丽池。</li>" +
         "<li><b>返程底线</b> 27 日 17:15 取行李，17:45 出发，18:15–18:30 到 T4。</li>" +
         "<li><b>28 日</b> 西班牙时间 04:00–05:00 RFP会，08:00 百济的会。人在回程。</li>" +
         "</ul>" +
-        "<p>已经完成的：纸质海报已打印，电子海报已上传，23 日晚餐已定，26 日普拉多、王宫和 Posada 已订，三人网络漫游已开通。现在优先的是 27 日行李寄存。展台号还未知。</p>" +
+        "<p>已经完成的：纸质海报已打印，电子海报已上传，23 日晚餐已定，26 日普拉多、王宫和 Posada 已订，三人网络漫游已开通。现在优先的是 27 日行李寄存。你们协助的展台号还未知。Hall 10 展台 1108 是 TigerMed 的，只用于 24 日免费 Uber。</p>" +
         '<p><button type="button" data-clip="card">复制随身联系卡</button></p>'
     },
     {
@@ -995,7 +996,8 @@
         "<h3>哪一段用什么</h3>" +
         "<ul>" +
         "<li><b>23、24、25、27 日上午去会场</b> 地铁，55–60 分钟。</li>" +
-        "<li><b>23 日 18:45 去晚餐、24 日 16:15 去酒会</b> 从会场直接走，不回公寓。赶不上或下雨，三人合乘。</li>" +
+        "<li><b>23 日 18:45 去晚餐</b> 从会场直接走，不回公寓。赶不上或下雨，三人合乘。</li>" +
+        "<li><b>24 日 17:00</b> 到 Hall 10 展台 1108，坐 TigerMed 的免费 Uber 去酒会。不坐这班车，16:15 走公共交通。</li>" +
         "<li><b>25 日 17:05</b> 带海报筒打车去 Puerta América，20:00 再打车回公寓。公寓和 IFEMA 之间如果临时改打车，按大约 €20–35/车留预算，不是实时报价。</li>" +
         "<li><b>26 日</b> 09:30 打车去普拉多。普拉多到 Posada、Posada 到王宫步行。结束从王宫回公寓再打车。这一天不用地铁。</li>" +
         "<li><b>机场</b> 22 日落地和 27 日出发用正规出租车。固定价 €33/车的条件要当天确认。</li>" +
@@ -1187,7 +1189,7 @@
       ["公寓 → 会场", "55–60 分钟", LINK.aptToIfema],
       ["会场 → 公寓", "回程 8 号线", LINK.ifemaBack],
       ["会场 → 晚餐", "23 日", LINK.ifemaToDinner],
-      ["会场 → 酒会", "24 日约 45 分钟", LINK.ifemaToRose],
+      ["会场 → 酒会", "24 日免费 Uber，17:00 从 1108", LINK.ifemaToRose],
       ["酒会 → 公寓", "结束后重开导航", LINK.roseToApt],
       ["会场 → 论坛", "25 日约 10 分钟车程", LINK.ifemaToGc],
       ["论坛 → 公寓", "20:00 后", LINK.gcToApt],
