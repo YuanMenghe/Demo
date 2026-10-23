@@ -128,7 +128,7 @@
       kicker: "北京出发 / 晚间入住",
       dateLabel: "10月22日",
       notes: [
-        { kind: "warn", text: "公寓没有 24 小时前台。出发前让房东发来晚到说明：楼层、门禁、钥匙位置、电话，并保存离线。入住按 22:00–23:00 准备，排队或行李延误就顺延。" },
+        { kind: "warn", text: "公寓没有 24 小时前台。22 日已按晚到入住。" },
         { kind: "skip", text: "当晚只吃轻食、休息。不安排景点。" }
       ],
       actions: [
@@ -183,7 +183,7 @@
       kicker: "展台、可选 AI、TigerMed 酒会",
       dateLabel: "10月24日",
       notes: [
-        { kind: "ok", text: "有去酒店的免费 Uber。你们的展台也在 Hall 10。17:00–17:30 到展台 1108，找 TigerMed 的人。要 17:30 前到，就 17:00 到 1108。回程邮件没写免费车。" },
+        { kind: "ok", text: "免费 Uber 的集合时间和展台，写在下面 17:00 那一栏。" },
         { kind: "warn", text: "酒会是 Seminar & Reception。这封邮件写的是分享、交谈和社交，没有菜单。还不能确认够不够一顿晚饭。带一点零食；没吃饱，结束后补简餐。次日 07:00 要出门。" },
         { kind: "warn", text: "LBA20 的 14:45–16:15、Hall 3 Bilbao Auditorium 来自第三方活动页，可能是整场时段，形式也有歧义。完整注册的人先用 ESMO Events 核对报告时间和权限。两位展商证不默认能进科学会议。" },
         { kind: "skip", text: "酒会后直接回公寓，不去 Gran Vía。" }
@@ -263,7 +263,7 @@
       kicker: "普拉多、Posada、王宫",
       dateLabel: "10月26日",
       notes: [
-        { kind: "ok", text: "这一天不去展台。上午 10:00 普拉多，12:45 Posada，15:00 王宫西班牙语讲解。丽池今天不插在午饭和王宫之间。" },
+        { kind: "ok", text: "这一天不去展台。上午 10:00 普拉多，12:45 Posada，15:00 王宫西班牙语讲解。丽池今天不走。" },
         { kind: "warn", text: "15:00 西班牙语讲解，14:45 到优先入口。周一开到 18:00，17:00 停止入场。普拉多周一 10:00–20:00。" }
       ],
       actions: [
@@ -303,7 +303,7 @@
       kicker: "退房、收尾、晚间返程",
       dateLabel: "10月27日",
       notes: [
-        { kind: "warn", text: "早上退房，行李直接带去会场，交给会务。17:30 在会务取，17:45 从会场出发，18:15–18:30 到 T4。" },
+        { kind: "warn", text: "早上退房，行李直接带去会场，交给会务。17:30 取，17:45 从会场出发。路网约 9 分钟，大约 18:00 到。出馆找车就再晚一点。" },
         { kind: "skip", text: "今天不再去王宫或老城，不进需要定时票的地方。午餐在会场。" }
       ],
       actions: [
@@ -317,8 +317,8 @@
         { id: "b27-go", time: "07:35", title: "带行李去会场", short: "带行李去 Hall 10", text: "地铁去 IFEMA，门到门仍按 55–60 分钟留。约 08:50 到，先交给会务，再去 Hall 10。09:00–12:15 协助收尾。", at: at(2026, 10, 27, 7, 35, MAD) },
         { id: "b27-lunch", time: "12:15 后", title: "会场简餐", short: "留在会场", text: "下午留在 Hall 10。不回公寓取行李。", at: at(2026, 10, 27, 12, 15, MAD) },
         { id: "b27-bag", time: "17:30", title: "会务取行李", short: "会务取行李", text: "取完就去上车。", at: at(2026, 10, 27, 17, 30, MAD) },
-        { id: "b27-taxi", time: "17:45", title: "从会场去机场", short: "出租车去 T4", text: "正规出租车。路网大约 5.3 公里、约 9 分钟，按 10 月 27 日 17:00 出发查的，不含出馆找车。不按 M-30 以内的 €33 固定价。目标 18:15–18:30 到。目的地设 Madrid-Barajas Terminal 4, Salidas, Emirates。路网数字来自 Google Maps。", at: at(2026, 10, 27, 17, 45, MAD) },
-        { id: "b27-t4", time: "18:15–18:30", title: "到 T4", short: "到达 T4", text: "取行李的地方如果更远、要退税或路况不好，再提前出发。", at: at(2026, 10, 27, 18, 15, MAD) },
+        { id: "b27-taxi", time: "17:45", title: "从会场去机场", short: "出租车去 T4", text: "正规出租车。路网大约 5.3 公里、约 9 分钟，按 10 月 27 日 17:00 出发查的，不含出馆找车。大约 18:00 到，找车就再晚一点。不按 M-30 以内的 €33 固定价。目的地设 Madrid-Barajas Terminal 4, Salidas, Emirates。路网数字来自 Google Maps。", at: at(2026, 10, 27, 17, 45, MAD) },
+        { id: "b27-t4", time: "约 18:00", title: "到 T4", short: "到达 T4", text: "值机、托运、安检、出境后，按登机牌去 T4S。21:45 起飞。", at: at(2026, 10, 27, 18, 0, MAD) },
         { id: "b27-fly", time: "21:45", title: "马德里起飞", short: "马德里起飞", text: "EK144，次日 07:40 到迪拜。", at: at(2026, 10, 27, 21, 45, MAD) }
       ]
     },
@@ -349,15 +349,12 @@
 
   const GROUPS = [
     { id: "now", title: "现在优先" },
-    { id: "before20", title: "10月20日前" },
-    { id: "day21", title: "10月21日装包" },
     { id: "during", title: "人在马德里时" },
     { id: "eve26", title: "26日晚之前" },
     { id: "done", title: "已经完成" }
   ];
 
   const CHECKS = [
-    { id: "landlord", group: "done", title: "27 日行李改存会务", detail: "早上退房后直接带去会场，交给会务。17:30 取，17:45 从会场去 T4。不再问房东寄存。" },
     { id: "palace", group: "now", title: "打开 26 日王宫票", detail: "10月26日 15:00 西班牙语讲解，只含王宫。14:45 到优先入口，14:55 到入口门厅集合点。", links: [
       { href: "palace.html#yuan", label: "袁", same: true },
       { href: "palace.html#ting", label: "婷", same: true },
@@ -369,14 +366,7 @@
       { href: "prado.html#ming", label: "明", same: true }
     ] },
     { id: "posada", group: "now", title: "26 日 Posada 已订，报这个名字", detail: "10月26日 12:45，3 人。到店报 MENGHE YUAN YUAN，没有二维码。改人数或取消先打 +34 91 366 18 60，或写 reservas@posadadelavilla.com。", links: [{ href: LINK.posada, label: "餐厅官网" }, { href: "tel:+34913661860", label: "打电话", tel: true }] },
-    { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。北京出门时间按住址倒推。" },
-    { id: "checkin-out", group: "before20", title: "10月20日 07:25（北京时间）去程值机", detail: "EK309＋EK143。用 PNR 和姓氏登录，尽早选相邻座位，保存两段登机牌。同一联程能否一次拿到两段，以系统显示为准。", links: [{ href: LINK.checkin, label: "在线值机" }] },
-    { id: "data", group: "done", title: "三人的网络漫游已开通", detail: "马德里用各自的卡。迪拜不出机场，用机场 Wi-Fi。不必再买当地 SIM。" },
-    { id: "apps", group: "before20", title: "把 App 和支付真正打开用一次", detail: "Google Maps、翻译、ESMO Events、Emirates、至少一个叫车软件已登录。叫车要完成 +86 短信验证并绑卡。至少一台手机能实时导航。国行安卓先确认 Google 服务能用。" },
-    { id: "poster-pack", group: "before20", title: "海报筒和运输方式", detail: "按实际包装确认手提还是托运。手机留下 PDF 和上传成功的记录。", links: [{ href: LINK.poster, label: "海报说明" }] },
-    { id: "talk", group: "before20", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
-    { id: "gear", group: "before20", title: "证件、转换头、支付和衣服", detail: "境外可用的 Visa/Mastercard 主卡和备卡，€50–100 小面额现金，西班牙 C/F 转换头，线，充电宝，步行鞋，防风外套，一套展台和商务晚餐的衣服。临走看天气预报再决定加不加薄毛衣。" },
-    { id: "pass", group: "before20", title: "打开 24 日酒会入场码", detail: "Rosewood Villa Magna，17:30–21:00，17:30 前到。免费 Uber 在 Hall 10、展台 1108，17:00 去找 TigerMed 的人。还不确定酒会算不算完整晚餐。", links: [
+    { id: "pass", group: "now", title: "打开 24 日酒会入场码", detail: "17:00 到 Hall 10 展台 1108 坐免费 Uber。入场码点袁、婷、明。", links: [
       { href: "tiger.html#yuan", label: "袁", same: true },
       { href: "tiger.html#ting", label: "婷", same: true },
       { href: "tiger.html#ming", label: "明", same: true }
@@ -386,18 +376,22 @@
       { href: "ticket.html#ting", label: "婷", same: true },
       { href: "ticket.html#ming", label: "明", same: true }
     ] },
-    { id: "offline", group: "day21", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、23 日袁的参会码、23 日晚餐地址、24 日三张酒会码、25 日三张入场码、26 日三张王宫票、26 日普拉多票、寄存订单。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏，普拉多票在 26 日普拉多那一栏。" },
-    { id: "remind", group: "day21", title: "设好回程值机提醒", detail: "10月26日 04:45 北京时间，也就是马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
-    { id: "to-pek", group: "day21", title: "确认 22 日怎么去首都机场", detail: "目标 04:25 到 T3。" },
-    { id: "weather", group: "day21", title: "看马德里天气，打开自动时区", detail: "按预报改衣服。不要用月平均气温代替出发那天。" },
-    { id: "packed", group: "day21", title: "随身文件、卡和海报包装收好", detail: "电子海报不用再做、也不用再传一次。" },
-    { id: "checkin-back", group: "during", title: "10月25日 21:45（马德里）办理回程值机", detail: "EK144＋EK308。尽早选座，保存登机牌。这是人已经在马德里之后的事。", links: [{ href: LINK.checkin, label: "在线值机" }] },
-    { id: "store-final", group: "done", title: "27 日行李存在会务", detail: "早上带去 IFEMA，17:30 在会务取，17:45 从会场去 T4。" },
+    { id: "eticket", group: "now", title: "核对正式电子客票和证件", detail: "三人姓名、航班、行李额度、直挂、护照，以及需要的签证或保险。" },
+    { id: "talk", group: "during", title: "准备 2–3 分钟英文讲解", detail: "加上方法、验证、局限这类常见问题。25 日 11:40 到 193P 板前，12:00–12:45 讲。" },
+    { id: "remind", group: "during", title: "设好回程值机提醒", detail: "马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
+    { id: "checkin-back", group: "during", title: "10月25日 21:45（马德里）办理回程值机", detail: "EK144＋EK308。尽早选座，保存登机牌。", links: [{ href: LINK.checkin, label: "在线值机" }] },
+    { id: "offline", group: "during", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、24 日三张酒会码、25 日三张入场码、26 日三张王宫票、26 日普拉多票。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏，普拉多票在 26 日普拉多那一栏。" },
+    { id: "bags", group: "eve26", title: "行李、海报筒、机场证件整理好", detail: "27 日从会场去 T4。路线存进手机。", links: [{ href: LINK.ifemaToT4, label: "会场 → T4" }] },
+    { id: "checkin-out", group: "done", title: "去程已经值机并起飞", detail: "EK309＋EK143。人已经在马德里。" },
+    { id: "to-pek", group: "done", title: "22 日已经到过首都机场", detail: "当天目标是 04:25 到 T3。" },
+    { id: "packed", group: "done", title: "随身文件和海报包装已带走", detail: "电子海报不用再做、也不用再传一次。" },
+    { id: "weather", group: "done", title: "出发当天的天气已经看过", detail: "手机自动时区保持开着。" },
+    { id: "data", group: "done", title: "三人的网络漫游已开通", detail: "马德里用各自的卡。迪拜不出机场，用机场 Wi-Fi。" },
+    { id: "store-final", group: "done", title: "27 日行李存在会务", detail: "早上带去 IFEMA，17:30 在会务取，17:45 从会场去 T4，大约 18:00 到。" },
     { id: "tickets-fit", group: "done", title: "26 日普拉多、王宫和 Posada 已订好", detail: "普拉多 10:00，Posada 12:45，王宫 15:00 讲解。不挪到 27 日。" },
-    { id: "bags", group: "eve26", title: "行李、海报筒、机场证件整理好", detail: "取行李的地方到 T4 的路线已经存进手机。", links: [{ href: LINK.t4, label: "T4 地图" }] },
     { id: "poster-done", group: "done", title: "纸质海报已打印，电子海报已上传", detail: "现场只用 193P 找板。" },
     { id: "dinner-done", group: "done", title: "23 日 20:00 商务晚餐已确定", detail: "餐厅仍是 La Maruca Velázquez，Calle Velázquez 54。" },
-    { id: "booth-done", group: "done", title: "展台由商务兜底", detail: "你们协助。不用再确认离场许可或撤展交接。参展时段除海报讲解外可以灵活调。" }
+    { id: "booth-done", group: "done", title: "展台由商务兜底", detail: "你们协助。展台在 Hall 10。" }
   ];
 
   const state = {
@@ -967,7 +961,7 @@
       html:
         "<p>同行 3 人：2 个展商证，1 个完整会议注册。袁的参会码在 23 日领证那一栏。展台由商务兜底，你们协助。除 25 日 193P 海报讲解外，参展时段可以灵活安排。</p>" +
         "<ul>" +
-        "<li><b>住宿</b> Calle de Orense 22, 28020 Madrid。22 日 15:00 后可入住，实际是当晚到达；27 日 11:00 前退房，实际早上退房并寄存行李。</li>" +
+        "<li><b>住宿</b> Calle de Orense 22, 28020 Madrid。22 日当晚已入住。27 日早上退房，行李带去会场交给会务。</li>" +
         "<li><b>去程</b> 22 日 PEK T3 07:25 → DXB T3 11:35；14:30 → MAD T4S 20:20。</li>" +
         "<li><b>回程</b> 27 日 MAD 21:45 → 28 日 DXB 07:40；11:00 → PEK T3 22:30。</li>" +
         "<li><b>迪拜休息室</b> 两段都在 T3，都不出机场。去程 11:35–14:30 是午饭，回程 07:40–11:00 是早餐。付费休息室要吃好，选和下一程登机口同一指廊的 Ahlan。阿联酋航空写指廊之间大约 30 分钟。</li>" +
@@ -977,7 +971,7 @@
         "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>26 日</b> 03:30–04:00 周会。10:00 普拉多，12:45 Posada，15:00 王宫讲解。不去展台，不走丽池。</li>" +
-        "<li><b>返程底线</b> 27 日 17:30 会务取行李，17:45 从会场出发，18:15–18:30 到 T4。</li>" +
+        "<li><b>返程底线</b> 27 日 17:30 会务取行李，17:45 从会场出发，大约 18:00 到 T4。</li>" +
         "<li><b>28 日</b> 西班牙时间 04:00–05:00 RFP会，08:00 百济的会。人在回程。</li>" +
         "</ul>" +
         "<p>已经完成的：纸质海报已打印，电子海报已上传，23 日晚餐已定，26 日普拉多、王宫和 Posada 已订，三人网络漫游已开通。袁已领到 5 日无限交通卡，婷和明的十次票已买。展台在 Hall 10，展台号还没写上。27 日行李存在会务。</p>" +
@@ -1083,9 +1077,9 @@
         "<p><mark>要吃好，用二维码选和下一程登机口同一指廊的 Ahlan。</mark> 去程 11:35 到、14:30 飞马德里，吃午饭；回程 07:40 到、11:00 飞北京，吃早餐。小红书 Orange一靓在 T3 B 区对比过：Ahlan 热食、冷盘、水果更全，适合吃饭；Marhaba 沙发多一些，笔记里看到淋浴。阿联酋航空写 Ahlan 的淋浴要走大约 10 分钟到别处。回程如果更想洗澡，再改同一指廊的 Marhaba。笔记作者说单次费用只能进一间。</p>" +
         "<p>有一次公开航班记录 EK143 从 A13 走，不代表 10 月 22 日仍是 A 指廊。EK308 只确认 T3，指廊看当天登机牌。指廊之间大约 30 分钟，2 小时 55 分和 3 小时 20 分都不够来回换区。</p>" +
         '<p><a href="' + LINK.ifemaWifi + '" target="_blank" rel="noopener">IFEMA 服务</a> · <a href="' + LINK.aenaWifi + '" target="_blank" rel="noopener">马德里机场 Wi-Fi</a> · <a href="https://www.xiaohongshu.com/explore/6ad2e206000000001802f87b" target="_blank" rel="noopener">小红书：少年，马德里机场 Wi-Fi</a> · <a href="https://media.dubaiairports.ae/passengers-enjoy-unlimited-free-high-speed-wi-fi-at-dxb-and-dwc/" target="_blank" rel="noopener">迪拜机场 Wi-Fi</a> · <a href="https://www.xiaohongshu.com/explore/6a3773040000000021008e99" target="_blank" rel="noopener">小红书：富士山下，免费电话卡</a> · <a href="https://www.emirates.com/english/before-you-fly/dubai-international-airport/transferring-between-terminals/" target="_blank" rel="noopener">阿联酋航空转机</a> · <a href="https://www.xiaohongshu.com/explore/699d8e1d000000002801c756" target="_blank" rel="noopener">小红书：Orange一靓，Ahlan 和 Marhaba</a></p>' +
-        "<h3>出发前每个 App 都登录一次</h3>" +
+        "<h3>这些 App 要能打开</h3>" +
         "<ul>" +
-        "<li><b>Google Maps</b> 保存公寓、会场、餐厅、寄存点、T4。下载离线地图，并给关键路线截图。离线地图没有公共交通的实时导航，不能代替流量。</li>" +
+        "<li><b>Google Maps</b> 保存公寓、会场、餐厅、T4。下载离线地图，并给关键路线截图。离线地图没有公共交通的实时导航，不能代替流量。</li>" +
         "<li><b>Google Translate</b> 下载西班牙语、中文和要用的英语包，试一次菜单拍照。</li>" +
         "<li><b>ESMO Events</b> 收藏 193P、AI 关键词和会场地图。</li>" +
         "<li><b>Cabify 或 Uber</b> 至少一个完成验证、绑卡，并能看到报价。</li>" +
@@ -1143,14 +1137,14 @@
       title: "三人预算",
       html:
         "<p>不含机票、住宿和注册费。商务招待如果请客，自费会更低。基础合计不含 26 日 Posada。</p>" +
-        '<div class="money"><span>两位展商十次票和卡</span><b>€34.20</b><small>婷和明已买。每人大约 20 次加卡。袁用 5 日无限卡，不在这笔里。</small></div>' +
+        '<div class="money"><span>两位展商十次票和卡</span><b>€19.60</b><small>婷和明已买十次票。一张卡 €2.50，一张十次票 €7.30，每人 €9.80。实付以小票为准。袁用 5 日无限卡，不在这笔里。</small></div>' +
         '<div class="money"><span>22 日机场出租车</span><b>€33</b><small>落地那趟。M-30 以内的固定价，条件以当天为准。27 日从会场去 T4 按计价器另计。</small></div>' +
         '<div class="money"><span>当地 SIM</span><b>不买</b><small>三人漫游已开通。</small></div>' +
         '<div class="money"><span>普拉多和王宫</span><b>€99</b><small>票已买。按（€15＋€18）×3 估算，实付以订单为准。</small></div>' +
         '<div class="money"><span>普通餐饮和超市</span><b>€450–630</b><small>还没扣除商务请客，也不含 Posada 这顿。</small></div>' +
         '<div class="money"><span>27 日会务存包</span><b>另计</b><small>存在会场。不再按商业寄存 €0–24 算。</small></div>' +
         '<div class="money"><span>额外市内出租车</span><b>€50–90</b><small>按需要才用。</small></div>' +
-        '<div class="total"><b>基础合计大约 €670–890</b><p>27 日会场到机场的车费和会务存包另计。购物另计。</p></div>' +
+        '<div class="total"><b>基础合计大约 €650–870</b><p>27 日会场到机场的车费和会务存包另计。购物另计。</p></div>' +
         '<div class="money"><span>26 日 Posada 烤乳羊</span><b>另计</b><small>3 人大约 €135–180，4 人大约 €180–240。这是按 €45–60/人做的保守总预算。只按公开菜单把菜加起来，可能更低。饮料、面包、甜品按实际点的算。</small></div>' +
         '<p><a href="' + LINK.practical + '" target="_blank" rel="noopener">马德里实用信息</a>。紧急电话 112。</p>'
     }

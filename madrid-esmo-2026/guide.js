@@ -37,7 +37,7 @@
     { id: "prado", label: "普拉多", children: [
       { id: "prado-works", label: "六幅锚点" },
       { id: "prado-more", label: "有余力再加" },
-      { id: "prado-pace", label: "3.5 小时" },
+      { id: "prado-pace", label: "2 小时 20 分" },
       { id: "prado-rules", label: "包、拍照、网络" }
     ]},
     { id: "backup", label: "备选", children: [
@@ -264,23 +264,21 @@
 
   function renderOld() {
     const stops = [
-      ["阿穆德纳外观 → 东方广场", "10–15 分钟", "看宫殿、大教堂、歌剧院的仪式轴线。大教堂主体晚至 19–20 世纪，不要当成中世纪古迹。旁边的旧城墙更接近早期城市。"],
-      ["Plaza de la Villa", "约 10 分钟", "三层市政建筑叠在一起：15 世纪 Lujanes 塔楼和宅邸、16 世纪 Cisneros 宅邸、17 世纪旧市政厅 Casa de la Villa。"],
-      ["Plaza Mayor", "10–15 分钟", "腓力三世 1617 年委托 Juan Gómez de Mora 改造。抬头看连排阳台：广场当时是节庆和仪式的露天剧场。中央骑马像是腓力三世，不是腓力四世。"],
-      ["走到 Posada", "5–10 分钟", "Cava Baja 延续着旧城旅店和酒馆。Posada de la Villa 创办于 1642 年，所以这顿饭接在城市史里。"]
+      ["阿穆德纳外观", "讲解后", "看宫殿、大教堂的仪式轴线。大教堂主体晚至 19–20 世纪，不要当成中世纪古迹。不进教堂。"],
+      ["东方广场", "接着看", "回看王宫正立面。看完回公寓，不再往城里走。"]
     ];
     const s = el("section", { id: "oldtown" });
     s.append(
-      el("p", { class: "kicker" }, "11:30–12:30"),
+      el("p", { class: "kicker" }, "讲解后 · 只看宫外"),
       el("h1", null, "老城"),
       el("p", null, el("mark", null, "王宫高地是权力中心，Villa 是市政核心，Mayor 是公共仪式剧场。")),
-      el("p", null, "这一小时是户外的城市史，不是路过拍照。午饭后不再折回。"),
-      el("h2", { id: "oldtown-order" }, "不走回头路"),
+      el("p", null, "这一段在王宫讲解之后，只看宫外。午饭已经在 Posada 吃过，不再沿 Cava Baja 走回去。"),
+      el("h2", { id: "oldtown-order" }, "今天只到这里"),
       el("div", { class: "card" },
-        el("p", null, "出宫就在 ", el("strong", null, "Plaza de la Armería"), " 回看正立面，接着 ", el("strong", null, "东方广场"), "。再往城内走到 ", el("strong", null, "Plaza de la Villa"), "，然后 ", el("strong", null, "Plaza Mayor"), "，最后沿 Cava Baja 去 Posada。这四段都在午饭前完成。"),
-        el("p", null, "阿穆德纳大教堂主体晚至 19–20 世纪，旁边的旧城墙才更接近早期城市。Plaza Mayor 中央骑马像是 ", el("strong", null, "腓力三世"), "，不是腓力四世。想尝鱿鱼三明治只在这里分食一份，队伍不能耽误 ", el("strong", null, "12:45"), "。")
+        el("p", null, "讲解结束，在 ", el("strong", null, "Plaza de la Armería"), " 回看正立面，接着看 ", el("strong", null, "阿穆德纳"), " 外观和 ", el("strong", null, "东方广场"), "。不进教堂，不往 ", el("strong", null, "Plaza Mayor"), " 走。"),
+        el("p", null, "Plaza Mayor 中央骑马像是腓力三世，不是腓力四世。今天不进这个广场，也不在这里吃东西。")
       ),
-      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "世界客和游子吟都把太阳门写成西班牙公路 ", el("strong", null, "0 公里"), "，广场上有熊抱草莓树。它在 Plaza Mayor 东边，今天不绕去。游子吟写广场大约长 129 米、宽 94 米，面包房之家外墙有壁画，九个拱门；抬头看即可，不进咨询处。无忧行还把圣米格尔市场、San Ginés 油条和赤足修道院排进同一上午。市场只在队伍很短时看一眼，油条和修道院今天不去。")
+      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "世界客和游子吟都把太阳门写成西班牙公路 ", el("strong", null, "0 公里"), "，广场上有熊抱草莓树。它在 Plaza Mayor 东边，今天不绕太阳门，也不进 Plaza Mayor。")
     );
     stops.forEach(function (st, i) {
       s.append(el("article", { class: "stop" },
@@ -330,7 +328,7 @@
     ];
     const s = el("section", { id: "retiro" });
     s.append(
-      el("p", { class: "kicker" }, "14:45–15:15 · 只走历史核心"),
+      el("p", { class: "kicker" }, "今天不走"),
       el("h1", null, "丽池"),
       figure(IMG.gate, "丽池 Felipe IV 门", "Felipe IV 门。图片来源：马德里旅游局。"),
       el("p", null, el("mark", null, "看的是王家园林怎样变成公共文化景观，不是环湖拍照。")),
@@ -343,9 +341,9 @@
     });
     s.append(
       el("h2", { id: "retiro-skip" }, "什么时候不要进园"),
-      el("div", { class: "note" }, el("p", null, "精神很好可以继续去大湖和阿方索十二世纪念碑，但必须在普拉多 16:00 前离园。更想看画，就不要为湖景挤时间。下雨、大风、封园，或 14:15 还没离开 Posada，直接去普拉多。")),
+      el("div", { class: "note" }, el("p", null, "26 日不进丽池。上午在普拉多，午饭在 Posada，下午是王宫。")),
       el("p", null, "公园 10 月至次年 3 月官方开放 ", el("strong", null, "06:00–22:00"), "。暴雨、强风可能封闭。免费 Wi-Fi 在 Cecilio Rodríguez Gardens，不在这条短线上，也不能覆盖全园。进园前截好出口和普拉多入口。"),
-      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "游子吟写水晶宫从 2023 年起大修、预计 2027 年再开放，和市政府说明一致。同一篇把阿尔卡拉门、阿方索十二世、水晶宫、玫瑰园排成 1 到 2 小时，还写湖上划船大约 €6、45 分钟。", el("strong", null, "今天不划船，也不绕大湖。"), "舒 lin 遇过风雨封园，所以 14:15 还没离开 Posada，或园门关着，就直接去普拉多。"),
+      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "游子吟写水晶宫从 2023 年起大修、预计 2027 年再开放，和市政府说明一致。同一篇把阿尔卡拉门、阿方索十二世、水晶宫、玫瑰园排成 1 到 2 小时，还写湖上划船大约 €6、45 分钟。", el("strong", null, "今天不进园，不划船，也不绕大湖。")),
       el("div", { class: "links" },
         ext("https://www.esmadrid.com/informacion-turistica/parque-del-retiro", "公园官方页"),
         ext("https://www.esmadrid.com/en/tourist-information/felipe-iv-gate", "Felipe IV 门"),
@@ -401,25 +399,25 @@
     s.append(renderWork());
     s.append(
       el("h2", { id: "prado-more" }, "有余力再加，不列入今天的必看"),
-      el("p", null, "知乎一篇藏品介绍还提到：范德魏登《下十字架》、安吉利科《圣母领报》、丢勒《亚当与夏娃》、老彼得·勃鲁盖尔《死亡的胜利》、委拉斯开兹《布雷达的投降》，以及戈雅的玛哈。这些能说明普拉多不止西班牙绘画，但和六幅主线不在同一条直线上。", el("strong", null, "18:45 之后如果还有力气，只加一幅"), "，优先《布雷达的投降》或玛哈，因为还连着委拉斯开兹和戈雅。其余留给下次。"),
+      el("p", null, "知乎一篇藏品介绍还提到：范德魏登《下十字架》、安吉利科《圣母领报》、丢勒《亚当与夏娃》、老彼得·勃鲁盖尔《死亡的胜利》、委拉斯开兹《布雷达的投降》，以及戈雅的玛哈。这些能说明普拉多不止西班牙绘画，但和六幅主线不在同一条直线上。", el("strong", null, "12:00 之后如果还有余力，只加一幅"), "，优先《布雷达的投降》或玛哈。12:20 离开。其余留给下次。"),
       el("p", null, "《1808年5月3日》有一种常见读法：前排是祈祷的僧侣、抬头的农民，和举起双手的市民，刑场在马德里郊外。普拉多官方更谨慎，说它不是当时的街头新闻。看的时候先相信画面上的光和两组人，不必背这个故事。"),
       ext("https://www.zhihu.com/tardis/bd/ans/2556884594", "知乎：馆藏里还被提到的作品"),
       ext("https://zhuanlan.zhihu.com/p/30780368", "知乎：《5月3日》的一种读法"),
-      el("h2", { id: "prado-pace" }, "3.5 小时怎么切"),
+      el("h2", { id: "prado-pace" }, "2 小时 20 分怎么切"),
       el("div", { class: "card" },
-        el("p", null, el("strong", null, "16:00–16:15"), " 存包，打开地图，先确认《宫娥》、博斯和戈雅当天在不在展。"),
-        el("p", null, el("strong", null, "16:15–17:05"), " 先看最想看的。拥挤就先看《宫娥》和博斯。"),
-        el("p", null, el("strong", null, "17:05–17:15"), " 坐下喝水。"),
-        el("p", null, el("strong", null, "17:15–18:45"), " 戈雅一组。动线不顺就跟地图，不要为了年代顺序来回折返。"),
-        el("p", null, el("strong", null, "18:45–19:15"), " 补埃尔·格列柯，或一位更喜欢的意大利 / 弗拉芒画家。不再追加十几件。"),
-        el("p", null, el("strong", null, "19:15–19:30"), " 洗手间、商店、离馆。周一至周六闭馆 20:00，离厅建议提前约 10 分钟。")
+        el("p", null, el("strong", null, "10:00–10:10"), " 入馆，打开地图，先确认《宫娥》、博斯和戈雅当天在不在展。"),
+        el("p", null, el("strong", null, "10:10–11:00"), " 先看最想看的。拥挤就先看《宫娥》和博斯。"),
+        el("p", null, el("strong", null, "11:00–11:10"), " 坐下喝水。"),
+        el("p", null, el("strong", null, "11:10–12:00"), " 戈雅一组。动线不顺就跟地图，不要为了年代顺序来回折返。"),
+        el("p", null, el("strong", null, "12:00–12:15"), " 有余力再看一幅。不再追加十几件。"),
+        el("p", null, el("strong", null, "12:15–12:20"), " 离馆。商店顺路就看，不要耽误去 Posada。")
       ),
       el("h2", { id: "prado-rules" }, "包、拍照、网络"),
       el("p", null, el("span", { class: "flag" }, "官方 2024 年 FAQ"), "边长达到 ", el("strong", null, "40×40 厘米"), " 的行李不能带进展厅，可放寄存，贵重物品自己拿着。展厅", el("strong", null, "不能拍照、不能录像"), "。允许拍照的是 Jerónimos 门厅、缪斯厅和回廊。"),
-      el("p", null, "Wi-Fi 以较新的说明为准：", el("mark", null, "不是整座馆，也不是只在 Café Prado。"), "2022 年 FAQ 写过 Café Prado；2024 年 9 月 FAQ 改成只在临时展厅和 Jerónimos 门厅。展厅里用提前下好的地图。Café Prado 在 Jerónimos 楼层，周一至周六大约开到 ", el("strong", null, "18:30"), "，你们 19:30 离馆，喝水不要留到最后。"),
-      el("p", null, "语音导览可以加在门票上，馆方标价大约 ", el("strong", null, "€5"), "，也能用自己的手机，自带耳机。西班牙语或英语的 90 分钟导览另加约 €10。长椅在爱奥尼亚画廊和 Jerónimos 门厅。14 岁以下要有成人同行。你们已经约了 ", el("strong", null, "16:00"), "，不必改去闭馆前两小时的免费时段，那段人往往更多。"),
-      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "wstcbh 在馆里走了大约 15 小时，写正门委拉斯开兹门平时不开，免费夜场才从那里排队；常用入口是北侧 0 层圣赫罗尼莫门，进门左手问询处可领中文地图。他遇到的是背包都要存、挎包可以带、水可以带但不能在展厅喝。官方界限仍是 ", el("strong", null, "40×40"), "，以当天安检为准。展厅号不按顺序连通，3.5 小时不要跟着他的三十集走完。"),
-      el("p", null, "komorebi 从《宫娥》起步，不按年代从祭坛画走起，和上面的切分一致。爱琴海的珍珠写前台有 1 小时、2 小时、3 小时手册，并说下午 3 点旅行团离开后人少。你们 16:00 进，仍按六幅走，不换手册。她写的 15 欧票价以你们已购票为准。wstcbh 把戈雅《阳伞》放在 2 层一带：18:45 后六幅已经看完，才按当天地图找它，找不到就停。"),
+      el("p", null, "Wi-Fi 以较新的说明为准：", el("mark", null, "不是整座馆，也不是只在 Café Prado。"), "2022 年 FAQ 写过 Café Prado；2024 年 9 月 FAQ 改成只在临时展厅和 Jerónimos 门厅。展厅里用提前下好的地图。喝水放在 11:00，12:20 离馆。"),
+      el("p", null, "语音导览可以加在门票上，馆方标价大约 ", el("strong", null, "€5"), "，也能用自己的手机，自带耳机。西班牙语或英语的 90 分钟导览另加约 €10。长椅在爱奥尼亚画廊和 Jerónimos 门厅。14 岁以下要有成人同行。票是 ", el("strong", null, "10:00"), " 入馆，", el("strong", null, "12:20"), " 离馆。不必改去闭馆前两小时的免费时段。"),
+      el("p", null, el("span", { class: "flag" }, "知乎访客经验"), "wstcbh 在馆里走了大约 15 小时，写正门委拉斯开兹门平时不开，免费夜场才从那里排队；常用入口是北侧 0 层圣赫罗尼莫门，进门左手问询处可领中文地图。他遇到的是背包都要存、挎包可以带、水可以带但不能在展厅喝。官方界限仍是 ", el("strong", null, "40×40"), "，以当天安检为准。展厅号不按顺序连通，今天只有 2 小时 20 分，不要跟着他的三十集走完。"),
+      el("p", null, "komorebi 从《宫娥》起步，不按年代从祭坛画走起，和上面的切分一致。爱琴海的珍珠写前台有 1 小时、2 小时、3 小时手册。你们 10:00 进、12:20 离馆，按六幅走，不换手册。她写的 15 欧票价以你们已购票为准。wstcbh 把戈雅《阳伞》放在 2 层一带：12:00 后六幅如果已经看完，才按当天地图找它，找不到就停。"),
       el("div", { class: "links" },
         ext("https://www.museodelprado.es/en/visit-the-museum", "官方参观和地图"),
         ext("https://www.museodelprado.es/en/visit/regulations", "参观规则"),

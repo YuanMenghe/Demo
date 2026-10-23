@@ -128,7 +128,7 @@
       el("p", null, S("它在回答："), "一个 16 世纪的西班牙贵族，怎样让别人一眼看出身份。"),
       el("p", null, S("先看："), "灰背景和黑衣，再看白手、金剑柄和白领，最后看他是否直视你。手按胸口在他的宗教画里更常见。馆方认为目前最有说服力的辨认，是托莱多城堡军事长官、王国首席公证人胡安·德·席尔瓦（Juan de Silva y de Ribera）。若是他，这个手势可以读成宣誓。这仍是一种辨认，不是定案。"),
       el("div", { class: "note" }, el("p", null, "先不要采信：他就是塞万提斯，或就是格列柯自己。1996 年修复前那种发黑、发白的样子，是后来的改绘和氧化光油，不是原画。")),
-      el("p", null, "馆藏编号 P000809。它从王室收藏来，1834 年入馆。停留 10–12 分钟。时间紧可以放到 18:45 之后。"),
+      el("p", null, "馆藏编号 P000809。它从王室收藏来，1834 年入馆。停留 10–12 分钟。时间紧就放在 12:00 之后，12:20 必须离馆。"),
       links(
         "https://www.museodelprado.es/en/the-collection/art-work/the-nobleman-with-his-hand-on-his-chest/9cb73bdf-66e8-4826-a79c-5de2b15a1da6", "普拉多作品页",
         "https://www.museodelprado.es/en/easy-to-read/the-gentleman-with-his-hand-on-his-chest-greco/8e210337-42d4-2e5f-600e-3b213119be48", "普拉多易读版"
