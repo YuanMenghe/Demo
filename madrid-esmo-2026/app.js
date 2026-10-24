@@ -165,13 +165,13 @@
       blocks: [
         { id: "b23-bf", time: "06:30–07:00", title: "公寓早餐", short: "公寓早餐", text: "在公寓吃。", at: at(2026, 10, 23, 6, 30, MAD) },
         { id: "b23-out", time: "07:20", title: "出门", short: "出门去领证", text: "目标 08:20 领到胸牌，约 09:00 到展台。第一次排队较长的话，到展台可以放到 09:10 左右。", at: at(2026, 10, 23, 7, 20, MAD) },
-        { id: "b23-badge", time: "08:20", title: "领证", short: "领胸牌和交通票", text: "袁到 Scan & Go 出示参会码。两封确认邮件是同一张码。袁已领到 5 日无限交通卡。婷和明的十次票已买。这张无限卡如果票面没写机场，不要拿它进 T4 闸机。", links: [
+        { id: "b23-badge", time: "08:20", title: "领证", short: "领胸牌和交通票", text: "袁的 5 日无限卡，婷和明的十次票，都已领到。", links: [
           { href: "badge.html", label: "袁的参会码", same: true }
         ], at: at(2026, 10, 23, 8, 20, MAD) },
         { id: "b23-booth", time: "约 09:00", title: "到展台", short: "到 Hall 10", text: "展台在 Hall 10。展台号还没写上。25 日海报在 Hall 5，不是同一个厅。", at: at(2026, 10, 23, 9, 0, MAD) },
         { id: "b23-lunch", time: "12:30–13:15", title: "会场午餐", short: "会场午餐", text: "不要中午回公寓，往返将近两小时。", at: at(2026, 10, 23, 12, 30, MAD) },
         { id: "b23-work", time: "13:15–18:00", title: "展台商务", short: "展台和客户交流", text: "下午以展台和客户交流为主。展台由商务兜底，你们协助。", at: at(2026, 10, 23, 13, 15, MAD) },
-        { id: "b23-leave", time: "18:45", title: "离开 IFEMA", short: "从会场出发去晚餐", text: "这是预留出发时刻，按当天导航调整。", at: at(2026, 10, 23, 18, 45, MAD) },
+        { id: "b23-leave", time: "18:45", title: "离开 IFEMA", short: "从会场出发去晚餐", text: "按导航去 La Maruca。", at: at(2026, 10, 23, 18, 45, MAD) },
         { id: "b23-dinner", time: "20:00", title: "La Maruca Velázquez", short: "商务晚餐", text: "Calle Velázquez 54。餐厅没变，时间已改为今晚。晚餐后回公寓。", at: at(2026, 10, 23, 20, 0, MAD) }
       ]
     },
@@ -202,7 +202,7 @@
         { id: "b24-in", time: "约 08:50", title: "到馆", short: "到展馆", text: "09:00 起协助展台。", at: at(2026, 10, 24, 8, 50, MAD) },
         { id: "b24-lunch", time: "12:15–13:00", title: "会场午餐", short: "会场午餐", text: "下午可继续展台，或去核对过的 AI 会。", at: at(2026, 10, 24, 12, 15, MAD) },
         { id: "b24-ai", time: "14:45–16:15", title: "可选：LBA20", short: "可选 AI 会（先核实）", text: "“AI Driven Digital Pathology for the 70 Gene Recurrence Signature”。听完去 Hall 10 展台 1108，不要直接出馆。没权限或时间对不上，就留在自己的展台，17:00 再去 1108。", at: at(2026, 10, 24, 14, 45, MAD) },
-        { id: "b24-leave", time: "17:00", title: "Hall 10 展台 1108", short: "坐免费 Uber 去酒会", text: "TigerMed 的人 17:00–17:30 在这里安排免费 Uber，只送到 Rosewood。地图驾车大约 21 分钟，不含堵车。邮件要求 17:30 前到，所以 17:00 到展台，不要卡到 17:30 才出发。不坐这班车，改公共交通要 16:15 离开，大约 45 分钟。", at: at(2026, 10, 24, 17, 0, MAD) },
+        { id: "b24-leave", time: "17:00", title: "Hall 10 展台 1108", short: "坐免费 Uber 去酒会", text: "TigerMed 在这里安排免费 Uber，只送到 Rosewood。17:00 到。驾车约 21 分钟。不坐这班，16:15 走公共交通，约 45 分钟。", at: at(2026, 10, 24, 17, 0, MAD) },
         { id: "b24-party", time: "17:30–21:00", title: "TigerMed 酒会", short: "TigerMed 酒会", text: "Rosewood Villa Magna，Villa 22，Paseo de la Castellana 22。17:30 前到。结束后回公寓，回程自己走，重新导航。", links: [
           { href: "tiger.html#yuan", label: "袁", same: true },
           { href: "tiger.html#ting", label: "婷", same: true },
@@ -303,7 +303,7 @@
       kicker: "退房、收尾、晚间返程",
       dateLabel: "10月27日",
       notes: [
-        { kind: "warn", text: "早上退房，行李直接带去会场，交给会务。17:30 取，17:45 从会场出发。路网约 9 分钟，大约 18:00 到。出馆找车就再晚一点。" },
+        { kind: "warn", text: "行李带去会场交会务。17:30 取，17:45 从会场去 T4。" },
         { kind: "skip", text: "今天不再去王宫或老城，不进需要定时票的地方。午餐在会场。" }
       ],
       actions: [
@@ -314,12 +314,12 @@
       ],
       blocks: [
         { id: "b27-bf", time: "06:15–06:45", title: "早餐", short: "早餐后退房", text: "07:00 退房。大箱子和海报筒随身带走，不留给房东。", at: at(2026, 10, 27, 6, 15, MAD) },
-        { id: "b27-go", time: "07:35", title: "带行李去会场", short: "带行李去 Hall 10", text: "地铁去 IFEMA，门到门仍按 55–60 分钟留。约 08:50 到，先交给会务，再去 Hall 10。09:00–12:15 协助收尾。", at: at(2026, 10, 27, 7, 35, MAD) },
+        { id: "b27-go", time: "07:35", title: "带行李去会场", short: "带行李去 Hall 10", text: "地铁去 IFEMA。约 08:50 到，先交给会务，再去 Hall 10。", at: at(2026, 10, 27, 7, 35, MAD) },
         { id: "b27-lunch", time: "12:15 后", title: "会场简餐", short: "留在会场", text: "下午留在 Hall 10。不回公寓取行李。", at: at(2026, 10, 27, 12, 15, MAD) },
         { id: "b27-bag", time: "17:30", title: "会务取行李", short: "会务取行李", text: "取完就去上车。", at: at(2026, 10, 27, 17, 30, MAD) },
-        { id: "b27-taxi", time: "17:45", title: "从会场去机场", short: "出租车去 T4", text: "正规出租车。路网大约 5.3 公里、约 9 分钟，按 10 月 27 日 17:00 出发查的，不含出馆找车。大约 18:00 到，找车就再晚一点。不按 M-30 以内的 €33 固定价。目的地设 Madrid-Barajas Terminal 4, Salidas, Emirates。路网数字来自 Google Maps。", at: at(2026, 10, 27, 17, 45, MAD) },
+        { id: "b27-taxi", time: "17:45", title: "从会场去机场", short: "出租车去 T4", text: "正规出租车。约 5.3 公里、9 分钟，约 18:00 到。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。Google Maps", at: at(2026, 10, 27, 17, 45, MAD) },
         { id: "b27-t4", time: "约 18:00", title: "到 T4", short: "到达 T4", text: "值机、托运、安检、出境后，按登机牌去 T4S。这时是北京 28 日 01:00，可以睡。21:45 起飞。", at: at(2026, 10, 27, 18, 0, MAD) },
-        { id: "b27-fly", time: "21:45", title: "马德里起飞", short: "马德里起飞", text: "EK144，次日 07:40 到迪拜。北京时间 04:45 起飞。候机和起飞后到北京 10:00 可以睡，大约 5 小时 15 分，到马德里时间 28 日 03:00。北京 10:00 之后不睡。", at: at(2026, 10, 27, 21, 45, MAD) }
+        { id: "b27-fly", time: "21:45", title: "马德里起飞", short: "马德里起飞", text: "EK144，次日 07:40 到迪拜。候机和起飞后可以睡，到马德里时间 28 日 03:00。之后不睡。", at: at(2026, 10, 27, 21, 45, MAD) }
       ]
     },
     {
@@ -330,7 +330,7 @@
       kicker: "迪拜转机 / 回到北京",
       dateLabel: "10月28日",
       notes: [
-        { kind: "ok", text: "第一程到北京 10:00 可以睡。第二程 EK308 整段不睡。落地后再睡。" },
+        { kind: "ok", text: "第一程睡到马德里时间 28 日 03:00。第二程整段不睡。落地后再睡。" },
         { kind: "skip", text: "迪拜不安排出机场，也不订酒店。" }
       ],
       actions: [
@@ -338,7 +338,7 @@
       ],
       blocks: [
         { id: "b28-rfp", time: "西班牙 04:00–05:00", title: "RFP会", short: "RFP会", text: "北京时间 11:00–12:00。迪拜 07:40 落地，会开在落地前后。", at: at(2026, 10, 28, 4, 0, MAD) },
-        { id: "b28-dxb", time: "迪拜 07:40", title: "到迪拜", short: "迪拜转机", text: "北京时间 11:40。T3 转机 3 小时 20 分，不出机场。到北京 15:00 起飞都不睡。这顿是早餐。看 EK308 登机牌上的指廊，用同一张选休息室二维码进同一指廊的 Ahlan。想洗澡再改同一指廊的 Marhaba，不要跨指廊。", at: at(2026, 10, 28, 7, 40, DXB) },
+        { id: "b28-dxb", time: "迪拜 07:40", title: "到迪拜", short: "迪拜转机", text: "北京时间 11:40。T3 转机，不出机场，不睡。看 EK308 登机牌上的指廊，用同一张选休息室二维码进同一指廊的 Ahlan。想洗澡再改同一指廊的 Marhaba，不要跨指廊。", at: at(2026, 10, 28, 7, 40, DXB) },
         { id: "b28-bei", time: "西班牙 08:00", title: "百济的会", short: "百济的会", text: "北京时间 15:00。和迪拜 11:00 起飞同一时刻。", at: at(2026, 10, 28, 8, 0, MAD) },
         { id: "b28-fly", time: "迪拜 11:00", title: "起飞回北京", short: "迪拜起飞", text: "EK308。北京时间 15:00 起飞，22:30 落地。这一程整段不睡。", at: at(2026, 10, 28, 11, 0, DXB) },
         { id: "b28-home", time: "北京 22:30", title: "到首都机场 T3", short: "抵达北京", text: "入境取行李后回家。已经是北京夜里，可以睡。", at: at(2026, 10, 28, 22, 30, BJ) }
@@ -947,10 +947,10 @@
       "</div>" +
       '<div class="pick" data-move-panel="fair"><p>23、24、25、27 日上午去 IFEMA，默认地铁。公寓步行到 Nuevos Ministerios，上 8 号线往 Aeropuerto T4 方向，到 Feria de Madrid，再按 ESMO 标识进馆。三段各留 15–20 分钟，门到门 55–60 分钟。不经过机场闸机，不用机场附加票。注意是地铁 8 号线，不是近郊铁路。回程坐往 Nuevos Ministerios 方向。25 日下午不走这条，17:05 带海报筒打车去论坛。</p><p><a href="' + LINK.aptToIfema + '" target="_blank" rel="noopener">公寓 → 会场</a> · <a href="' + LINK.ifemaBack + '" target="_blank" rel="noopener">会场 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="dinner"><p>23 日 18:45 从会场直接去 La Maruca Velázquez，Calle Velázquez 54，不绕回公寓。目标 20:00 到。走公共交通还是三人合乘，看当天导航。晚餐后回 Calle de Orense 22，重新导航。</p><p><a href="' + LINK.ifemaToDinner + '" target="_blank" rel="noopener">会场 → 晚餐</a> · <a href="' + gdir("La Maruca Velazquez, Calle Velazquez 54, Madrid", "Calle de Orense 22, Madrid") + '" target="_blank" rel="noopener">晚餐 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="party"><p>24 日优先坐 TigerMed 的免费 Uber。17:00 到 Hall 10、展台 1108，他们 17:00–17:30 在那里安排车，只送到 Rosewood。驾车大约 21 分钟，要 17:30 前到就不要晚出发。不坐这班车，再走地铁 8 号线到 Nuevos Ministerios 换公交，大约 45 分钟，那就得 16:15 离开。回公寓没有免费车，结束后重新导航。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
+      '<div class="pick" data-move-panel="party"><p>17:00 到 Hall 10 展台 1108，坐 TigerMed 的免费 Uber 去 Rosewood。驾车约 21 分钟。不坐这班，16:15 走公共交通，约 45 分钟。回公寓自己走。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="gc"><p>25 日 17:05 从会场直接去，带着海报筒，不绕回公寓。Hotel Puerta América，Avenida de América 41。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另算，目标 17:45 前到。三人合乘出租车。20:00 结束再回公寓，这段路网大约 3.7 公里、不含堵车大约 8 分钟。海报筒带回公寓，不要留在会场。</p><p><a href="' + LINK.ifemaToGc + '" target="_blank" rel="noopener">会场 → 论坛</a> · <a href="' + LINK.gcToApt + '" target="_blank" rel="noopener">论坛 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="old"><p>26 日不走丽池，也不去 Plaza Mayor。09:30 从公寓打车到普拉多约 5.1 公里、16 分钟。12:20 步行到 Posada 约 1.7 公里、24 分钟。14:25 步行到王宫约 1.4 公里、18 分钟，14:45 到优先入口。讲解后从王宫一带回公寓，三人合乘出租车，当天看导航。这一天不用地铁。</p><p><a href="' + LINK.aptToPrado + '" target="_blank" rel="noopener">公寓 → 普拉多</a> · <a href="' + LINK.pradoToPosada + '" target="_blank" rel="noopener">普拉多 → Posada</a> · <a href="' + LINK.posadaToPalace + '" target="_blank" rel="noopener">Posada → 王宫</a> · <a href="' + gdir("Palacio Real de Madrid", "Calle de Orense 22, Madrid", "driving") + '" target="_blank" rel="noopener">王宫 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="air"><p>22 日晚落地后用正规出租车回公寓。M-30 以内和机场之间的固定价是 €33/车，适用条件以当天为准。27 日 17:45 从会场出发，路网大约 5.3 公里、约 9 分钟，不按这个固定价。Uber / Cabify 的浮动价不是官方出租车价。箱子多，先确认装得下，并要收据。</p><p>去程行李在北京托运，直挂马德里，迪拜 T3 不取。回程在 T4 托运，直挂北京，迪拜也不取。出租目的地：Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再按登机牌去 T4S。路网数字来自 Google Maps。</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.ifemaToT4 + '" target="_blank" rel="noopener">会场 → T4</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
+      '<div class="pick" data-move-panel="air"><p>22 日落地打车回公寓，固定价 €33/车。27 日 17:45 从会场去 T4，约 5.3 公里、9 分钟。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。T4 办票，再去 T4S。Google Maps</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.ifemaToT4 + '" target="_blank" rel="noopener">会场 → T4</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
     );
   }
 
@@ -973,7 +973,7 @@
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>26 日</b> 03:30–04:00 周会。10:00 普拉多，12:45 Posada，15:00 王宫讲解。不去展台，不走丽池。</li>" +
         "<li><b>返程底线</b> 27 日 17:30 会务取行李，17:45 从会场出发，大约 18:00 到 T4。</li>" +
-        "<li><b>回程睡觉</b> 按北京时间。22:00–10:00 可以睡，10:00–22:00 不睡。27 日候机和 EK144 前 5 小时 15 分可以睡。迪拜转机不睡。EK308 整段不睡，落地后再睡。</li>" +
+        "<li><b>回程睡觉</b> 第一程到马德里时间 28 日 03:00 可以睡。第二程整段不睡。落地后再睡。</li>" +
         "<li><b>28 日</b> 西班牙时间 04:00–05:00 RFP会，08:00 百济的会。人在回程。</li>" +
         "</ul>" +
         "<p>已经完成的：纸质海报已打印，电子海报已上传，23 日晚餐已定，26 日普拉多、王宫和 Posada 已订，三人网络漫游已开通。袁已领到 5 日无限交通卡，婷和明的十次票已买。展台在 Hall 10，展台号还没写上。27 日行李存在会务。</p>" +
@@ -986,8 +986,7 @@
         "<p>先选你现在要去的地方。</p>" +
         moveHTML() +
         "<h3>交通票</h3>" +
-        "<p>袁用已经领到的 5 日无限卡。婷和明的十次票已经买了，各自拿自己的卡。26 日打车加步行，不扣次。无限卡如果票面没写机场，不要拿它进 T4 闸机。</p>" +
-        "<p>十次票不含近郊铁路。换乘 EMT 公交通常再扣一次。24 日如果改走地铁换公交，婷和明会扣两次。不够再充。5 日 A 区旅游票是 €33.40/人，这次不买。</p>" +
+        "<p>袁用 5 日无限卡。婷和明用已买的十次票。十次票不含近郊铁路，换乘公交通常再扣一次。无限卡没写机场，就不要拿它进 T4。</p>" +
         '<p><a href="' + LINK.crtm + '" target="_blank" rel="noopener">CRTM 票价</a> · <a href="' + LINK.esmoReg + '" target="_blank" rel="noopener">ESMO 注册权益</a> · <a href="' + LINK.ifemaHow + '" target="_blank" rel="noopener">IFEMA 怎么去</a></p>' +
         "<h3>哪一段用什么</h3>" +
         "<ul>" +
@@ -996,7 +995,7 @@
         "<li><b>24 日 17:00</b> 到 Hall 10 展台 1108，坐 TigerMed 的免费 Uber 去酒会。不坐这班车，16:15 走公共交通。</li>" +
         "<li><b>25 日 17:05</b> 带海报筒打车去 Puerta América，20:00 再打车回公寓。公寓和 IFEMA 之间如果临时改打车，按大约 €20–35/车留预算，不是实时报价。</li>" +
         "<li><b>26 日</b> 09:30 打车去普拉多。普拉多到 Posada、Posada 到王宫步行。结束从王宫回公寓再打车。这一天不用地铁。</li>" +
-        "<li><b>机场</b> 22 日落地用正规出租车，M-30 以内固定价 €33/车，条件以当天为准。27 日 17:45 从会场去 T4，路网大约 5.3 公里、约 9 分钟，不按这个固定价。</li>" +
+        "<li><b>机场</b> 22 日落地 €33/车。27 日 17:45 从会场去 T4，约 5.3 公里、9 分钟。</li>" +
         "</ul>" +
         "<h3>行李按天</h3>" +
         "<ol>" +
@@ -1006,7 +1005,7 @@
         "<li><b>26 日</b> 大箱子和海报筒留在公寓。出门只带当天的小包。</li>" +
         "<li><b>27 日</b> 07:00 退房，大箱子和海报筒带去会场交给会务。17:30 取，17:45 从会场去 T4 托运。回程直挂北京，迪拜不取。海报筒塞不进手提限额就一起托运。</li>" +
         "</ol>" +
-        "<p>不再把房东或商业寄存当主方案。会务存包收不收费，以现场为准。</p>" +
+        "<p>27 日行李交给会务。收费看现场。</p>" +
         '<p><a href="' + LINK.luggage + '" target="_blank" rel="noopener">商业寄存只作备用</a> · <a href="' + LINK.aenaEk + '" target="_blank" rel="noopener">T4 的阿联酋柜台说明</a></p>'
     },
     {
@@ -1139,12 +1138,12 @@
       title: "三人预算",
       html:
         "<p>不含机票、住宿和注册费。商务招待如果请客，自费会更低。基础合计不含 26 日 Posada。</p>" +
-        '<div class="money"><span>两位展商十次票和卡</span><b>€19.60</b><small>婷和明已买十次票。一张卡 €2.50，一张十次票 €7.30，每人 €9.80。实付以小票为准。袁用 5 日无限卡，不在这笔里。</small></div>' +
-        '<div class="money"><span>22 日机场出租车</span><b>€33</b><small>落地那趟。M-30 以内的固定价，条件以当天为准。27 日从会场去 T4 按计价器另计。</small></div>' +
+        '<div class="money"><span>两位展商十次票和卡</span><b>€19.60</b><small>婷和明已买。卡 €2.50，十次票 €7.30。</small></div>' +
+        '<div class="money"><span>22 日机场出租车</span><b>€33</b><small>27 日从会场去 T4 另计。</small></div>' +
         '<div class="money"><span>当地 SIM</span><b>不买</b><small>三人漫游已开通。</small></div>' +
         '<div class="money"><span>普拉多和王宫</span><b>€99</b><small>票已买。按（€15＋€18）×3 估算，实付以订单为准。</small></div>' +
         '<div class="money"><span>普通餐饮和超市</span><b>€450–630</b><small>还没扣除商务请客，也不含 Posada 这顿。</small></div>' +
-        '<div class="money"><span>27 日会务存包</span><b>另计</b><small>存在会场。不再按商业寄存 €0–24 算。</small></div>' +
+        '<div class="money"><span>27 日会务存包</span><b>另计</b><small>存在会场。</small></div>' +
         '<div class="money"><span>额外市内出租车</span><b>€50–90</b><small>按需要才用。</small></div>' +
         '<div class="total"><b>基础合计大约 €650–870</b><p>27 日会场到机场的车费和会务存包另计。购物另计。</p></div>' +
         '<div class="money"><span>26 日 Posada 烤乳羊</span><b>另计</b><small>3 人大约 €135–180，4 人大约 €180–240。这是按 €45–60/人做的保守总预算。只按公开菜单把菜加起来，可能更低。饮料、面包、甜品按实际点的算。</small></div>' +
