@@ -127,10 +127,7 @@
       wx: "少云 18°/7°",
       kicker: "北京出发 / 晚间入住",
       dateLabel: "10月22日",
-      notes: [
-        { kind: "warn", text: "公寓没有 24 小时前台。22 日已按晚到入住。" },
-        { kind: "skip", text: "当晚只吃轻食、休息。不安排景点。" }
-      ],
+      notes: [],
       actions: [
         { label: "复制公寓地址", clip: "apt" },
         { label: "公寓地图", href: LINK.apt },
@@ -152,10 +149,7 @@
       wx: "少云 19°/11°",
       kicker: "领证、展台、20:00 商务晚餐",
       dateLabel: "10月23日",
-      notes: [
-        { kind: "warn", text: "Rosewood 是明天的酒会酒店，不是今天的晚餐。今天只去 La Maruca Velázquez。不要套用酒会的交通时间。" },
-        { kind: "skip", text: "原拟的伯纳乌夜间散步取消。第一天晚上回公寓。" }
-      ],
+      notes: [],
       actions: [
         { label: "袁的参会码", href: "badge.html", same: true },
         { label: "会场 → 餐厅", href: LINK.ifemaToDinner },
@@ -182,12 +176,7 @@
       wx: "高云 19°/6°",
       kicker: "展台、可选 AI、TigerMed 酒会",
       dateLabel: "10月24日",
-      notes: [
-        { kind: "ok", text: "免费 Uber 的集合时间和展台，写在下面 17:00 那一栏。" },
-        { kind: "warn", text: "酒会是 Seminar & Reception。这封邮件写的是分享、交谈和社交，没有菜单。还不能确认够不够一顿晚饭。带一点零食；没吃饱，结束后补简餐。次日 07:00 要出门。" },
-        { kind: "warn", text: "LBA20 的 14:45–16:15、Hall 3 Bilbao Auditorium 来自第三方活动页，可能是整场时段，形式也有歧义。完整注册的人先用 ESMO Events 核对报告时间和权限。两位展商证不默认能进科学会议。" },
-        { kind: "skip", text: "酒会后直接回公寓，不去 Gran Vía。" }
-      ],
+      notes: [],
       actions: [
         { label: "袁的票", href: "tiger.html#yuan", same: true },
         { label: "婷的票", href: "tiger.html#ting", same: true },
@@ -257,10 +246,7 @@
       wx: "晴 20°/10°",
       kicker: "普拉多、Posada、王宫",
       dateLabel: "10月26日",
-      notes: [
-        { kind: "ok", text: "这一天不去展台。上午 10:00 普拉多，12:45 Posada，15:00 王宫西班牙语讲解。丽池今天不走。" },
-        { kind: "warn", text: "15:00 西班牙语讲解，14:45 到优先入口。周一开到 18:00，17:00 停止入场。普拉多周一 10:00–20:00。" }
-      ],
+      notes: [],
       actions: [
         { label: "王宫票", href: "palace.html", same: true },
         { label: "公寓 → 普拉多", href: LINK.aptToPrado },
@@ -297,10 +283,7 @@
       wx: "晴 20°/10°",
       kicker: "退房、收尾、晚间返程",
       dateLabel: "10月27日",
-      notes: [
-        { kind: "warn", text: "行李带去会场交会务。17:30 取，17:45 从会场去 T4。" },
-        { kind: "skip", text: "今天不再去王宫或老城，不进需要定时票的地方。午餐在会场。" }
-      ],
+      notes: [],
       actions: [
         { label: "复制出租目的地", clip: "t4" },
         { label: "T4 地图", href: LINK.t4 },
@@ -324,10 +307,7 @@
       wx: "晴 20°/10°",
       kicker: "迪拜转机 / 回到北京",
       dateLabel: "10月28日",
-      notes: [
-        { kind: "ok", text: "第一程睡到马德里时间 28 日 03:00。第二程整段不睡。落地后再睡。" },
-        { kind: "skip", text: "迪拜不安排出机场，也不订酒店。" }
-      ],
+      notes: [],
       actions: [
         { label: "在线值机", href: LINK.checkin }
       ],
