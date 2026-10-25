@@ -1238,6 +1238,11 @@
     if (t.hasAttribute("data-day") && !t.hasAttribute("data-action")) {
       state.day = t.getAttribute("data-day");
       state.tab = "plan";
+      const now = Date.now();
+      if (state.day === todayId(now)) {
+        const day = DAYS.filter(function (d) { return d.id === state.day; })[0];
+        state.anchor = focusBlockId(day, now);
+      }
       try { sessionStorage.setItem("esmo-day", state.day); } catch (err) {}
       renderAll();
       return;
@@ -1351,6 +1356,18 @@
     return "d" + d;
   }
 
+  function focusBlockId(day, now) {
+    if (!day || !day.blocks.length) return "";
+    let cur = null;
+    let next = null;
+    day.blocks.forEach(function (b) {
+      if (now >= b.at) cur = b;
+      else if (!next) next = b;
+    });
+    const block = cur || next;
+    return block ? block.id : "";
+  }
+
   function readStart() {
     const h = (location.hash || "").replace("#", "");
     if (h === "list" || h === "book") {
@@ -1365,7 +1382,10 @@
       return;
     }
     state.tab = "plan";
-    state.day = todayId(Date.now());
+    const now = Date.now();
+    state.day = todayId(now);
+    const day = DAYS.filter(function (d) { return d.id === state.day; })[0];
+    state.anchor = focusBlockId(day, now);
   }
 
   function init() {
