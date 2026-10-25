@@ -217,12 +217,7 @@
       wx: "晴 19°/9°",
       kicker: "Poster 193P，晚间胃癌论坛",
       dateLabel: "10月25日",
-      notes: [
-        { kind: "warn", text: "凌晨 03:00 拨回 02:00。此后马德里比北京晚 7 小时（拨慢之前是晚 6 小时）。12:00 讲解对应北京时间 19:00。手机自动时区保持开着，日历用 Europe/Madrid。" },
-        { kind: "ok", text: "纸质海报已打印，电子海报已上传。现场找板用 193P，早期摘要编号是 #2234。带海报筒和手机里的 PDF。" },
-        { kind: "warn", text: "18:00–19:00 主办方写成 Networking Dinner，没有菜单，不要当成已确认的多道正餐。19:00 后是学术讨论。这是 eChinaHealth 的独立活动，不是 ESMO 主办。" },
-        { kind: "skip", text: "今天不排 El Rastro，也不出城。Las Jarritas 周日 11:00 才开门，早餐必须前一晚在公寓备好。取海报后直接去论坛，不先回公寓。" }
-      ],
+      notes: [],
       actions: [
         { label: "复制 193P", clip: "poster" },
         { label: "复制论坛地址", clip: "gc" },
@@ -1357,21 +1352,40 @@
     }
   }
 
+  function todayId(now) {
+    const fmt = new Intl.DateTimeFormat("en-US", {
+      timeZone: MAD,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
+    const parts = {};
+    fmt.formatToParts(new Date(now)).forEach(function (p) {
+      if (p.type !== "literal") parts[p.type] = p.value;
+    });
+    const y = Number(parts.year);
+    const mo = Number(parts.month);
+    const d = Number(parts.day);
+    if (y < 2026 || (y === 2026 && mo < 10) || (y === 2026 && mo === 10 && d < 22)) return "d22";
+    if (y > 2026 || (y === 2026 && mo > 10) || (y === 2026 && mo === 10 && d > 28)) return "d28";
+    return "d" + d;
+  }
+
   function readStart() {
     const h = (location.hash || "").replace("#", "");
-    if (h === "list" || h === "book" || h === "plan") state.tab = h;
-    else if (/^b2[2-8]-/.test(h)) {
+    if (h === "list" || h === "book") {
+      state.tab = h;
+      return;
+    }
+    if (/^b2[2-8]-/.test(h)) {
       state.tab = "plan";
       state.day = "d" + h.slice(1, 3);
       state.anchor = h;
       landedBlock = h;
-    } else if (/^d2[2-8]$/.test(h)) {
-      state.tab = "plan";
-      state.day = h;
-    } else {
-      const active = activeDayId(Date.now());
-      if (active) state.day = active;
+      return;
     }
+    state.tab = "plan";
+    state.day = todayId(Date.now());
   }
 
   function init() {
