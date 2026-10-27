@@ -123,9 +123,9 @@
   function renderLine() {
     const s = el("section", { id: "line" });
     s.append(
-      el("p", { class: "kicker" }, "10月27日 · 约 18:00 到 T4"),
+      el("p", { class: "kicker" }, "10月27日 · 约 18:10 到 T4"),
       el("h1", null, "先退税，再安检，进卫星楼就睡"),
-      el("p", null, el("mark", null, "出发时间仍是 17:10，约 18:00 到。这一页不改行程。")),
+      el("p", null, el("mark", null, "17:10 从 Calle del Dr. Santero 附近出发，约 18:10 到。")),
       el("h2", { id: "line-thread" }, "一条线"),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "1 · 出发大厅"),
@@ -146,10 +146,10 @@
         el("a", { class: "go", href: "#main" }, "主楼有什么")
       ),
       el("h2", { id: "sleep" }, "睡觉时间"),
-      el("p", null, el("mark", null, "从到机场到起飞，是北京时间 28 日 01:00–04:45，可以睡。")),
+      el("p", null, el("mark", null, "从到机场到起飞，是北京时间 28 日 01:10–04:45，可以睡。")),
       el("article", { class: "stop" },
-        el("p", { class: "when" }, "马德里 27 日约 18:00"),
-        el("p", null, "北京 28 日 01:00。到 T4，可以睡。")
+        el("p", { class: "when" }, "马德里 27 日约 18:10"),
+        el("p", null, "北京 28 日 01:10。到 T4，可以睡。")
       ),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "马德里 21:45"),
