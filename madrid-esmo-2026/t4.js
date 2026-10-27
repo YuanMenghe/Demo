@@ -28,9 +28,8 @@
   ];
   const CHECKS = [
     { id: "vat-forms", t: "退税单和护照放在手提袋最上面。没有退税单就跳过。" },
-    { id: "vat-goods", t: "要退税的东西先别托运。机器或柜台可能要看实物。" },
-    { id: "ek308", t: "托运时问柜台要 EK308 的登机牌。" },
-    { id: "bag-pek", t: "看行李条终点是不是 PEK。写 DXB 就要在迪拜取再托。" }
+    { id: "vat-goods", t: "要退税的东西放在随身袋外层。三人都不托运。" },
+    { id: "ek308", t: "没有 EK308 登机牌，先在网上或出发大厅自助机补。" }
   ];
   let checks = new Set();
   let notes = {};
@@ -125,7 +124,7 @@
     const s = el("section", { id: "line" });
     s.append(
       el("p", { class: "kicker" }, "10月27日 · 约 18:00 到 T4"),
-      el("h1", null, "先退税，再托运，进卫星楼就睡"),
+      el("h1", null, "先退税，再安检，进卫星楼就睡"),
       el("p", null, el("mark", null, "出发时间仍是 17:10，约 18:00 到。这一页不改行程。")),
       el("h2", { id: "line-thread" }, "一条线"),
       el("article", { class: "stop" },
@@ -135,9 +134,9 @@
         el("a", { class: "go", href: "#tax" }, "看位置和照片")
       ),
       el("article", { class: "stop" },
-        el("p", { class: "when" }, "2 · 托运"),
-        el("h2", null, "第一段已经值机"),
-        el("p", null, "柜台在 T4 二层 720–729。问他们要第二段 EK308 的登机牌，并看行李条终点。"),
+        el("p", { class: "when" }, "2 · 安检"),
+        el("h2", null, "没有托运行李"),
+        el("p", null, "三人只有随身行李。EK144 登机牌已经有了，直接安检。EK308 还没有的，先用出发大厅自助机，不用去托运柜台。"),
         el("a", { class: "go", href: "#dxb" }, "第二段在哪办")
       ),
       el("article", { class: "stop" },
@@ -176,8 +175,8 @@
     s.append(
       el("p", { class: "kicker" }, "进安检之前 · 出发大厅"),
       el("h1", null, "退税"),
-      el("p", null, el("mark", null, "要退的东西先拿在手里，扫完、拿完钱，再托运。")),
-      el("p", null, el("span", { class: "flag ok" }, "官方"), "Aena 写：西班牙购物、从西班牙离开欧盟，在 DIVA 自助机上做电子签注。自助机过不了，去旁边的发票签注处。T4 签注处 ", el("strong", null, "7:00–22:00"), "。机器在 T4 二层值机区，第三方机场页写在柜台 ", el("strong", null, "840、850"), " 附近和安检口附近。货物要在场，所以放进托运行李之前办。"),
+      el("p", null, el("mark", null, "三人只有随身行李。要退的东西就在身上，扫完、拿完钱，再安检。")),
+      el("p", null, el("span", { class: "flag ok" }, "官方"), "Aena 写：西班牙购物、从西班牙离开欧盟，在 DIVA 自助机上做电子签注。自助机过不了，去旁边的发票签注处。T4 签注处 ", el("strong", null, "7:00–22:00"), "。机器在 T4 二层值机区，第三方机场页写在柜台 ", el("strong", null, "840、850"), " 附近和安检口附近。货物要在场。你们没有托运行李，出发大厅就能看。"),
       el("div", { class: "links" },
         ext("https://www.aena.es/es/adolfo-suarez-madrid-barajas/servicios-del-aeropuerto/categorias-y-terminales/devolucion-de-iva.html", "Aena 退税位置"),
         ext("https://www.aeropuertomadrid-barajas.com/eng/complementary-passenger-services.htm", "值机区机器位置")
@@ -196,7 +195,7 @@
       el("h2", { id: "tax-big" }, "大额、别国单据"),
       el("p", null, "噜噜大王写：不是在西班牙买的，机器扫不了，去 960 旁边人工盖章，再把信封投进黄筒。单件超过 ", el("strong", null, "5000 欧"), "，或西班牙单据机器失败，她下到到达层 0、10 号出口，逆着出站人流，说 custom tax refund。小南瓜的南写这一步还要再进 T4S，安检过去大约 22 分钟，并建议提前 3–4 小时到。"),
       el("p", null, el("mark", null, "提前 3–4 小时不采用。你们仍是 17:10 出发。")),
-      el("p", null, "Janice lee 写到达层那一步不用去，出发大厅能办完。两边都是访客。没有单件超过 5000 欧、单据也都是西班牙的，就留在出发大厅。托运柜台还开着优先于把税退完。"),
+      el("p", null, "Janice lee 写到达层那一步不用去，出发大厅能办完。两边都是访客。没有单件超过 5000 欧、单据也都是西班牙的，就留在出发大厅。安检优先于把税退完，20:15 前要过完安检。"),
       el("div", { class: "links" },
         ext("https://www.xiaohongshu.com/explore/6ac652ac000000001203ca7d?xsec_token=ABvGnXinptAc7nSUYWHDkguhFCR9Dw9xsBPPL4t-wonYo=&xsec_source=pc_feed", "小南瓜的南：大额和误机")
       ),
@@ -241,28 +240,27 @@
     s.append(
       el("p", { class: "kicker" }, "EK144 已值机 · EK308 还没有"),
       el("h1", null, "第二段登机牌"),
-      el("p", null, el("mark", null, "行李条如果写着 PEK，迪拜不用再称、也不用取行李。")),
+      el("p", null, el("mark", null, "回程没有托运行李，迪拜不用取，也不用再称。")),
       el("h2", { id: "dxb-pass" }, "三个地方可以拿到"),
       el("ul", null,
-        el("li", null, el("strong", null, "今晚 T4 柜台。"), "托运时让工作人员把 EK308 登机牌打出来。柜台 720–729。"),
         el("li", null, el("strong", null, "网上。"), "同一订单有时还能补办后一段，以页面显示为准。"),
-        el("li", null, el("strong", null, "迪拜 T3 转机柜台。"), "两段都是阿联酋，都在 3 号航站楼。落地后跟着 Connections 标志走，不出境、不取行李。官方写联程行李会挂到终点；登机牌如果出发时没给全，在转机柜台领。")
+        el("li", null, el("strong", null, "今晚 T4 出发大厅。"), "自助机或值机柜台都能补第二段登机牌。不用去托运。柜台在二层 720–729。"),
+        el("li", null, el("strong", null, "迪拜 T3 转机柜台。"), "两段都是阿联酋，都在 3 号航站楼。落地后跟着 Connections 标志走，不出境。登机牌如果出发时没给全，在转机柜台领。")
       ),
       el("div", { class: "links" },
         ext("https://www.emirates.com/cn/english/manage-booking/online-check-in/", "在线值机"),
         ext("https://www.emirates.com/english/before-you-fly/dubai-international-airport/transferring-between-terminals/", "阿联酋：迪拜转机和行李"),
         ext("https://www.aena.es/en/madrid-barajas-adolfo-suarez/airlines/emirates.html", "Aena：柜台 720–729")
       ),
-      el("h2", { id: "dxb-bag" }, "要不要再称"),
-      el("p", null, el("span", { class: "flag ok" }, "官方"), "阿联酋写：两段阿联酋航班、迪拜衔接少于 24 小时，行李直挂终点，转机时取不到，除非工作人员另有安排。你们 07:40 到、11:00 走，间隔大约 3 小时 20 分。重量在马德里已经称过。"),
-      el("p", null, "行李条终点要是只有 DXB，那就是没直挂。到了迪拜要取出来再托一次，那一次会再称。"),
+      el("h2", { id: "dxb-bag" }, "不用再称"),
+      el("p", null, el("span", { class: "flag ok" }, "官方"), "阿联酋写：只有随身行李、登机牌已经在手，可以直接去登机口。托运行李直挂是给交运行李的。你们三人回程都没有托运。"),
       el("div", { class: "links" },
-        ext("https://www.emirates.com/english/help/faq-topics/baggage-and-lost-property/", "阿联酋：联程行李")
+        ext("https://www.emirates.com/english/help/faq-topics/preparing-to-travel/faq/how-can-i-receive-my-boarding-pass/", "阿联酋：只有随身行李")
       ),
       el("h2", { id: "pek" }, "熟食和香肠"),
       el("p", null, el("span", { class: "flag ok" }, "官方"), "农业农村部、海关总署公告第 470 号：", el("strong", null, "（生或熟）肉类及其制品"), "禁止携带、寄递进境。密封包装不在例外里。托运和手提都算携带。"),
-      el("p", null, el("span", { class: "flag" }, "访客经验"), "淡定姐写浦东取行李时，检疫犬在传送带上把肉类罐头、奶酪、香肠闻出来，行李被拉去开箱，食品没收。她写西班牙火腿香肠是常被查到的一类，随身和托运都会闻。"),
-      el("p", null, "评论里也有人说量少可以过。那不是规定，这一页不把它当成办法。已经放进行李的，到北京向海关申报。"),
+      el("p", null, el("span", { class: "flag" }, "访客经验"), "淡定姐写浦东取行李时，检疫犬把肉类罐头、奶酪、香肠闻出来，开箱后没收。她写随身和托运都会查。你们没有托运行李，北京入境查的就是随身包。"),
+      el("p", null, "评论里也有人说量少可以过。那不是规定，这一页不把它当成办法。已经放进随身包的，到北京向海关申报。"),
       el("div", { class: "links" },
         ext("https://www.moa.gov.cn/nybgb/2022/202202/202203/t20220324_6393815.htm", "公告第 470 号"),
         ext("https://www.xiaohongshu.com/explore/6ac250c1000000001301bc66?xsec_token=ABAPVHhe_E0uDMv8cNL2KOM4baoVfsI2zlaxjoRWVjqNA=&xsec_source=pc_feed", "淡定姐：检疫犬和没收")
