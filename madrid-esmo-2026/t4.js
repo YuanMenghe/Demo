@@ -11,9 +11,9 @@
       { id: "sleep", label: "睡觉时间" }
     ]},
     { id: "tax", label: "退税", children: [
-      { id: "tax-where", label: "出发大厅" },
+      { id: "tax-where", label: "四步" },
       { id: "tax-cash", label: "拿钱" },
-      { id: "tax-big", label: "大额和别国" }
+      { id: "tax-big", label: "没扫过" }
     ]},
     { id: "main", label: "主楼", children: [
       { id: "main-shop", label: "J 区店铺" },
@@ -130,8 +130,8 @@
       el("article", { class: "stop" },
         el("p", { class: "when" }, "1 · 出发大厅"),
         el("h2", null, "有退税单就先办"),
-        el("p", null, "在二层出发大厅扫 DIVA，要现金的就在同一层拿。办完再去阿联酋柜台。"),
-        el("a", { class: "go", href: "#tax" }, "看位置和照片")
+        el("p", null, "按四步走：找到机器，一张一张扫。绿了就在同一层拿钱，红了去旁边柜台。然后安检。"),
+        el("a", { class: "go", href: "#tax-where" }, "打开这四步")
       ),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "2 · 安检"),
@@ -173,31 +173,63 @@
   function renderTax() {
     const s = el("section", { id: "tax" });
     s.append(
-      el("p", { class: "kicker" }, "进安检之前 · 出发大厅"),
-      el("h1", null, "退税"),
-      el("p", null, el("mark", null, "三人只有随身行李。要退的东西就在身上，扫完、拿完钱，再安检。")),
-      el("p", null, el("span", { class: "flag ok" }, "官方"), "Aena 写：西班牙购物、从西班牙离开欧盟，在 DIVA 自助机上做电子签注。自助机过不了，去旁边的发票签注处。T4 签注处 ", el("strong", null, "7:00–22:00"), "。机器在 T4 二层值机区，第三方机场页写在柜台 ", el("strong", null, "840、850"), " 附近和安检口附近。货物要在场。你们没有托运行李，出发大厅就能看。"),
-      el("div", { class: "links" },
-        ext("https://www.aena.es/es/adolfo-suarez-madrid-barajas/servicios-del-aeropuerto/categorias-y-terminales/devolucion-de-iva.html", "Aena 退税位置"),
-        ext("https://www.aeropuertomadrid-barajas.com/eng/complementary-passenger-services.htm", "值机区机器位置")
+      el("p", { class: "kicker" }, "出发大厅 · 安检之前"),
+      el("h1", null, "退税就这四步"),
+      el("p", null, el("mark", null, "没有退税单就跳过，直接安检。有单就在出发大厅办完再安检。")),
+      el("h2", { id: "tax-where" }, "四步"),
+      el("article", { class: "stop" },
+        el("p", { class: "when" }, "1 · 进 7 号门"),
+        el("h2", null, "找到 DIVA 机器"),
+        el("p", null, "出发大厅 ", el("strong", null, "7 号门"), " 进去，走到值机柜台 ", el("strong", null, "960 右边"), "，或 ", el("strong", null, "859 对面"), "。960 旁边队更短。"),
+        el("p", null, "手上要有护照、退税单、登机牌，以及要退的东西。没有东西，机器不能签。"),
+        el("p", null, el("span", { class: "flag ok" }, "官方"), "Aena：西班牙买的、从西班牙离开欧盟，在值机区的 DIVA 屏幕上电子签注。第三方机场页还把机器写在柜台 ", el("strong", null, "840、850"), " 附近和安检口附近。960 找不到，就沿值机柜台找。"),
+        el("p", null, el("span", { class: "flag" }, "访客经验"), "Janice lee 标了 7 号门和机器的照片。噜噜大王写 859 对面、960 旁边都有机器。")
       ),
-      el("h2", { id: "tax-where" }, "今晚先找这里"),
-      el("p", null, el("span", { class: "flag" }, "访客经验"), "Janice lee 写：从出发大厅 ", el("strong", null, "7 号门"), " 进，值机柜台 ", el("strong", null, "960"), " 右边有 DIVA 机器。全部扫过就不用下一步。要人工的，从 7 号门直走再左转。她标了柜台和机器的照片。噜噜大王同一天写：859 对面和 960 旁边都有机器，960 队更短，一张一张扫，不要合并。"),
-      el("div", { class: "links" },
-        ext("https://www.xiaohongshu.com/explore/69f37b2b000000003501ec50?xsec_token=ABdRK_uOW5tRxQbWzyTMgz-ZpmPEjuKrQYjwXtyyXJBsk=&xsec_source=pc_feed", "Janice lee：路线和照片"),
-        ext("https://www.xiaohongshu.com/explore/6ac4d31300000000180067b1?xsec_token=ABAtP8B4Vc7v4gTgmb9VpqvTfpSVX0P9jfnzmrnOPnHfw=&xsec_source=pc_feed", "噜噜大王：960 和 859")
+      el("article", { class: "stop" },
+        el("p", { class: "when" }, "2 · 一张一张扫"),
+        el("h2", null, "看屏幕是绿还是红"),
+        el("p", null, "选中文。每张单单独扫，不要合并。扫完没有纸质章。"),
+        el("p", null, el("strong", null, "绿："), "这张办完。接着第 3 步。"),
+        el("p", null, el("strong", null, "红："), "屏幕会要求额外检查。这张先收好，去下面「屏幕是红的」。先不要拿钱。"),
+        el("p", null, el("span", { class: "flag ok" }, "官方"), "税务局说明：绿就是已经签注，然后向商店或退税公司要钱。红就要去最近的海关或退税签注处，东西必须带着。")
       ),
-      el("h2", { id: "tax-cash" }, "现金在出发大厅拿"),
-      el("p", null, "Janice lee 写：西班牙购物、Planet 的现金在 7 号门这个柜台；Global Blue 在右边几十米。sylvia在伦敦写过，现金在进安检之前的 T4 退。Aena 的 Global Exchange 在值机区 800（", el("strong", null, "6:30–22:25"), "）和 900（", el("strong", null, "5:30–21:25"), "）。J 区那个柜台在申根登机口，今晚走不到。"),
-      el("div", { class: "links" },
-        ext("https://www.xiaohongshu.com/explore/6905148c000000000503a72d?xsec_token=ABkqpiS8B0D5_PdNeZuWSIhvWmf9tcLnWi47_cZFuq8CU=&xsec_source=pc_feed", "sylvia在伦敦：安检前退现金")
+      el("h2", { id: "tax-cash" }, "3 · 绿了就拿钱"),
+      el("article", { class: "stop" },
+        el("p", { class: "when" }, "同一层，安检前"),
+        el("h2", null, "要现金就现在拿"),
+        el("p", null, "Planet 在 7 号门这组柜台。Global Blue 在右边几十米。Aena 的 Global Exchange 在值机区 ", el("strong", null, "800"), "（6:30–22:25）和 ", el("strong", null, "900"), "（5:30–21:25）。大约 18:10 到，两处都开着。"),
+        el("p", null, "不要现金就跳过。钱之后退到买东西时登记的卡上。"),
+        el("p", null, "J 区那个柜台在申根登机口，今晚走不到。卫星楼 S21–S22 的柜台开到 21:55，那是安检之后的备选。今晚先在出发大厅拿。")
       ),
-      el("h2", { id: "tax-big" }, "大额、别国单据"),
-      el("p", null, "噜噜大王写：不是在西班牙买的，机器扫不了，去 960 旁边人工盖章，再把信封投进黄筒。单件超过 ", el("strong", null, "5000 欧"), "，或西班牙单据机器失败，她下到到达层 0、10 号出口，逆着出站人流，说 custom tax refund。小南瓜的南写这一步还要再进 T4S，安检过去大约 22 分钟，并建议提前 3–4 小时到。"),
-      el("p", null, el("mark", null, "提前 3–4 小时不采用。你们仍是 17:10 出发。")),
-      el("p", null, "Janice lee 写到达层那一步不用去，出发大厅能办完。两边都是访客。没有单件超过 5000 欧、单据也都是西班牙的，就留在出发大厅。安检优先于把税退完，20:15 前要过完安检。"),
+      el("article", { class: "stop" },
+        el("p", { class: "when" }, "4 · 安检"),
+        el("h2", null, "办完就去 T4S"),
+        el("p", null, "三人没有托运行李。EK144 登机牌已经有了，直接安检，坐小火车，然后睡。"),
+        el("p", null, el("strong", null, "20:15"), " 前要过完安检。队还很长就先走，不要把起飞时间耗在退税上。")
+      ),
+      el("h2", { id: "tax-big" }, "只有两种情况离开上面"),
+      el("article", { class: "stop" },
+        el("p", { class: "when" }, "不是在西班牙买的"),
+        el("h2", null, "不要扫机器，直接去人工柜台"),
+        el("p", null, "960 旁边的签注处。护照和退税单给他们，东西也带着。盖完把信封投进旁边的邮筒。这种通常退到卡上，不发现金。"),
+        el("p", null, el("span", { class: "flag ok" }, "官方"), "别的欧盟国家买的，西班牙机器签不了，要去发票签注处。T4 出发层签注处 ", el("strong", null, "7:00–22:00"), "。"),
+        el("p", null, el("span", { class: "flag" }, "访客经验"), "噜噜大王盖完后，Global Blue 仍显示待验证。她写这是正常的。")
+      ),
+      el("article", { class: "stop" },
+        el("p", { class: "when" }, "屏幕是红的"),
+        el("h2", null, "先去同一层柜台，柜台让下楼才下楼"),
+        el("p", null, "从 7 号门直走再左转，就是人工柜台。把东西拿出来。签完回到第 3 步拿钱。"),
+        el("p", null, "柜台如果让你下楼：电梯到到达层 ", el("strong", null, "0"), "，", el("strong", null, "10 号出口"), "，逆着出站的人走，说 custom tax refund。进去右转。"),
+        el("p", null, el("span", { class: "flag ok" }, "官方"), "红灯的下一步是自助机旁边的海关或签注处，不是先去到达层。"),
+        el("p", null, el("span", { class: "flag" }, "访客经验"), "Janice lee 写普通单据在出发大厅能办完，不用去到达层。噜噜大王和小南瓜的南写，单件超过 5000 欧时她们被送到 10 号口。税务局没有把 5000 欧写成固定门槛，以屏幕和柜台为准。小南瓜建议提前 3–4 小时到。你们仍是 17:10 出发。")
+      ),
       el("div", { class: "links" },
-        ext("https://www.xiaohongshu.com/explore/6ac652ac000000001203ca7d?xsec_token=ABvGnXinptAc7nSUYWHDkguhFCR9Dw9xsBPPL4t-wonYo=&xsec_source=pc_feed", "小南瓜的南：大额和误机")
+        ext("https://www.aena.es/es/pasajeros/equipajes-controles/aduanas-devolucion-iva/devolucion-iva.html", "Aena：绿和红怎么处理"),
+        ext("https://sede.agenciatributaria.gob.es/static_files/Sede/Tema/Viajeros_Desplazados/DIVA/info_general/FAQsDIVA_oct23.pdf", "税务局问答"),
+        ext("https://www.aena.es/es/adolfo-suarez-madrid-barajas/servicios-del-aeropuerto/categorias-y-terminales/devolucion-de-iva.html", "Aena：柜台时间"),
+        ext("https://www.xiaohongshu.com/explore/69f37b2b000000003501ec50?xsec_token=ABdRK_uOW5tRxQbWzyTMgz-ZpmPEjuKrQYjwXtyyXJBsk=&xsec_source=pc_feed", "Janice lee：照片"),
+        ext("https://www.xiaohongshu.com/explore/6ac4d31300000000180067b1?xsec_token=ABAtP8B4Vc7v4gTgmb9VpqvTfpSVX0P9jfnzmrnOPnHfw=&xsec_source=pc_feed", "噜噜大王"),
+        ext("https://www.xiaohongshu.com/explore/6ac652ac000000001203ca7d?xsec_token=ABvGnXinptAc7nSUYWHDkguhFCR9Dw9xsBPPL4t-wonYo=&xsec_source=pc_feed", "小南瓜的南")
       ),
       noteBox("tax"),
       pager("tax")
