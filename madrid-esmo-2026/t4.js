@@ -13,7 +13,7 @@
     { id: "tax", label: "退税", children: [
       { id: "tax-where", label: "四步" },
       { id: "tax-cash", label: "拿钱" },
-      { id: "tax-big", label: "没扫过" }
+      { id: "tax-big", label: "用不上" }
     ]},
     { id: "main", label: "主楼", children: [
       { id: "main-shop", label: "J 区店铺" },
@@ -27,7 +27,7 @@
     ]}
   ];
   const CHECKS = [
-    { id: "vat-forms", t: "退税单和护照放在手提袋最上面。没有退税单就跳过。" },
+    { id: "vat-forms", t: "单笔都不超过 50 欧。有退税单才扫，没有就直接安检。" },
     { id: "vat-goods", t: "要退税的东西放在随身袋外层。三人都不托运。" },
     { id: "ek308", t: "没有 EK308 登机牌，先在网上或出发大厅自助机补。" }
   ];
@@ -130,7 +130,7 @@
       el("article", { class: "stop" },
         el("p", { class: "when" }, "1 · 出发大厅"),
         el("h2", null, "有退税单就先办"),
-        el("p", null, "按四步走：找到机器，一张一张扫。绿了就在同一层拿钱，红了去旁边柜台。然后安检。"),
+        el("p", null, "单笔都不超过 50 欧。有退税单才扫，绿了就拿钱，然后安检。"),
         el("a", { class: "go", href: "#tax-where" }, "打开这四步")
       ),
       el("article", { class: "stop" },
@@ -175,7 +175,7 @@
     s.append(
       el("p", { class: "kicker" }, "出发大厅 · 安检之前"),
       el("h1", null, "退税就这四步"),
-      el("p", null, el("mark", null, "没有退税单就跳过，直接安检。有单就在出发大厅办完再安检。")),
+      el("p", null, el("mark", null, "三人每单都不超过 50 欧。有退税单才扫；没有单就直接安检。")),
       el("h2", { id: "tax-where" }, "四步"),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "1 · 进 7 号门"),
@@ -189,8 +189,8 @@
         el("p", { class: "when" }, "2 · 一张一张扫"),
         el("h2", null, "看屏幕是绿还是红"),
         el("p", null, "选中文。每张单单独扫，不要合并。扫完没有纸质章。"),
-        el("p", null, el("strong", null, "绿："), "这张办完。接着第 3 步。"),
-        el("p", null, el("strong", null, "红："), "屏幕会要求额外检查。这张先收好，去下面「屏幕是红的」。先不要拿钱。"),
+        el("p", null, el("strong", null, "绿："), "这张办完。50 欧以内通常就是绿。接着第 3 步。"),
+        el("p", null, el("strong", null, "红："), "先把这张收好。小额很少走到这一步；真出现了，再看页尾。先不要拿钱。"),
         el("p", null, el("span", { class: "flag ok" }, "官方"), "税务局说明：绿就是已经签注，然后向商店或退税公司要钱。红就要去最近的海关或退税签注处，东西必须带着。")
       ),
       el("h2", { id: "tax-cash" }, "3 · 绿了就拿钱"),
@@ -207,7 +207,8 @@
         el("p", null, "三人没有托运行李。EK144 登机牌已经有了，直接安检，坐小火车，然后睡。"),
         el("p", null, el("strong", null, "20:15"), " 前要过完安检。队还很长就先走，不要把起飞时间耗在退税上。")
       ),
-      el("h2", { id: "tax-big" }, "只有两种情况离开上面"),
+      el("h2", { id: "tax-big" }, "下面两段今晚用不上"),
+      el("p", null, "你们每单都不超过 ", el("strong", null, "50 欧"), "。不用去人工柜台，不用下到到达层。税务局这份问答没有写最低金额。店家可以不给小额开退税单。没有单就直接安检。"),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "不是在西班牙买的"),
         el("h2", null, "不要扫机器，直接去人工柜台"),
