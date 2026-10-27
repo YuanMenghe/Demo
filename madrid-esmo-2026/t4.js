@@ -8,7 +8,8 @@
   const NAV = [
     { id: "line", label: "今晚", children: [
       { id: "line-thread", label: "一条线" },
-      { id: "sleep", label: "睡觉时间" }
+      { id: "sleep", label: "睡觉时间" },
+      { id: "sleep-spot", label: "躺椅" }
     ]},
     { id: "tax", label: "退税", children: [
       { id: "tax-where", label: "四步" },
@@ -123,9 +124,9 @@
   function renderLine() {
     const s = el("section", { id: "line" });
     s.append(
-      el("p", { class: "kicker" }, "10月27日 · 约 18:10 到 T4"),
+      el("p", { class: "kicker" }, "10月27日 · 17:50 出发"),
       el("h1", null, "先退税，再安检，进卫星楼就睡"),
-      el("p", null, el("mark", null, "17:10 从 Calle del Dr. Santero 附近出发，约 18:10 到。")),
+      el("p", null, el("mark", null, "17:50 从同事那里出发，约 18:21 到 T4。")),
       el("h2", { id: "line-thread" }, "一条线"),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "1 · 出发大厅"),
@@ -142,14 +143,14 @@
       el("article", { class: "stop" },
         el("p", { class: "when" }, "3 · T4S"),
         el("h2", null, "安检后坐小火车"),
-        el("p", null, "迪拜是非申根。主楼 J 区的店进不去。进了卫星楼就坐下睡。"),
-        el("a", { class: "go", href: "#main" }, "主楼有什么")
+        el("p", null, "迪拜是非申根。坐小火车进 T4S，躺椅在 15 号和 35 号登机口附近。"),
+        el("a", { class: "go", href: "#sleep-spot" }, "躺椅在哪")
       ),
       el("h2", { id: "sleep" }, "睡觉时间"),
-      el("p", null, el("mark", null, "从到机场到起飞，是北京时间 28 日 01:10–04:45，可以睡。")),
+      el("p", null, el("mark", null, "从到机场到起飞，是北京时间 28 日 01:21–04:45，可以睡。")),
       el("article", { class: "stop" },
-        el("p", { class: "when" }, "马德里 27 日约 18:10"),
-        el("p", null, "北京 28 日 01:10。到 T4，可以睡。")
+        el("p", { class: "when" }, "马德里 27 日约 18:21"),
+        el("p", null, "北京 28 日 01:21。到 T4，可以睡。")
       ),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "马德里 21:45"),
@@ -162,6 +163,15 @@
       el("article", { class: "stop" },
         el("p", { class: "when" }, "迪拜 11:00"),
         el("p", null, "北京 15:00。EK308 整段不睡。")
+      ),
+      el("h2", { id: "sleep-spot" }, "躺椅在 T4S"),
+      el("p", null, el("mark", null, "安检后坐小火车进 T4S。躺椅在 15 号和 35 号登机口附近，白色长柜后面。")),
+      el("p", null, el("span", { class: "flag" }, "访客经验"), "五子登科两次转机都在南北两侧、15 号和 35 号口附近找到休息区。家有黄金小鸡小绿鱼小猴子写躺椅一共大约 10 个，旁边有免税店、充电、厕所和饮用水。没位子就去儿童区躺。晚上偏冷，外套留在身上。没招了建议带耳塞和眼罩。"),
+      el("p", null, "这是座椅，不是床。EK144 的登机口还没分配，先去 15 号口附近躺，登机口出来再走过去。"),
+      el("div", { class: "links" },
+        ext("https://www.xiaohongshu.com/explore/6a39703b0000000008003b79?xsec_token=ABmfoYYyrLjhkuLj1C8s_s0jEPQGPf1o314QCqwTaI36Y=&xsec_source=pc_feed", "五子登科：15 和 35 号口"),
+        ext("https://www.xiaohongshu.com/explore/6addaa930000000032016183?xsec_token=ABmXM3SkSUKVprBGItbed9JKt2Mwu39wwdxCC8wjM8W7c=&xsec_source=pc_feed", "睡眠指南：大约 10 个躺椅"),
+        ext("https://www.xiaohongshu.com/explore/699ebf2d000000002603f7bb?xsec_token=ABX97z8bM9SGEZURtRVpvAICrAfr_297GX1hlpxIYJJ-I=&xsec_source=pc_feed", "没招了：耳塞眼罩")
       ),
       el("p", null, "落地北京是 22:30，已经是夜里，到家再睡。"),
       noteBox("line"),
@@ -200,7 +210,7 @@
         el("p", null, el("mark", null, "绿灯只表示海关签过了。欧元现金在出发大厅、安检前的退税柜台拿。")),
         el("p", null, el("strong", null, "单子写 Planet："), "就在 7 号门、扫码机器旁边的柜台拿。"),
         el("p", null, el("strong", null, "单子写 Global Blue："), "从 Planet 那个柜台再往右走几十米，到 Global Blue 柜台拿。"),
-        el("p", null, el("span", { class: "flag ok" }, "官方"), "Aena 写这两家都由值机区的 Global Exchange 柜台付款。800 区开到 ", el("strong", null, "22:25"), "，900 区开到 ", el("strong", null, "21:25"), "。大约 18:10 到，都还开着。"),
+        el("p", null, el("span", { class: "flag ok" }, "官方"), "Aena 写这两家都由值机区的 Global Exchange 柜台付款。800 区开到 ", el("strong", null, "22:25"), "，900 区开到 ", el("strong", null, "21:25"), "。大约 18:21 到，都还开着。"),
         el("p", null, el("strong", null, "单子写退回信用卡："), "没有现金可拿。钱之后打回买东西时留的那张卡，这一步跳过。"),
         el("p", null, "认不出公司名，就在机器旁边问 devolución 或 tax free cash。J 区柜台在申根登机口，今晚走不到。")
       ),
@@ -225,7 +235,7 @@
         el("p", null, "从 7 号门直走再左转，就是人工柜台。把东西拿出来。签完回到第 3 步拿钱。"),
         el("p", null, "柜台如果让你下楼：电梯到到达层 ", el("strong", null, "0"), "，", el("strong", null, "10 号出口"), "，逆着出站的人走，说 custom tax refund。进去右转。"),
         el("p", null, el("span", { class: "flag ok" }, "官方"), "红灯的下一步是自助机旁边的海关或签注处，不是先去到达层。"),
-        el("p", null, el("span", { class: "flag" }, "访客经验"), "Janice lee 写普通单据在出发大厅能办完，不用去到达层。噜噜大王和小南瓜的南写，单件超过 5000 欧时她们被送到 10 号口。税务局没有把 5000 欧写成固定门槛，以屏幕和柜台为准。小南瓜建议提前 3–4 小时到。你们仍是 17:10 出发。")
+        el("p", null, el("span", { class: "flag" }, "访客经验"), "Janice lee 写普通单据在出发大厅能办完，不用去到达层。噜噜大王和小南瓜的南写，单件超过 5000 欧时她们被送到 10 号口。税务局没有把 5000 欧写成固定门槛，以屏幕和柜台为准。你们 17:50 出发。")
       ),
       el("div", { class: "links" },
         ext("https://www.aena.es/es/pasajeros/equipajes-controles/aduanas-devolucion-iva/devolucion-iva.html", "Aena：绿和红怎么处理"),

@@ -299,13 +299,13 @@
         { id: "b27-bag", time: "下午", title: "行李", short: "在 Dr. Santero", text: "放在 Calle del Dr. Santero，Placeria Masajes（11 号）附近。", links: [
           { href: LINK.santero, label: "地图" }
         ], at: at(2026, 10, 27, 15, 0, MAD) },
-        { id: "b27-taxi", time: "17:10", title: "从这里去机场", short: "出租车去 T4", text: "从 Calle del Dr. Santero 11 附近上车。正规出租车，€33/车。约 18 公里、28 分钟，另留 30 分钟。约 18:10 到。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。Google Maps", links: [
+        { id: "b27-taxi", time: "17:50", title: "从同事那里去机场", short: "出租车去 T4", text: "从 Calle del Dr. Santero 11 附近上车。正规出租车，€33/车。约 18 公里、31 分钟。约 18:21 到。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。Google Maps", links: [
           { href: LINK.santeroToT4, label: "Dr. Santero → T4" }
-        ], at: at(2026, 10, 27, 17, 10, MAD) },
-        { id: "b27-t4", time: "约 18:10", title: "到 T4", short: "退税、安检、睡觉", text: "机器不给钱。有退税单就在 7 号门扫到绿灯，然后看单子：Planet 在机器旁边柜台拿现金，Global Blue 再往右几十米。写退回卡的就不用拿。没有单就直接安检。", links: [
-          { href: "t4.html#tax", label: "退税位置和照片", same: true },
-          { href: "t4.html#sleep", label: "睡觉时间", same: true }
-        ], at: at(2026, 10, 27, 18, 10, MAD) },
+        ], at: at(2026, 10, 27, 17, 50, MAD) },
+        { id: "b27-t4", time: "约 18:21", title: "到 T4", short: "退税、安检、躺椅", text: "机器不给钱。有退税单就在 7 号门扫到绿灯，Planet 在机器旁边拿现金，Global Blue 再往右几十米。没有单就直接安检。进 T4S 后，躺椅在 15 号和 35 号登机口附近、白色长柜后面。大约 10 个，没有就去儿童区。外套留在身上。", links: [
+          { href: "t4.html#tax-cash", label: "钱在哪拿", same: true },
+          { href: "t4.html#sleep-spot", label: "躺椅在哪", same: true }
+        ], at: at(2026, 10, 27, 18, 21, MAD) },
         { id: "b27-fly", time: "21:45", title: "马德里起飞", short: "马德里起飞", text: "EK144，次日 07:40 到迪拜。从现在睡到马德里时间 28 日 03:00，也就是北京 10:00。之后不睡。没有 EK308 登机牌，出发大厅自助机可以补。", links: [
           { href: "t4.html#dxb", label: "第二段登机牌", same: true }
         ], at: at(2026, 10, 27, 21, 45, MAD) }
@@ -373,13 +373,13 @@
     { id: "remind", group: "during", title: "设好回程值机提醒", detail: "马德里 10月25日 21:45，EK144＋EK308 开放网上值机。提醒里写上 PNR 和姓氏。" },
     { id: "checkin-back", group: "during", title: "回程第二段登机牌还没办", detail: "EK144 已值机。EK308 还没有。三人只有随身行李，不用托运。", links: [{ href: LINK.checkin, label: "在线值机" }, { href: "t4.html#dxb-pass", label: "在哪领", same: true }] },
     { id: "offline", group: "during", title: "这些材料离线也能打开", detail: "登机信息、入住说明、房东电话、24 日三张酒会码、25 日三张入场码、26 日三张王宫票、26 日普拉多票。酒会码在 24 日酒会那一栏，王宫票在 26 日王宫那一栏，普拉多票在 26 日普拉多那一栏。" },
-    { id: "bags", group: "eve26", title: "随身行李和机场证件整理好", detail: "三人回程不托运。行李在 Calle del Dr. Santero，Placeria Masajes 附近。17:10 从那里去 T4。", links: [{ href: LINK.santeroToT4, label: "Dr. Santero → T4" }] },
+    { id: "bags", group: "eve26", title: "随身行李和机场证件整理好", detail: "三人回程不托运。行李在同事那里，Calle del Dr. Santero，Placeria Masajes 附近。17:50 从那里去 T4。", links: [{ href: LINK.santeroToT4, label: "Dr. Santero → T4" }] },
     { id: "checkin-out", group: "done", title: "去程已经值机并起飞", detail: "EK309＋EK143。人已经在马德里。" },
     { id: "to-pek", group: "done", title: "22 日已经到过首都机场", detail: "当天目标是 04:25 到 T3。" },
     { id: "packed", group: "done", title: "随身文件和海报包装已带走", detail: "电子海报不用再做、也不用再传一次。" },
     { id: "weather", group: "done", title: "出发当天的天气已经看过", detail: "手机自动时区保持开着。" },
     { id: "data", group: "done", title: "三人的网络漫游已开通", detail: "马德里用各自的卡。迪拜不出机场，用机场 Wi-Fi。" },
-    { id: "store-final", group: "now", title: "行李在 Dr. Santero", detail: "Calle del Dr. Santero，Placeria Masajes（11 号）附近。17:10 从这里去 T4。", links: [
+    { id: "store-final", group: "now", title: "17:50 从同事那里出发", detail: "行李在 Calle del Dr. Santero，Placeria Masajes（11 号）附近。约 31 分钟到 T4。", links: [
       { href: LINK.santero, label: "地图" },
       { href: LINK.santeroToT4, label: "去 T4" }
     ] },
@@ -944,7 +944,7 @@
       '<div class="pick" data-move-panel="party"><p>17:00 到 Hall 10 展台 1108，坐 TigerMed 的免费 Uber 去 Rosewood。驾车约 21 分钟。不坐这班，16:15 走公共交通，约 45 分钟。回公寓自己走。</p><p><a href="' + LINK.ifemaToRose + '" target="_blank" rel="noopener">会场 → 酒会</a> · <a href="' + LINK.roseToApt + '" target="_blank" rel="noopener">酒会 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="gc"><p>25 日 17:05 从会场直接去，带着海报筒，不绕回公寓。Hotel Puerta América，Avenida de América 41。路网大约 6.1 公里，不含堵车大约 10 分钟；出馆找车另算，目标 17:45 前到。三人合乘出租车。20:00 结束再回公寓，这段路网大约 3.7 公里、不含堵车大约 8 分钟。海报筒带回公寓，不要留在会场。</p><p><a href="' + LINK.ifemaToGc + '" target="_blank" rel="noopener">会场 → 论坛</a> · <a href="' + LINK.gcToApt + '" target="_blank" rel="noopener">论坛 → 公寓</a></p></div>' +
       '<div class="pick" data-move-panel="old"><p>26 日不走丽池，也不去 Plaza Mayor。09:30 从公寓打车到普拉多约 5.1 公里、16 分钟。12:20 步行到 Posada 约 1.7 公里、24 分钟。14:25 步行到王宫约 1.4 公里、18 分钟，14:45 到优先入口。讲解后从王宫一带回公寓，三人合乘出租车，当天看导航。这一天不用地铁。</p><p><a href="' + LINK.aptToPrado + '" target="_blank" rel="noopener">公寓 → 普拉多</a> · <a href="' + LINK.pradoToPosada + '" target="_blank" rel="noopener">普拉多 → Posada</a> · <a href="' + LINK.posadaToPalace + '" target="_blank" rel="noopener">Posada → 王宫</a> · <a href="' + gdir("Palacio Real de Madrid", "Calle de Orense 22, Madrid", "driving") + '" target="_blank" rel="noopener">王宫 → 公寓</a></p></div>' +
-      '<div class="pick" data-move-panel="air"><p>22 日落地打车回公寓，€33/车。27 日 17:10 从 Calle del Dr. Santero 11 附近去 T4，约 18 公里、28 分钟，另留 30 分钟，约 18:10 到，也是 €33/车。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。Google Maps</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.santeroToT4 + '" target="_blank" rel="noopener">Dr. Santero → T4</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
+      '<div class="pick" data-move-panel="air"><p>22 日落地打车回公寓，€33/车。27 日 17:50 从 Calle del Dr. Santero 11 附近去 T4，约 18 公里、31 分钟，约 18:21 到，也是 €33/车。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。Google Maps</p><p><a href="' + LINK.t4 + '" target="_blank" rel="noopener">T4 地图</a> · <a href="' + LINK.santeroToT4 + '" target="_blank" rel="noopener">Dr. Santero → T4</a> · <a href="' + LINK.taxi + '" target="_blank" rel="noopener">官方出租车说明</a></p></div>'
     );
   }
 
@@ -966,7 +966,7 @@
         "<li><b>海报</b> 25 日 12:00–12:45，Hall 5，编号 193P。早间挂上，17:00 取回后直接去胃癌论坛。</li>" +
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>26 日</b> 03:30–04:00 周会。10:00 普拉多，12:45 Posada，15:00 王宫讲解。不去展台，不走丽池。</li>" +
-        "<li><b>返程底线</b> 27 日 17:10 从 Calle del Dr. Santero 附近出发，大约 18:10 到 T4。</li>" +
+        "<li><b>返程底线</b> 27 日 17:50 从同事那里出发，大约 18:21 到 T4。</li>" +
         "<li><b>回程睡觉</b> 到 T4 是北京 28 日 01:00，可以睡。第一程睡到马德里时间 28 日 03:00（北京 10:00）。第二程整段不睡。落地后再睡。</li>" +
         "<li><b>28 日</b> 西班牙时间 04:00–05:00 RFP会，08:00 百济的会。人在回程。</li>" +
         "</ul>" +
@@ -989,7 +989,7 @@
         "<li><b>24 日 17:00</b> 到 Hall 10 展台 1108，坐 TigerMed 的免费 Uber 去酒会。不坐这班车，16:15 走公共交通。</li>" +
         "<li><b>25 日 17:05</b> 带海报筒打车去 Puerta América，20:00 再打车回公寓。公寓和 IFEMA 之间如果临时改打车，按大约 €20–35/车留预算，不是实时报价。</li>" +
         "<li><b>26 日</b> 09:30 打车去普拉多。普拉多到 Posada、Posada 到王宫步行。结束从王宫回公寓再打车。这一天不用地铁。</li>" +
-        "<li><b>机场</b> 22 日和 27 日都是 €33/车。27 日 17:10 从 Calle del Dr. Santero 附近出发，约 18 公里、28 分钟，另留 30 分钟。</li>" +
+        "<li><b>机场</b> 22 日和 27 日都是 €33/车。27 日 17:50 从 Calle del Dr. Santero 附近出发，约 18 公里、31 分钟。</li>" +
         "</ul>" +
         "<h3>行李按天</h3>" +
         "<ol>" +
@@ -997,7 +997,7 @@
         "<li><b>23–24 日</b> 大箱子留在公寓。只带当天要用的包。</li>" +
         "<li><b>25 日</b> 海报筒带到 Hall 5，17:00 取下后带去胃癌论坛，20:00 带回公寓。不要留在会场过夜。</li>" +
         "<li><b>26 日</b> 大箱子和海报筒留在公寓。出门只带当天的小包。</li>" +
-        "<li><b>27 日</b> 行李在 Calle del Dr. Santero，Placeria Masajes（11 号）附近。17:10 从这里去 T4。三人只有随身行李，不用托运。有退税单就在出发大厅办完再安检。</li>" +
+        "<li><b>27 日</b> 行李在同事那里，Calle del Dr. Santero，Placeria Masajes（11 号）附近。17:50 从这里去 T4。三人只有随身行李，不用托运。有退税单就在出发大厅办完再安检。进 T4S 后可在 15 号和 35 号口附近的躺椅上睡。</li>" +
         "</ol>" +
         '<p><a href="' + LINK.aenaEk + '" target="_blank" rel="noopener">T4 的阿联酋柜台说明</a></p>'
     },
