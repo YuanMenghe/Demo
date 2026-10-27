@@ -302,7 +302,7 @@
         { id: "b27-taxi", time: "17:10", title: "从这里去机场", short: "出租车去 T4", text: "从 Calle del Dr. Santero 11 附近上车。正规出租车，€33/车。约 18 公里、28 分钟，另留 30 分钟。约 18:10 到。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。Google Maps", links: [
           { href: LINK.santeroToT4, label: "Dr. Santero → T4" }
         ], at: at(2026, 10, 27, 17, 10, MAD) },
-        { id: "b27-t4", time: "约 18:10", title: "到 T4", short: "退税、安检、睡觉", text: "每单都不超过 50 欧。有退税单就在 7 号门、960 旁扫，绿了拿钱，然后安检。没有单就直接安检。北京 28 日 01:10，可以睡。", links: [
+        { id: "b27-t4", time: "约 18:10", title: "到 T4", short: "退税、安检、睡觉", text: "机器不给钱。有退税单就在 7 号门扫到绿灯，然后看单子：Planet 在机器旁边柜台拿现金，Global Blue 再往右几十米。写退回卡的就不用拿。没有单就直接安检。", links: [
           { href: "t4.html#tax", label: "退税位置和照片", same: true },
           { href: "t4.html#sleep", label: "睡觉时间", same: true }
         ], at: at(2026, 10, 27, 18, 10, MAD) },

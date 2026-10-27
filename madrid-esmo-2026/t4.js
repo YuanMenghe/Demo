@@ -130,7 +130,7 @@
       el("article", { class: "stop" },
         el("p", { class: "when" }, "1 · 出发大厅"),
         el("h2", null, "有退税单就先办"),
-        el("p", null, "单笔都不超过 50 欧。有退税单才扫，绿了就拿钱，然后安检。"),
+        el("p", null, "单笔都不超过 50 欧。机器只签注，不给钱。绿灯后，按退税单上的公司去旁边柜台拿现金。"),
         el("a", { class: "go", href: "#tax-where" }, "打开这四步")
       ),
       el("article", { class: "stop" },
@@ -193,13 +193,16 @@
         el("p", null, el("strong", null, "红："), "先把这张收好。小额很少走到这一步；真出现了，再看页尾。先不要拿钱。"),
         el("p", null, el("span", { class: "flag ok" }, "官方"), "税务局说明：绿就是已经签注，然后向商店或退税公司要钱。红就要去最近的海关或退税签注处，东西必须带着。")
       ),
-      el("h2", { id: "tax-cash" }, "3 · 绿了就拿钱"),
+      el("h2", { id: "tax-cash" }, "3 · 钱在旁边柜台拿"),
       el("article", { class: "stop" },
-        el("p", { class: "when" }, "同一层，安检前"),
-        el("h2", null, "要现金就现在拿"),
-        el("p", null, "Planet 在 7 号门这组柜台。Global Blue 在右边几十米。Aena 的 Global Exchange 在值机区 ", el("strong", null, "800"), "（6:30–22:25）和 ", el("strong", null, "900"), "（5:30–21:25）。大约 18:10 到，两处都开着。"),
-        el("p", null, "不要现金就跳过。钱之后退到买东西时登记的卡上。"),
-        el("p", null, "J 区那个柜台在申根登机口，今晚走不到。卫星楼 S21–S22 的柜台开到 21:55，那是安检之后的备选。今晚先在出发大厅拿。")
+        el("p", { class: "when" }, "机器不给钱"),
+        el("h2", null, "看退税单上的公司名"),
+        el("p", null, el("mark", null, "绿灯只表示海关签过了。欧元现金在出发大厅、安检前的退税柜台拿。")),
+        el("p", null, el("strong", null, "单子写 Planet："), "就在 7 号门、扫码机器旁边的柜台拿。"),
+        el("p", null, el("strong", null, "单子写 Global Blue："), "从 Planet 那个柜台再往右走几十米，到 Global Blue 柜台拿。"),
+        el("p", null, el("span", { class: "flag ok" }, "官方"), "Aena 写这两家都由值机区的 Global Exchange 柜台付款。800 区开到 ", el("strong", null, "22:25"), "，900 区开到 ", el("strong", null, "21:25"), "。大约 18:10 到，都还开着。"),
+        el("p", null, el("strong", null, "单子写退回信用卡："), "没有现金可拿。钱之后打回买东西时留的那张卡，这一步跳过。"),
+        el("p", null, "认不出公司名，就在机器旁边问 devolución 或 tax free cash。J 区柜台在申根登机口，今晚走不到。")
       ),
       el("article", { class: "stop" },
         el("p", { class: "when" }, "4 · 安检"),
