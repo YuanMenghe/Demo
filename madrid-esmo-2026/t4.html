@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="10月27日 T4 退税、睡觉时间和主楼逛吃。不改出发时间。">
+  <meta name="theme-color" content="#efe6d6">
+  <meta name="color-scheme" content="light dark">
+  <title>10月27日 · T4 退税和睡觉</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%239a3412'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='14' fill='%Fffaf3' font-family='Palatino,serif'%3E26%3C/text%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("madrid-esmo-2026-theme");
+        if (t !== "light" && t !== "dark") {
+          t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+        var f = localStorage.getItem("madrid-esmo-2026-font");
+        if (f !== "sm" && f !== "md" && f !== "lg" && f !== "xl") f = "md";
+        document.documentElement.setAttribute("data-font", f);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", t === "dark" ? "#14110e" : "#efe6d6");
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #efe6d6; --card: #fffaf3; --ink: #1c1712; --muted: #5e564c;
+      --line: #e3d5c2; --accent: #9a3412; --accent-soft: #f6e2d4; --on-accent: #fffaf3;
+      --mark: #f3d7a1; --good: #1d6b3c; --good-soft: #e5f3e8; --warn: #8a5a12; --warn-soft: #f8edd4;
+      --shadow: 0 10px 28px rgb(72 42 18 / 0.08);
+      --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+      --serif: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "STSong", "Noto Serif SC", serif;
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] {
+      --bg: #14110e; --card: #221c17; --ink: #f6efe6; --muted: #cbbba8;
+      --line: #3a322a; --accent: #e7b089; --accent-soft: #3a2a22; --on-accent: #2a140e;
+      --mark: #6b5424; --good: #8dcea8; --good-soft: #1a2c22; --warn: #e6c27a; --warn-soft: #332916;
+      --shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+      color-scheme: dark;
+    }
+    html[data-font="sm"] { font-size: 16px; }
+    html[data-font="md"] { font-size: 18px; }
+    html[data-font="lg"] { font-size: 20px; }
+    html[data-font="xl"] { font-size: 23px; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--ink); background: var(--bg);
+      font-family: var(--sans); font-size: 1rem; line-height: 1.65;
+      overflow-x: clip;
+    }
+    button, input, textarea { font: inherit; color: inherit; }
+    input, textarea { font-size: max(1rem, 16px); }
+    button { cursor: pointer; }
+    a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    a { color: var(--accent); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .skip {
+      position: absolute; left: 8px; top: 8px; transform: translateY(-140%);
+      background: var(--accent); color: var(--on-accent); padding: 8px 12px; border-radius: 10px; z-index: 50;
+    }
+    .skip:focus { transform: none; }
+    .top {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; gap: 8px; align-items: center;
+      padding: calc(8px + env(safe-area-inset-top)) 12px 8px;
+      background: var(--bg); border-bottom: 1px solid var(--line);
+    }
+    .back, .icon-btn, .chip, .go, .seg button {
+      min-height: 44px; border: 1px solid var(--line); background: var(--card);
+      color: var(--ink); border-radius: 999px; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .back { padding: 0 14px; font-weight: 650; flex: 1; justify-content: flex-start; white-space: nowrap; }
+    .icon-btn { padding: 0 12px; flex: none; }
+    .shell { max-width: 760px; margin: 0 auto; padding: 0 16px calc(24px + env(safe-area-inset-bottom)); }
+    h1, h2, section { scroll-margin-top: 108px; }
+    .chips {
+      position: sticky; top: 60px; z-index: 15;
+      display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+      padding: 8px 0; background: var(--bg);
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chips .sub, .find { display: none; }
+    .find { min-height: 44px; border: 1px solid var(--line); background: var(--card); border-radius: 12px; padding: 8px 12px; }
+    .sheet[hidden] { display: none; }
+    .sheet {
+      position: fixed; inset: 0; z-index: 40; background: rgb(28 23 18 / 0.45);
+      display: flex; align-items: flex-end;
+    }
+    .sheet-card {
+      width: 100%; max-height: 80vh; overflow: auto;
+      background: var(--card); border-radius: 16px 16px 0 0;
+      padding: 12px 12px calc(16px + env(safe-area-inset-bottom));
+    }
+    .sheet-card .find { display: block; width: 100%; margin: 0 0 10px; }
+    .sheet-card nav { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+    .sheet-card .chip { justify-content: flex-start; }
+    .sheet-card .sub { margin-left: 12px; }
+    .hscroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 8px 0; }
+    .hscroll::-webkit-scrollbar { display: none; }
+    section[hidden] { display: none !important; }
+    .chip { flex: 0 0 auto; padding: 0 14px; }
+    .chip[aria-current="true"] { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+    h1 { font-family: var(--serif); font-size: 1.7rem; line-height: 1.2; margin: 8px 0; }
+    h2 { font-family: var(--serif); font-size: 1.25rem; margin: 18px 0 8px; }
+    .kicker { color: var(--muted); margin: 12px 0 0; }
+    mark { background: var(--mark); color: var(--ink); padding: 0 0.15em; }
+    strong { font-weight: 700; }
+    figure { margin: 12px 0; }
+    img { width: 100%; height: auto; border-radius: 16px; display: block; background: var(--accent-soft); max-height: 420px; object-fit: cover; }
+    figcaption { color: var(--muted); font-size: 0.85rem; margin-top: 6px; }
+    .card, .stop, .work {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 12px 14px; margin: 0 0 10px; box-shadow: var(--shadow);
+    }
+    .flag {
+      display: inline-block; margin: 0 6px 6px 0; padding: 2px 8px; border-radius: 999px;
+      background: var(--warn-soft); color: var(--ink); font-size: 0.78rem; font-weight: 700;
+    }
+    .flag.ok { background: var(--good-soft); }
+    .when { color: var(--accent); font-family: var(--serif); font-weight: 650; margin: 0; font-variant-numeric: tabular-nums; }
+    .note { background: var(--warn-soft); border-left: 3px solid var(--warn); border-radius: 14px; padding: 10px 12px; margin: 0 0 10px; }
+    .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 12px; }
+    .seg button { padding: 8px 10px; }
+    .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+    .rowbtns { display: flex; gap: 8px; margin: 8px 0; }
+    .rowbtns .go, .links a, .links button { padding: 8px 12px; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+    .go { padding: 8px 12px; }
+    details { margin: 8px 0; }
+    summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 650; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { text-align: left; vertical-align: top; padding: 8px 6px; border-top: 1px solid var(--line); }
+    .check { display: flex; gap: 10px; text-align: left; width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 14px; margin: 0 0 8px; }
+    .check[aria-pressed="true"] span { text-decoration: line-through; color: var(--muted); }
+    textarea { width: 100%; min-height: 88px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); padding: 10px 12px; }
+    .foot { color: var(--muted); font-size: 0.85rem; }
+    .local { font-size: 0.85rem; color: var(--muted); }
+    @media (min-width: 900px) {
+      .shell { max-width: 1080px; display: grid; grid-template-columns: 220px minmax(0, 68ch); gap: 28px; align-items: start; }
+      .chips {
+        position: sticky; top: 76px; flex-direction: column; overflow: auto;
+        max-height: calc(100vh - 96px); grid-column: 1; scrollbar-width: thin;
+      }
+      .chips .sub, .chips .find { display: flex; }
+      .chips .find { width: 100%; border-radius: 12px; }
+      .sub { justify-content: flex-start; padding-left: 16px; font-size: 0.92rem; }
+      #toc-btn, .sheet { display: none !important; }
+      #stage { grid-column: 2; }
+      h1, h2, section { scroll-margin-top: 24px; }
+      .seg { grid-template-columns: 1fr 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+    @media print {
+      .top, .chips, .rowbtns, .seg, .icon-btn, .local, textarea, .check, .sheet, .find { display: none !important; }
+      .shell { display: block; max-width: none; }
+      section, section[hidden] { display: block !important; break-inside: avoid; }
+    }
+  </style>
+  <script>
+    try {
+      if (localStorage.getItem("madrid-esmo-2026-gate") !== "ok") {
+        document.documentElement.setAttribute("data-locked", "");
+      }
+    } catch (e) {
+      document.documentElement.setAttribute("data-locked", "");
+    }
+  </script>
+  <style>
+    html[data-locked] body > :not(#gate) { display: none !important; }
+  </style>
+  <script src="gate.js?v=20261020n"></script>
+</head>
+<body>
+  <a class="skip" href="#stage">跳到正文</a>
+  <header class="top">
+    <a class="back" href="index.html#b27-t4">回 27 日</a>
+    <button type="button" class="icon-btn" id="toc-btn" aria-expanded="false" aria-controls="sheet">目录</button>
+    <button type="button" class="icon-btn" id="font-btn">标准</button>
+    <button type="button" class="icon-btn" id="theme-btn">深色</button>
+  </header>
+  <div class="shell">
+    <nav class="chips" id="nav" aria-label="T4 章节"></nav>
+    <div id="stage"></div>
+  </div>
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-card" role="dialog" aria-modal="true" aria-label="章节目录">
+      <input class="find" id="find-mobile" type="search" enterkeyhint="search" placeholder="在本页查找" aria-label="在本页查找">
+      <nav id="sheet-nav" aria-label="全部章节"></nav>
+      <button type="button" class="go" id="sheet-close">关闭目录</button>
+    </div>
+  </div>
+  <script src="t4.js?v=20261027c" defer></script>
+</body>
+</html>

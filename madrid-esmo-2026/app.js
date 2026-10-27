@@ -289,6 +289,7 @@
         { label: "复制出租目的地", clip: "t4" },
         { label: "住处 → T4", href: LINK.aptToT4 },
         { label: "T4 地图", href: LINK.t4 },
+        { label: "退税和睡觉", href: "t4.html#tax", same: true },
         { label: "Orense 14 寄存", href: "https://radicalstorage.com/luggage-storage/madrid/nuevos-ministerios/luggage-storage-near-torre-picasso" },
         { label: "Montevideo 31 柜子", href: "https://allinlockers.com/consignas-para-maletas-en-bernabeu/" }
       ],
@@ -296,8 +297,13 @@
         { id: "b27-bf", time: "07:00", title: "退房", short: "退房", text: "行李优先交给 Freya。", at: at(2026, 10, 27, 7, 0, MAD) },
         { id: "b27-bag", time: "14:00 前", title: "行李", short: "Freya 不能收就付费寄存", text: "Freya 不能收：Orense 14 Radical，小件 €3.40、大件 €6，每件再加 €1.99，今天 11:00–23:00。或 Montevideo 31 ALL IN，中号 €9、大号 €15，大箱用大号。存好可去英国宫或伯纳乌。", at: at(2026, 10, 27, 14, 0, MAD) },
         { id: "b27-taxi", time: "17:10", title: "从住处去机场", short: "出租车去 T4", text: "正规出租车，€33/车。约 18 公里、21 分钟，另留 30 分钟。约 18:00 到。目的地 Madrid-Barajas Terminal 4, Salidas, Emirates。Google Maps", at: at(2026, 10, 27, 17, 10, MAD) },
-        { id: "b27-t4", time: "约 18:00", title: "到 T4", short: "到达 T4", text: "值机、托运、安检、出境后，按登机牌去 T4S。这时是北京 28 日 01:00，可以睡。21:45 起飞。", at: at(2026, 10, 27, 18, 0, MAD) },
-        { id: "b27-fly", time: "21:45", title: "马德里起飞", short: "马德里起飞", text: "EK144，次日 07:40 到迪拜。候机和起飞后可以睡，到马德里时间 28 日 03:00。之后不睡。", at: at(2026, 10, 27, 21, 45, MAD) }
+        { id: "b27-t4", time: "约 18:00", title: "到 T4", short: "退税、托运、睡觉", text: "有退税单就先在出发大厅办完，再托运。这时是北京 28 日 01:00，可以睡。21:45 起飞，北京 04:45。", links: [
+          { href: "t4.html#tax", label: "退税位置和照片", same: true },
+          { href: "t4.html#sleep", label: "睡觉时间", same: true }
+        ], at: at(2026, 10, 27, 18, 0, MAD) },
+        { id: "b27-fly", time: "21:45", title: "马德里起飞", short: "马德里起飞", text: "EK144，次日 07:40 到迪拜。从现在睡到马德里时间 28 日 03:00，也就是北京 10:00。之后不睡。托运时问柜台要 EK308 登机牌。", links: [
+          { href: "t4.html#dxb", label: "第二段登机牌", same: true }
+        ], at: at(2026, 10, 27, 21, 45, MAD) }
       ]
     },
     {
@@ -313,10 +319,14 @@
       ],
       blocks: [
         { id: "b28-rfp", time: "西班牙 04:00–05:00", title: "RFP会", short: "RFP会", text: "北京时间 11:00–12:00。迪拜 07:40 落地，会开在落地前后。", at: at(2026, 10, 28, 4, 0, MAD) },
-        { id: "b28-dxb", time: "迪拜 07:40", title: "到迪拜", short: "迪拜转机", text: "北京时间 11:40。T3 转机，不出机场，不睡。看 EK308 登机牌上的指廊，用同一张选休息室二维码进同一指廊的 Ahlan。想洗澡再改同一指廊的 Marhaba，不要跨指廊。", at: at(2026, 10, 28, 7, 40, DXB) },
+        { id: "b28-dxb", time: "迪拜 07:40", title: "到迪拜", short: "迪拜转机", text: "北京时间 11:40。T3 转机，不出机场，不睡。没有 EK308 登机牌，就跟着 Connections 去转机柜台领。行李条写 PEK 就不用再称。看登机牌上的指廊，用同一张选休息室二维码进同一指廊的 Ahlan。想洗澡再改同一指廊的 Marhaba，不要跨指廊。", links: [
+          { href: "t4.html#dxb-pass", label: "第二段在哪办", same: true }
+        ], at: at(2026, 10, 28, 7, 40, DXB) },
         { id: "b28-bei", time: "西班牙 08:00", title: "百济的会", short: "百济的会", text: "北京时间 15:00。和迪拜 11:00 起飞同一时刻。", at: at(2026, 10, 28, 8, 0, MAD) },
         { id: "b28-fly", time: "迪拜 11:00", title: "起飞回北京", short: "迪拜起飞", text: "EK308。北京时间 15:00 起飞，22:30 落地。这一程整段不睡。", at: at(2026, 10, 28, 11, 0, DXB) },
-        { id: "b28-home", time: "北京 22:30", title: "到首都机场 T3", short: "抵达北京", text: "入境取行李后回家。已经是北京夜里，可以睡。", at: at(2026, 10, 28, 22, 30, BJ) }
+        { id: "b28-home", time: "北京 22:30", title: "到首都机场 T3", short: "抵达北京", text: "入境取行李后回家。已经是北京夜里，可以睡。熟食和密封香肠属于禁止携带进境的肉类制品，向海关申报。", links: [
+          { href: "t4.html#pek", label: "肉类规定", same: true }
+        ], at: at(2026, 10, 28, 22, 30, BJ) }
       ]
     }
   ];
@@ -951,7 +961,7 @@
         "<li><b>胃癌论坛</b> 25 日 18:00–20:00，Hotel Puerta América，Avenida de América 41。18:00–19:00 是 Networking Dinner，19:00 徐瑞华开场。三张入场码在 25 日晚餐那一栏，点袁、婷、明。</li>" +
         "<li><b>26 日</b> 03:30–04:00 周会。10:00 普拉多，12:45 Posada，15:00 王宫讲解。不去展台，不走丽池。</li>" +
         "<li><b>返程底线</b> 27 日 17:10 从住处出发，大约 18:00 到 T4。</li>" +
-        "<li><b>回程睡觉</b> 第一程到马德里时间 28 日 03:00 可以睡。第二程整段不睡。落地后再睡。</li>" +
+        "<li><b>回程睡觉</b> 到 T4 是北京 28 日 01:00，可以睡。第一程睡到马德里时间 28 日 03:00（北京 10:00）。第二程整段不睡。落地后再睡。</li>" +
         "<li><b>28 日</b> 西班牙时间 04:00–05:00 RFP会，08:00 百济的会。人在回程。</li>" +
         "</ul>" +
         "<p>已经完成的：纸质海报已打印，电子海报已上传，23 日晚餐已定，26 日普拉多、王宫和 Posada 已订，三人网络漫游已开通。袁已领到 5 日无限交通卡，婷和明的十次票已买。展台在 Hall 10，展台号还没写上。27 日行李优先交 Freya，不能收再用付费寄存。</p>" +
@@ -981,7 +991,7 @@
         "<li><b>23–24 日</b> 大箱子留在公寓。只带当天要用的包。</li>" +
         "<li><b>25 日</b> 海报筒带到 Hall 5，17:00 取下后带去胃癌论坛，20:00 带回公寓。不要留在会场过夜。</li>" +
         "<li><b>26 日</b> 大箱子和海报筒留在公寓。出门只带当天的小包。</li>" +
-        "<li><b>27 日</b> 行李优先交 Freya。她不能收：Orense 14 Radical，小件 €3.40、大件 €6，每件另加 €1.99；或 Montevideo 31，中号 €9、大号 €15。17:10 从住处去 T4。回程直挂北京，迪拜不取。</li>" +
+        "<li><b>27 日</b> 行李优先交 Freya。她不能收：Orense 14 Radical，小件 €3.40、大件 €6，每件另加 €1.99；或 Montevideo 31，中号 €9、大号 €15。17:10 从住处去 T4。有退税单就在出发大厅办完再托运。回程直挂北京，迪拜不取。</li>" +
         "</ol>" +
         "<p>付费寄存是 Freya 不能收时的备选。</p>" +
         '<p><a href="' + LINK.luggage + '" target="_blank" rel="noopener">商业寄存只作备用</a> · <a href="' + LINK.aenaEk + '" target="_blank" rel="noopener">T4 的阿联酋柜台说明</a></p>'
