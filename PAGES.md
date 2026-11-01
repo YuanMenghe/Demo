@@ -65,6 +65,7 @@
 | `MDT-demo` | MDT·BeOne |
 | `medical-expert-collaboration-platform` | 医学专家协作平台 |
 | `noah-ai-cvrm-demo` | **病例问答**（静态 HTML，合规交互示意） |
+| `feishu-md-fixer` | **飞书 Markdown 清洗**（NOAH Markdown 助手） |
 | `ex-partner-fugitive` | **未列入 Hub**（按站主要求不公开导航，仅直链：`/Demo/ex-partner-fugitive/`，密码保护） |
 | `madrid-esmo-2026` | **未列入 Hub**（行程随身页，仅直链：`/Demo/madrid-esmo-2026/`） |
 

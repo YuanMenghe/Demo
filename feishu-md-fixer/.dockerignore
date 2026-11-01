@@ -1,0 +1,30 @@
+# 避免将无关文件打进镜像
+node_modules/
+dist/
+dist-ssr/
+.git/
+.gitignore
+.dockerignore
+
+# 本地与编辑器文件
+.vscode/
+.idea/
+.DS_Store
+*.local
+.edge-profile/
+
+# 日志与临时文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+tmp_*.md
+
+# 文档和测试缓存
+docs/
+*.md
+!README.md
+.pytest_cache/

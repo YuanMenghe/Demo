@@ -38,6 +38,7 @@ jobs:
             ZheEr_MiniProgram/package-lock.json
             mdt-beone/package-lock.json
             medical-expert-collaboration-platform/package-lock.json
+            feishu-md-fixer/package-lock.json
 
       - name: Install and build medical-copilot
         working-directory: medical-copilot
@@ -95,6 +96,12 @@ jobs:
           npm ci
           npm run build
 
+      - name: Install and build feishu-md-fixer (NOAH Markdown 助手)
+        working-directory: feishu-md-fixer
+        run: |
+          npm ci
+          npm run build
+
       - name: Verify build output
         run: |
           echo "=== Built index.html ==="
@@ -129,6 +136,7 @@ jobs:
           mkdir -p site/noah-ai-cvrm-demo
           mkdir -p site/ex-partner-fugitive
           mkdir -p site/madrid-esmo-2026
+          mkdir -p site/feishu-md-fixer
 
           # medical-copilot (built React app)
           cp -r medical-copilot/dist/* site/medical-copilot/
@@ -176,6 +184,9 @@ jobs:
           # 按要求不加入 Hub 导航，只通过直链访问。
           cp -r madrid-esmo-2026/* site/madrid-esmo-2026/
           rm -f site/madrid-esmo-2026/README.md
+
+          # feishu-md-fixer / NOAH Markdown 助手（Vite，base 为相对路径）
+          cp -r feishu-md-fixer/dist/* site/feishu-md-fixer/
 
           # Root: innocuous 404 (no project links)
           cat > site/index.html << 'ROOT404'
@@ -370,6 +381,10 @@ jobs:
                 <a class="card" href="/${REPO_NAME}/noah-ai-cvrm-demo/">
                   <span class="card-title">病例问答</span>
                   <span class="card-desc">Noah AI · CVRM 临床辅助分析与合规交互示意</span>
+                </a>
+                <a class="card" href="/${REPO_NAME}/feishu-md-fixer/">
+                  <span class="card-title">飞书 Markdown 清洗</span>
+                  <span class="card-desc">粘贴前清洗标题、序号、表格和代码，再复制到飞书</span>
                 </a>
               </main>
               <footer>YuanMenghe / Demo · GitHub Pages</footer>
