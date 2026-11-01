@@ -83,6 +83,7 @@ export async function writeToClipboard(text: string): Promise<boolean> {
 interface ClipboardListItem {
   value: number
   text: string
+  task: 'checked' | 'open' | null
   children: ClipboardListNode[]
 }
 
@@ -132,6 +133,12 @@ export function createFeishuClipboardHtml(markdown: string): string {
       }
       i -= 1
       parts.push(renderTable(rows))
+      continue
+    }
+
+    const image = line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/)
+    if (image) {
+      parts.push(`<p><img alt="${escapeHtml(image[1])}" src="${escapeHtml(image[2])}"></p>`)
       continue
     }
 
@@ -192,7 +199,8 @@ function parseClipboardList(lines: string[], start: number): { node: ClipboardLi
       break
     }
 
-    stack[stack.length - 1].items.push({ value: item.value, text: item.text, children: [] })
+    const task = splitTask(item.text)
+    stack[stack.length - 1].items.push({ value: item.value, text: task.text, task: task.task, children: [] })
     i += 1
   }
 
@@ -229,7 +237,11 @@ function renderClipboardList(node: ClipboardListNode): string {
       const expected = start + index
       const valueAttr = node.ordered && item.value !== expected ? ` value="${item.value}"` : ''
       const nested = item.children.map((child) => renderClipboardList(child)).join('')
-      return `<li${valueAttr}>${formatInlineHtml(item.text)}${nested}</li>`
+      const checkbox =
+        item.task == null
+          ? ''
+          : `<input type="checkbox" disabled${item.task === 'checked' ? ' checked' : ''}> `
+      return `<li${valueAttr}>${checkbox}${formatInlineHtml(item.text)}${nested}</li>`
     })
     .join('')
   return `<${tag}${startAttr}>${items}</${tag}>`
@@ -282,8 +294,19 @@ function renderTable(rows: string[][]): string {
   return `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`
 }
 
+function splitTask(text: string): { task: 'checked' | 'open' | null; text: string } {
+  const match = text.match(/^\[([ xX])\]\s+(.*)$/)
+  if (!match) return { task: null, text }
+  return { task: match[1].toLowerCase() === 'x' ? 'checked' : 'open', text: match[2] }
+}
+
 function formatInlineHtml(value: string): string {
-  return escapeHtml(value).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  let html = escapeHtml(value)
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
+  html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+  html = html.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>')
+  return html
 }
 
 function escapeHtml(value: string): string {

@@ -13,15 +13,18 @@ export function TemplateSelector({ templates, activeId, onChange }: TemplateSele
     <div className="template-area">
       <label className="template-label">
         模板：
-        <select value={activeId} onChange={(e) => onChange(e.target.value)}>
+        <select
+          value={activeId}
+          title={current?.description}
+          onChange={(e) => onChange(e.target.value)}
+        >
           {templates.map((tpl) => (
-            <option key={tpl.id} value={tpl.id}>
+            <option key={tpl.id} value={tpl.id} title={tpl.description}>
               {tpl.name}
             </option>
           ))}
         </select>
       </label>
-      {current && <span className="template-desc">{current.description}</span>}
     </div>
   )
 }

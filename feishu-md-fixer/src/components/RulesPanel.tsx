@@ -56,7 +56,7 @@ export function RulesPanel({
     <section className="pane rules-pane">
       <div className="rules-header">
         <h2 className="rules-heading">规则设置</h2>
-        <p className="rules-hint">勾选或调节选项，实时影响清洗结果。</p>
+        <p className="rules-hint">没改过正文时，按最初粘贴的原文重算。改过正文后，再调规则就按当前正文重算。可以撤销。</p>
       </div>
 
       <div className="rules-list">
@@ -152,12 +152,12 @@ export function RulesPanel({
                 type="button"
                 className="btn outline btn-sm"
                 onClick={() => onNormalizeNumbering?.()}
-                title="只处理行首：一、十一、二十一 → 1. 11. 21.；（1）和 ① 也转为 1. 2. 3."
+                title="行首一、为一级，括号序号缩进一级，圈数字再缩进一级。一百零一也可以。"
               >
                 立即规范
               </button>
             </div>
-            <span className="rule-desc">只改行首。一、十一、二十一 → 1. 11. 21.；（1）、① 同样转为 1. 2. 3.</span>
+            <span className="rule-desc">一、为 1.，（1）缩进为下一级，① 再缩进一级。紧挨着的跳号会写成 21．以免被收成第 2 条，复制到飞书时还原。</span>
           </div>
         </RuleCard>
 
@@ -182,6 +182,8 @@ export function RulesPanel({
           </label>
         </RuleCard>
 
+        <details className="rule-more">
+          <summary>更多规则</summary>
         <RuleCard title="代码 · 引用 · 分割线">
           <label className="rule-check">
             <input
@@ -294,6 +296,7 @@ export function RulesPanel({
             </select>
           </div>
         </RuleCard>
+        </details>
       </div>
     </section>
   )

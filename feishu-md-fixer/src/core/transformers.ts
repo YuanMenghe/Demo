@@ -37,7 +37,7 @@ const CN_DIGIT: Record<string, number> = {
 }
 
 /** 解析行首中文序号，支持到 99（二十一、九十九）。无法解析时返回 null。 */
-function parseChineseNumeral(raw: string): number | null {
+function parseUnderHundred(raw: string): number | null {
   if (!raw || raw.length > 4) return null
   if (raw === '十') return 10
 
@@ -56,6 +56,23 @@ function parseChineseNumeral(raw: string): number | null {
   const tens = left ? CN_DIGIT[left] : 1
   const ones = right ? CN_DIGIT[right] : 0
   return tens * 10 + ones
+}
+
+/** 支持到 999：二十一、一百零一、二百三十四。 */
+function parseChineseNumeral(raw: string): number | null {
+  if (!raw || raw.length > 8) return null
+  const hundredAt = raw.indexOf('百')
+  if (hundredAt === -1) return parseUnderHundred(raw)
+
+  const left = raw.slice(0, hundredAt)
+  const right = raw.slice(hundredAt + 1).replace(/^零/, '')
+  if (left.length > 1) return null
+  if (left && CN_DIGIT[left] == null) return null
+  const hundreds = (left ? CN_DIGIT[left] : 1) * 100
+  if (!right) return hundreds
+  const rest = parseUnderHundred(right)
+  if (rest == null) return null
+  return hundreds + rest
 }
 
 /**
@@ -712,23 +729,24 @@ function getFenceMatch(line: string): { marker: '`' | '~'; length: number } | nu
 /**
  * 序号规范化：将中文序号、括号序号、圈数字转为 Markdown 标准序号
  * 规则：
- * - 行首「一、」「十一、」「二十一、」→ 1. 11. 21.（只认顿号，不改句子里的逗号）
- * - 1、2、3、或 1. 2. 3. → 保持/规范为 1. 2. 3.
- * - 行首（1）（2）或 (1)(2) → 1. 2. 3.
- * - 行首 ① ② ③ → 1. 2. 3.
+ * - 行首「一、」「二十一、」「一百零一、」→ 一级 1. 21. 101.
+ * - 行首（1）(1) → 二级，缩进 3 格的 1.
+ * - 行首 ① → 三级，缩进 6 格的 1.
+ * - 1、2、3、 → 一级 1. 2. 3.
+ * 只认顿号，不改句子里的逗号。
  */
 export function normalizeNumberingInMarkdown(markdown: string): string {
   let result = markdown
 
   result = result.replace(
-    new RegExp(`${LINE_NUM_PREFIX}([一二三四五六七八九十]{1,4})、\\s*`, 'gm'),
+    new RegExp(`${LINE_NUM_PREFIX}([一二三四五六七八九十百零]{1,8})、\\s*`, 'gm'),
     (full: string, leading: string, bq: string, listMarker: string, cn: string) => {
       const num = parseChineseNumeral(cn)
       if (num == null) return full
       if (/^\d+\.\s+$/.test(listMarker)) {
         return `${leading}${bq}${listMarker}`
       }
-      return `${leading}${bq}${num}. `
+      return `${levelIndent(leading, 0)}${bq}${num}. `
     }
   )
 
@@ -738,7 +756,7 @@ export function normalizeNumberingInMarkdown(markdown: string): string {
       if (/^\d+\.\s+$/.test(listMarker)) {
         return `${leading}${bq}${listMarker}`
       }
-      return `${leading}${bq}${digits}. `
+      return `${levelIndent(leading, 3)}${bq}${digits}. `
     }
   )
 
@@ -749,7 +767,7 @@ export function normalizeNumberingInMarkdown(markdown: string): string {
       if (/^\d+\.\s+$/.test(listMarker)) {
         return `${leading}${bq}${listMarker}`
       }
-      return `${leading}${bq}${num}. `
+      return `${levelIndent(leading, 6)}${bq}${num}. `
     }
   )
 
@@ -759,9 +777,69 @@ export function normalizeNumberingInMarkdown(markdown: string): string {
       if (/^\d+\.\s+$/.test(listMarker)) {
         return `${leading}${bq}${listMarker}`
       }
-      return `${leading}${bq}${digits}. `
+      return `${levelIndent(leading, 0)}${bq}${digits}. `
     }
   )
 
-  return result
+  return protectDiscontinuousOrderedMarkers(result)
+}
+
+function levelIndent(leading: string, minSpaces: number): string {
+  const width = leading.replace(/\t/g, '    ').length
+  if (width >= minSpaces) return leading
+  return ' '.repeat(minSpaces)
+}
+
+/**
+ * 不连续的有序列表改用全角点「21．」。
+ * 编辑器会把紧挨着的 21. 收成上一条列表的第 2 项；全角点不会被当成列表，复制到飞书前再还原成半角点。
+ */
+export function protectDiscontinuousOrderedMarkers(markdown: string): string {
+  const lines = markdown.split(/\r?\n/)
+  const stack: { indent: number; last: number; protect: boolean }[] = []
+  let fence: { marker: '`' | '~'; length: number } | null = null
+
+  return lines
+    .map((line, index) => {
+      const fenceMatch = getFenceMatch(line)
+      if (fenceMatch) {
+        if (fence && fence.marker === fenceMatch.marker && fenceMatch.length >= fence.length) {
+          fence = null
+          stack.length = 0
+        } else if (!fence) {
+          fence = fenceMatch
+        }
+        return line
+      }
+      if (fence) return line
+
+      const ordered = line.match(/^([ \t]*)(\d{1,9})\.([ \t]+)(\S.*)$/)
+      if (!ordered) {
+        // 空行和缩进更深的内容仍属于当前列表项，不能把下一条 2. 当成新的跳号。
+        if (line.trim()) {
+          const contentIndent = (line.match(/^[ \t]*/)?.[0] ?? '').replace(/\t/g, '    ').length
+          while (stack.length > 0 && contentIndent <= stack[stack.length - 1].indent) stack.pop()
+        }
+        return line
+      }
+
+      const indent = ordered[1].replace(/\t/g, '    ').length
+      const num = Number.parseInt(ordered[2], 10)
+      while (stack.length > 0 && stack[stack.length - 1].indent > indent) stack.pop()
+
+      const top = stack[stack.length - 1]
+      if (top && top.indent === indent && num === top.last + 1) {
+        top.last = num
+        return top.protect ? `${ordered[1]}${ordered[2]}．${ordered[3]}${ordered[4]}` : line
+      }
+
+      const protect = num !== 1
+      stack.push({ indent, last: num, protect })
+      if (!protect) return line
+      const marker = `${ordered[1]}${ordered[2]}．${ordered[3]}${ordered[4]}`
+      // 和上一条列表隔开，否则全角点那一行会被收进上一条的正文并缩进。
+      const prev = index > 0 ? lines[index - 1] : ''
+      return prev.trim() ? `\n${marker}` : marker
+    })
+    .join('\n')
 }

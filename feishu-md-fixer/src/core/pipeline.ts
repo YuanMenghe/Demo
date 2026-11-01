@@ -1,6 +1,6 @@
 import type { Root } from 'mdast'
 import { createMarkdownProcessor, stripMarkdownEscapesForFeishu } from './markdownProcessor'
-import { collapseMarkdownBlankLines, runTransformers } from './transformers'
+import { collapseMarkdownBlankLines, normalizeNumberingInMarkdown, protectDiscontinuousOrderedMarkers, runTransformers } from './transformers'
 import type { TemplateConfig } from './templates'
 
 export interface PipelineOptions {
@@ -9,13 +9,14 @@ export interface PipelineOptions {
 
 export function applyPipeline(input: string, options: PipelineOptions): string {
   if (typeof input !== 'string') return ''
-  const raw = input.trim()
-  if (!raw) return ''
+    const raw = input.trim()
+    if (!raw) return ''
 
-  try {
-    const processor = createMarkdownProcessor()
+    try {
+      const processor = createMarkdownProcessor()
 
-    const tree = processor.parse(raw) as Root
+      // 先把跳号改成全角点，避免解析器把它收成上一条的第 2 项并改写成 2.
+      const tree = processor.parse(protectDiscontinuousOrderedMarkers(raw)) as Root
     runTransformers(tree, options.template)
 
     const file = processor.runSync(tree)
@@ -26,6 +27,10 @@ export function applyPipeline(input: string, options: PipelineOptions): string {
     if (options.template.text.collapseBlankLines) {
       result = collapseMarkdownBlankLines(result, options.template.text.maxBlankLines)
     }
+    if (options.template.numbering?.normalize !== false) {
+      result = normalizeNumberingInMarkdown(result)
+    }
+    result = protectDiscontinuousOrderedMarkers(result)
 
     return result.trimEnd()
   } catch {

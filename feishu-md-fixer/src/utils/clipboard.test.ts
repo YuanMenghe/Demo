@@ -32,6 +32,18 @@ describe('createFeishuClipboardHtml', () => {
     expect(html).not.toContain('<p>|')
   })
 
+  it('renders links, emphasis, tasks and images', () => {
+    const html = createFeishuClipboardHtml(
+      ['看 [文档](https://example.com/a) 和 *斜体*', '', '- [x] 已完成', '- [ ] 未完成', '', '![示意图](https://example.com/a.png)'].join('\n')
+    )
+
+    expect(html).toContain('<a href="https://example.com/a">文档</a>')
+    expect(html).toContain('<em>斜体</em>')
+    expect(html).toContain('<input type="checkbox" disabled checked>')
+    expect(html).toContain('<input type="checkbox" disabled>')
+    expect(html).toContain('<img alt="示意图" src="https://example.com/a.png">')
+  })
+
   it('keeps a jumped ordered-list number on the list item', () => {
     const html = createFeishuClipboardHtml('1. 第一项\n5. 第五项')
 

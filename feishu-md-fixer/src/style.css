@@ -158,12 +158,41 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
 .pane-header h2 {
   margin: 0;
   font-size: 16px;
+  white-space: nowrap;
+}
+
+.hint-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: #ecfdf8;
+  color: #115e59;
+  border: 1px solid rgba(0, 184, 169, 0.28);
+}
+
+.hint-bar span {
+  flex: 1 1 220px;
+}
+
+.rule-more {
+  margin-top: 8px;
+}
+
+.rule-more summary {
+  cursor: pointer;
+  padding: 10px 2px 12px;
+  font-weight: 650;
+  color: var(--color-text-main);
 }
 
 .rules-pane {

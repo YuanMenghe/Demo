@@ -17,6 +17,13 @@ describe('applyPipeline', () => {
     expect(applyPipeline(undefined as any, { template: defaultConfig })).toBe('')
   })
 
+  it('keeps a jumped ordered marker instead of letting the parser renumber it', () => {
+    const out = applyPipeline('1. 父项\n21. 章节', { template: defaultConfig })
+    expect(out).toContain('1. 父项')
+    expect(out).toContain('21． 章节')
+    expect(out).not.toMatch(/^2\. 章节/m)
+  })
+
   it('processes simple markdown and strips backslash escapes', () => {
     const input = '# Hello\n\n1. item one\n2. item two'
     const out = applyPipeline(input, { template: defaultConfig })
@@ -249,18 +256,34 @@ describe('normalizeNumberingInMarkdown', () => {
     expect(out).toContain('3. 第三节')
   })
 
-  it('converts parentheses numbers to numeric ordered list markers', () => {
+  it('converts parentheses numbers to a nested ordered list', () => {
     const input = '（1）要点一\n（2）要点二'
     const out = normalizeNumberingInMarkdown(input)
-    expect(out).toContain('1. 要点一')
-    expect(out).toContain('2. 要点二')
+    expect(out).toContain('   1. 要点一')
+    expect(out).toContain('   2. 要点二')
   })
 
-  it('converts circle numbers to numeric ordered list markers', () => {
+  it('converts circle numbers to a deeper nested ordered list', () => {
     const input = '①细节\n②细节'
     const out = normalizeNumberingInMarkdown(input)
-    expect(out).toContain('1. 细节')
-    expect(out).toContain('2. 细节')
+    expect(out).toContain('      1. 细节')
+    expect(out).toContain('      2. 细节')
+  })
+
+  it('parses hundreds and keeps three outline levels', () => {
+    const input = '一百零一、总则\n（1）要点\n①细节'
+    const out = normalizeNumberingInMarkdown(input)
+    expect(out).toContain('101． 总则')
+    expect(out).toContain('   1. 要点')
+    expect(out).toContain('      1. 细节')
+  })
+
+  it('protects a jumped number so the editor will not renumber it to 2', () => {
+    const input = '1. 父项\n21. 章节'
+    const out = normalizeNumberingInMarkdown(input)
+    expect(out).toContain('1. 父项')
+    expect(out).toContain('21． 章节')
+    expect(out).not.toContain('\n21. 章节')
   })
 
   it('converts Chinese comma numbers (1、→ 1.)', () => {
@@ -303,13 +326,13 @@ describe('normalizeNumberingInMarkdown', () => {
   it('matches multi-char Chinese numerals before single-char (十一、→ 11.)', () => {
     const input = '十一、章节\n一、单独'
     const out = normalizeNumberingInMarkdown(input)
-    expect(out).toContain('11. 章节')
+    expect(out).toContain('11． 章节')
     expect(out).toContain('1. 单独')
   })
 
   it('parses twenty-one at line start and ignores numbering inside sentences', () => {
-    expect(normalizeNumberingInMarkdown('二十一、章节')).toBe('21. 章节')
-    expect(normalizeNumberingInMarkdown('九十九、末节')).toBe('99. 末节')
+    expect(normalizeNumberingInMarkdown('二十一、章节')).toBe('21． 章节')
+    expect(normalizeNumberingInMarkdown('九十九、末节')).toBe('99． 末节')
     expect(normalizeNumberingInMarkdown('会议一、讨论方案')).toBe('会议一、讨论方案')
     expect(normalizeNumberingInMarkdown('第一，我们先看数据')).toBe('第一，我们先看数据')
     expect(normalizeNumberingInMarkdown('版本（1）已发布')).toBe('版本（1）已发布')

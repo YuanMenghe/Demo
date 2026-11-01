@@ -12,6 +12,7 @@ import {
   thematicBreakPlugin,
   markdownShortcutPlugin,
   linkPlugin,
+  imagePlugin,
   useCodeBlockEditorContext,
 } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
@@ -61,6 +62,7 @@ const BASE_MDX_PLUGINS = [
   thematicBreakPlugin(),
   markdownShortcutPlugin(),
   linkPlugin(),
+  imagePlugin({ disableImageResize: true, disableImageSettingsButton: true }),
 ]
 
 export function EditorPanel({
@@ -139,13 +141,10 @@ export function EditorPanel({
           <h2>处理结果</h2>
           <div className="btn-group">
             <button className="btn primary" onClick={() => handleAutoPaste(false)}>
-              一键读取→处理
+              读取并清洗
             </button>
-            <button className="btn outline" onClick={() => handleAutoPaste(true)}>
-              一键读取→处理→复制
-            </button>
-            <button className="btn ghost" onClick={onCopyOutput}>
-              复制 Markdown
+            <button className="btn outline" onClick={onCopyOutput}>
+              复制到飞书
             </button>
           </div>
         </div>
@@ -181,8 +180,8 @@ export function EditorPanel({
   )
 }
 
-function LightweightCodeBlockEditor({ code, language, meta, focusEmitter }: CodeBlockEditorProps) {
-  const { setCode, setLanguage, setMeta } = useCodeBlockEditorContext()
+function LightweightCodeBlockEditor({ code, language, focusEmitter }: CodeBlockEditorProps) {
+  const { setCode, setLanguage } = useCodeBlockEditorContext()
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   useEffect(() => {
@@ -207,13 +206,6 @@ function LightweightCodeBlockEditor({ code, language, meta, focusEmitter }: Code
             </option>
           ))}
         </select>
-        <input
-          className="codeblock-lite-meta"
-          value={meta}
-          onChange={(event) => setMeta(event.target.value)}
-          placeholder="Meta（可选）"
-          aria-label="代码块 meta"
-        />
       </div>
       <textarea
         ref={textareaRef}

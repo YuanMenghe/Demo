@@ -36,6 +36,10 @@ export interface TemplateConfig {
     simplifyLinksMode: SimplifyLinksMode
     imagesMode: 'keep' | 'alt_text' | 'strip'
   }
+  numbering: {
+    /** 行首中文序号、括号序号、圈数字按三级列表写入 */
+    normalize: boolean
+  }
 }
 
 export interface Template {
@@ -53,7 +57,7 @@ export const BUILTIN_TEMPLATES: Template[] = [
     id: 'feishu-default',
     name: '飞书：技术文档',
     description:
-      '去 Emoji、行内代码、引用标记（保留正文）与分割线，数字 Emoji 转为 1. 2. 3.，折叠空行，保留代码块与链接文本/URL。标题升降级用右侧按钮。',
+      '去 Emoji、行内代码、引用标记（保留正文）与分割线，并整理行首序号。保留代码块、图片和链接文本/URL。标题升降级用右侧按钮。',
     builtin: true,
     config: {
       heading: {
@@ -83,7 +87,10 @@ export const BUILTIN_TEMPLATES: Template[] = [
       },
       linksAndImages: {
         simplifyLinksMode: 'text_with_url',
-        imagesMode: 'alt_text',
+        imagesMode: 'keep',
+      },
+      numbering: {
+        normalize: true,
       },
     },
   },
@@ -122,6 +129,9 @@ export const BUILTIN_TEMPLATES: Template[] = [
         simplifyLinksMode: 'text_only',
         imagesMode: 'strip',
       },
+      numbering: {
+        normalize: true,
+      },
     },
   },
   {
@@ -159,9 +169,27 @@ export const BUILTIN_TEMPLATES: Template[] = [
         simplifyLinksMode: 'none',
         imagesMode: 'keep',
       },
+      numbering: {
+        normalize: false,
+      },
     },
   },
 ]
+
+export function resolveTemplateConfig(base: TemplateConfig, override?: TemplateConfig | null): TemplateConfig {
+  if (!override) return cloneTemplateConfig(base)
+  return {
+    heading: { ...base.heading, ...override.heading },
+    emoji: { ...base.emoji, ...override.emoji },
+    code: { ...base.code, ...override.code },
+    blockquote: { ...base.blockquote, ...override.blockquote },
+    text: { ...base.text, ...override.text },
+    footnote: { ...base.footnote, ...override.footnote },
+    structural: { ...base.structural, ...override.structural },
+    linksAndImages: { ...base.linksAndImages, ...override.linksAndImages },
+    numbering: { ...base.numbering, ...override.numbering },
+  }
+}
 
 export function loadTemplates(): Template[] {
   if (typeof window === 'undefined') return BUILTIN_TEMPLATES

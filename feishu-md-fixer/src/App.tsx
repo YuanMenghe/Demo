@@ -3,10 +3,10 @@ import './style.css'
 import { TemplateSelector } from './components/TemplateSelector'
 import { TemplateManager } from './components/TemplateManager'
 import { RulesPanel } from './components/RulesPanel'
-import { UserGuide, getGuideSeen } from './components/UserGuide'
+import { UserGuide, getGuideSeen, setGuideSeen } from './components/UserGuide'
 import { applyPipeline } from './core/pipeline'
 import { shiftHeadingsInMarkdown, normalizeNumberingInMarkdown } from './core/transformers'
-import { BUILTIN_TEMPLATES, cloneTemplateConfig, loadActiveTemplateState, loadTemplates, saveActiveTemplateState, type Template, type TemplateConfig } from './core/templates'
+import { BUILTIN_TEMPLATES, loadActiveTemplateState, loadTemplates, resolveTemplateConfig, saveActiveTemplateState, type Template, type TemplateConfig } from './core/templates'
 import { readFromClipboardRich, writeToClipboard } from './utils/clipboard'
 import { htmlToMarkdown } from './utils/htmlToMarkdown'
 import { syncEditorMarkdown } from './utils/editorSync'
@@ -41,7 +41,7 @@ export function App() {
     const baseTemplate =
       initialTemplates.find((t) => t.id === initialTemplateId) ?? BUILTIN_TEMPLATES[0]
     const override = initialActiveState?.overrides?.[initialTemplateId]
-    return cloneTemplateConfig(override ?? baseTemplate.config)
+    return resolveTemplateConfig(baseTemplate.config, override)
   })
   /** 持久化用户对各模板的配置覆盖；按 templateId 维度保存 */
   const overridesRef = useRef<Record<string, TemplateConfig>>(
@@ -65,7 +65,7 @@ export function App() {
 
   useEffect(() => {
     if (!status) return
-    const timer = setTimeout(() => setStatus(null), 2000)
+    const timer = setTimeout(() => setStatus(null), 6000)
     return () => clearTimeout(timer)
   }, [status])
 
@@ -76,7 +76,7 @@ export function App() {
       if (!t) return
       // 切换模板时优先使用用户对该模板的历史调整，否则使用模板自带默认配置
       const override = overridesRef.current[id]
-      setConfig(cloneTemplateConfig(override ?? t.config))
+      setConfig(resolveTemplateConfig(t.config, override))
     },
     [templates]
   )
@@ -85,7 +85,7 @@ export function App() {
   useEffect(() => {
     overridesRef.current = {
       ...overridesRef.current,
-      [templateId]: cloneTemplateConfig(config),
+      [templateId]: resolveTemplateConfig(config),
     }
     saveActiveTemplateState({
       templateId,
@@ -100,15 +100,12 @@ export function App() {
     if (!fallback) return
     const override = overridesRef.current[fallback.id]
     setTemplateId(fallback.id)
-    setConfig(cloneTemplateConfig(override ?? fallback.config))
+    setConfig(resolveTemplateConfig(fallback.config, override))
   }, [templates, templateId])
 
-  useEffect(() => {
-    if (!getGuideSeen()) {
-      setShowGuide(true)
-      setGuideFirstTime(true)
-    }
-  }, [])
+  const [showHint, setShowHint] = useState(() => !getGuideSeen())
+  const sourceRef = useRef('')
+  const editedRef = useRef(false)
 
   const syncOutputEditor = useCallback((value: string) => {
     suppressNextEditorChangeRef.current = true
@@ -205,14 +202,16 @@ export function App() {
         setStatus('粘贴内容为空，未进行处理')
         return
       }
+      sourceRef.current = markdown
+      editedRef.current = false
       setInput(markdown)
-      const processed = runProcess(markdown)
+      const processed = runProcess(markdown, true)
       syncOutputEditor(processed)
       if (options.copy && processed) {
         const ok = await writeToClipboard(processed)
-        setStatus(ok ? '已粘贴、清洗并复制到剪贴板' : '已清洗，但写入剪贴板失败')
+        setStatus(ok ? '已清洗并复制，可粘贴到飞书' : '已清洗，但写入剪贴板失败')
       } else {
-        setStatus('已清洗并更新预览')
+        setStatus('已清洗，可继续编辑或复制到飞书')
       }
     },
     [runProcess, syncOutputEditor]
@@ -224,14 +223,16 @@ export function App() {
       const fallbackText = pickBetterClipboardText(text, plainText)
       const markdown = htmlToMarkdown(html, fallbackText)
       if (!markdown.trim()) return false
+      sourceRef.current = markdown
+      editedRef.current = false
       setInput(markdown)
-      const processed = runProcess(markdown)
+      const processed = runProcess(markdown, true)
       syncOutputEditor(processed)
       if (options.copy && processed) {
         const ok = await writeToClipboard(processed)
-        setStatus(ok ? '已读取剪贴板、清洗并复制' : '已清洗，但写入剪贴板失败')
+        setStatus(ok ? '已读取、清洗并复制，可粘贴到飞书' : '已清洗，但写入剪贴板失败')
       } else {
-        setStatus('已读取剪贴板并清洗')
+        setStatus('已读取并清洗，可继续编辑或复制到飞书')
       }
       return true
     },
@@ -245,7 +246,7 @@ export function App() {
       return
     }
     const ok = await writeToClipboard(text)
-    setStatus(ok ? '已复制到剪贴板' : '复制失败，请手动复制')
+    setStatus(ok ? '已复制，可直接粘贴到飞书' : '复制失败，请手动复制')
   }, [output])
 
   const handleShiftHeadings = useCallback((delta: number) => {
@@ -256,6 +257,8 @@ export function App() {
     }
     const shifted = shiftHeadingsInMarkdown(currentMd, delta)
     // 将升降级后的内容作为新的 input，跳过下一次自动处理
+    sourceRef.current = shifted
+    editedRef.current = false
     skipNextProcessRef.current = true
     setInput(shifted)
     setOutput(shifted, true) // 记录历史，支持撤销
@@ -271,6 +274,8 @@ export function App() {
     }
     const normalized = normalizeNumberingInMarkdown(currentMd)
     // 将规范化后的内容作为新的 input，跳过下一次自动处理
+    sourceRef.current = normalized
+    editedRef.current = false
     skipNextProcessRef.current = true
     setInput(normalized)
     setOutput(normalized, true) // 记录历史，支持撤销
@@ -284,24 +289,30 @@ export function App() {
       skipNextProcessRef.current = false
       return
     }
-    // 规则变更时，基于当前编辑器内容（而非原始 input）重新处理
-    // 这样用户的手动修改不会丢失
-    // 注意：不要依赖 runProcess（其随每次 config 变化而变，会抵消 debouncedConfig 的防抖）。
-    // 用 configRef 取最新规则；依赖 debouncedConfig + templateId 控制触发时机。
+    // 没手动改过时，按最初粘贴的原文重算，避免编辑器回写丢掉图片、删除线等。
+    // 手动改过之后，以当前正文为准。
     const currentMd = editorRef.current?.getMarkdown()
-    const textToProcess = currentMd?.trim() ? currentMd : input
-    if (!textToProcess) {
+    const source = sourceRef.current.trim()
+    const textToProcess = !editedRef.current && source
+      ? sourceRef.current
+      : currentMd?.trim()
+        ? currentMd
+        : input
+    if (!textToProcess.trim()) {
       setOutput('', false)
       syncOutputEditor('')
       return
     }
+    if (editedRef.current) sourceRef.current = textToProcess
     const processed = applyPipeline(textToProcess, { template: configRef.current })
-    setOutput(processed, false) // 规则变更不记录历史
+    editedRef.current = false
+    if (processed !== historyRef.current.current) setOutput(processed, true)
     syncOutputEditor(processed)
   }, [debouncedConfig, input, templateId, setOutput, syncOutputEditor])
 
   const handleEditorChange = useCallback((value: string) => {
     if (suppressNextEditorChangeRef.current) return
+    editedRef.current = true
     setOutput(value, true)
   }, [setOutput])
 
@@ -326,6 +337,25 @@ export function App() {
           />
         </div>
       </header>
+
+      {showHint && (
+        <div className="hint-bar">
+          <span>先点「读取并清洗」，确认结果后再点「复制到飞书」。</span>
+          <button type="button" className="btn ghost btn-sm" onClick={() => { setGuideFirstTime(true); setShowGuide(true) }}>
+            查看步骤
+          </button>
+          <button
+            type="button"
+            className="btn ghost btn-sm"
+            onClick={() => {
+              setGuideSeen(true)
+              setShowHint(false)
+            }}
+          >
+            关闭
+          </button>
+        </div>
+      )}
 
       <UserGuide open={showGuide} onClose={() => setShowGuide(false)} isFirstTime={guideFirstTime} />
 
