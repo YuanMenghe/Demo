@@ -334,6 +334,28 @@ export function App() {
             <div className="brand-subtitle">飞书粘贴一键清洗</div>
           </div>
         </div>
+        <div className="header-slot">
+          {showHint && (
+            <div className="header-hint" role="note">
+              <span className="header-hint-text">先点「读取并清洗」，确认结果后再点「复制到飞书」。</span>
+              <span className="header-hint-actions">
+                <button type="button" className="header-hint-btn" onClick={() => { setGuideFirstTime(true); setShowGuide(true) }}>
+                  查看步骤
+                </button>
+                <button
+                  type="button"
+                  className="header-hint-btn"
+                  onClick={() => {
+                    setGuideSeen(true)
+                    setShowHint(false)
+                  }}
+                >
+                  关闭
+                </button>
+              </span>
+            </div>
+          )}
+        </div>
         <div className="template-area">
           <button type="button" className="btn ghost" onClick={() => { setGuideFirstTime(false); setShowGuide(true) }}>
             使用指南
@@ -345,25 +367,6 @@ export function App() {
           />
         </div>
       </header>
-
-      {showHint && (
-        <div className="hint-bar">
-          <span>先点「读取并清洗」，确认结果后再点「复制到飞书」。</span>
-          <button type="button" className="btn ghost btn-sm" onClick={() => { setGuideFirstTime(true); setShowGuide(true) }}>
-            查看步骤
-          </button>
-          <button
-            type="button"
-            className="btn ghost btn-sm"
-            onClick={() => {
-              setGuideSeen(true)
-              setShowHint(false)
-            }}
-          >
-            关闭
-          </button>
-        </div>
-      )}
 
       <UserGuide open={showGuide} onClose={() => setShowGuide(false)} isFirstTime={guideFirstTime} />
 
