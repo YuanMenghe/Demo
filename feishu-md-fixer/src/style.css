@@ -168,6 +168,24 @@ body {
   white-space: nowrap;
 }
 
+.pane-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.recalc-note {
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ecfdf8;
+  color: #115e59;
+  border: 1px solid rgba(0, 184, 169, 0.28);
+}
+
 .hint-bar {
   display: flex;
   flex-wrap: wrap;
@@ -417,6 +435,12 @@ body {
   color: var(--color-text-main);
   min-width: 0;
   max-width: 100%;
+}
+
+/* 选 0 行时马上收紧。块与块之间的空隙来自段落外边距，不是字符里的空行，不能等编辑器回写。 */
+.app-main.tight-blocks .mdx-editor-content :is(p, h1, h2, h3, h4, h5, h6, ul, ol, li, pre, blockquote, table, .overflow-heading) {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .preview-box-mdx .mdx-editor-content table {

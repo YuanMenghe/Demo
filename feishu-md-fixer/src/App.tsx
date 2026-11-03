@@ -5,13 +5,12 @@ import { TemplateManager } from './components/TemplateManager'
 import { RulesPanel } from './components/RulesPanel'
 import { UserGuide, getGuideSeen, setGuideSeen } from './components/UserGuide'
 import { applyPipeline } from './core/pipeline'
-import { shiftHeadingsInMarkdown, normalizeNumberingInMarkdown } from './core/transformers'
+import { collapseMarkdownBlankLines, shiftHeadingsInMarkdown, normalizeNumberingInMarkdown } from './core/transformers'
 import { BUILTIN_TEMPLATES, loadActiveTemplateState, loadTemplates, resolveTemplateConfig, saveActiveTemplateState, type Template, type TemplateConfig } from './core/templates'
 import { readFromClipboardRich, writeToClipboard } from './utils/clipboard'
 import { htmlToMarkdown } from './utils/htmlToMarkdown'
 import { syncEditorMarkdown } from './utils/editorSync'
 import { pickBetterClipboardText } from './utils/markdownSignals'
-import { useDebouncedValue } from './hooks/useDebounce'
 import { useHistory } from './hooks/useHistory'
 import type { MDXEditorMethods } from '@mdxeditor/editor'
 import { BRAND_LOGO_ALT, BRAND_LOGO_URL } from './brand'
@@ -60,9 +59,6 @@ export function App() {
   historyRef.current = history
   const output = history.current
 
-  // 防抖处理：规则变更后延迟 150ms 再触发处理，避免频繁计算
-  const debouncedConfig = useDebouncedValue(config, 150)
-
   useEffect(() => {
     if (!status) return
     const timer = setTimeout(() => setStatus(null), 6000)
@@ -106,8 +102,12 @@ export function App() {
   const [showHint, setShowHint] = useState(() => !getGuideSeen())
   const sourceRef = useRef('')
   const editedRef = useRef(false)
+  const [followsPaste, setFollowsPaste] = useState(true)
+  /** 最近一次程序写入编辑器的正文。编辑器回写只补空行时，不当成用户手动修改。 */
+  const lastProgrammaticRef = useRef('')
 
   const syncOutputEditor = useCallback((value: string) => {
+    lastProgrammaticRef.current = value
     suppressNextEditorChangeRef.current = true
     const synced = syncEditorMarkdown(editorRef.current, value)
     if (!synced) {
@@ -117,7 +117,7 @@ export function App() {
 
     window.setTimeout(() => {
       suppressNextEditorChangeRef.current = false
-    }, 0)
+    }, 80)
   }, [])
 
   // 键盘快捷键：Ctrl+Z 撤销, Ctrl+Y 重做
@@ -204,6 +204,7 @@ export function App() {
       }
       sourceRef.current = markdown
       editedRef.current = false
+      setFollowsPaste(true)
       setInput(markdown)
       const processed = runProcess(markdown, true)
       syncOutputEditor(processed)
@@ -225,6 +226,7 @@ export function App() {
       if (!markdown.trim()) return false
       sourceRef.current = markdown
       editedRef.current = false
+      setFollowsPaste(true)
       setInput(markdown)
       const processed = runProcess(markdown, true)
       syncOutputEditor(processed)
@@ -259,6 +261,7 @@ export function App() {
     // 将升降级后的内容作为新的 input，跳过下一次自动处理
     sourceRef.current = shifted
     editedRef.current = false
+    setFollowsPaste(false)
     skipNextProcessRef.current = true
     setInput(shifted)
     setOutput(shifted, true) // 记录历史，支持撤销
@@ -276,6 +279,7 @@ export function App() {
     // 将规范化后的内容作为新的 input，跳过下一次自动处理
     sourceRef.current = normalized
     editedRef.current = false
+    setFollowsPaste(false)
     skipNextProcessRef.current = true
     setInput(normalized)
     setOutput(normalized, true) // 记录历史，支持撤销
@@ -306,13 +310,17 @@ export function App() {
     if (editedRef.current) sourceRef.current = textToProcess
     const processed = applyPipeline(textToProcess, { template: configRef.current })
     editedRef.current = false
-    if (processed !== historyRef.current.current) setOutput(processed, true)
+    if (processed !== historyRef.current.current) setOutput(processed, false)
     syncOutputEditor(processed)
-  }, [debouncedConfig, input, templateId, setOutput, syncOutputEditor])
+  }, [config, input, templateId, setOutput, syncOutputEditor])
 
   const handleEditorChange = useCallback((value: string) => {
     if (suppressNextEditorChangeRef.current) return
+    const synced = lastProgrammaticRef.current
+    if (synced && collapseMarkdownBlankLines(value, 0) === collapseMarkdownBlankLines(synced, 0)) return
+    lastProgrammaticRef.current = ''
     editedRef.current = true
+    setFollowsPaste(false)
     setOutput(value, true)
   }, [setOutput])
 
@@ -359,7 +367,7 @@ export function App() {
 
       <UserGuide open={showGuide} onClose={() => setShowGuide(false)} isFirstTime={guideFirstTime} />
 
-      <div className="app-main">
+      <div className={`app-main${config.text.collapseBlankLines && config.text.maxBlankLines === 0 ? ' tight-blocks' : ''}`}>
         <Suspense fallback={<EditorPanelFallback />}>
           <EditorPanel
             editorRef={editorRef}
@@ -367,6 +375,7 @@ export function App() {
             onPasteMarkdown={handlePastedMarkdown}
             onOutputChange={handleEditorChange}
             onCopyOutput={handleCopyOutput}
+            recalcNote={output.trim() ? (followsPaste ? '按最初粘贴重算' : '按当前正文重算') : null}
           />
         </Suspense>
         <aside className="app-sidebar">

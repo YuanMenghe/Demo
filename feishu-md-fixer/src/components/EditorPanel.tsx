@@ -24,6 +24,8 @@ interface EditorPanelProps {
   onPasteMarkdown: (markdown: string, options: { copy: boolean }) => void
   onOutputChange: (value: string) => void
   onCopyOutput: () => void
+  /** 最近一次规则重算用的是最初粘贴，还是当前正文 */
+  recalcNote?: string | null
 }
 
 const COMMON_CODE_BLOCK_LANGUAGES = {
@@ -71,6 +73,7 @@ export function EditorPanel({
   onPasteMarkdown,
   onOutputChange,
   onCopyOutput,
+  recalcNote,
 }: EditorPanelProps) {
   const [showPasteOverlay, setShowPasteOverlay] = useState(false)
   const [pasteAndCopy, setPasteAndCopy] = useState(false)
@@ -138,7 +141,10 @@ export function EditorPanel({
     <main className="main-layout single-pane">
       <section className="pane pane-output">
         <div className="pane-header">
-          <h2>处理结果</h2>
+          <div className="pane-title">
+            <h2>处理结果</h2>
+            {recalcNote ? <span className="recalc-note">{recalcNote}</span> : null}
+          </div>
           <div className="btn-group">
             <button className="btn primary" onClick={() => handleAutoPaste(false)}>
               读取并清洗

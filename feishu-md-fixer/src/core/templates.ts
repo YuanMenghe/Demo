@@ -183,7 +183,11 @@ export function resolveTemplateConfig(base: TemplateConfig, override?: TemplateC
     emoji: { ...base.emoji, ...override.emoji },
     code: { ...base.code, ...override.code },
     blockquote: { ...base.blockquote, ...override.blockquote },
-    text: { ...base.text, ...override.text },
+    text: {
+      ...base.text,
+      ...override.text,
+      maxBlankLines: (override.text?.maxBlankLines ?? base.text.maxBlankLines) > 0 ? 1 : 0,
+    },
     footnote: { ...base.footnote, ...override.footnote },
     structural: { ...base.structural, ...override.structural },
     linksAndImages: { ...base.linksAndImages, ...override.linksAndImages },

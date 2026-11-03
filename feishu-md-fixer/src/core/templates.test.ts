@@ -3,6 +3,7 @@ import {
   BUILTIN_TEMPLATES,
   cloneTemplateConfig,
   createTemplateFrom,
+  resolveTemplateConfig,
   loadActiveTemplateState,
   saveActiveTemplateState,
 } from './templates'
@@ -49,6 +50,15 @@ describe('templates', () => {
     expect(copy.config.heading.shiftLevelDelta).toBe(base.config.heading.shiftLevelDelta)
     copy.config.heading.shiftLevelDelta = 999
     expect(base.config.heading.shiftLevelDelta).not.toBe(999)
+  })
+
+  it('folds saved blank-line counts above 1 back to a single gap', () => {
+    const base = BUILTIN_TEMPLATES[0]!.config
+    const override = cloneTemplateConfig(base)
+    override.text.maxBlankLines = 3
+    expect(resolveTemplateConfig(base, override).text.maxBlankLines).toBe(1)
+    override.text.maxBlankLines = 0
+    expect(resolveTemplateConfig(base, override).text.maxBlankLines).toBe(0)
   })
 
   it('cloneTemplateConfig returns deep clone', () => {

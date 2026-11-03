@@ -56,7 +56,7 @@ export function RulesPanel({
     <section className="pane rules-pane">
       <div className="rules-header">
         <h2 className="rules-heading">规则设置</h2>
-        <p className="rules-hint">没改过正文时，按最初粘贴的原文重算。改过正文后，再调规则就按当前正文重算。可以撤销。</p>
+        <p className="rules-hint">改规则会立刻重算。结果标题旁会写明按最初粘贴，还是按当前正文。</p>
       </div>
 
       <div className="rules-list">
@@ -82,7 +82,7 @@ export function RulesPanel({
                 ↷ 重做
               </button>
             </div>
-            <span className="rule-desc">升降级、序号规范化等操作可撤销</span>
+            <span className="rule-desc">撤销粘贴、手改、升降级和序号规范化。改规则不进撤销。</span>
           </div>
         </RuleCard>
 
@@ -232,21 +232,18 @@ export function RulesPanel({
               <span>块之间最多保留空行</span>
             </label>
             <select
-              className="rule-select rule-select-narrow"
-              value={config.text.maxBlankLines}
+              className="rule-select"
+              value={config.text.maxBlankLines > 0 ? 1 : 0}
               onChange={(e) =>
                 update('text', {
-                  maxBlankLines: Math.max(0, Number.parseInt(e.target.value || '1', 10)),
+                  maxBlankLines: Number.parseInt(e.target.value, 10) === 0 ? 0 : 1,
                 })
               }
             >
-              {[0, 1, 2, 3].map((n) => (
-                <option key={n} value={n}>
-                  {n} 行
-                </option>
-              ))}
+              <option value={1}>保留一段间距</option>
+              <option value={0}>不留空行</option>
             </select>
-            <span className="rule-desc">选 0 会去掉块与块之间的空行。代码块内部的空行会保留。</span>
+            <span className="rule-desc">不留空行会马上收紧块与块的间距。代码块内部的空行会保留。</span>
           </div>
           <div className="rule-item">
             <label className="rule-label">脚注</label>
