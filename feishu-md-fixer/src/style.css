@@ -177,21 +177,40 @@ body {
 
 .app-main {
   display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: 220px minmax(0, 1fr) 280px;
+  gap: 16px;
+  align-items: stretch;
+  flex: 1;
+  min-height: calc(100vh - 128px);
 }
 
+.app-toc,
 .app-sidebar {
-  position: sticky;
-  top: 20px;
-  padding: 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: calc(100vh - 128px);
 }
 
-.app-sidebar .pane {
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
-  padding-right: 4px;
+.app-editor {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  height: calc(100vh - 128px);
+  min-width: 0;
+  min-height: 0;
+}
+
+.app-editor,
+.app-editor .pane-output {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.app-editor .pane-output {
+  flex: 1;
+  height: 100%;
 }
 
 .main-layout {
@@ -203,6 +222,13 @@ body {
 
 .main-layout.single-pane {
   grid-template-columns: 1fr;
+  min-height: 0;
+}
+
+.main-layout.single-pane.app-editor {
+  height: calc(100vh - 128px);
+  max-height: calc(100vh - 128px);
+  overflow: hidden;
 }
 
 .pane {
@@ -249,9 +275,53 @@ body {
   border: 1px solid var(--color-border-subtle);
 }
 
+.rules-pane,
+.toc-pane {
+  flex: 1;
+  overflow: visible;
+}
+
 .rules-pane {
   gap: 6px;
   padding: 14px 14px 12px;
+}
+
+.toc-pane {
+  padding: 12px 10px;
+}
+
+.toc-empty {
+  margin: 4px 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toc-link {
+  display: block;
+  width: 100%;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-main);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+}
+
+.toc-link:hover {
+  background: #f6f4ef;
 }
 
 .rules-header {
@@ -286,6 +356,19 @@ body {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.rule-section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.rule-note {
+  margin: 0 0 4px 24px;
+  font-size: 12px;
+  line-height: 1.45;
   color: var(--color-text-muted);
 }
 
@@ -383,8 +466,9 @@ body {
 
 /* 单框：MDXEditor 编辑即所见，长文可滚动到底 */
 .preview-box.preview-box-mdx {
-  max-height: 75vh;
-  min-height: 360px;
+  flex: 1;
+  max-height: none;
+  min-height: 0;
   overflow: hidden;
   padding: 0;
   display: flex;
@@ -1071,7 +1155,14 @@ body {
 
 .manage-btn {
   align-self: flex-end;
-  margin-top: -4px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
 }
 
 .status-bar {
@@ -1096,14 +1187,29 @@ body {
 
   .app-main {
     grid-template-columns: 1fr;
+    min-height: 0;
   }
 
-  .app-sidebar {
+  .app-toc,
+  .app-sidebar,
+  .app-editor {
     position: static;
+    min-height: 0;
   }
 
-  .app-sidebar .pane {
+  .main-layout.single-pane.app-editor {
+    height: auto;
     max-height: none;
+    overflow: visible;
+  }
+
+  .app-editor .pane-output {
+    height: auto;
+  }
+
+  .preview-box.preview-box-mdx {
+    min-height: 60vh;
+    max-height: 70vh;
   }
 
   .main-layout {

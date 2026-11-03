@@ -3,9 +3,10 @@ import './style.css'
 import { TemplateSelector } from './components/TemplateSelector'
 import { TemplateManager } from './components/TemplateManager'
 import { RulesPanel } from './components/RulesPanel'
+import { TocPanel } from './components/TocPanel'
 import { UserGuide, getGuideSeen, setGuideSeen } from './components/UserGuide'
 import { applyPipeline } from './core/pipeline'
-import { collapseMarkdownBlankLines, shiftHeadingsInMarkdown, normalizeNumberingInMarkdown } from './core/transformers'
+import { collapseMarkdownBlankLines, shiftHeadingsInMarkdown } from './core/transformers'
 import { BUILTIN_TEMPLATES, loadActiveTemplateState, loadTemplates, resolveTemplateConfig, saveActiveTemplateState, type Template, type TemplateConfig } from './core/templates'
 import { readFromClipboardRich, writeToClipboard } from './utils/clipboard'
 import { htmlToMarkdown } from './utils/htmlToMarkdown'
@@ -269,24 +270,6 @@ export function App() {
     setStatus(delta > 0 ? '已将所有标题降级（可撤销）' : '已将所有标题升级（可撤销）')
   }, [output, setOutput, syncOutputEditor])
 
-  const handleNormalizeNumbering = useCallback(() => {
-    const currentMd = editorRef.current?.getMarkdown() ?? output
-    if (!currentMd.trim()) {
-      setStatus('没有内容可操作')
-      return
-    }
-    const normalized = normalizeNumberingInMarkdown(currentMd)
-    // 将规范化后的内容作为新的 input，跳过下一次自动处理
-    sourceRef.current = normalized
-    editedRef.current = false
-    setFollowsPaste(false)
-    skipNextProcessRef.current = true
-    setInput(normalized)
-    setOutput(normalized, true) // 记录历史，支持撤销
-    syncOutputEditor(normalized)
-    setStatus('已规范化序号（可撤销）')
-  }, [output, setOutput, syncOutputEditor])
-
   useEffect(() => {
     // 如果刚执行了升降级/规范化，跳过这次自动处理
     if (skipNextProcessRef.current) {
@@ -371,6 +354,9 @@ export function App() {
       <UserGuide open={showGuide} onClose={() => setShowGuide(false)} isFirstTime={guideFirstTime} />
 
       <div className={`app-main${config.text.collapseBlankLines && config.text.maxBlankLines === 0 ? ' tight-blocks' : ''}`}>
+        <aside className="app-toc">
+          <TocPanel markdown={output} />
+        </aside>
         <Suspense fallback={<EditorPanelFallback />}>
           <EditorPanel
             editorRef={editorRef}
@@ -378,6 +364,10 @@ export function App() {
             onPasteMarkdown={handlePastedMarkdown}
             onOutputChange={handleEditorChange}
             onCopyOutput={handleCopyOutput}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            canUndo={history.canUndo}
+            canRedo={history.canRedo}
             recalcNote={output.trim() ? (followsPaste ? '按最初粘贴重算' : '按当前正文重算') : null}
           />
         </Suspense>
@@ -386,18 +376,10 @@ export function App() {
             config={config}
             onChange={setConfig}
             onShiftHeadings={handleShiftHeadings}
-            onNormalizeNumbering={handleNormalizeNumbering}
-            onUndo={handleUndo}
-            onRedo={handleRedo}
-            canUndo={history.canUndo}
-            canRedo={history.canRedo}
+            onManageTemplates={() => setShowTemplateManager(true)}
           />
         </aside>
       </div>
-
-      <button className="btn ghost manage-btn" onClick={() => setShowTemplateManager(true)}>
-        管理模板
-      </button>
 
       <TemplateManager
         open={showTemplateManager}
@@ -413,7 +395,7 @@ export function App() {
 
 function EditorPanelFallback() {
   return (
-    <main className="main-layout single-pane">
+    <main className="main-layout single-pane app-editor">
       <section className="pane pane-output">
         <div className="pane-header">
           <h2>处理结果</h2>

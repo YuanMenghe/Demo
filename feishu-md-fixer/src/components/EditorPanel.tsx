@@ -24,6 +24,10 @@ interface EditorPanelProps {
   onPasteMarkdown: (markdown: string, options: { copy: boolean }) => void
   onOutputChange: (value: string) => void
   onCopyOutput: () => void
+  onUndo?: () => void
+  onRedo?: () => void
+  canUndo?: boolean
+  canRedo?: boolean
   /** 最近一次规则重算用的是最初粘贴，还是当前正文 */
   recalcNote?: string | null
 }
@@ -73,6 +77,10 @@ export function EditorPanel({
   onPasteMarkdown,
   onOutputChange,
   onCopyOutput,
+  onUndo,
+  onRedo,
+  canUndo = false,
+  canRedo = false,
   recalcNote,
 }: EditorPanelProps) {
   const [showPasteOverlay, setShowPasteOverlay] = useState(false)
@@ -138,7 +146,7 @@ export function EditorPanel({
   }
 
   return (
-    <main className="main-layout single-pane">
+    <main className="main-layout single-pane app-editor">
       <section className="pane pane-output">
         <div className="pane-header">
           <div className="pane-title">
@@ -146,6 +154,26 @@ export function EditorPanel({
             {recalcNote ? <span className="recalc-note">{recalcNote}</span> : null}
           </div>
           <div className="btn-group">
+            <button
+              type="button"
+              className="btn outline icon-btn"
+              onClick={() => onUndo?.()}
+              disabled={!canUndo}
+              aria-label="撤销"
+              title="撤销粘贴、手改和升降级。改规则不进撤销。（Ctrl+Z）"
+            >
+              <HistoryIcon direction="undo" />
+            </button>
+            <button
+              type="button"
+              className="btn outline icon-btn"
+              onClick={() => onRedo?.()}
+              disabled={!canRedo}
+              aria-label="重做"
+              title="重做刚才撤销的粘贴、手改或升降级。（Ctrl+Y）"
+            >
+              <HistoryIcon direction="redo" />
+            </button>
             <button className="btn primary" onClick={() => handleAutoPaste(false)}>
               读取并清洗
             </button>
@@ -183,6 +211,29 @@ export function EditorPanel({
         )}
       </section>
     </main>
+  )
+}
+
+function HistoryIcon({ direction }: { direction: 'undo' | 'redo' }) {
+  const redo = direction === 'redo'
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style={redo ? { transform: 'scaleX(-1)' } : undefined}>
+      <path
+        d="M6.2 3.2 3.2 6.2l3 3"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3.6 6.2h5.3a3.6 3.6 0 1 1 0 7.2H7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
   )
 }
 

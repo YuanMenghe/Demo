@@ -5,27 +5,14 @@ interface RulesPanelProps {
   onChange: (next: TemplateConfig) => void
   /** 对当前编辑器内容执行标题升降级 */
   onShiftHeadings?: (delta: number) => void
-  /** 对当前编辑器内容执行序号规范化 */
-  onNormalizeNumbering?: () => void
-  /** 撤销操作 */
-  onUndo?: () => void
-  /** 重做操作 */
-  onRedo?: () => void
-  /** 是否可撤销 */
-  canUndo?: boolean
-  /** 是否可重做 */
-  canRedo?: boolean
+  onManageTemplates?: () => void
 }
 
 export function RulesPanel({
   config,
   onChange,
   onShiftHeadings,
-  onNormalizeNumbering,
-  onUndo,
-  onRedo,
-  canUndo = false,
-  canRedo = false,
+  onManageTemplates,
 }: RulesPanelProps) {
   const update = <K extends keyof TemplateConfig>(section: K, patch: Partial<TemplateConfig[K]>) => {
     onChange({
@@ -42,32 +29,7 @@ export function RulesPanel({
 
   return (
     <section className="pane rules-pane">
-      <div className="rules-header">
-        <h2 className="rules-heading">规则</h2>
-      </div>
-
       <div className="rules-list">
-        <div className="rule-actions">
-          <button
-            type="button"
-            className="btn outline btn-sm"
-            onClick={() => onUndo?.()}
-            disabled={!canUndo}
-            title="撤销粘贴、手改、升降级和序号规范化。改规则不进撤销。（Ctrl+Z）"
-          >
-            撤销
-          </button>
-          <button
-            type="button"
-            className="btn outline btn-sm"
-            onClick={() => onRedo?.()}
-            disabled={!canRedo}
-            title="重做刚才撤销的粘贴、手改、升降级或序号规范化。（Ctrl+Y）"
-          >
-            重做
-          </button>
-        </div>
-
         <div className="rule-section">标题</div>
         <div className="rule-row">
           <span className="rule-row-label">升降级</span>
@@ -113,20 +75,16 @@ export function RulesPanel({
           </select>
         </div>
 
-        <div className="rule-section">序号</div>
-        <div className="rule-row">
-          <span className="rule-row-label">中文序号</span>
-          <button
-            type="button"
-            className="btn outline btn-sm"
-            onClick={() => onNormalizeNumbering?.()}
-            title="一、为 1.，（1）缩进为下一级，① 再缩进一级。紧挨着的跳号会写成 21．以免被收成第 2 条，复制到飞书时还原。"
-          >
-            立即规范
-          </button>
-        </div>
-
         <div className="rule-section">清理</div>
+        <label className="rule-check">
+          <input
+            type="checkbox"
+            checked={config.numbering.normalize !== false}
+            onChange={(e) => update('numbering', { normalize: e.target.checked })}
+          />
+          <span>规范中文序号</span>
+        </label>
+        <p className="rule-note">把行首的「一、」「（1）」「①」收成有序列表，跳号写成 21．以免被收成第 2 条。</p>
         <label className="rule-check" title="把 1️⃣ 2️⃣ 转成 1. 2. 3.">
           <input
             type="checkbox"
@@ -250,6 +208,9 @@ export function RulesPanel({
           </select>
         </div>
       </div>
+      <button type="button" className="btn ghost manage-btn" onClick={() => onManageTemplates?.()}>
+        管理模板
+      </button>
     </section>
   )
 }
