@@ -13,6 +13,7 @@ import { readFromClipboardRich, writeToClipboard } from './utils/clipboard'
 import { htmlToMarkdown } from './utils/htmlToMarkdown'
 import { syncEditorMarkdown } from './utils/editorSync'
 import { pickBetterClipboardText } from './utils/markdownSignals'
+import { extractMarkdownHeadings } from './utils/tocHeadings'
 import { useHistory } from './hooks/useHistory'
 import type { MDXEditorMethods } from '@mdxeditor/editor'
 import { BRAND_LOGO_ALT, BRAND_LOGO_URL } from './brand'
@@ -60,6 +61,7 @@ export function App() {
   const historyRef = useRef(history)
   historyRef.current = history
   const output = history.current
+  const tocItems = useMemo(() => extractMarkdownHeadings(output), [output])
 
   useEffect(() => {
     if (!status) return
@@ -361,10 +363,12 @@ export function App() {
 
       <UserGuide open={showGuide} onClose={() => setShowGuide(false)} isFirstTime={guideFirstTime} />
 
-      <div className={`app-main${config.text.collapseBlankLines && config.text.maxBlankLines === 0 ? ' tight-blocks' : ''}`}>
-        <aside className="app-toc">
-          <TocPanel markdown={output} />
-        </aside>
+      <div className={`app-main${tocItems.length > 0 ? ' has-toc' : ''}${config.text.collapseBlankLines && config.text.maxBlankLines === 0 ? ' tight-blocks' : ''}`}>
+        {tocItems.length > 0 ? (
+          <aside className="app-toc">
+            <TocPanel items={tocItems} />
+          </aside>
+        ) : null}
         <Suspense fallback={<EditorPanelFallback />}>
           <EditorPanel
             editorRef={editorRef}

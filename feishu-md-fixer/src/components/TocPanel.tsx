@@ -1,8 +1,7 @@
-import { useMemo } from 'react'
-import { extractMarkdownHeadings } from '../utils/tocHeadings'
+import { headingLevelLabel, type TocHeading } from '../utils/tocHeadings'
 
 interface TocPanelProps {
-  markdown: string
+  items: TocHeading[]
 }
 
 function scrollToHeading(index: number) {
@@ -20,25 +19,31 @@ function scrollToHeading(index: number) {
   scroller.scrollTo({ top: Math.max(0, top - 8), behavior: 'smooth' })
 }
 
-export function TocPanel({ markdown }: TocPanelProps) {
-  const items = useMemo(() => extractMarkdownHeadings(markdown), [markdown])
+export function TocPanel({ items }: TocPanelProps) {
   const minLevel = items.reduce((level, item) => Math.min(level, item.level), items[0]?.level ?? 1)
 
   return (
     <nav className="pane toc-pane" aria-label="目录">
-      {items.length === 0 ? (
-        <p className="toc-empty">暂无标题</p>
-      ) : (
-        <ol className="toc-list">
-          {items.map((item, index) => (
+      <ol className="toc-list">
+        {items.map((item, index) => {
+          const levelLabel = headingLevelLabel(item.level)
+          return (
             <li key={`${item.level}-${index}`} style={{ paddingLeft: `${(item.level - minLevel) * 12}px` }}>
-              <button type="button" className="toc-link" onClick={() => scrollToHeading(index)}>
-                {item.text}
+              <button
+                type="button"
+                className="toc-link"
+                title={item.text}
+                onClick={() => scrollToHeading(index)}
+              >
+                <span className="toc-level" title={`${levelLabel}标题`}>
+                  {levelLabel}
+                </span>
+                <span className="toc-link-text">{item.text}</span>
               </button>
             </li>
-          ))}
-        </ol>
-      )}
+          )
+        })}
+      </ol>
     </nav>
   )
 }

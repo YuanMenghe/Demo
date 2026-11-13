@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { extractMarkdownHeadings } from './tocHeadings'
+import { extractMarkdownHeadings, headingLevelLabel } from './tocHeadings'
 
 describe('extractMarkdownHeadings', () => {
   it('keeps heading order and skips fences', () => {
@@ -13,5 +13,12 @@ describe('extractMarkdownHeadings', () => {
 
   it('returns nothing when there is no heading', () => {
     expect(extractMarkdownHeadings('只有正文\n\n第二段')).toEqual([])
+  })
+
+  it('names heading levels for the outline hint', () => {
+    expect(headingLevelLabel(1)).toBe('一级')
+    expect(headingLevelLabel(2)).toBe('二级')
+    expect(headingLevelLabel(12)).toBe('十二级')
+    expect(headingLevelLabel(13)).toBe('13级')
   })
 })

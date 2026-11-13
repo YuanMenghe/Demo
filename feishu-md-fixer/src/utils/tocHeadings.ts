@@ -3,6 +3,14 @@ export interface TocHeading {
   text: string
 }
 
+const LEVEL_NAMES = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二']
+
+/** 目录里的级数提示，例如 2 → 二级 */
+export function headingLevelLabel(level: number): string {
+  const name = LEVEL_NAMES[level]
+  return name ? `${name}级` : `${level}级`
+}
+
 const FENCE = /^\s*(```|~~~)/
 const ATX = /^\s{0,3}(#{1,12})\s+(.+?)\s*#*\s*$/
 const OVERFLOW = /^\s{0,3}\*\*\[H(\d+)\]\*\*\s+(.+?)\s*$/
