@@ -1,6 +1,6 @@
 import type { Root } from 'mdast'
 import { createMarkdownProcessor, stripMarkdownEscapesForFeishu } from './markdownProcessor'
-import { collapseMarkdownBlankLines, normalizeNumberingInMarkdown, protectDiscontinuousOrderedMarkers, runTransformers } from './transformers'
+import { collapseMarkdownBlankLines, normalizeNumberingInMarkdown, protectDiscontinuousOrderedMarkers, runTransformers, separateTablesFromFollowingText } from './transformers'
 import type { TemplateConfig } from './templates'
 
 export interface PipelineOptions {
@@ -16,7 +16,10 @@ export function applyPipeline(input: string, options: PipelineOptions): string {
       const processor = createMarkdownProcessor()
 
       // 先把跳号改成全角点，避免解析器把它收成上一条的第 2 项并改写成 2.
-      const tree = processor.parse(protectDiscontinuousOrderedMarkers(raw)) as Root
+      // 表格后没有空行时，下一行会被收成新的一行，先断开再解析。
+      const tree = processor.parse(
+        protectDiscontinuousOrderedMarkers(separateTablesFromFollowingText(raw))
+      ) as Root
     runTransformers(tree, options.template)
 
     const file = processor.runSync(tree)
@@ -31,6 +34,7 @@ export function applyPipeline(input: string, options: PipelineOptions): string {
       result = normalizeNumberingInMarkdown(result)
     }
     result = protectDiscontinuousOrderedMarkers(result)
+    result = separateTablesFromFollowingText(result)
 
     return result.trimEnd()
   } catch {

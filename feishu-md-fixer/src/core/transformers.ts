@@ -401,6 +401,86 @@ export function collapseMarkdownBlankLines(markdown: string, maxBlankLines: numb
   return kept.join('\n')
 }
 
+/**
+ * 表格分隔行出现之后，解析器会把后面每一行都当成表格的新一行，直到遇到空行。
+ * 标题、列表和普通句子里没有竖线，也会被收进去。这里在表格和这类文字之间补一个空行。
+ */
+export function separateTablesFromFollowingText(markdown: string): string {
+  const lines = markdown.split(/\r?\n/)
+  const out: string[] = []
+  let fence: { marker: '`' | '~'; length: number } | null = null
+  let inTable = false
+
+  for (const line of lines) {
+    const fenceMatch = getFenceMatch(line)
+    if (fenceMatch) {
+      if (fence && fence.marker === fenceMatch.marker && fenceMatch.length >= fence.length) {
+        fence = null
+      } else if (!fence) {
+        fence = fenceMatch
+      }
+      if (inTable && out[out.length - 1] !== '') out.push('')
+      inTable = false
+      out.push(line)
+      continue
+    }
+
+    if (fence) {
+      out.push(line)
+      continue
+    }
+
+    if (!line.trim()) {
+      inTable = false
+      out.push(line)
+      continue
+    }
+
+    if (inTable && !lineHasTablePipe(line)) {
+      if (out[out.length - 1] !== '') out.push('')
+      inTable = false
+    }
+
+    if (isTableDelimiterLine(line) || (inTable && lineHasTablePipe(line))) {
+      inTable = true
+    }
+
+    out.push(line)
+  }
+
+  return out.join('\n')
+}
+
+function isTableDelimiterLine(line: string): boolean {
+  return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line)
+}
+
+function lineHasTablePipe(line: string): boolean {
+  let index = 0
+  while (index < line.length) {
+    if (line[index] === '`') {
+      const ticks = line.slice(index).match(/^`+/)?.[0]
+      if (ticks) {
+        const close = line.indexOf(ticks, index + ticks.length)
+        if (close !== -1) {
+          index = close + ticks.length
+          continue
+        }
+      }
+    }
+
+    if (line[index] === '\\' && line[index + 1] === '|') {
+      index += 2
+      continue
+    }
+
+    if (line[index] === '|') return true
+    index += 1
+  }
+
+  return false
+}
+
 function removeThematicBreaks(tree: Root) {
   const indicesToRemove: { parent: Parent; index: number }[] = []
   visit(tree, 'thematicBreak', (_node: ThematicBreak, index, parent) => {

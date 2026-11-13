@@ -1,9 +1,30 @@
 import { describe, it, expect } from 'vitest'
 import { applyPipeline } from './pipeline'
+import { createMarkdownProcessor } from './markdownProcessor'
 import { BUILTIN_TEMPLATES } from './templates'
 import { shiftHeadingsInMarkdown, normalizeNumberingInMarkdown } from './transformers'
 
 const defaultConfig = BUILTIN_TEMPLATES[0]!.config
+
+function tableText(markdown: string): string {
+  const tree = createMarkdownProcessor().parse(markdown) as {
+    children?: Array<{ type?: string; children?: unknown[] }>
+  }
+  const parts: string[] = []
+  const walk = (node: { type?: string; value?: string; children?: unknown[] }) => {
+    if (node.type === 'table') {
+      parts.push(collect(node))
+      return
+    }
+    for (const child of node.children ?? []) walk(child as { type?: string; value?: string; children?: unknown[] })
+  }
+  const collect = (node: { value?: string; children?: unknown[] }): string => {
+    if (typeof node.value === 'string') return node.value
+    return (node.children ?? []).map((child) => collect(child as { value?: string; children?: unknown[] })).join('')
+  }
+  walk(tree)
+  return parts.join('\n')
+}
 
 describe('applyPipeline', () => {
   it('returns empty string for empty input', () => {
@@ -124,6 +145,49 @@ describe('applyPipeline', () => {
     expect(out).toMatch(/\|\s*-+\s*\|\s*-+\s*\|/)
     expect(out).toContain('| A')
     expect(out).toContain('| B')
+  })
+
+  it('does not pull the heading and text after a table into that table', () => {
+    const input = [
+      '| 想看什么 | 去哪里 |',
+      '|---|---|',
+      '| 回放对比 | Datasets |',
+      '用 environment 筛选可以区分来源。',
+      '### 2. 服务器命令（看汇总和状态）',
+      '```bash',
+      'ssh biz-server',
+      '```',
+      '| 路径 | 内容 |',
+      '|---|---|',
+      '| queue/ | 待处理 |',
+      '### 4. GitHub',
+      '打开进化后，筛选带 rsi 标签的 PR 和 Issue：',
+      '- rsi:prompt：提示词类，灰度通过后会自动合并。',
+      'PR 描述里只有脱敏的问题卡片。',
+      '## 开关',
+      '| 变量 | 当前值 |',
+      '|---|---|',
+      '| RSI_ENABLED | 1 |',
+      '改完后执行 docker compose 生效。',
+    ].join('\n')
+    const tight = {
+      ...defaultConfig,
+      text: { ...defaultConfig.text, collapseBlankLines: true, maxBlankLines: 0 },
+    }
+
+    const out = applyPipeline(input, { template: tight })
+    const inside = tableText(out)
+
+    expect(inside).not.toContain('筛选可以区分来源')
+    expect(inside).not.toContain('服务器命令')
+    expect(inside).not.toContain('4. GitHub')
+    expect(inside).not.toContain('rsi:prompt')
+    expect(inside).not.toContain('脱敏的问题卡片')
+    expect(inside).not.toContain('改完后执行')
+    expect(inside).toContain('回放对比')
+    expect(inside).toContain('queue/')
+    expect(inside).toContain('RSI_ENABLED')
+    expect(out).toContain('ssh biz-server')
   })
 
   it('preserves GFM task lists during pipeline processing', () => {
