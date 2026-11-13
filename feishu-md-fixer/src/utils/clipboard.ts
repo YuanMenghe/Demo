@@ -1,3 +1,6 @@
+import { normalizeForFeishuPaste } from './feishuPasteNormalize'
+import { stripMarkdownEscapesForFeishu } from '../core/markdownProcessor'
+
 export async function readFromClipboard(): Promise<string> {
   if (typeof navigator === 'undefined' || !navigator.clipboard?.readText) return ''
   try {
@@ -54,10 +57,8 @@ function fallbackCopyText(text: string): boolean {
   return ok
 }
 
-import { normalizeForFeishuPaste } from './feishuPasteNormalize'
-
 export async function writeToClipboard(text: string): Promise<boolean> {
-  const normalized = normalizeForFeishuPaste(text)
+  const normalized = normalizeForFeishuPaste(stripMarkdownEscapesForFeishu(text))
   if (typeof navigator === 'undefined') return fallbackCopyText(normalized)
   try {
     if (navigator.clipboard?.write && typeof ClipboardItem !== 'undefined') {

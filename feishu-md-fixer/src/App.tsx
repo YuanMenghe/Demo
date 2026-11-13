@@ -6,6 +6,7 @@ import { RulesPanel } from './components/RulesPanel'
 import { TocPanel } from './components/TocPanel'
 import { UserGuide, getGuideSeen, setGuideSeen } from './components/UserGuide'
 import { applyPipeline } from './core/pipeline'
+import { escapeMarkdownForEditor, stripMarkdownEscapesForFeishu } from './core/markdownProcessor'
 import { collapseMarkdownBlankLines, shiftHeadingsInMarkdown } from './core/transformers'
 import { BUILTIN_TEMPLATES, loadActiveTemplateState, loadTemplates, resolveTemplateConfig, saveActiveTemplateState, type Template, type TemplateConfig } from './core/templates'
 import { readFromClipboardRich, writeToClipboard } from './utils/clipboard'
@@ -108,9 +109,10 @@ export function App() {
   const lastProgrammaticRef = useRef('')
 
   const syncOutputEditor = useCallback((value: string) => {
-    lastProgrammaticRef.current = value
+    const visible = escapeMarkdownForEditor(value)
+    lastProgrammaticRef.current = visible
     suppressNextEditorChangeRef.current = true
-    const synced = syncEditorMarkdown(editorRef.current, value)
+    const synced = syncEditorMarkdown(editorRef.current, visible)
     if (!synced) {
       suppressNextEditorChangeRef.current = false
       return
@@ -300,7 +302,13 @@ export function App() {
   const handleEditorChange = useCallback((value: string) => {
     if (suppressNextEditorChangeRef.current) return
     const synced = lastProgrammaticRef.current
-    if (synced && collapseMarkdownBlankLines(value, 0) === collapseMarkdownBlankLines(synced, 0)) return
+    if (
+      synced &&
+      collapseMarkdownBlankLines(stripMarkdownEscapesForFeishu(value), 0) ===
+        collapseMarkdownBlankLines(stripMarkdownEscapesForFeishu(synced), 0)
+    ) {
+      return
+    }
     lastProgrammaticRef.current = ''
     editedRef.current = true
     setFollowsPaste(false)
