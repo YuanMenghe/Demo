@@ -1,5 +1,6 @@
 import type { Root } from 'mdast'
 import { createMarkdownProcessor, stripMarkdownEscapesForFeishu } from './markdownProcessor'
+import { replaceLatexMath } from './latexText'
 import { collapseMarkdownBlankLines, normalizeNumberingInMarkdown, prepareMarkdownForParse, protectDiscontinuousOrderedMarkers, removeHtmlLineBreaks, runTransformers, separateTablesFromFollowingText } from './transformers'
 import type { TemplateConfig } from './templates'
 
@@ -28,6 +29,7 @@ export function applyPipeline(input: string, options: PipelineOptions): string {
     // 飞书粘贴时不需要 Markdown 转义，否则会显示成 1\. 执行摘要\ 等
     result = stripMarkdownEscapesForFeishu(result)
     result = removeHtmlLineBreaks(result)
+    result = replaceLatexMath(result)
     if (options.template.text.collapseBlankLines) {
       result = collapseMarkdownBlankLines(result, options.template.text.maxBlankLines)
     }

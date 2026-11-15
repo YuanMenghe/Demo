@@ -12,6 +12,7 @@ import type {
   PhrasingContent,
 } from 'mdast'
 import { visit } from 'unist-util-visit'
+import { replaceLatexMath } from './latexText'
 import { createMarkdownProcessor, stripMarkdownEscapesForFeishu } from './markdownProcessor'
 import type { TemplateConfig } from './templates'
 
@@ -412,7 +413,7 @@ function replaceHtmlBreaks(text: string, replacement: string): string {
  * 先清掉这些，再交给解析。
  */
 export function prepareMarkdownForParse(markdown: string): string {
-  return removeHtmlLineBreaks(restoreTableMarkers(markdown))
+  return replaceLatexMath(removeHtmlLineBreaks(restoreTableMarkers(markdown)))
 }
 
 /**
