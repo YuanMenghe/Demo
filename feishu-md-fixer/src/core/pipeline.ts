@@ -1,6 +1,6 @@
 import type { Root } from 'mdast'
 import { createMarkdownProcessor, stripMarkdownEscapesForFeishu } from './markdownProcessor'
-import { collapseMarkdownBlankLines, normalizeNumberingInMarkdown, protectDiscontinuousOrderedMarkers, runTransformers, separateTablesFromFollowingText } from './transformers'
+import { collapseMarkdownBlankLines, normalizeNumberingInMarkdown, prepareMarkdownForParse, protectDiscontinuousOrderedMarkers, removeHtmlLineBreaks, runTransformers, separateTablesFromFollowingText } from './transformers'
 import type { TemplateConfig } from './templates'
 
 export interface PipelineOptions {
@@ -18,7 +18,7 @@ export function applyPipeline(input: string, options: PipelineOptions): string {
       // 先把跳号改成全角点，避免解析器把它收成上一条的第 2 项并改写成 2.
       // 表格后没有空行时，下一行会被收成新的一行，先断开再解析。
       const tree = processor.parse(
-        protectDiscontinuousOrderedMarkers(separateTablesFromFollowingText(raw))
+        protectDiscontinuousOrderedMarkers(separateTablesFromFollowingText(prepareMarkdownForParse(raw)))
       ) as Root
     runTransformers(tree, options.template)
 
@@ -27,6 +27,7 @@ export function applyPipeline(input: string, options: PipelineOptions): string {
 
     // 飞书粘贴时不需要 Markdown 转义，否则会显示成 1\. 执行摘要\ 等
     result = stripMarkdownEscapesForFeishu(result)
+    result = removeHtmlLineBreaks(result)
     if (options.template.text.collapseBlankLines) {
       result = collapseMarkdownBlankLines(result, options.template.text.maxBlankLines)
     }

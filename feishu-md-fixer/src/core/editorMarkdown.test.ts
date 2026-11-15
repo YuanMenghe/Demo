@@ -42,6 +42,20 @@ describe('escapeMarkdownForEditor', () => {
     expect(() => parseLikeEditor(visible)).not.toThrow()
   })
 
+  it('removes br inside a table so the editor can read the row', () => {
+    const input = [
+      '| 节点 | 处理 |',
+      '| --- | --- |',
+      '| **11.4.2.1** 协变量 | **按研究定位区分**：<br>• IIb/III 期<br>• I 期 |',
+    ].join('\n')
+    const processed = applyPipeline(input, { template: technicalDoc })
+
+    expect(processed).not.toMatch(/<br/i)
+    expect(processed).toContain('IIb/III 期')
+    expect(() => parseLikeEditor(processed)).not.toThrow()
+    expect(() => parseLikeEditor(escapeMarkdownForEditor(processed))).not.toThrow()
+  })
+
   it('does not escape tags that are still inside inline code', () => {
     const input = '保留 `csr-tfl/<用户>`'
     const visible = escapeMarkdownForEditor(input)

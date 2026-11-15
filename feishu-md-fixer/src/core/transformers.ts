@@ -401,6 +401,134 @@ export function collapseMarkdownBlankLines(markdown: string, maxBlankLines: numb
   return kept.join('\n')
 }
 
+const ZERO_WIDTH = /[\u200B\u200C\u200D\uFEFF\u2060]/g
+
+function replaceHtmlBreaks(text: string, replacement: string): string {
+  return text.replace(/\\?<br(?:\s[^<>]*)?\s*\/?>|&lt;br(?:\s[^&<>]*)?\s*\/?&gt;/gi, replacement)
+}
+
+/**
+ * 粘贴来的表格有时行首是 \|，或竖线前夹了零宽空格，解析器就不把它当表格。
+ * 先清掉这些，再交给解析。
+ */
+export function prepareMarkdownForParse(markdown: string): string {
+  return removeHtmlLineBreaks(restoreTableMarkers(markdown))
+}
+
+/**
+ * 单元格和正文里的 br 清洗后不再留下标签。
+ * 表格行里换成空格，避免把一行拆开；其余地方换成换行。
+ */
+export function removeHtmlLineBreaks(markdown: string): string {
+  return mapProseLines(markdown, (line) => {
+    const replacement = lineLooksLikeTable(line) ? ' ' : '\n'
+    return transformOutsideInlineCode(line, (chunk) => replaceHtmlBreaks(chunk, replacement))
+  })
+}
+
+function restoreTableMarkers(markdown: string): string {
+  return mapProseLines(markdown, (line) => {
+    const stripped = transformOutsideInlineCode(line, (chunk) => chunk.replace(ZERO_WIDTH, ''))
+    return unescapeLeadingTablePipe(stripped)
+  })
+}
+
+function mapProseLines(markdown: string, mapLine: (line: string) => string): string {
+  const lines = markdown.split(/\r?\n/)
+  const out: string[] = []
+  let fence: { marker: '`' | '~'; length: number } | null = null
+
+  for (const line of lines) {
+    const fenceMatch = getFenceMatch(line)
+    if (fenceMatch) {
+      if (fence && fence.marker === fenceMatch.marker && fenceMatch.length >= fence.length) {
+        fence = null
+      } else if (!fence) {
+        fence = fenceMatch
+      }
+      out.push(line)
+      continue
+    }
+
+    out.push(fence ? line : mapLine(line))
+  }
+
+  return out.join('\n')
+}
+
+function unescapeLeadingTablePipe(line: string): string {
+  const match = line.match(/^([ \t]*)\\\|(.*)$/)
+  if (!match) return line
+  const restored = `${match[1]}|${match[2]}`
+  if (!lineLooksLikeTable(restored)) return line
+  return restored
+}
+
+function lineLooksLikeTable(line: string): boolean {
+  return isTableDelimiterLine(line) || countUnescapedPipes(line) >= 2
+}
+
+function countUnescapedPipes(line: string): number {
+  let count = 0
+  let index = 0
+
+  while (index < line.length) {
+    if (line[index] === '`') {
+      const ticks = line.slice(index).match(/^`+/)?.[0]
+      if (ticks) {
+        const close = line.indexOf(ticks, index + ticks.length)
+        if (close !== -1) {
+          index = close + ticks.length
+          continue
+        }
+      }
+    }
+
+    if (line[index] === '\\' && line[index + 1] === '|') {
+      index += 2
+      continue
+    }
+
+    if (line[index] === '|') count += 1
+    index += 1
+  }
+
+  return count
+}
+
+function transformOutsideInlineCode(line: string, transform: (text: string) => string): string {
+  let result = ''
+  let index = 0
+
+  while (index < line.length) {
+    if (line[index] === '`') {
+      const ticks = line.slice(index).match(/^`+/)?.[0]
+      if (ticks) {
+        const close = line.indexOf(ticks, index + ticks.length)
+        if (close !== -1) {
+          result += line.slice(index, close + ticks.length)
+          index = close + ticks.length
+          continue
+        }
+      }
+    }
+
+    let end = index
+    while (end < line.length) {
+      if (line[end] === '`') {
+        const ticks = line.slice(end).match(/^`+/)?.[0]
+        if (ticks && line.indexOf(ticks, end + ticks.length) !== -1) break
+      }
+      end += 1
+    }
+
+    result += transform(line.slice(index, end))
+    index = end
+  }
+
+  return result
+}
+
 /**
  * 表格分隔行出现之后，解析器会把后面每一行都当成表格的新一行，直到遇到空行。
  * 标题、列表和普通句子里没有竖线，也会被收进去。这里在表格和这类文字之间补一个空行。

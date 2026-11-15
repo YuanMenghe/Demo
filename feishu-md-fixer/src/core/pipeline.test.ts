@@ -147,6 +147,80 @@ describe('applyPipeline', () => {
     expect(out).toContain('| B')
   })
 
+  it('reads a table that contains br tags and does not keep the tags', () => {
+    const row = [
+      '| **11.4.2.1** 协变量调整 | **按研究定位区分**：<br>• IIb/III 期确证性研究<br>• I 期探索性研究 | • 确证性研究**独立保留**；<br>• 探索性 I 期不单设小节。 |',
+    ].join('')
+    const input = [
+      '**2.2 第二类**',
+      '',
+      '| 选配节点 | 决定开关 | 路由处理方式 |',
+      '| :--- | :--- | :--- |',
+      row,
+      '',
+      '**2.3 第三类**',
+      '98 + 21 = 119。',
+    ].join('\n')
+
+    const out = applyPipeline(input, { template: defaultConfig })
+    const inside = tableText(out)
+
+    expect(out).not.toMatch(/<br|&lt;br/i)
+    expect(inside).toContain('IIb/III 期确证性研究')
+    expect(inside).toContain('I 期探索性研究')
+    expect(inside).toContain('不单设小节')
+    expect(inside).not.toContain('2.3 第三类')
+    expect(out).toContain('**2.3 第三类**')
+  })
+
+  it('still reads the table when row starts are escaped or preceded by a zero-width space', () => {
+    const input = [
+      '\\| 选配节点 | 决定开关 |',
+      '\\| :--- | :--- |',
+      '\\| **9.5.4** 药物浓度 | 有 PK 采样时独立保留 |',
+      '',
+      '\u200B| 动态裂变位置 | 裂变驱动依据 |',
+      '\u200B| --- | --- |',
+      '\u200B| 12.3 | 死亡列表 |',
+    ].join('\n')
+
+    const out = applyPipeline(input, { template: defaultConfig })
+    const inside = tableText(out)
+
+    expect(inside).toContain('药物浓度')
+    expect(inside).toContain('死亡列表')
+    expect(out).not.toMatch(/^\\\|/m)
+  })
+
+  it('keeps an escaped pipe inside a table cell from becoming a new column', () => {
+    const input = ['| 左 \\| 中 | 右 |', '| --- | --- |', '| 1 | 2 |'].join('\n')
+    const out = applyPipeline(input, { template: defaultConfig })
+    const tree = createMarkdownProcessor().parse(out) as {
+      children: Array<{ type?: string; children?: Array<{ children?: unknown[] }> }>
+    }
+    const table = tree.children.find((node) => node.type === 'table')
+    const widths = (table?.children ?? []).map((row) => row.children?.length ?? 0)
+
+    expect(widths).toEqual([2, 2])
+    expect(tableText(out)).toContain('左')
+    expect(tableText(out)).toContain('中')
+  })
+
+  it('turns a br in prose into a line break and leaves one inside a code fence', () => {
+    const input = ['见下<br>一行。', '', '```', '裁判<br/>判定', '```', '', '说明 `保留<br>代码`'].join('\n')
+    const keepingCode = {
+      ...defaultConfig,
+      code: { ...defaultConfig.code, removeInlineCode: false },
+    }
+
+    const out = applyPipeline(input, { template: keepingCode })
+
+    expect(out).toContain('见下\n一行。')
+    expect(out).toContain('裁判<br/>判定')
+    expect(out).toContain('`保留<br>代码`')
+    expect(out).not.toMatch(/见下<br/)
+  })
+
   it('does not pull the heading and text after a table into that table', () => {
     const input = [
       '| 想看什么 | 去哪里 |',
