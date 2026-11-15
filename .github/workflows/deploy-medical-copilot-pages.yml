@@ -135,6 +135,7 @@ jobs:
           mkdir -p site/medical-expert-collaboration-platform
           mkdir -p site/noah-ai-cvrm-demo
           mkdir -p site/ex-partner-fugitive
+          mkdir -p site/ex-partner-london
           mkdir -p site/madrid-esmo-2026
           mkdir -p site/feishu-md-fixer
 
@@ -179,6 +180,10 @@ jobs:
           # README 仅供仓库内维护，不发布到线上。
           cp -r ex-partner-fugitive/* site/ex-partner-fugitive/
           rm -f site/ex-partner-fugitive/README.md
+
+          # ex-partner-london / 第二部，同样不进 Hub。README 不发布。
+          cp -r ex-partner-london/* site/ex-partner-london/
+          rm -f site/ex-partner-london/README.md
 
           # madrid-esmo-2026 / 马德里 ESMO 行程随身页（静态页）
           # 按要求不加入 Hub 导航，只通过直链访问。

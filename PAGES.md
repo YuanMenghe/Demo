@@ -67,9 +67,10 @@
 | `noah-ai-cvrm-demo` | **病例问答**（静态 HTML，合规交互示意） |
 | `feishu-md-fixer` | **飞书 Markdown 清洗**（NOAH Markdown 助手） |
 | `ex-partner-fugitive` | **未列入 Hub**（按站主要求不公开导航，仅直链：`/Demo/ex-partner-fugitive/`，密码保护） |
+| `ex-partner-london` | **未列入 Hub**（第二部，仅直链：`/Demo/ex-partner-london/`，密码保护） |
 | `madrid-esmo-2026` | **未列入 Hub**（行程随身页，仅直链：`/Demo/madrid-esmo-2026/`） |
 
-> `ex-partner-fugitive` 与 `madrid-esmo-2026` 有意不加入 Hub：只做静态拷贝，**不**追加导航卡片。
+> `ex-partner-fugitive`、`ex-partner-london` 与 `madrid-esmo-2026` 有意不加入 Hub：只做静态拷贝，**不**追加导航卡片。
 > 维护方式见各自目录下的 `README.md`。
 
 ## 相关文件
