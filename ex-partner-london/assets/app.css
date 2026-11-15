@@ -548,15 +548,17 @@ html[data-indent="off"] .article p { text-indent: 0; }
 }
 .cnav {
   flex: 1 1 0; min-width: 0;
-  padding: 11px 13px;
+  min-height: 44px;
+  padding: 12px 14px;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
-  color: var(--text-2); text-decoration: none; line-height: 1.45;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  color: var(--text-2); text-decoration: none; line-height: 1.55;
+  display: block;
+  overflow: visible;
   transition: border-color .18s var(--ease), color .18s var(--ease), background .18s var(--ease);
 }
 .cnav:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .cnav.next { text-align: right; }
-.cnav:empty { visibility: hidden; }
+.cnav:empty { display: none; }
 
 .pagefoot {
   margin-top: 44px; padding-top: 22px;
@@ -675,12 +677,14 @@ html[data-indent="off"] .article p { text-indent: 0; }
 /* ══════════ 响应式 ══════════ */
 
 /* 窄屏收紧留白 */
+@media (max-width: 720px) {
+  .chapter-nav { flex-direction: column; }
+  .cnav.next { text-align: left; }
+}
 @media (max-width: 420px) {
   .main { padding-left: 17px; padding-right: 17px; }
   .chapter-title { padding: 0 14px; }
   .chapter-title::before, .chapter-title::after { width: 12px; }
-  .chapter-nav { flex-direction: column; }
-  .cnav.next { text-align: left; }
   .note-body { padding: 11px 12px 12px; }
   .note-title { font-size: .78rem; }
 }
