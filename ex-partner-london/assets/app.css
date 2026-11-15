@@ -473,6 +473,12 @@ html[data-indent="off"] .article p { text-indent: 0; }
   border-radius: 20px;
   font-size: .66rem; font-weight: 600; letter-spacing: .05em;
 }
+.note-infer { border-left-color: var(--muted); }
+.note-infer .note-badge {
+  background: transparent;
+  color: var(--text-2);
+  box-shadow: inset 0 0 0 1px var(--muted);
+}
 .note-title {
   flex: 1; min-width: 0;
   font-size: .82rem; font-weight: 600; line-height: 1.45;
