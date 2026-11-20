@@ -1,5 +1,6 @@
 import { normalizeForFeishuPaste } from './feishuPasteNormalize'
 import { stripMarkdownEscapesForFeishu } from '../core/markdownProcessor'
+import { TABLE_CELL_LINE_BREAK } from '../core/transformers'
 
 export async function readFromClipboard(): Promise<string> {
   if (typeof navigator === 'undefined' || !navigator.clipboard?.readText) return ''
@@ -57,28 +58,33 @@ function fallbackCopyText(text: string): boolean {
   return ok
 }
 
+export function prepareFeishuClipboard(text: string): { plain: string; htmlSource: string } {
+  const htmlSource = compactMarkdownTables(normalizeForFeishuPaste(stripMarkdownEscapesForFeishu(text)))
+  return { plain: htmlSource.split(TABLE_CELL_LINE_BREAK).join('<br>'), htmlSource }
+}
+
 export async function writeToClipboard(text: string): Promise<boolean> {
-  const normalized = normalizeForFeishuPaste(stripMarkdownEscapesForFeishu(text))
-  if (typeof navigator === 'undefined') return fallbackCopyText(normalized)
+  const { plain, htmlSource } = prepareFeishuClipboard(text)
+  if (typeof navigator === 'undefined') return fallbackCopyText(plain)
   try {
     if (navigator.clipboard?.write && typeof ClipboardItem !== 'undefined') {
       await navigator.clipboard.write([
         new ClipboardItem({
-          'text/plain': new Blob([normalized], { type: 'text/plain' }),
-          'text/html': new Blob([createFeishuClipboardHtml(normalized)], { type: 'text/html' }),
+          'text/plain': new Blob([plain], { type: 'text/plain' }),
+          'text/html': new Blob([createFeishuClipboardHtml(htmlSource)], { type: 'text/html' }),
         }),
       ])
       return true
     }
 
     if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(normalized)
+      await navigator.clipboard.writeText(plain)
       return true
     }
   } catch {
     /* 非安全上下文（如 file://）会抛错，走降级 */
   }
-  return fallbackCopyText(normalized)
+  return fallbackCopyText(plain)
 }
 
 interface ClipboardListItem {
@@ -249,7 +255,14 @@ function renderClipboardList(node: ClipboardListNode): string {
 }
 
 function isTableSeparator(line: string): boolean {
-  return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line)
+  let trimmed = line.trim()
+  if (!trimmed.includes('-')) return false
+  if (trimmed.startsWith('|')) trimmed = trimmed.slice(1)
+  if (trimmed.endsWith('|')) trimmed = trimmed.slice(0, -1)
+  const cells = trimmed.split('|')
+  if (cells.length < 2) return false
+  // 编辑器会把窄列收成 :-:。飞书至少要三个短横，这里先认出来，再补成 :---。
+  return cells.every((cell) => /^:?-+:?$/.test(cell.trim()))
 }
 
 function isTableRow(line: string): boolean {
@@ -307,7 +320,76 @@ function formatInlineHtml(value: string): string {
   html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
   html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
   html = html.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>')
+  html = html.split(TABLE_CELL_LINE_BREAK).join('<br>')
+  html = html.replace(/&lt;br(?:\s[^&<>]*)?\s*\/?&gt;/gi, '<br>')
   return html
+}
+
+function compactMarkdownTables(markdown: string): string {
+  const lines = markdown.replace(/\r\n/g, '\n').split('\n')
+  const out: string[] = []
+  let fence: { marker: '`' | '~'; length: number } | null = null
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    const fenceMatch = getFenceMatch(line)
+    if (fenceMatch) {
+      if (fence && fence.marker === fenceMatch.marker && fenceMatch.length >= fence.length) {
+        fence = null
+      } else if (!fence) {
+        fence = fenceMatch
+      }
+      out.push(line)
+      continue
+    }
+    if (fence) {
+      out.push(line)
+      continue
+    }
+
+    if (isTableRow(line) && i + 1 < lines.length && isTableSeparator(lines[i + 1])) {
+      const indent = line.match(/^\s*/)?.[0] ?? ''
+      const width = splitTableRow(line).length
+      const aligns = splitTableRow(lines[i + 1]).map(alignmentMarker)
+      const rows = [splitTableRow(line)]
+      i += 2
+      while (i < lines.length && isTableRow(lines[i]) && !isTableSeparator(lines[i])) {
+        rows.push(splitTableRow(lines[i]))
+        i += 1
+      }
+      i -= 1
+      const columns = Math.max(width, aligns.length, ...rows.map((row) => row.length))
+      out.push(indent + joinTableRow(padCells(rows[0], columns)))
+      out.push(indent + `| ${padCells(aligns, columns).map(alignmentMarker).join(' | ')} |`)
+      for (const row of rows.slice(1)) out.push(indent + joinTableRow(padCells(row, columns)))
+      continue
+    }
+
+    out.push(line)
+  }
+
+  return out.join('\n')
+}
+
+function padCells(cells: string[], width: number): string[] {
+  const copy = cells.slice()
+  while (copy.length < width) copy.push('')
+  return copy
+}
+
+function alignmentMarker(cell: string): string {
+  const text = cell.trim()
+  if (text === ':---:' || text === '---:' || text === ':---' || text === '---') return text
+  const left = text.startsWith(':')
+  const right = text.endsWith(':')
+  if (left && right) return ':---:'
+  if (right) return '---:'
+  if (left) return ':---'
+  return '---'
+}
+
+function joinTableRow(cells: string[]): string {
+  return `| ${cells.map((cell) => cell.replace(/\|/g, '\\|')).join(' | ')} |`
 }
 
 function escapeHtml(value: string): string {

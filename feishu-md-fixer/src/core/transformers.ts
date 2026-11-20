@@ -416,13 +416,16 @@ export function prepareMarkdownForParse(markdown: string): string {
   return replaceLatexMath(removeHtmlLineBreaks(restoreTableMarkers(markdown)))
 }
 
+/** 表格单元格里的换行。复制到飞书时再写回 <br>，编辑器里不显示这个标签。 */
+export const TABLE_CELL_LINE_BREAK = '\u2028'
+
 /**
  * 单元格和正文里的 br 清洗后不再留下标签。
- * 表格行里换成空格，避免把一行拆开；其余地方换成换行。
+ * 表格行里换成行内换行，避免把一行拆成新列；其余地方换成换行。
  */
 export function removeHtmlLineBreaks(markdown: string): string {
   return mapProseLines(markdown, (line) => {
-    const replacement = lineLooksLikeTable(line) ? ' ' : '\n'
+    const replacement = lineLooksLikeTable(line) ? TABLE_CELL_LINE_BREAK : '\n'
     return transformOutsideInlineCode(line, (chunk) => replaceHtmlBreaks(chunk, replacement))
   })
 }

@@ -11,11 +11,11 @@ export function createMarkdownProcessor() {
   })
 }
 
-const PROSE_ESCAPES = new Set('.*+?^${}()[]\\-_#!`<>~&:'.split(''))
+const PROSE_ESCAPES = new Set('.*+?^${}()[]\\-_#!`<>~&=:'.split(''))
 
 /**
  * 去掉 remark 输出的反斜杠转义，便于复制到飞书时显示为正常文字（飞书会按原文显示 \. \& 等）。
- * 代码围栏和行内代码保持原样；不还原 \|，避免把表格单元格里的竖线拆成新列。
+ * 代码围栏和行内代码保持原样；不还原 \|，避免把表格单元格里的竖线拆成新列。等号的转义会还原，避免飞书里出现 \=。
  */
 export function stripMarkdownEscapesForFeishu(text: string): string {
   const lines = text.split(/\r?\n/)

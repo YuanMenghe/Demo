@@ -166,6 +166,7 @@ describe('applyPipeline', () => {
     const inside = tableText(out)
 
     expect(out).not.toMatch(/<br|&lt;br/i)
+    expect(out).toContain('区分**：\u2028• IIb/III 期确证性研究\u2028• I 期')
     expect(inside).toContain('IIb/III 期确证性研究')
     expect(inside).toContain('I 期探索性研究')
     expect(inside).toContain('不单设小节')

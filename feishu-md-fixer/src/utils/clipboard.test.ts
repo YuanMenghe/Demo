@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { createFeishuClipboardHtml } from './clipboard'
+import { createFeishuClipboardHtml, prepareFeishuClipboard } from './clipboard'
+import { applyPipeline } from '../core/pipeline'
+import { BUILTIN_TEMPLATES } from '../core/templates'
 
 describe('createFeishuClipboardHtml', () => {
   it('renders numeric dot lines as real ordered lists for Feishu paste', () => {
@@ -48,6 +50,50 @@ describe('createFeishuClipboardHtml', () => {
     const html = createFeishuClipboardHtml('1. 第一项\n5. 第五项')
 
     expect(html).toContain('<ol start="1"><li>第一项</li><li value="5">第五项</li></ol>')
+  })
+
+  it('keeps paragraph breaks inside a table cell and does not pad the separator to the cell width', () => {
+    const long = '甲'.repeat(80)
+    const input = [
+      '### 第 10 章',
+      '',
+      '| 序号 | 内容 |',
+      '| :---: | :--- |',
+      `| 1 | ${long}<br><br>下一句（N = 6） |`,
+    ].join('\n')
+    const processed = applyPipeline(input, { template: BUILTIN_TEMPLATES[0]!.config })
+    const separator = `| :---: | :${'-'.repeat(80)} |`
+    const copied = processed.replace(/^\|.*---.*\|$/m, separator).replace('（N = 6）', '（N \\= 6）')
+    const { plain, htmlSource } = prepareFeishuClipboard(copied)
+    const html = createFeishuClipboardHtml(htmlSource)
+
+    expect(processed).toContain('### 第 10 章')
+    expect(processed).toContain(`${long}\u2028\u2028下一句（N = 6）`)
+    expect(processed).not.toContain('\\=')
+    expect(plain).toContain(`${long}<br><br>下一句（N = 6）`)
+    expect(plain).not.toContain('\\=')
+    expect(plain.split('\n').find((line) => line.includes('---'))!.length).toBeLessThan(40)
+    expect(html).toContain(`<td>${long}<br><br>下一句（N = 6）</td>`)
+    expect(html).not.toContain('&lt;br')
+  })
+
+  it('turns an editor-exported one-dash alignment row back into a real table', () => {
+    const exported = [
+      '### 第 10 章 研究受试者',
+      '|  序号 | 生成内容                               |',
+      '| :-: | :--------------------------------- |',
+      '|  1  | **10 研究对象**<br><br>【待补充】<br><br>本章（N = 6） S054 |',
+    ].join('\n')
+    const { plain, htmlSource } = prepareFeishuClipboard(exported)
+    const html = createFeishuClipboardHtml(htmlSource)
+
+    expect(plain).toContain('| :---: | :--- |')
+    expect(plain).toContain('**10 研究对象**<br><br>【待补充】')
+    expect(plain.split('\n').find((line) => line.includes('---'))!.length).toBeLessThan(30)
+    expect(html).toContain('<table>')
+    expect(html).toContain('<h3>第 10 章 研究受试者</h3>')
+    expect(html).toContain('<strong>10 研究对象</strong><br><br>【待补充】<br><br>本章（N = 6） S054')
+    expect(html).not.toContain('<p>|')
   })
 
   it('does not render ordered-list-looking text inside fenced code blocks as lists', () => {

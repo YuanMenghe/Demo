@@ -247,7 +247,8 @@ export function App() {
   )
 
   const handleCopyOutput = useCallback(async () => {
-    const text = editorRef.current?.getMarkdown() ?? output
+    // 没改过正文时用清洗结果。编辑器再导出时会把表格按单元格宽度垫齐，飞书读这种超长分隔行会乱。
+    const text = !editedRef.current && output ? output : (editorRef.current?.getMarkdown() ?? output)
     if (!text) {
       setStatus('没有可复制的内容')
       return

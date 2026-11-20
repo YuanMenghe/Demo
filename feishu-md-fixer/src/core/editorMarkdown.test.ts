@@ -51,6 +51,7 @@ describe('escapeMarkdownForEditor', () => {
     const processed = applyPipeline(input, { template: technicalDoc })
 
     expect(processed).not.toMatch(/<br/i)
+    expect(processed).toContain('区分**：\u2028• IIb/III 期\u2028• I 期')
     expect(processed).toContain('IIb/III 期')
     expect(() => parseLikeEditor(processed)).not.toThrow()
     expect(() => parseLikeEditor(escapeMarkdownForEditor(processed))).not.toThrow()
